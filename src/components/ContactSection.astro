@@ -1,0 +1,213 @@
+---
+// Contact section — form via Formspree, Calendly booking, direct email
+// TODO: Replace YOUR_FORMSPREE_ID with your Formspree form ID (https://formspree.io)
+// TODO: Replace YOUR_CALENDLY_LINK with your Calendly URL (e.g. calendly.com/thefrenchbot/30min)
+const FORMSPREE_ID = "YOUR_FORMSPREE_ID";
+const CALENDLY_URL = "https://calendly.com/thefrenchbot-coaching/30min";
+---
+
+<section id="contact" class="py-24 md:py-32 px-6 md:px-8 relative overflow-hidden">
+  <!-- Background glows -->
+  <div class="absolute top-1/4 -right-20 w-96 h-96 bg-secondary/15 rounded-full blur-[120px] pointer-events-none"></div>
+  <div class="absolute bottom-1/4 -left-20 w-96 h-96 bg-primary/15 rounded-full blur-[120px] pointer-events-none"></div>
+
+  <div class="max-w-[1440px] mx-auto relative z-10">
+    <!-- Header -->
+    <div class="mb-16 text-center space-y-4">
+      <div class="inline-flex items-center gap-2 px-4 py-1 rounded-full bg-bg-surface-high border border-outline-variant/20">
+        <span class="material-symbols-outlined text-secondary-light text-sm" style="font-variation-settings: 'FILL' 1;">mark_email_read</span>
+        <span class="font-[family-name:var(--font-label)] text-xs uppercase tracking-[0.2em] text-text-secondary">On vous répond en 24h</span>
+      </div>
+      <h2 class="font-[family-name:var(--font-headline)] font-black text-4xl md:text-5xl text-white uppercase tracking-[0.08em]">
+        Parlons de votre <span class="gradient-text">projet</span>
+      </h2>
+      <p class="font-[family-name:var(--font-body)] text-text-secondary max-w-xl mx-auto">
+        Une question, un projet de formation, ou juste envie d'échanger ? Choisissez le canal qui vous convient le mieux.
+      </p>
+    </div>
+
+    <!-- Grid -->
+    <div class="grid grid-cols-1 lg:grid-cols-5 gap-6 md:gap-8 items-start">
+
+      <!-- Contact Form — 3 cols -->
+      <div class="lg:col-span-3 glass-panel p-8 md:p-10 rounded-[2.5rem] border border-white/5">
+        <div class="flex items-center gap-3 mb-8">
+          <div class="w-10 h-10 rounded-xl bg-primary/20 flex items-center justify-center border border-primary/30">
+            <span class="material-symbols-outlined text-primary-light text-xl">edit_note</span>
+          </div>
+          <h3 class="font-[family-name:var(--font-headline)] font-black text-xl text-white uppercase tracking-tight">Formulaire de contact</h3>
+        </div>
+
+        <form
+          action={`https://formspree.io/f/${FORMSPREE_ID}`}
+          method="POST"
+          class="space-y-5"
+          id="contact-form"
+        >
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-5">
+            <div class="space-y-2">
+              <label for="name" class="font-[family-name:var(--font-label)] text-[10px] uppercase tracking-[0.2em] text-text-secondary">Nom & Prénom</label>
+              <input
+                type="text"
+                id="name"
+                name="name"
+                required
+                placeholder="Julian Luneau"
+                class="w-full bg-bg-surface-high border border-outline-variant/20 rounded-xl px-4 py-3 text-white placeholder-text-muted font-[family-name:var(--font-body)] text-sm focus:outline-none focus:border-primary/50 focus:bg-primary/5 transition-colors"
+              />
+            </div>
+            <div class="space-y-2">
+              <label for="email" class="font-[family-name:var(--font-label)] text-[10px] uppercase tracking-[0.2em] text-text-secondary">Email</label>
+              <input
+                type="email"
+                id="email"
+                name="email"
+                required
+                placeholder="vous@exemple.com"
+                class="w-full bg-bg-surface-high border border-outline-variant/20 rounded-xl px-4 py-3 text-white placeholder-text-muted font-[family-name:var(--font-body)] text-sm focus:outline-none focus:border-primary/50 focus:bg-primary/5 transition-colors"
+              />
+            </div>
+          </div>
+
+          <div class="space-y-2">
+            <label for="subject" class="font-[family-name:var(--font-label)] text-[10px] uppercase tracking-[0.2em] text-text-secondary">Sujet</label>
+            <select
+              id="subject"
+              name="subject"
+              class="w-full bg-bg-surface-high border border-outline-variant/20 rounded-xl px-4 py-3 text-white font-[family-name:var(--font-body)] text-sm focus:outline-none focus:border-primary/50 transition-colors appearance-none cursor-pointer"
+            >
+              <option value="formation">Renseignement sur une formation</option>
+              <option value="automatisation">Projet d'automatisation</option>
+              <option value="accompagnement">Accompagnement sur-mesure</option>
+              <option value="autre">Autre</option>
+            </select>
+          </div>
+
+          <div class="space-y-2">
+            <label for="message" class="font-[family-name:var(--font-label)] text-[10px] uppercase tracking-[0.2em] text-text-secondary">Message</label>
+            <textarea
+              id="message"
+              name="message"
+              required
+              rows="5"
+              placeholder="Décrivez votre projet ou votre question..."
+              class="w-full bg-bg-surface-high border border-outline-variant/20 rounded-xl px-4 py-3 text-white placeholder-text-muted font-[family-name:var(--font-body)] text-sm focus:outline-none focus:border-primary/50 focus:bg-primary/5 transition-colors resize-none"
+            ></textarea>
+          </div>
+
+          <!-- Success / error messages (shown via JS) -->
+          <div id="form-success" class="hidden items-center gap-3 px-4 py-3 rounded-xl bg-tertiary/10 border border-tertiary/30 text-tertiary font-[family-name:var(--font-body)] text-sm">
+            <span class="material-symbols-outlined text-base" style="font-variation-settings: 'FILL' 1;">check_circle</span>
+            Message envoyé ! On vous recontacte sous 24h.
+          </div>
+          <div id="form-error" class="hidden items-center gap-3 px-4 py-3 rounded-xl bg-secondary/10 border border-secondary/30 text-secondary-light font-[family-name:var(--font-body)] text-sm">
+            <span class="material-symbols-outlined text-base">error</span>
+            Une erreur s'est produite. Réessayez ou écrivez-nous directement.
+          </div>
+
+          <button
+            type="submit"
+            class="w-full gradient-cta text-white py-4 rounded-xl font-[family-name:var(--font-headline)] font-bold text-sm uppercase tracking-widest neon-glow-primary hover:scale-[1.02] transition-all duration-300 flex items-center justify-center gap-3"
+          >
+            Envoyer le message
+            <span class="material-symbols-outlined">send</span>
+          </button>
+        </form>
+      </div>
+
+      <!-- Right column — 2 cols -->
+      <div class="lg:col-span-2 flex flex-col gap-6">
+
+        <!-- Calendly Card -->
+        <div class="glass-panel p-8 md:p-10 rounded-[2.5rem] border border-white/5 space-y-6 relative overflow-hidden group">
+          <div class="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-primary to-secondary"></div>
+          <div class="w-12 h-12 rounded-xl bg-secondary/20 flex items-center justify-center border border-secondary/30">
+            <span class="material-symbols-outlined text-secondary-light">calendar_month</span>
+          </div>
+          <div class="space-y-2">
+            <h3 class="font-[family-name:var(--font-headline)] font-black text-xl text-white uppercase tracking-tight">Réserver un appel</h3>
+            <p class="font-[family-name:var(--font-body)] text-text-secondary text-sm leading-relaxed">
+              30 minutes pour discuter de votre projet IA. Choisissez directement le créneau qui vous convient.
+            </p>
+          </div>
+          <div class="flex flex-wrap gap-2">
+            <span class="px-3 py-1 bg-bg-surface-high rounded-full font-[family-name:var(--font-label)] text-[10px] uppercase tracking-widest text-text-secondary border border-outline-variant/20">Gratuit</span>
+            <span class="px-3 py-1 bg-bg-surface-high rounded-full font-[family-name:var(--font-label)] text-[10px] uppercase tracking-widest text-text-secondary border border-outline-variant/20">30 min</span>
+            <span class="px-3 py-1 bg-bg-surface-high rounded-full font-[family-name:var(--font-label)] text-[10px] uppercase tracking-widest text-text-secondary border border-outline-variant/20">Visio</span>
+          </div>
+          <a
+            href={CALENDLY_URL}
+            target="_blank"
+            rel="noopener noreferrer"
+            class="flex items-center justify-center gap-3 w-full gradient-cta text-white py-4 rounded-xl font-[family-name:var(--font-headline)] font-bold text-sm uppercase tracking-widest hover:scale-[1.02] transition-all duration-300"
+          >
+            Choisir un créneau
+            <span class="material-symbols-outlined">open_in_new</span>
+          </a>
+        </div>
+
+        <!-- Direct Email Card -->
+        <div class="glass-panel p-8 md:p-10 rounded-[2.5rem] border border-white/5 space-y-6 group hover:bg-white/5 transition-colors duration-500">
+          <div class="w-12 h-12 rounded-xl bg-tertiary/20 flex items-center justify-center border border-tertiary/30">
+            <span class="material-symbols-outlined text-tertiary">mail</span>
+          </div>
+          <div class="space-y-2">
+            <h3 class="font-[family-name:var(--font-headline)] font-black text-xl text-white uppercase tracking-tight">Email direct</h3>
+            <p class="font-[family-name:var(--font-body)] text-text-secondary text-sm leading-relaxed">
+              Vous préférez l'email classique ? Écrivez-nous directement, on répond sous 24h.
+            </p>
+          </div>
+          <a
+            href="mailto:contact@thefrenchbot.com"
+            class="flex items-center gap-3 text-primary-light hover:text-white transition-colors duration-300 group"
+          >
+            <span class="material-symbols-outlined text-sm">alternate_email</span>
+            <span class="font-[family-name:var(--font-body)] text-sm font-medium group-hover:underline">contact@thefrenchbot.com</span>
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<script>
+  // Handle Formspree AJAX submission for better UX
+  const form = document.getElementById("contact-form") as HTMLFormElement | null;
+  const successMsg = document.getElementById("form-success");
+  const errorMsg = document.getElementById("form-error");
+
+  if (form) {
+    form.addEventListener("submit", async (e) => {
+      e.preventDefault();
+      const submitBtn = form.querySelector('button[type="submit"]') as HTMLButtonElement;
+      submitBtn.disabled = true;
+      submitBtn.textContent = "Envoi en cours...";
+
+      try {
+        const response = await fetch(form.action, {
+          method: "POST",
+          body: new FormData(form),
+          headers: { Accept: "application/json" },
+        });
+
+        if (response.ok) {
+          form.reset();
+          successMsg?.classList.remove("hidden");
+          successMsg?.classList.add("flex");
+          errorMsg?.classList.add("hidden");
+          errorMsg?.classList.remove("flex");
+        } else {
+          throw new Error("Server error");
+        }
+      } catch {
+        errorMsg?.classList.remove("hidden");
+        errorMsg?.classList.add("flex");
+        successMsg?.classList.add("hidden");
+        successMsg?.classList.remove("flex");
+      } finally {
+        submitBtn.disabled = false;
+        submitBtn.innerHTML = 'Envoyer le message <span class="material-symbols-outlined">send</span>';
+      }
+    });
+  }
+</script>
