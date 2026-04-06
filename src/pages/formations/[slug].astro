@@ -1,0 +1,406 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+
+export function getStaticPaths() {
+  // Formation data shared for both Claude sessions
+  const claudeFormationBase = {
+    subtitle: 'Formation complète — Présentiel + E-learning',
+    description: "Une journée intensive en présentiel pour maîtriser Claude et tout son écosystème : Excel, PowerPoint, artefacts, Claude Code, création d'images, second cerveau IA et comparatif des LLMs. Complétée par 14h de e-learning en accès immédiat.",
+    price: 'Nous contacter',
+    duration: '7h Live + 14h E-learning',
+    level: 'Tous niveaux',
+    location: 'Robelot',
+    format: 'Présentiel + E-learning',
+    modules: [
+      { num: '01', title: 'Claude dans Excel', desc: 'Intégrez Claude dans vos workflows Excel pour analyser, transformer et automatiser vos données.' },
+      { num: '02', title: 'Claude dans PowerPoint', desc: "Créez des présentations professionnelles assistées par l'IA — structure, contenu, design." },
+      { num: '03', title: 'Les artefacts dans Claude', desc: 'Maîtrisez les artefacts pour générer, exporter et réutiliser du contenu structuré.' },
+      { num: '04', title: 'Claude Code', desc: "Automatisez vos tâches techniques avec Claude Code — sans être développeur." },
+      { num: '05', title: "Concurrents & création d'images", desc: "Découvrez les alternatives à Claude et créez des visuels avec NanoBanana." },
+      { num: '06', title: 'Second cerveau IA', desc: "Construisez un écosystème IA multi-LLM pour ne pas dépendre d'un seul outil." },
+      { num: '07', title: 'ChatGPT, Gemini & autres LLMs', desc: 'Comparez les modèles et choisissez le bon outil selon vos besoins.' },
+    ],
+    topics: [
+      { icon: 'table_chart', title: 'Excel & PowerPoint augmentés', desc: "Utilisez Claude directement dans vos outils Office pour gagner des heures chaque semaine." },
+      { icon: 'psychology', title: 'Second cerveau IA', desc: "Construisez un écosystème IA robuste, indépendant d'un seul LLM." },
+      { icon: 'terminal', title: 'Claude Code', desc: "Automatisez vos tâches sans coder avec l'assistant IA le plus puissant du marché." },
+      { icon: 'compare_arrows', title: 'Écosystème LLM complet', desc: 'ChatGPT, Gemini, NanoBanana — le bon outil au bon moment.' },
+    ],
+    instructor: {
+      name: 'Julian Luneau',
+      role: 'Fondateur — The French Bot',
+      quote: "Maîtriser Claude, c'est s'équiper pour l'ère de l'IA — en restant libre de choisir ses outils.",
+    },
+    faqs: [
+      { q: 'Dois-je avoir un compte Claude avant la formation ?', a: "Nous vous conseillons de créer un compte Claude.ai gratuit avant la session. Un guide de préparation vous sera envoyé après inscription." },
+      { q: 'La formation est-elle accessible aux débutants ?', a: "Absolument. Aucun prérequis technique n'est demandé. Nous partons des fondamentaux et montons progressivement." },
+      { q: "Comment se déroule la partie e-learning ?", a: "Les 14h de e-learning sont accessibles en ligne dès votre inscription. Vous pouvez les suivre à votre rythme, avant ou après la session en présentiel." },
+    ],
+  };
+
+  const formations = [
+    // ── Formations réelles 2026 ──────────────────────────────────────────
+    {
+      ...claudeFormationBase,
+      slug: 'maitriser-claude-avril-2026',
+      title: 'Maîtriser Claude',
+      date: 'Mercredi 29 avril 2026',
+      includes: [
+        { label: 'Live présentiel', value: '7 heures' },
+        { label: 'E-learning', value: '14 heures' },
+        { label: 'Date', value: '29 avril 2026' },
+        { label: 'Lieu', value: 'Robelot' },
+      ],
+    },
+    {
+      ...claudeFormationBase,
+      slug: 'maitriser-claude-mai-2026',
+      title: 'Maîtriser Claude',
+      date: 'Mercredi 20 mai 2026',
+      includes: [
+        { label: 'Live présentiel', value: '7 heures' },
+        { label: 'E-learning', value: '14 heures' },
+        { label: 'Date', value: '20 mai 2026' },
+        { label: 'Lieu', value: 'Robelot' },
+      ],
+    },
+    // ── Catalogue en ligne ───────────────────────────────────────────────
+    {
+      slug: 'prompt-engineering',
+      title: 'Prompt Engineering Pro',
+      subtitle: "L'art de sculpter l'intelligence artificielle",
+      description: "Plongez dans les fondations de l'ingénierie de prompts. Apprenez à construire des prompts haute-fidélité qui exploitent tout le potentiel cognitif des Large Language Models.",
+      price: '899€',
+      duration: '24 heures de contenu',
+      level: 'Expert',
+      modules: [
+        { num: '01', title: 'Les fondamentaux du prompting', desc: 'Structure, contexte et techniques de base.' },
+        { num: '02', title: 'Techniques avancées', desc: 'Chain-of-thought, few-shot, meta-prompting.' },
+        { num: '03', title: 'Prompt Engineering pour la production', desc: "Optimisation, tests A/B et déploiement à l'échelle." },
+      ],
+      topics: [
+        { icon: 'hub', title: 'Architecture de prompts', desc: 'Maîtrisez les structures de prompts complexes pour des résultats précis.' },
+        { icon: 'memory', title: 'LLM Ops', desc: 'Optimisez les performances des modèles de langage en production.' },
+        { icon: 'neurology', title: 'Chain-of-Thought', desc: "Techniques de raisonnement avancé pour l'IA." },
+        { icon: 'model_training', title: 'Agents autonomes', desc: 'Créez des systèmes IA qui s\'auto-améliorent.' },
+      ],
+      instructor: { name: 'Julian Luneau', role: 'Fondateur — The French Bot', quote: "Le prompt engineering n'est pas juste une compétence technique, c'est un art de la communication avec l'intelligence artificielle." },
+      includes: [
+        { label: 'Contenu vidéo', value: '24+ heures' },
+        { label: 'Projets pratiques', value: '8 projets' },
+        { label: 'Communauté', value: 'Accès Discord' },
+        { label: 'Mises à jour', value: 'À vie' },
+      ],
+      faqs: [
+        { q: 'Faut-il savoir coder pour suivre cette formation ?', a: "Non. La formation est accessible à tous les niveaux. Nous partons des fondamentaux et progressons vers les techniques avancées." },
+        { q: 'Quels sont les prérequis ?', a: "Aucun prérequis technique. Une curiosité pour l'IA et l'envie d'apprendre suffisent." },
+      ],
+    },
+    {
+      slug: 'no-code-ia',
+      title: 'Formation No-Code x IA',
+      subtitle: 'Automatisez votre business sans code',
+      description: "Construisez des applications IA complètes sans écrire une seule ligne de code. Apprenez à orchestrer des workflows multi-agents avec les meilleurs outils no-code du marché.",
+      price: '650€',
+      duration: '18 heures de contenu',
+      level: 'Tous niveaux',
+      modules: [
+        { num: '01', title: "Introduction au No-Code IA", desc: 'Les outils, les plateformes et l\'écosystème.' },
+        { num: '02', title: 'Automatisation avec Make & n8n', desc: 'Créez vos premiers workflows automatisés.' },
+        { num: '03', title: 'Agents IA No-Code', desc: 'Orchestrez des agents autonomes sans coder.' },
+      ],
+      topics: [
+        { icon: 'auto_awesome', title: 'Make / Zapier / n8n', desc: 'Maîtrisez les 3 plateformes leaders du no-code.' },
+        { icon: 'smart_toy', title: 'Chatbots IA', desc: 'Créez des assistants virtuels intelligents.' },
+        { icon: 'account_tree', title: 'Workflows avancés', desc: 'Automatisez des processus métier complexes.' },
+        { icon: 'integration_instructions', title: 'APIs & Intégrations', desc: 'Connectez vos outils IA entre eux.' },
+      ],
+      instructor: { name: 'Julian Luneau', role: 'Fondateur — The French Bot', quote: "L'automatisation no-code, c'est le super-pouvoir accessible à tous." },
+      includes: [
+        { label: 'Contenu vidéo', value: '18+ heures' },
+        { label: 'Projets pratiques', value: '6 projets' },
+        { label: 'Communauté', value: 'Accès Discord' },
+        { label: 'Mises à jour', value: 'À vie' },
+      ],
+      faqs: [
+        { q: "Est-ce adapté si je n'ai jamais fait de no-code ?", a: "Absolument ! La formation part de zéro et vous guide pas à pas." },
+        { q: 'Quels outils vais-je apprendre ?', a: 'Make, n8n, Zapier, ainsi que les APIs des principaux modèles IA (OpenAI, Claude, etc.).' },
+      ],
+    },
+    {
+      slug: 'product-manager-ia',
+      title: 'Product Manager IA',
+      subtitle: "Pilotez des produits augmentés par l'IA",
+      description: "Intégrez l'IA dans votre roadmap produit. Apprenez à gérer le cycle de vie complet de produits alimentés par l'intelligence artificielle.",
+      price: '1 250€',
+      duration: '32 heures de contenu',
+      level: 'Leadership',
+      modules: [
+        { num: '01', title: "IA pour Product Managers", desc: 'Comprendre les capacités et limites de l\'IA.' },
+        { num: '02', title: 'Roadmap IA', desc: 'Intégrer les features IA dans votre produit.' },
+        { num: '03', title: 'Déploiement & Mesure', desc: 'KPIs, A/B testing et itération sur les features IA.' },
+      ],
+      topics: [
+        { icon: 'analytics', title: 'Stratégie produit IA', desc: 'Définissez votre vision produit augmentée par l\'IA.' },
+        { icon: 'group', title: 'Collaboration technique', desc: 'Communiquez efficacement avec les équipes data/ML.' },
+        { icon: 'speed', title: 'Go-to-Market IA', desc: 'Lancez vos features IA avec impact.' },
+        { icon: 'monitoring', title: 'Métriques & KPIs', desc: 'Mesurez la performance de vos features IA.' },
+      ],
+      instructor: { name: 'Julian Luneau', role: 'Fondateur — The French Bot', quote: "Un bon PM IA sait traduire la complexité technique en valeur utilisateur." },
+      includes: [
+        { label: 'Contenu vidéo', value: '32+ heures' },
+        { label: 'Cas pratiques', value: '10 études de cas' },
+        { label: 'Communauté', value: 'Accès Discord' },
+        { label: 'Mises à jour', value: 'À vie' },
+      ],
+      faqs: [
+        { q: 'Cette formation est-elle technique ?', a: "Non, elle est conçue pour les profils produit/business. Pas besoin de savoir coder." },
+        { q: "Y a-t-il un certificat ?", a: "Oui, un certificat de complétion est délivré à la fin de la formation." },
+      ],
+    },
+    {
+      slug: 'ia-ethique',
+      title: 'IA Éthique & Responsable',
+      subtitle: 'Déployez l\'IA de manière responsable',
+      description: "Explorez le cadre éthique de l'IA. Apprenez les protocoles de sécurité et les frameworks de déploiement responsable pour une IA au service de l'humain.",
+      price: '540€',
+      duration: '16 heures de contenu',
+      level: 'Fondamentaux',
+      modules: [
+        { num: '01', title: "Éthique de l'IA", desc: 'Biais, équité et transparence des modèles.' },
+        { num: '02', title: 'Réglementation', desc: 'AI Act, RGPD et conformité.' },
+        { num: '03', title: 'Déploiement responsable', desc: 'Frameworks et bonnes pratiques.' },
+      ],
+      topics: [
+        { icon: 'security', title: 'Sécurité IA', desc: 'Protégez vos systèmes IA contre les abus.' },
+        { icon: 'balance', title: 'Biais & Équité', desc: 'Détectez et corrigez les biais algorithmiques.' },
+        { icon: 'gavel', title: 'Réglementation', desc: 'Maîtrisez le cadre légal européen.' },
+        { icon: 'visibility', title: 'Transparence', desc: 'Rendez vos systèmes IA explicables.' },
+      ],
+      instructor: { name: 'Julian Luneau', role: 'Fondateur — The French Bot', quote: "L'IA responsable n'est pas une option, c'est un impératif." },
+      includes: [
+        { label: 'Contenu vidéo', value: '16+ heures' },
+        { label: 'Études de cas', value: '5 cas réels' },
+        { label: 'Communauté', value: 'Accès Discord' },
+        { label: 'Mises à jour', value: 'À vie' },
+      ],
+      faqs: [
+        { q: "À qui s'adresse cette formation ?", a: "À tous les professionnels qui déploient ou utilisent des systèmes d'IA." },
+        { q: 'La formation couvre-t-elle le AI Act européen ?', a: "Oui, nous couvrons en détail la réglementation européenne et ses implications pratiques." },
+      ],
+    },
+  ];
+
+  return formations.map((f) => ({
+    params: { slug: f.slug },
+    props: { formation: f },
+  }));
+}
+
+const { formation } = Astro.props;
+const f = formation;
+---
+
+<BaseLayout
+  title={`${f.title} — The French Bot`}
+  description={f.description}
+>
+  <!-- Hero -->
+  <section class="relative pt-32 pb-20 md:pb-24 px-6 md:px-8 overflow-hidden">
+    <div class="absolute top-0 left-1/2 -translate-x-1/2 w-full h-full opacity-20 pointer-events-none">
+      <div class="absolute top-[-10%] left-[-10%] w-[50%] h-[50%] bg-primary blur-[120px] rounded-full"></div>
+      <div class="absolute bottom-[-10%] right-[-10%] w-[50%] h-[50%] bg-secondary blur-[120px] rounded-full"></div>
+    </div>
+
+    <div class="max-w-7xl mx-auto relative z-10 grid lg:grid-cols-12 gap-12 items-center">
+      <div class="lg:col-span-7">
+        <div class="flex items-center gap-4 mb-6 flex-wrap">
+          <span class="px-3 py-1 bg-tertiary-container/30 border border-tertiary/20 rounded-full text-tertiary text-xs font-bold tracking-widest uppercase">{f.level}</span>
+          <span class="flex items-center gap-2 text-text-secondary text-sm font-medium">
+            <span class="material-symbols-outlined text-primary-light text-lg">schedule</span>
+            {f.duration}
+          </span>
+          {(f as any).date && (
+            <span class="flex items-center gap-2 text-primary-light text-sm font-bold">
+              <span class="material-symbols-outlined text-lg">calendar_today</span>
+              {(f as any).date}
+            </span>
+          )}
+          {(f as any).location && (
+            <span class="flex items-center gap-2 text-text-secondary text-sm">
+              <span class="material-symbols-outlined text-lg">location_on</span>
+              {(f as any).location}
+            </span>
+          )}
+        </div>
+
+        <h1 class="text-5xl md:text-7xl lg:text-8xl font-[family-name:var(--font-headline)] font-bold text-white mb-8 leading-[0.9] tracking-tighter">
+          {f.title.split(' ').slice(0, -1).join(' ')} <br />
+          <span class="gradient-text">{f.title.split(' ').slice(-1)}</span>
+        </h1>
+
+        <p class="text-text-secondary text-lg md:text-xl leading-relaxed max-w-2xl font-light mb-10">
+          {f.description}
+        </p>
+
+        <div class="flex flex-wrap gap-6">
+          <a href="#inscription" class="gradient-cta px-10 py-5 rounded-full font-[family-name:var(--font-headline)] font-bold text-lg md:text-xl tracking-tight text-white hover:scale-105 active:scale-95 transition-all duration-300 neon-glow flex items-center gap-3">
+            S'inscrire
+            <span class="material-symbols-outlined">bolt</span>
+          </a>
+        </div>
+      </div>
+
+      <div class="lg:col-span-5 relative">
+        <div class="relative rounded-3xl overflow-hidden glass-panel p-2 neon-glow aspect-square rotate-3 hover:rotate-0 transition-transform duration-700">
+          <div class="w-full h-full rounded-2xl bg-gradient-to-br from-primary/20 via-bg-surface to-secondary/20 flex items-center justify-center">
+            <span class="material-symbols-outlined text-primary-light/40 text-[120px]">school</span>
+          </div>
+          <div class="absolute inset-0 bg-gradient-to-t from-bg-base/80 via-transparent to-transparent"></div>
+          <div class="absolute bottom-8 left-8 right-8 p-6 glass-panel rounded-2xl border border-white/10">
+            <div class="flex justify-between items-end">
+              <div>
+                <p class="text-primary-light text-xs font-bold uppercase tracking-widest mb-1">{f.level}</p>
+                <p class="text-white text-xl font-[family-name:var(--font-headline)] font-bold">{f.title}</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Main Content -->
+  <div class="max-w-7xl mx-auto px-6 md:px-8 pb-24 md:pb-32 grid lg:grid-cols-12 gap-12 lg:gap-16 relative">
+    <div class="lg:col-span-8 space-y-20 md:space-y-24">
+      <!-- What You'll Learn -->
+      <section>
+        <h2 class="text-3xl md:text-4xl font-[family-name:var(--font-headline)] font-bold text-white mb-10 md:mb-12 flex items-center gap-4">
+          <span class="w-12 h-1 bg-primary-light rounded-full"></span>
+          Ce que vous apprendrez
+        </h2>
+        <div class="grid md:grid-cols-2 gap-6 md:gap-8">
+          {f.topics.map((topic: { icon: string; title: string; desc: string }) => (
+            <div class="p-6 md:p-8 rounded-3xl bg-bg-surface-low border border-white/5 hover:border-primary/30 transition-all group">
+              <div class="w-12 h-12 rounded-xl bg-primary/10 flex items-center justify-center text-primary-light mb-6 group-hover:scale-110 transition-transform">
+                <span class="material-symbols-outlined">{topic.icon}</span>
+              </div>
+              <h3 class="text-xl font-[family-name:var(--font-headline)] font-bold text-white mb-4">{topic.title}</h3>
+              <p class="text-text-secondary leading-relaxed">{topic.desc}</p>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      <!-- Curriculum -->
+      <section>
+        <div class="flex flex-col md:flex-row justify-between items-start md:items-end mb-10 md:mb-12 gap-4">
+          <h2 class="text-3xl md:text-4xl font-[family-name:var(--font-headline)] font-bold text-white flex items-center gap-4">
+            <span class="w-12 h-1 bg-secondary-light rounded-full"></span>
+            Programme
+          </h2>
+          <p class="text-text-secondary text-sm font-[family-name:var(--font-label)] uppercase tracking-widest">{f.modules.length} Modules</p>
+        </div>
+        <div class="space-y-4">
+          {f.modules.map((mod: { num: string; title: string; desc: string }, i: number) => (
+            <div class="glass-panel rounded-2xl overflow-hidden border border-white/5">
+              <div class="p-6 flex items-center justify-between cursor-pointer hover:bg-white/5 transition-colors">
+                <div class="flex items-center gap-6">
+                  <span class:list={['text-3xl font-[family-name:var(--font-headline)] font-black', i === 0 ? 'text-primary-light' : 'text-text-muted']}>
+                    {mod.num}
+                  </span>
+                  <div>
+                    <h4 class="text-lg font-bold text-white">{mod.title}</h4>
+                    <p class="text-text-secondary text-sm">{mod.desc}</p>
+                  </div>
+                </div>
+                <span class="material-symbols-outlined text-text-secondary">expand_more</span>
+              </div>
+              <div class="neural-trace opacity-30"></div>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      <!-- Instructor -->
+      <section class="relative p-8 md:p-12 rounded-[2.5rem] overflow-hidden">
+        <div class="absolute inset-0 bg-bg-surface-low border border-white/5 rounded-[2.5rem]"></div>
+        <div class="absolute top-0 right-0 w-64 h-64 bg-primary/10 blur-[80px] rounded-full -translate-y-1/2 translate-x-1/2"></div>
+        <div class="relative z-10">
+          <span class="text-primary-light font-[family-name:var(--font-headline)] font-bold text-xs uppercase tracking-widest mb-2 block">{f.instructor.role}</span>
+          <h3 class="text-2xl md:text-3xl font-[family-name:var(--font-headline)] font-bold text-white mb-4">{f.instructor.name}</h3>
+          <p class="text-text-secondary leading-relaxed mb-6 italic">"{f.instructor.quote}"</p>
+        </div>
+      </section>
+
+      <!-- FAQs -->
+      <section>
+        <h2 class="text-3xl md:text-4xl font-[family-name:var(--font-headline)] font-bold text-white mb-10 md:mb-12 flex items-center gap-4">
+          <span class="w-12 h-1 bg-tertiary rounded-full"></span>
+          Questions fréquentes
+        </h2>
+        <div class="space-y-6">
+          {f.faqs.map((faq: { q: string; a: string }) => (
+            <div class="p-6 md:p-8 rounded-2xl bg-bg-surface border border-white/5">
+              <h4 class="text-lg font-bold text-white mb-3">{faq.q}</h4>
+              <p class="text-text-secondary leading-relaxed">{faq.a}</p>
+            </div>
+          ))}
+        </div>
+      </section>
+    </div>
+
+    <!-- Sidebar -->
+    <aside class="lg:col-span-4" id="inscription">
+      <div class="sticky top-32 space-y-8">
+        <div class="glass-panel p-8 rounded-[2rem] border border-white/10 neon-glow relative overflow-hidden">
+          <div class="absolute top-0 right-0 w-32 h-32 bg-secondary/10 blur-3xl rounded-full translate-x-1/2 -translate-y-1/2"></div>
+          <div class="flex justify-between items-start mb-8">
+            <div>
+              <p class="text-text-secondary text-xs font-bold uppercase tracking-widest mb-1">Tarif</p>
+              <h3 class="text-4xl md:text-5xl font-[family-name:var(--font-headline)] font-black text-white">{f.price}</h3>
+            </div>
+          </div>
+
+          <div class="space-y-4 md:space-y-6 mb-8 md:mb-10">
+            <div class="flex items-center gap-4 text-text-primary text-sm">
+              <span class="material-symbols-outlined text-primary-light" style="font-variation-settings: 'FILL' 1;">check_circle</span>
+              Accès à vie au contenu
+            </div>
+            <div class="flex items-center gap-4 text-text-primary text-sm">
+              <span class="material-symbols-outlined text-primary-light" style="font-variation-settings: 'FILL' 1;">check_circle</span>
+              Projets pratiques guidés
+            </div>
+            <div class="flex items-center gap-4 text-text-primary text-sm">
+              <span class="material-symbols-outlined text-primary-light" style="font-variation-settings: 'FILL' 1;">check_circle</span>
+              Communauté Discord exclusive
+            </div>
+            <div class="flex items-center gap-4 text-text-primary text-sm">
+              <span class="material-symbols-outlined text-primary-light" style="font-variation-settings: 'FILL' 1;">check_circle</span>
+              Certificat de complétion
+            </div>
+          </div>
+
+          <button class="w-full gradient-cta py-4 md:py-5 rounded-2xl font-[family-name:var(--font-headline)] font-bold text-lg md:text-xl text-white hover:shadow-[0_0_30px_rgba(53,36,232,0.6)] hover:scale-[1.02] active:scale-[0.98] transition-all duration-300">
+            S'inscrire maintenant
+          </button>
+        </div>
+
+        <div class="p-6 md:p-8 rounded-[2rem] bg-bg-surface-low border border-white/5">
+          <h4 class="text-white font-[family-name:var(--font-headline)] font-bold mb-6 flex items-center gap-3">
+            <span class="material-symbols-outlined text-tertiary">workspace_premium</span>
+            Inclus dans la formation
+          </h4>
+          <ul class="space-y-4 text-sm text-text-secondary">
+            {f.includes.map((inc: { label: string; value: string }, i: number) => (
+              <li class:list={['flex justify-between', i < f.includes.length - 1 && 'border-b border-white/5 pb-2']}>
+                <span>{inc.label}</span>
+                <span class="text-white">{inc.value}</span>
+              </li>
+            ))}
+          </ul>
+        </div>
+      </div>
+    </aside>
+  </div>
+</BaseLayout>

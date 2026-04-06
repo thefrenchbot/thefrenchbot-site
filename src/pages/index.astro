@@ -1,0 +1,304 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+---
+
+<BaseLayout title="The French Bot — Formation & Automatisation IA">
+  <!-- Hero Section -->
+  <section class="relative min-h-screen flex flex-col justify-center px-6 md:px-24 pt-24 overflow-hidden">
+    <!-- Background Glows -->
+    <div class="absolute top-1/4 -left-20 w-96 h-96 bg-primary/20 rounded-full blur-[120px]"></div>
+    <div class="absolute bottom-1/4 -right-20 w-96 h-96 bg-secondary/20 rounded-full blur-[120px]"></div>
+
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center z-10 max-w-[1440px] mx-auto w-full">
+      <div class="space-y-8">
+        <div class="inline-flex items-center gap-2 px-4 py-1 rounded-full bg-bg-surface-high border border-outline-variant/20">
+          <span class="material-symbols-outlined text-tertiary text-sm" style="font-variation-settings: 'FILL' 1;">auto_awesome</span>
+          <span class="font-[family-name:var(--font-label)] text-xs uppercase tracking-[0.2em] text-text-secondary">L'excellence en IA</span>
+        </div>
+
+        <h1 class="font-[family-name:var(--font-headline)] font-black text-5xl md:text-7xl lg:text-8xl leading-[0.9] tracking-tight text-white">
+          Propulsez-vous dans
+          <span class="gradient-text">l'ère de l'IA</span>
+        </h1>
+
+        <p class="font-[family-name:var(--font-body)] text-xl text-text-secondary max-w-lg leading-relaxed">
+          Formations haute-fidélité pour professionnels exigeants. Maîtrisez les outils de demain avec The French Bot.
+        </p>
+
+        <div class="flex flex-wrap gap-6 pt-4">
+          <a
+            href="/formations"
+            class="gradient-cta text-white px-10 py-5 rounded-full font-[family-name:var(--font-headline)] font-bold text-sm uppercase tracking-widest neon-glow-primary hover:scale-105 transition-all duration-300 flex items-center gap-3"
+          >
+            Découvrir nos formations
+            <span class="material-symbols-outlined">arrow_forward</span>
+          </a>
+          <a
+            href="/experts"
+            class="glass-panel border border-outline-variant/30 text-white px-10 py-5 rounded-full font-[family-name:var(--font-headline)] font-bold text-sm uppercase tracking-widest hover:bg-white/10 transition-all duration-300"
+          >
+            Notre approche
+          </a>
+        </div>
+      </div>
+
+      <!-- Hero visual -->
+      <div class="relative hidden lg:block">
+        <div class="relative z-10 glass-panel p-4 rounded-3xl border border-white/10 rotate-3 hover:rotate-0 transition-transform duration-700">
+          <div class="rounded-2xl w-full h-[500px] bg-gradient-to-br from-primary/30 via-bg-surface to-secondary/20 flex items-center justify-center overflow-hidden">
+            <div class="text-center space-y-4">
+              <span class="material-symbols-outlined text-primary-light text-8xl">psychology</span>
+              <p class="font-[family-name:var(--font-headline)] text-2xl font-bold text-white">Intelligence Artificielle</p>
+              <p class="text-text-secondary">Formation · Automatisation · Innovation</p>
+            </div>
+          </div>
+          <div class="neural-trace mt-4"></div>
+        </div>
+        <!-- Floating card -->
+        <div class="absolute -bottom-10 -left-10 z-20 glass-panel p-6 rounded-2xl border border-white/10 shadow-2xl max-w-xs">
+          <div class="flex items-center gap-4">
+            <div class="w-12 h-12 rounded-full bg-tertiary/20 flex items-center justify-center">
+              <span class="material-symbols-outlined text-tertiary">bolt</span>
+            </div>
+            <div>
+              <p class="font-[family-name:var(--font-label)] text-[10px] uppercase tracking-widest text-text-secondary">Formations disponibles</p>
+              <p class="font-[family-name:var(--font-headline)] font-bold text-lg text-white">100% pratique</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Features Bento Grid -->
+  <section class="py-24 md:py-32 px-6 md:px-8 max-w-[1440px] mx-auto">
+    <div class="mb-16 md:mb-20 text-center space-y-4">
+      <h2 class="font-[family-name:var(--font-headline)] font-black text-4xl md:text-5xl text-white uppercase tracking-[0.08em]">Notre expertise</h2>
+      <p class="font-[family-name:var(--font-body)] text-text-secondary max-w-2xl mx-auto">Une ingénierie pédagogique conçue pour transformer le potentiel en compétences concrètes.</p>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8">
+      <!-- Large card -->
+      <div class="md:col-span-2 glass-panel p-10 md:p-12 rounded-[2.5rem] border border-white/5 relative overflow-hidden group">
+        <div class="relative z-10 flex flex-col h-full justify-between">
+          <div class="space-y-6 max-w-md">
+            <div class="w-14 h-14 rounded-2xl bg-primary flex items-center justify-center">
+              <span class="material-symbols-outlined text-white text-3xl">psychology</span>
+            </div>
+            <h3 class="font-[family-name:var(--font-headline)] font-black text-3xl md:text-4xl text-white uppercase tracking-tight">Formation IA sur-mesure</h3>
+            <p class="font-[family-name:var(--font-body)] text-text-secondary text-lg leading-relaxed">
+              Nos formations s'adaptent à votre niveau et vos objectifs. Du prompt engineering à l'automatisation complète, progressez à votre rythme.
+            </p>
+          </div>
+          <a href="/formations" class="pt-10 md:pt-12 flex items-center gap-4 text-primary-light font-[family-name:var(--font-headline)] font-bold uppercase tracking-widest text-sm cursor-pointer group-hover:gap-6 transition-all">
+            Voir les formations <span class="material-symbols-outlined">east</span>
+          </a>
+        </div>
+      </div>
+
+      <!-- Small card 1 -->
+      <div class="glass-panel p-8 md:p-10 rounded-[2.5rem] border border-white/5 space-y-6 hover:bg-white/5 transition-colors duration-500">
+        <div class="w-12 h-12 rounded-xl bg-secondary/20 flex items-center justify-center border border-secondary/30">
+          <span class="material-symbols-outlined text-secondary-light">rocket_launch</span>
+        </div>
+        <h3 class="font-[family-name:var(--font-headline)] font-black text-2xl text-white uppercase tracking-tight">Automatisation No-Code</h3>
+        <p class="font-[family-name:var(--font-body)] text-text-secondary text-sm leading-relaxed">
+          Automatisez vos processus métier sans écrire une seule ligne de code. Make, Zapier, n8n — on vous montre tout.
+        </p>
+      </div>
+
+      <!-- Small card 2 -->
+      <div class="glass-panel p-8 md:p-10 rounded-[2.5rem] border border-white/5 space-y-6 hover:bg-white/5 transition-colors duration-500">
+        <div class="w-12 h-12 rounded-xl bg-tertiary/20 flex items-center justify-center border border-tertiary/30">
+          <span class="material-symbols-outlined text-tertiary">hub</span>
+        </div>
+        <h3 class="font-[family-name:var(--font-headline)] font-black text-2xl text-white uppercase tracking-tight">Accompagnement expert</h3>
+        <p class="font-[family-name:var(--font-body)] text-text-secondary text-sm leading-relaxed">
+          Un suivi personnalisé par des praticiens de l'IA qui déploient ces outils au quotidien dans de vraies entreprises.
+        </p>
+      </div>
+
+      <!-- Medium card -->
+      <div class="md:col-span-2 glass-panel p-10 md:p-12 rounded-[2.5rem] border border-white/5 flex flex-col md:flex-row items-center gap-10 md:gap-12 group">
+        <div class="flex-1 space-y-6">
+          <h3 class="font-[family-name:var(--font-headline)] font-black text-2xl md:text-3xl text-white uppercase tracking-tight">Projets concrets & cas réels</h3>
+          <p class="font-[family-name:var(--font-body)] text-text-secondary">
+            Chaque formation inclut des mises en situation réelles pour ancrer vos compétences dans la pratique.
+          </p>
+          <ul class="space-y-3 font-[family-name:var(--font-label)] text-xs uppercase tracking-wider text-text-secondary/80">
+            <li class="flex items-center gap-2"><span class="w-1 h-1 bg-secondary-light rounded-full"></span> Prompt Engineering avancé</li>
+            <li class="flex items-center gap-2"><span class="w-1 h-1 bg-secondary-light rounded-full"></span> Automatisation de workflows</li>
+            <li class="flex items-center gap-2"><span class="w-1 h-1 bg-secondary-light rounded-full"></span> Agents IA autonomes</li>
+          </ul>
+        </div>
+        <div class="w-full md:w-64 h-64 rounded-3xl overflow-hidden bg-gradient-to-br from-primary/20 to-secondary/20 flex items-center justify-center">
+          <span class="material-symbols-outlined text-primary-light text-7xl">precision_manufacturing</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Stats -->
+  <section class="py-20 md:py-24 bg-bg-surface-low relative overflow-hidden">
+    <div class="max-w-[1440px] mx-auto px-6 md:px-8">
+      <div class="grid grid-cols-2 lg:grid-cols-4 gap-8 md:gap-12 text-center">
+        <div class="space-y-2">
+          <p class="font-[family-name:var(--font-headline)] font-black text-5xl md:text-6xl text-white">100+</p>
+          <p class="font-[family-name:var(--font-label)] text-xs uppercase tracking-[0.3em] text-primary-light">Professionnels formés</p>
+        </div>
+        <div class="space-y-2">
+          <p class="font-[family-name:var(--font-headline)] font-black text-5xl md:text-6xl text-white">15+</p>
+          <p class="font-[family-name:var(--font-label)] text-xs uppercase tracking-[0.3em] text-secondary-light">Formations</p>
+        </div>
+        <div class="space-y-2">
+          <p class="font-[family-name:var(--font-headline)] font-black text-5xl md:text-6xl text-white">98%</p>
+          <p class="font-[family-name:var(--font-label)] text-xs uppercase tracking-[0.3em] text-tertiary">Satisfaction</p>
+        </div>
+        <div class="space-y-2">
+          <p class="font-[family-name:var(--font-headline)] font-black text-5xl md:text-6xl text-white">24h</p>
+          <p class="font-[family-name:var(--font-label)] text-xs uppercase tracking-[0.3em] text-text-secondary">Réponse garantie</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Featured Courses -->
+  <section class="py-24 md:py-32 px-6 md:px-8 max-w-[1440px] mx-auto">
+    <div class="flex flex-col md:flex-row justify-between items-start md:items-end mb-12 md:mb-16 gap-4">
+      <div>
+        <h2 class="font-[family-name:var(--font-headline)] font-black text-4xl md:text-5xl text-white uppercase tracking-[0.08em]">Formations phares</h2>
+        <p class="text-text-secondary mt-4 max-w-lg">Nos programmes les plus demandés pour maîtriser l'IA au quotidien.</p>
+      </div>
+      <a href="/formations" class="font-[family-name:var(--font-label)] text-sm text-primary-light uppercase tracking-widest hover:text-white transition-colors flex items-center gap-2">
+        Tout voir <span class="material-symbols-outlined text-sm">arrow_forward</span>
+      </a>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+      <!-- Course 1 -->
+      <a href="/formations/prompt-engineering" class="glass-card rounded-xl overflow-hidden flex flex-col group hover:scale-[1.02] transition-all duration-500 border border-white/5">
+        <div class="h-48 relative overflow-hidden bg-gradient-to-br from-primary/30 to-bg-surface flex items-center justify-center">
+          <span class="material-symbols-outlined text-primary-light text-6xl group-hover:scale-110 transition-transform duration-500">terminal</span>
+          <div class="absolute inset-0 bg-gradient-to-t from-bg-base to-transparent"></div>
+          <div class="absolute bottom-4 left-4">
+            <span class="px-3 py-1 bg-tertiary/10 backdrop-blur-md text-tertiary text-[10px] font-bold rounded-full border border-tertiary/20 uppercase tracking-widest">Avancé</span>
+          </div>
+        </div>
+        <div class="p-8 flex-grow flex flex-col">
+          <div class="flex justify-between items-start mb-4">
+            <h3 class="font-[family-name:var(--font-headline)] font-black text-2xl text-white uppercase tracking-tight group-hover:text-primary-light transition-colors">Prompt Engineering Pro</h3>
+            <div class="flex items-center gap-1 text-secondary-light">
+              <span class="material-symbols-outlined text-sm" style="font-variation-settings: 'FILL' 1;">star</span>
+              <span class="text-xs font-bold">4.9</span>
+            </div>
+          </div>
+          <p class="font-[family-name:var(--font-body)] text-text-secondary text-sm leading-relaxed mb-8">
+            L'art de sculpter l'intelligence artificielle pour des résultats professionnels précis et reproductibles.
+          </p>
+          <div class="mt-auto pt-6 flex items-center justify-between">
+            <span class="text-2xl font-[family-name:var(--font-headline)] font-bold text-white">899€</span>
+            <span class="neon-glow bg-primary hover:bg-primary-hover text-white px-6 py-3 rounded-full text-xs font-bold uppercase tracking-widest transition-all">
+              Voir le programme
+            </span>
+          </div>
+        </div>
+      </a>
+
+      <!-- Course 2 -->
+      <a href="/formations/no-code-ia" class="glass-card rounded-xl overflow-hidden flex flex-col group hover:scale-[1.02] transition-all duration-500 border border-white/5">
+        <div class="h-48 relative overflow-hidden bg-gradient-to-br from-secondary/30 to-bg-surface flex items-center justify-center">
+          <span class="material-symbols-outlined text-secondary-light text-6xl group-hover:scale-110 transition-transform duration-500">auto_awesome</span>
+          <div class="absolute inset-0 bg-gradient-to-t from-bg-base to-transparent"></div>
+          <div class="absolute bottom-4 left-4">
+            <span class="px-3 py-1 bg-primary-light/10 backdrop-blur-md text-primary-light text-[10px] font-bold rounded-full border border-primary-light/20 uppercase tracking-widest">No-Code</span>
+          </div>
+        </div>
+        <div class="p-8 flex-grow flex flex-col">
+          <div class="flex justify-between items-start mb-4">
+            <h3 class="font-[family-name:var(--font-headline)] font-black text-2xl text-white uppercase tracking-tight group-hover:text-primary-light transition-colors">Formation No-Code x IA</h3>
+            <div class="flex items-center gap-1 text-secondary-light">
+              <span class="material-symbols-outlined text-sm" style="font-variation-settings: 'FILL' 1;">star</span>
+              <span class="text-xs font-bold">5.0</span>
+            </div>
+          </div>
+          <p class="font-[family-name:var(--font-body)] text-text-secondary text-sm leading-relaxed mb-8">
+            Automatisez votre business sans écrire une seule ligne de code. Créez des workflows IA puissants.
+          </p>
+          <div class="mt-auto pt-6 flex items-center justify-between">
+            <span class="text-2xl font-[family-name:var(--font-headline)] font-bold text-white">650€</span>
+            <span class="neon-glow bg-primary hover:bg-primary-hover text-white px-6 py-3 rounded-full text-xs font-bold uppercase tracking-widest transition-all">
+              Voir le programme
+            </span>
+          </div>
+        </div>
+      </a>
+
+      <!-- Course 3 -->
+      <a href="/formations/product-manager-ia" class="glass-card rounded-xl overflow-hidden flex flex-col group hover:scale-[1.02] transition-all duration-500 border border-white/5">
+        <div class="h-48 relative overflow-hidden bg-gradient-to-br from-tertiary/30 to-bg-surface flex items-center justify-center">
+          <span class="material-symbols-outlined text-tertiary text-6xl group-hover:scale-110 transition-transform duration-500">analytics</span>
+          <div class="absolute inset-0 bg-gradient-to-t from-bg-base to-transparent"></div>
+          <div class="absolute bottom-4 left-4">
+            <span class="px-3 py-1 bg-secondary-light/10 backdrop-blur-md text-secondary-light text-[10px] font-bold rounded-full border border-secondary-light/20 uppercase tracking-widest">Leadership</span>
+          </div>
+        </div>
+        <div class="p-8 flex-grow flex flex-col">
+          <div class="flex justify-between items-start mb-4">
+            <h3 class="font-[family-name:var(--font-headline)] font-black text-2xl text-white uppercase tracking-tight group-hover:text-primary-light transition-colors">Product Manager IA</h3>
+            <div class="flex items-center gap-1 text-secondary-light">
+              <span class="material-symbols-outlined text-sm" style="font-variation-settings: 'FILL' 1;">star</span>
+              <span class="text-xs font-bold">4.8</span>
+            </div>
+          </div>
+          <p class="font-[family-name:var(--font-body)] text-text-secondary text-sm leading-relaxed mb-8">
+            Intégrez l'IA dans votre roadmap produit. Apprenez à piloter des projets IA de A à Z.
+          </p>
+          <div class="mt-auto pt-6 flex items-center justify-between">
+            <span class="text-2xl font-[family-name:var(--font-headline)] font-bold text-white">1 250€</span>
+            <span class="neon-glow bg-primary hover:bg-primary-hover text-white px-6 py-3 rounded-full text-xs font-bold uppercase tracking-widest transition-all">
+              Voir le programme
+            </span>
+          </div>
+        </div>
+      </a>
+    </div>
+  </section>
+
+  <!-- CTA Section -->
+  <section class="py-24 md:py-32 px-6 md:px-8">
+    <div class="max-w-5xl mx-auto glass-panel p-12 md:p-24 rounded-[3rem] border border-white/10 text-center space-y-8 md:space-y-10 relative overflow-hidden">
+      <div class="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-primary via-secondary to-tertiary"></div>
+      <h2 class="font-[family-name:var(--font-headline)] font-black text-4xl md:text-5xl lg:text-7xl text-white uppercase tracking-tight leading-tight">
+        Prêt à passer à <br /> <span class="gradient-text">l'ère de l'IA ?</span>
+      </h2>
+      <p class="font-[family-name:var(--font-body)] text-lg md:text-xl text-text-secondary max-w-2xl mx-auto leading-relaxed">
+        Rejoignez les professionnels qui transforment leur activité grâce à l'intelligence artificielle. Places limitées par session.
+      </p>
+      <div class="flex flex-col sm:flex-row justify-center gap-6">
+        <a
+          href="/formations"
+          class="bg-white text-bg-base px-10 md:px-12 py-5 md:py-6 rounded-full font-[family-name:var(--font-headline)] font-black text-base md:text-lg uppercase tracking-widest hover:scale-105 transition-all duration-300 shadow-[0_0_50px_rgba(255,255,255,0.2)]"
+        >
+          Explorer les formations
+        </a>
+        <a
+          href="#contact"
+          class="glass-panel border border-white/20 text-white px-10 md:px-12 py-5 md:py-6 rounded-full font-[family-name:var(--font-headline)] font-bold text-base md:text-lg uppercase tracking-widest hover:bg-white/10 transition-all duration-300"
+        >
+          Nous contacter
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Mission -->
+  <section class="py-16 md:py-20 px-6 md:px-8 max-w-[1440px] mx-auto">
+    <div class="p-8 md:p-12 border-l-2 border-primary/30">
+      <h4 class="font-[family-name:var(--font-label)] text-xs uppercase tracking-[0.3em] text-text-secondary mb-4">Notre vision</h4>
+      <p class="font-[family-name:var(--font-headline)] text-xl md:text-2xl leading-relaxed text-white italic">
+        "Nous ne formons pas seulement à l'usage de l'IA, nous forgeons les architectes de la nouvelle ère numérique."
+      </p>
+      <p class="mt-6 text-primary font-bold font-[family-name:var(--font-label)] text-sm tracking-widest uppercase">Julian Luneau — The French Bot</p>
+    </div>
+  </section>
+</BaseLayout>

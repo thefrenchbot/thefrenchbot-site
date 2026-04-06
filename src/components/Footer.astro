@@ -1,0 +1,53 @@
+---
+const currentYear = new Date().getFullYear();
+---
+
+<footer class="w-full border-t border-white/5 bg-bg-base">
+  <div
+    class="flex flex-col md:flex-row justify-between items-center px-8 md:px-12 py-12 md:py-16 w-full gap-8 max-w-[1440px] mx-auto"
+  >
+    <!-- Brand -->
+    <div class="space-y-3 text-center md:text-left">
+      <div class="text-4xl font-[family-name:var(--font-script)] gradient-text">
+        The French Bot
+      </div>
+      <p
+        class="font-[family-name:var(--font-headline)] text-xs tracking-widest uppercase text-text-muted"
+      >
+        &copy; {currentYear} The French Bot. Tous droits réservés.
+      </p>
+    </div>
+
+    <!-- Links -->
+    <div class="flex flex-wrap justify-center gap-8 md:gap-10">
+      <a
+        href="/formations"
+        class="font-[family-name:var(--font-headline)] text-xs tracking-widest uppercase text-text-muted hover:text-secondary-light transition-colors"
+      >
+        Formations
+      </a>
+      <a
+        href="/experts"
+        class="font-[family-name:var(--font-headline)] text-xs tracking-widest uppercase text-text-muted hover:text-secondary-light transition-colors"
+      >
+        Experts
+      </a>
+      <a
+        href="#contact"
+        class="font-[family-name:var(--font-headline)] text-xs tracking-widest uppercase text-primary-light hover:text-secondary-light transition-colors"
+      >
+        Contact
+      </a>
+    </div>
+
+    <!-- Social icons -->
+    <div class="flex gap-6">
+      <a href="https://thefrenchbot.com" aria-label="Site web" class="text-primary hover:text-white transition-colors">
+        <span class="material-symbols-outlined">language</span>
+      </a>
+      <a href="#" aria-label="LinkedIn" class="text-primary hover:text-white transition-colors">
+        <span class="material-symbols-outlined">share</span>
+      </a>
+    </div>
+  </div>
+</footer>

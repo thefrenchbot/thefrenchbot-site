@@ -1,0 +1,115 @@
+@import "tailwindcss";
+
+/* ============================================
+   THE FRENCH BOT — Design System
+   ============================================ */
+
+@theme {
+  /* Background surfaces */
+  --color-bg-base: #0B0A14;
+  --color-bg-surface: #13121c;
+  --color-bg-surface-low: #1c1a25;
+  --color-bg-surface-mid: #201e29;
+  --color-bg-surface-high: #2a2934;
+  --color-bg-surface-highest: #35333f;
+
+  /* Primary — Electric Blue */
+  --color-primary: #3524E8;
+  --color-primary-light: #c2c1ff;
+  --color-primary-fixed: #e2dfff;
+  --color-primary-dim: #bcbbff;
+  --color-primary-hover: #463cf6;
+
+  /* Secondary — Neon Magenta */
+  --color-secondary: #C700D3;
+  --color-secondary-light: #ffa9fb;
+  --color-secondary-fixed: #ffd6f8;
+
+  /* Tertiary — Cyan */
+  --color-tertiary: #64d8d9;
+  --color-tertiary-container: #00595a;
+
+  /* Text */
+  --color-text-primary: #e5e0f0;
+  --color-text-secondary: #c7c4d9;
+  --color-text-muted: #908fa2;
+  --color-text-on-primary: #ffffff;
+
+  /* Outline / Borders */
+  --color-outline: #908fa2;
+  --color-outline-variant: #464556;
+
+  /* Error */
+  --color-error: #ffb4ab;
+  --color-error-container: #93000a;
+
+  /* Fonts — inspired by scalewithouss.com */
+  --font-headline: "Space Grotesk", sans-serif;   /* bold display, weight 900 */
+  --font-body: "Outfit", sans-serif;              /* body & UI, weight 300-800 */
+  --font-label: "Outfit", sans-serif;             /* labels & captions */
+  --font-hand: "Patrick Hand", cursive;           /* handwritten accents */
+  --font-script: "Mr Dafoe", cursive;             /* script decorative */
+}
+
+/* ============================================
+   Global Styles
+   ============================================ */
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background-color: var(--color-bg-base);
+  color: var(--color-text-primary);
+  font-family: var(--font-body);
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+::selection {
+  background-color: oklch(from var(--color-primary) l c h / 0.3);
+}
+
+/* ============================================
+   Utility Classes
+   ============================================ */
+
+.glass-panel {
+  background: oklch(from var(--color-bg-surface-highest) l c h / 0.4);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+}
+
+.glass-card {
+  background: oklch(from var(--color-bg-surface-highest) l c h / 0.6);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+}
+
+.neon-glow {
+  box-shadow: 0 0 15px oklch(from var(--color-primary) l c h / 0.4),
+              0 0 30px oklch(from var(--color-secondary) l c h / 0.2);
+}
+
+.neon-glow-primary {
+  box-shadow: 0 0 20px oklch(from var(--color-primary) l c h / 0.4);
+}
+
+.gradient-text {
+  background: linear-gradient(to right, var(--color-primary-light), var(--color-secondary-light));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.gradient-cta {
+  background: linear-gradient(to right, var(--color-primary), var(--color-secondary));
+}
+
+.neural-trace {
+  height: 2px;
+  background: linear-gradient(90deg, transparent, var(--color-primary), var(--color-secondary), transparent);
+  width: 100%;
+}
