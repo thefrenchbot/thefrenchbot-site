@@ -1,5 +1,6 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
+import ContactSection from '../../components/ContactSection.astro';
 
 export function getStaticPaths() {
   // Formation data shared for both Claude sessions
@@ -234,7 +235,7 @@ const f = formation;
           )}
         </div>
 
-        <h1 class="text-5xl md:text-7xl lg:text-8xl font-[family-name:var(--font-headline)] font-bold text-white mb-8 leading-[0.9] tracking-tighter">
+        <h1 class="text-4xl sm:text-5xl md:text-7xl lg:text-8xl font-[family-name:var(--font-headline)] font-bold text-white mb-8 leading-[0.9] tracking-tighter">
           {f.title.split(' ').slice(0, -1).join(' ')} <br />
           <span class="gradient-text">{f.title.split(' ').slice(-1)}</span>
         </h1>
@@ -254,7 +255,7 @@ const f = formation;
       <div class="lg:col-span-5 relative">
         <div class="relative rounded-3xl overflow-hidden glass-panel p-2 neon-glow aspect-square rotate-3 hover:rotate-0 transition-transform duration-700">
           <div class="w-full h-full rounded-2xl bg-gradient-to-br from-primary/20 via-bg-surface to-secondary/20 flex items-center justify-center">
-            <span class="material-symbols-outlined text-primary-light/40 text-[120px]">school</span>
+            <span class="material-symbols-outlined text-primary-light/40 text-[70px] md:text-[120px]">school</span>
           </div>
           <div class="absolute inset-0 bg-gradient-to-t from-bg-base/80 via-transparent to-transparent"></div>
           <div class="absolute bottom-8 left-8 right-8 p-6 glass-panel rounded-2xl border border-white/10">
@@ -381,9 +382,15 @@ const f = formation;
             </div>
           </div>
 
-          <button class="w-full gradient-cta py-4 md:py-5 rounded-2xl font-[family-name:var(--font-headline)] font-bold text-lg md:text-xl text-white hover:shadow-[0_0_30px_rgba(53,36,232,0.6)] hover:scale-[1.02] active:scale-[0.98] transition-all duration-300">
-            S'inscrire maintenant
-          </button>
+          {f.price === 'Nous contacter' ? (
+            <a href="#contact" class="block w-full gradient-cta py-4 md:py-5 rounded-2xl font-[family-name:var(--font-headline)] font-bold text-lg md:text-xl text-white text-center hover:shadow-[0_0_30px_rgba(53,36,232,0.6)] hover:scale-[1.02] active:scale-[0.98] transition-all duration-300">
+              Nous contacter
+            </a>
+          ) : (
+            <button class="w-full gradient-cta py-4 md:py-5 rounded-2xl font-[family-name:var(--font-headline)] font-bold text-lg md:text-xl text-white hover:shadow-[0_0_30px_rgba(53,36,232,0.6)] hover:scale-[1.02] active:scale-[0.98] transition-all duration-300">
+              S'inscrire maintenant
+            </button>
+          )}
         </div>
 
         <div class="p-6 md:p-8 rounded-[2rem] bg-bg-surface-low border border-white/5">
@@ -403,4 +410,7 @@ const f = formation;
       </div>
     </aside>
   </div>
+
+  <!-- Contact -->
+  <ContactSection />
 </BaseLayout>

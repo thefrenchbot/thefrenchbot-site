@@ -3,19 +3,12 @@ import { Image } from 'astro:assets';
 import logo from '../assets/logo.jpg';
 ---
 
-<header
-  class="fixed top-0 w-full z-50 bg-bg-base/60 backdrop-blur-xl shadow-[0_8px_32px_0_rgba(0,0,0,0.37)]"
->
+<header class="fixed top-0 w-full z-50 bg-bg-base/60 backdrop-blur-xl shadow-[0_8px_32px_0_rgba(0,0,0,0.37)]">
   <div class="flex justify-between items-center px-6 md:px-8 py-4 max-w-[1440px] mx-auto">
+
     <!-- Logo -->
-    <a href="/" class="flex items-center gap-3 group">
-      <Image
-        src={logo}
-        alt="The French Bot"
-        width={40}
-        height={40}
-        class="rounded-lg"
-      />
+    <a href="/" class="flex items-center gap-3 group relative z-50">
+      <Image src={logo} alt="The French Bot" width={40} height={40} class="rounded-lg" />
       <span class="text-2xl md:text-3xl gradient-text font-[family-name:var(--font-script)]">
         The French Bot
       </span>
@@ -23,34 +16,22 @@ import logo from '../assets/logo.jpg';
 
     <!-- Desktop Navigation -->
     <nav class="hidden md:flex gap-8 items-center">
-      <a
-        href="/"
-        class="font-[family-name:var(--font-headline)] font-black text-[11px] uppercase tracking-[0.2em] text-text-secondary hover:text-text-primary transition-colors"
-      >
+      <a href="/" class="font-[family-name:var(--font-headline)] font-black text-[11px] uppercase tracking-[0.2em] text-text-secondary hover:text-text-primary transition-colors">
         Accueil
       </a>
-      <a
-        href="/formations"
-        class="font-[family-name:var(--font-headline)] font-black text-[11px] uppercase tracking-[0.2em] text-text-secondary hover:text-text-primary transition-colors"
-      >
+      <a href="/formations" class="font-[family-name:var(--font-headline)] font-black text-[11px] uppercase tracking-[0.2em] text-text-secondary hover:text-text-primary transition-colors">
         Formations
       </a>
-      <a
-        href="/experts"
-        class="font-[family-name:var(--font-headline)] font-black text-[11px] uppercase tracking-[0.2em] text-text-secondary hover:text-text-primary transition-colors"
-      >
+      <a href="/experts" class="font-[family-name:var(--font-headline)] font-black text-[11px] uppercase tracking-[0.2em] text-text-secondary hover:text-text-primary transition-colors">
         Experts
       </a>
-      <a
-        href="/faq"
-        class="font-[family-name:var(--font-headline)] font-black text-[11px] uppercase tracking-[0.2em] text-text-secondary hover:text-text-primary transition-colors"
-      >
+      <a href="/faq" class="font-[family-name:var(--font-headline)] font-black text-[11px] uppercase tracking-[0.2em] text-text-secondary hover:text-text-primary transition-colors">
         FAQ
       </a>
     </nav>
 
-    <!-- CTA -->
-    <div class="flex items-center gap-4">
+    <!-- Desktop CTA -->
+    <div class="hidden md:flex items-center gap-4">
       <a
         href="#contact"
         class="gradient-cta text-white px-6 py-2.5 rounded-full font-[family-name:var(--font-headline)] font-black text-[10px] uppercase tracking-[0.2em] hover:scale-105 transition-transform neon-glow-primary"
@@ -58,11 +39,124 @@ import logo from '../assets/logo.jpg';
         Nous contacter
       </a>
     </div>
+
+    <!-- Mobile: hamburger button (44×44px touch target) -->
+    <button
+      id="mobile-menu-btn"
+      class="md:hidden relative z-50 flex flex-col justify-center items-center w-11 h-11 gap-[6px] rounded-lg focus:outline-none"
+      aria-label="Ouvrir le menu"
+      aria-expanded="false"
+      aria-controls="mobile-menu"
+    >
+      <span id="ham-1" class="block w-6 h-0.5 bg-white rounded-full transition-all duration-300 origin-center"></span>
+      <span id="ham-2" class="block w-6 h-0.5 bg-white rounded-full transition-all duration-300"></span>
+      <span id="ham-3" class="block w-6 h-0.5 bg-white rounded-full transition-all duration-300 origin-center"></span>
+    </button>
+
   </div>
   <div class="bg-gradient-to-b from-white/10 to-transparent h-[1px]"></div>
 </header>
 
-<!-- Mobile nav toggle script -->
+<!-- Mobile Menu Overlay -->
+<div
+  id="mobile-menu"
+  class="fixed inset-0 z-40 flex flex-col md:hidden"
+  style="visibility: hidden; opacity: 0; transition: opacity 0.3s ease, visibility 0.3s ease;"
+  role="dialog"
+  aria-modal="true"
+  aria-label="Menu de navigation"
+>
+  <!-- Backdrop -->
+  <div class="absolute inset-0 bg-bg-base/96 backdrop-blur-2xl"></div>
+
+  <!-- Glow decorations -->
+  <div class="absolute top-1/4 -left-20 w-80 h-80 bg-primary/15 rounded-full blur-[100px] pointer-events-none"></div>
+  <div class="absolute bottom-1/4 -right-20 w-80 h-80 bg-secondary/10 rounded-full blur-[100px] pointer-events-none"></div>
+
+  <!-- Content -->
+  <div class="relative z-10 flex flex-col h-full pt-24 pb-10 px-8 justify-between">
+
+    <!-- Nav links -->
+    <nav class="flex flex-col" role="navigation">
+      <a href="/" class="mobile-nav-link flex items-center justify-between py-5 border-b border-white/10 group">
+        <span class="font-[family-name:var(--font-headline)] font-black text-3xl uppercase tracking-tight text-white group-hover:text-primary-light transition-colors duration-200">Accueil</span>
+        <span class="material-symbols-outlined text-text-muted group-hover:text-primary-light transition-colors duration-200">arrow_forward</span>
+      </a>
+      <a href="/formations" class="mobile-nav-link flex items-center justify-between py-5 border-b border-white/10 group">
+        <span class="font-[family-name:var(--font-headline)] font-black text-3xl uppercase tracking-tight text-white group-hover:text-primary-light transition-colors duration-200">Formations</span>
+        <span class="material-symbols-outlined text-text-muted group-hover:text-primary-light transition-colors duration-200">arrow_forward</span>
+      </a>
+      <a href="/experts" class="mobile-nav-link flex items-center justify-between py-5 border-b border-white/10 group">
+        <span class="font-[family-name:var(--font-headline)] font-black text-3xl uppercase tracking-tight text-white group-hover:text-primary-light transition-colors duration-200">Experts</span>
+        <span class="material-symbols-outlined text-text-muted group-hover:text-primary-light transition-colors duration-200">arrow_forward</span>
+      </a>
+      <a href="/faq" class="mobile-nav-link flex items-center justify-between py-5 border-b border-white/10 group">
+        <span class="font-[family-name:var(--font-headline)] font-black text-3xl uppercase tracking-tight text-white group-hover:text-primary-light transition-colors duration-200">FAQ</span>
+        <span class="material-symbols-outlined text-text-muted group-hover:text-primary-light transition-colors duration-200">arrow_forward</span>
+      </a>
+    </nav>
+
+    <!-- Bottom CTAs -->
+    <div class="space-y-3 pt-6">
+      <a
+        href="#contact"
+        class="mobile-nav-link block w-full gradient-cta text-white py-5 rounded-2xl font-[family-name:var(--font-headline)] font-black text-sm uppercase tracking-widest neon-glow-primary text-center hover:scale-[1.02] transition-transform active:scale-[0.98]"
+      >
+        Nous contacter
+      </a>
+      <a
+        href="https://calendly.com/thefrenchbot-coaching/30min"
+        target="_blank"
+        rel="noopener noreferrer"
+        class="mobile-nav-link flex items-center justify-center gap-2 w-full glass-panel text-white py-4 rounded-2xl font-[family-name:var(--font-headline)] font-bold text-sm uppercase tracking-widest border border-white/10 hover:bg-white/5 transition-colors"
+      >
+        <span class="material-symbols-outlined text-primary-light text-base">calendar_month</span>
+        Appel découverte gratuit
+      </a>
+    </div>
+
+  </div>
+</div>
+
 <script>
-  // Mobile menu (can be enhanced later with a burger menu)
+  const btn = document.getElementById('mobile-menu-btn') as HTMLButtonElement | null;
+  const menu = document.getElementById('mobile-menu') as HTMLElement | null;
+  const l1 = document.getElementById('ham-1') as HTMLElement | null;
+  const l2 = document.getElementById('ham-2') as HTMLElement | null;
+  const l3 = document.getElementById('ham-3') as HTMLElement | null;
+
+  let isOpen = false;
+
+  function openMenu() {
+    isOpen = true;
+    if (menu) { menu.style.visibility = 'visible'; menu.style.opacity = '1'; }
+    btn?.setAttribute('aria-expanded', 'true');
+    document.body.style.overflow = 'hidden';
+    if (l1) l1.style.transform = 'translateY(8px) rotate(45deg)';
+    if (l2) l2.style.opacity = '0';
+    if (l3) l3.style.transform = 'translateY(-8px) rotate(-45deg)';
+  }
+
+  function closeMenu() {
+    isOpen = false;
+    if (menu) {
+      menu.style.opacity = '0';
+      setTimeout(() => { if (menu) menu.style.visibility = 'hidden'; }, 300);
+    }
+    btn?.setAttribute('aria-expanded', 'false');
+    document.body.style.overflow = '';
+    if (l1) l1.style.transform = '';
+    if (l2) l2.style.opacity = '';
+    if (l3) l3.style.transform = '';
+  }
+
+  btn?.addEventListener('click', () => isOpen ? closeMenu() : openMenu());
+
+  document.querySelectorAll('.mobile-nav-link').forEach(link => {
+    link.addEventListener('click', closeMenu);
+  });
+
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && isOpen) closeMenu();
+  });
 </script>

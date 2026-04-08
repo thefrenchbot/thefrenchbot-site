@@ -1,5 +1,6 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
+import ContactSection from '../../components/ContactSection.astro';
 
 const formations = [
   // ── Formations réelles 2026 ──────────────────────────────────────────────
@@ -86,7 +87,7 @@ const categories = ['Toutes', 'Produit', 'Engineering', 'Stratégie'];
   <!-- Header Section -->
   <section class="pt-32 pb-12 md:pb-20 px-6 md:px-12 max-w-[1440px] mx-auto">
     <header class="mb-16 md:mb-20 text-center md:text-left">
-      <h1 class="font-[family-name:var(--font-headline)] font-black text-5xl md:text-7xl mb-6 uppercase tracking-tight leading-none">
+      <h1 class="font-[family-name:var(--font-headline)] font-black text-4xl sm:text-5xl md:text-7xl mb-6 uppercase tracking-tight leading-none">
         Nos <span class="gradient-text">Formations</span>
       </h1>
       <p class="font-[family-name:var(--font-body)] text-text-secondary max-w-2xl text-lg leading-relaxed">
@@ -100,7 +101,7 @@ const categories = ['Toutes', 'Produit', 'Engineering', 'Stratégie'];
         {categories.map((cat, i) => (
           <button
             class:list={[
-              'px-5 py-2 rounded-full text-xs font-[family-name:var(--font-label)] font-semibold tracking-wider uppercase transition-colors',
+              'px-5 py-3 rounded-full text-xs font-[family-name:var(--font-label)] font-semibold tracking-wider uppercase transition-colors',
               i === 0
                 ? 'bg-primary text-white'
                 : 'bg-bg-surface-high text-text-secondary hover:bg-bg-surface-highest',
@@ -115,7 +116,7 @@ const categories = ['Toutes', 'Produit', 'Engineering', 'Stratégie'];
         <input
           type="text"
           placeholder="Rechercher une formation..."
-          class="w-full bg-bg-surface border-none ring-1 ring-outline-variant/20 rounded-full py-2.5 pl-11 pr-4 text-sm focus:ring-primary transition-all font-[family-name:var(--font-body)] text-text-primary placeholder:text-text-muted"
+          class="w-full bg-bg-surface border-none ring-1 ring-outline-variant/20 rounded-full py-3 pl-11 pr-4 text-sm focus:ring-primary transition-all font-[family-name:var(--font-body)] text-text-primary placeholder:text-text-muted"
         />
       </div>
     </div>
@@ -163,7 +164,7 @@ const categories = ['Toutes', 'Produit', 'Engineering', 'Stratégie'];
             </p>
             <div class="mt-auto pt-6 flex items-center justify-between">
               <span class="text-2xl font-[family-name:var(--font-headline)] font-black text-white">{f.price}</span>
-              <span class="neon-glow bg-primary hover:bg-primary-hover text-white px-6 py-3 rounded-full text-xs font-bold uppercase tracking-widest transition-all">
+              <span class="neon-glow bg-primary hover:bg-primary-hover text-white px-6 py-4 rounded-full text-xs font-bold uppercase tracking-widest transition-all">
                 Voir le programme
               </span>
             </div>
@@ -172,4 +173,7 @@ const categories = ['Toutes', 'Produit', 'Engineering', 'Stratégie'];
       ))}
     </div>
   </section>
+
+  <!-- Contact -->
+  <ContactSection />
 </BaseLayout>
