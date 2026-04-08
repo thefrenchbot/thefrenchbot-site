@@ -1,0 +1,62 @@
+[
+  {
+    "id": "t1",
+    "name": "Rémy M.",
+    "role": "Gérant",
+    "sector": "Restauration",
+    "avatar": "R",
+    "avatarColor": "primary",
+    "quote": "J'avais peur que ce soit trop technique pour moi. En deux sessions, j'ai arrêté de passer mes soirées à écrire des mails et des comptes rendus. Julian part vraiment de ce que tu fais au quotidien — pas d'un cours en slides.",
+    "metric": "3h récupérées / semaine"
+  },
+  {
+    "id": "t2",
+    "name": "Sébastien S.",
+    "role": "Dirigeant",
+    "sector": "Courtier immobilier",
+    "avatar": "S",
+    "avatarColor": "secondary",
+    "quote": "La double saisie entre mon logiciel et mes tableaux Excel me bouffait 45 minutes par jour depuis des années. En une demi-journée avec Julian, c'est réglé. Je regrette juste de ne pas l'avoir fait bien avant.",
+    "metric": "8h récupérées / semaine"
+  },
+  {
+    "id": "t3",
+    "name": "Claudia Y.",
+    "role": "Conseillère en gestion de patrimoine",
+    "sector": "CGP",
+    "avatar": "C",
+    "avatarColor": "tertiary",
+    "quote": "Je passais un temps fou à ressaisir les mêmes infos dans trois outils différents. Maintenant c'est automatique. Ce qui m'a le plus surpris : à aucun moment je me suis sentie perdue. Julian adapte vraiment à ton niveau.",
+    "metric": "Zéro double saisie"
+  },
+  {
+    "id": "t4",
+    "name": "Guillaume M.",
+    "role": "Artisan",
+    "sector": "BTP",
+    "avatar": "G",
+    "avatarColor": "primary",
+    "quote": "J'ai 52 ans et je ne suis vraiment pas un geek. Mais faire un devis en 5 minutes au lieu de 45, ça parle à tout le monde. Mes clients reçoivent une réponse le jour même maintenant, avant c'était 2 ou 3 jours.",
+    "metric": "Devis en 5 min au lieu de 45"
+  },
+  {
+    "id": "t5",
+    "name": "Domenico Z.",
+    "role": "Dirigeant",
+    "sector": "PME services",
+    "avatar": "D",
+    "avatarColor": "secondary",
+    "quote": "J'ai fait former 4 personnes de mon équipe en même temps. On parle tous le même langage maintenant, on partage nos modèles. Le gain de temps c'est bien, mais ce qui a changé vraiment c'est l'ambiance dans l'équipe.",
+    "metric": "4 personnes autonomes en 2 jours"
+  },
+  {
+    "id": "t6",
+    "name": "Sébastien C.",
+    "role": "Responsable administratif",
+    "sector": "Cabinet RH",
+    "avatar": "S",
+    "avatarColor": "tertiary",
+    "quote": "On reçoit des dizaines de candidatures par semaine. Trier, répondre, suivre — c'était une charge mentale énorme. Depuis la formation, Claude gère le premier niveau de traitement. Je me concentre sur ce qui compte vraiment.",
+    "metric": "2h libérées par jour"
+  }
+]

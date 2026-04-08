@@ -1,0 +1,105 @@
+---
+const steps = [
+  {
+    num: '01',
+    icon: 'calendar_month',
+    title: 'Appel découverte',
+    subtitle: '30 minutes, gratuit, sans engagement',
+    desc: "On identifie ensemble ta plus grande perte de temps et on vérifie si ce qu'on peut faire pour toi a du sens. Tu repars avec au moins une piste concrète, même si on ne travaille pas ensemble.",
+    color: 'primary',
+    cta: { label: 'Réserver l\'appel', href: 'https://calendly.com/thefrenchbot-coaching/30min', external: true },
+  },
+  {
+    num: '02',
+    icon: 'build',
+    title: 'Formation ou automatisation',
+    subtitle: 'Sur tes vrais cas métier, pas sur des exemples génériques',
+    desc: "En 1 à 5 jours selon le projet, on règle le problème identifié. Formation individuelle ou équipe, construction d'automatisation, ou les deux. Tu vois les résultats dans ta boîte dès la première semaine.",
+    color: 'secondary',
+    cta: null,
+  },
+  {
+    num: '03',
+    icon: 'trending_up',
+    title: 'Résultats et suivi',
+    subtitle: '30 jours de suivi inclus',
+    desc: "Tu n'es pas livré à toi-même après la session. Suivi par message, ajustements, questions au fil de l'eau. L'objectif : que tu sois vraiment autonome — pas juste que la formation soit terminée.",
+    color: 'tertiary',
+    cta: null,
+  },
+];
+
+const colorMap: Record<string, { icon: string; num: string; bg: string; border: string; line: string }> = {
+  primary:   { icon: 'text-primary-light',   num: 'text-primary/30',   bg: 'bg-primary/10',   border: 'border-primary/20',   line: 'bg-primary/20' },
+  secondary: { icon: 'text-secondary-light', num: 'text-secondary/30', bg: 'bg-secondary/10', border: 'border-secondary/20', line: 'bg-secondary/20' },
+  tertiary:  { icon: 'text-tertiary',        num: 'text-tertiary/30',  bg: 'bg-tertiary/10',  border: 'border-tertiary/20',  line: 'bg-tertiary/20' },
+};
+---
+
+<section class="py-24 md:py-32 px-6 md:px-8 bg-bg-surface-low relative overflow-hidden">
+  <div class="max-w-[1440px] mx-auto">
+    <!-- Header -->
+    <div class="mb-16 md:mb-20 text-center space-y-4">
+      <div class="inline-flex items-center gap-2 px-4 py-1 rounded-full bg-bg-surface-high border border-outline-variant/20">
+        <span class="material-symbols-outlined text-primary-light text-sm" style="font-variation-settings: 'FILL' 1;">route</span>
+        <span class="font-[family-name:var(--font-label)] text-xs uppercase tracking-[0.2em] text-text-secondary">Comment ça marche</span>
+      </div>
+      <h2 class="font-[family-name:var(--font-headline)] font-black text-4xl md:text-5xl text-white uppercase tracking-[0.08em]">
+        De l'appel à la <span class="gradient-text">première heure gagnée</span>
+      </h2>
+      <p class="font-[family-name:var(--font-body)] text-text-secondary max-w-xl mx-auto">
+        3 étapes. Pas de contrat à rallonge, pas de liste d'attente de 3 mois.
+      </p>
+    </div>
+
+    <!-- Steps -->
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-8 md:gap-6 lg:gap-10 relative">
+      <!-- Connector line (desktop only) -->
+      <div class="hidden md:block absolute top-16 left-[calc(33%-20px)] right-[calc(33%-20px)] h-px bg-gradient-to-r from-primary/20 via-secondary/20 to-tertiary/20 z-0"></div>
+
+      {steps.map((step) => {
+        const c = colorMap[step.color];
+        return (
+          <div class="relative z-10 flex flex-col gap-6">
+            <!-- Step header -->
+            <div class="flex items-start gap-5">
+              <div class={`relative flex-shrink-0 w-14 h-14 rounded-2xl ${c.bg} border ${c.border} flex items-center justify-center`}>
+                <span class={`material-symbols-outlined ${c.icon}`}>{step.icon}</span>
+                <!-- Step number bubble -->
+                <span class={`absolute -top-2 -right-2 w-6 h-6 rounded-full bg-bg-base border ${c.border} flex items-center justify-center font-[family-name:var(--font-headline)] font-black text-[10px] ${c.icon}`}>
+                  {step.num}
+                </span>
+              </div>
+              <div>
+                <h3 class="font-[family-name:var(--font-headline)] font-black text-xl text-white uppercase tracking-tight">
+                  {step.title}
+                </h3>
+                <p class={`font-[family-name:var(--font-label)] text-xs uppercase tracking-wider mt-1 ${c.icon}`}>
+                  {step.subtitle}
+                </p>
+              </div>
+            </div>
+
+            <!-- Description -->
+            <p class="font-[family-name:var(--font-body)] text-text-secondary text-sm leading-relaxed">
+              {step.desc}
+            </p>
+
+            <!-- CTA if any -->
+            {step.cta && (
+              <a
+                href={step.cta.href}
+                target={step.cta.external ? '_blank' : undefined}
+                rel={step.cta.external ? 'noopener noreferrer' : undefined}
+                class="inline-flex items-center gap-2 gradient-cta text-white px-6 py-3 rounded-full font-[family-name:var(--font-headline)] font-bold text-xs uppercase tracking-widest neon-glow-primary hover:scale-105 transition-all duration-300 self-start"
+              >
+                {step.cta.label}
+                <span class="material-symbols-outlined text-sm">arrow_forward</span>
+              </a>
+            )}
+          </div>
+        );
+      })}
+    </div>
+  </div>
+</section>
