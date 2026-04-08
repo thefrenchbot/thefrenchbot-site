@@ -1,0 +1,302 @@
+[
+  {
+    "id": "q1",
+    "cluster": "qui-je-suis",
+    "question": "C'est quoi The French Bot, concrètement ?",
+    "answer": "<p>The French Bot, c'est Julian Luneau — formateur et automatiseur IA pour les dirigeants de TPE et PME qui veulent gagner du temps sans se transformer en geeks. On ne vend pas de la théorie : on t'apprend à utiliser Claude ou ChatGPT sur tes vrais dossiers, et on automatise les tâches manuelles qui te bouffent tes journées.</p><p>En pratique, ça ressemble à ça : tu arrives avec ta plus grande perte de temps, on l'identifie ensemble, et en quelques sessions tu as des routines qui marchent vraiment dans ton métier. 100+ professionnels formés, 98% de satisfaction — pas parce qu'on promet la lune, mais parce qu'on part toujours d'un problème réel et concret.</p>"
+  },
+  {
+    "id": "q2",
+    "cluster": "qui-je-suis",
+    "question": "À qui tu t'adresses — et à qui tu ne t'adresses pas ?",
+    "answer": "<p>Je bosse avec des dirigeants de TPE et PME, des indépendants et des petites équipes : courtiers immo, CGP, restaurateurs, artisans, cabinets RH, conciergeries... Des gens qui bossent vraiment et qui n'ont pas le temps de galérer.</p><p>Je ne m'adresse pas aux startups tech qui cherchent un développeur, ni aux grandes entreprises avec un DSI déjà bien armé. Si tu as entre 1 et 20 personnes dans ta boîte, que tu es sous l'eau avec des tâches manuelles répétitives, et que tu as envie de tester l'IA sur de vrais cas métier — t'es exactement au bon endroit.</p>"
+  },
+  {
+    "id": "q3",
+    "cluster": "qui-je-suis",
+    "question": "Je suis dirigeant de TPE, j'ouvre 80 mails par jour et je termine à 20h crevé — pourquoi je devrais prendre 2h pour t'écouter ?",
+    "answer": "<p>Parce que c'est précisément pour toi que ça existe. Ces 2h peuvent te faire récupérer 1h à 2h chaque jour dans les semaines qui suivent.</p><p>J'ai formé Rémy chez Ninkasi, Sébastien Coquillet, Claudia YMANCI — tous débordés au départ, tous soulagés après. On commence par ton problème le plus chronophage, pas par un cours magistral. La question que je te pose en premier : quelle est la tâche qui te fait le plus soupirer quand tu la vois arriver ? C'est ça qu'on attaque en premier.</p>"
+  },
+  {
+    "id": "q4",
+    "cluster": "qui-je-suis",
+    "question": "J'ai déjà testé Claude ou ChatGPT tout seul, j'ai eu l'effet waouh puis j'ai tourné en rond — qu'est-ce que tu m'apportes en plus ?",
+    "answer": "<p>L'effet waouh sans méthode, ça mène exactement là : tourner en rond. Ce que t'apporte une formation avec moi, c'est un cadre qui tient la route sur tes vrais cas métier.</p><p>Tu pars pas de zéro, je t'apprends à structurer tes demandes, à créer des \"projets\" dans Claude pour ton contexte spécifique, et à ne plus recommencer à zéro à chaque session. En deux jours, tu as des routines qui marchent vraiment — pas des exemples bidons sur une boulangerie imaginaire, mais des cas qui collent à ton activité réelle.</p>"
+  },
+  {
+    "id": "q5",
+    "cluster": "qui-je-suis",
+    "question": "Tu fais de la formation, du conseil, ou tu construis les automatisations à ma place ?",
+    "answer": "<p>Les deux. Selon ce dont tu as besoin : soit je te forme pour que tu sois autonome, soit je construis l'automatisation directement dans ton outil métier.</p><p>Certains clients veulent apprendre à pêcher, d'autres veulent qu'on leur apporte le poisson — je m'adapte. Et souvent, on fait les deux : je construis, j'explique en faisant, et tu reprends la main après. C'est ce qui se passe lors de l'appel découverte : on identifie ce qui te correspond et on définit la formule exacte avant que tu ne signes quoi que ce soit.</p>"
+  },
+  {
+    "id": "q6",
+    "cluster": "qui-je-suis",
+    "question": "Combien ça coûte de bosser avec toi ?",
+    "answer": "<p>Les tarifs dépendent de ce que tu veux faire : formation individuelle, formation équipe, automatisation sur mesure... Ça ne se résume pas à un prix affiché sur une page.</p><p>La meilleure façon de trouver la bonne formule c'est un appel découverte de 30 minutes — c'est gratuit et sans engagement. On identifie ton besoin, je te propose une formule adaptée avec un tarif clair, et tu décides. <a href=\"https://calendly.com/thefrenchbot-coaching/30min\" target=\"_blank\" rel=\"noopener noreferrer\" class=\"text-primary-light hover:underline\">Réserve ton créneau ici.</a></p>"
+  },
+  {
+    "id": "q7",
+    "cluster": "qui-je-suis",
+    "question": "Est-ce que je peux faire financer la formation par mon OPCO, l'AGEFICE ou mon CPF ?",
+    "answer": "<p>Oui, dans la plupart des cas. Les formations The French Bot peuvent être prises en charge via ton OPCO si tu as des salariés, l'AGEFICE si tu es commerçant ou artisan, ou via ton compte CPF.</p><p>Je t'aide à monter le dossier — c'est quelque chose qu'on règle ensemble lors de l'appel découverte, il suffit de le mentionner. Ce n'est pas une complication : c'est une étape normale du parcours que la majorité de mes clients empruntent pour réduire leur reste à charge.</p>"
+  },
+  {
+    "id": "q8",
+    "cluster": "qui-je-suis",
+    "question": "J'ai 45 ans, je suis pas un geek, j'ai peur de me faire dépasser — c'est trop tard pour m'y mettre ?",
+    "answer": "<p>Non, vraiment. Mes meilleurs retours viennent de gens qui ont entre 40 et 60 ans et qui n'ont jamais touché à l'IA avant.</p><p>Le truc à comprendre : Claude et ChatGPT, ça se pilote en français, avec des phrases normales. Pas besoin de code, pas besoin d'avoir fait une école d'info. Si tu sais écrire un mail, tu sais démarrer. Guillaume Maurice, artisan du BTP, 52 ans, 0 geek — il automatise ses devis en 5 minutes maintenant. Sébastien Sebach non plus n'était pas un profil tech. La vraie barrière c'est pas l'âge, c'est d'avoir le bon accompagnement au départ.</p>"
+  },
+  {
+    "id": "q9",
+    "cluster": "qui-je-suis",
+    "question": "Tu connais mon métier ? Tu as déjà bossé avec des courtiers immo, des CGP, des restaurateurs, des artisans, des cabinets RH ?",
+    "answer": "<p>Oui. Des courtiers qui traitent des dossiers Cifacil, des CGP sur Carbone Alpha, des restaurateurs qui gèrent leurs vocaux WhatsApp fournisseurs, des artisans BTP avec Boond Manager, des conciergeries avec des fiches clients à remplir à la main...</p><p>J'ai la liste des outils métier les plus courants et je sais comment les brancher ou les contourner intelligemment. La première chose que je fais avant chaque mission : je demande quel est ton outil métier exact et je vérifie ce qui est faisable. Pas de promesse vague — une réponse précise sur ton cas.</p>"
+  },
+  {
+    "id": "q10",
+    "cluster": "qui-je-suis",
+    "question": "En combien de temps je vais retrouver 1 ou 2 heures par jour grâce à ce que tu vas me montrer ?",
+    "answer": "<p>La plupart de mes clients voient un gain de temps réel dès la première semaine après la formation. Pas 1h ou 2h d'un coup — mais 20 minutes ici, 30 minutes là, sur des tâches qui reviennent tous les jours.</p><p>En 30 jours, ça fait souvent 1h à 1h30 par jour en moins sur les tâches manuelles. Sébastien Sebach a récupéré 8h par semaine en automatisant la saisie de ses dossiers clients. Rémy chez Ninkasi a gagné 3h par semaine sur la gestion des mails et comptes rendus. Ce sont des chiffres réels — pas des estimations marketing.</p>"
+  },
+  {
+    "id": "q11",
+    "cluster": "qui-je-suis",
+    "question": "Je suis pas à Dijon, je suis à Lyon / Paris / Bordeaux — on peut quand même bosser ensemble en visio ?",
+    "answer": "<p>Oui, tout se fait en visio. Appel découverte, formations, sessions d'automatisation, suivi — tout est à distance.</p><p>La majorité de mes clients sont à Paris, Lyon, Bordeaux, Marseille, ou dans des villes moyennes. Avoir un formateur IA à 15 minutes en voiture n'est pas un critère : ce qui compte, c'est que ça marche dans ton outil métier, pas la géographie. En visio, je peux voir ton écran, travailler directement dans tes outils, et te montrer les manipulations en temps réel.</p>"
+  },
+  {
+    "id": "q12",
+    "cluster": "qui-je-suis",
+    "question": "ChatGPT ou Claude, je prends lequel pour ma boîte et pourquoi ?",
+    "answer": "<p>Pour traiter des documents, analyser des dossiers et maintenir un contexte sur ta boîte, Claude est aujourd'hui plus solide. Pour les tâches plus courtes et la génération de contenu rapide, ChatGPT est excellent aussi.</p><p>En pratique : je travaille surtout avec Claude dans les formations, et je te montre comment l'utiliser sur tes cas précis — courriers, dossiers clients, comptes rendus de réunion. Si tu utilises déjà ChatGPT, les méthodes sont transférables à 80%. L'outil change, la logique reste la même.</p>"
+  },
+  {
+    "id": "q13",
+    "cluster": "qui-je-suis",
+    "question": "Si je me lance avec toi, on commence par quoi le premier jour ?",
+    "answer": "<p>On commence par toi : ta plus grande perte de temps, ta tâche la plus chronophage, ce qui te fait rester tard le soir. Pas de théorie en intro, pas de slides pendant 1h.</p><p>On identifie le truc le plus douloureux et on l'attaque directement. La première session dure en général 2h à 3h, et tu repars avec quelque chose qui marche vraiment — un modèle, une automatisation partielle, ou une méthode que tu peux réutiliser dès le lendemain matin.</p>"
+  },
+  {
+    "id": "q14",
+    "cluster": "qui-je-suis",
+    "question": "Pourquoi je te ferais confiance à toi plutôt qu'à un autre formateur IA que j'ai vu passer sur LinkedIn ?",
+    "answer": "<p>Honnêtement ? Tu ne devrais pas me faire confiance sur LinkedIn. Tu devrais réserver l'appel découverte de 30 minutes, me parler de ton vrai problème, et voir si ce que je propose tient la route.</p><p>Ce qui me différencie en pratique : je ne fais pas de formation générique, j'ai des clients réels dans des métiers comme le tien, et je peux te montrer des cas concrets avant que tu signes quoi que ce soit. Pas de slides pompeuses, pas de promesses de \"transformer ton business en 5 jours\". Un résultat mesurable sur une tâche précise — et tu juges.</p>"
+  },
+  {
+    "id": "q15",
+    "cluster": "qui-je-suis",
+    "question": "Là maintenant je suis vraiment sous l'eau, je peux pas — je te recontacte dans 6 mois, c'est ok ?",
+    "answer": "<p>Oui, bien sûr. Mais honnêtement — quand tu es sous l'eau, c'est exactement le bon moment pour regarder comment automatiser.</p><p>Pas pour faire une grande transformation : juste pour régler UN truc qui te prend 2h par semaine. Souvent, l'appel découverte de 30 minutes suffit à identifier ce truc. Et si après tu veux attendre 6 mois, c'est ok aussi. La porte est ouverte — sans relance agressive de ma part.</p>"
+  },
+  {
+    "id": "q16",
+    "cluster": "formation-claude",
+    "question": "C'est quoi prompter Claude, en vrai, sans me sortir des mots compliqués ?",
+    "answer": "<p>C'est simplement bien écrire ce que tu veux que Claude fasse. Comme si tu briefais un assistant très intelligent mais qui a besoin de contexte pour travailler bien.</p><p>\"Rédige un mail de relance pour un client qui n'a pas répondu depuis 3 semaines, ton de la maison, pas trop insistant\" — voilà un bon exemple. La formation t'apprend à structurer tes demandes pour obtenir des résultats utilisables du premier coup, sans retravailler le texte pendant 20 minutes. C'est une compétence qui s'apprend en quelques heures et qui te sert tous les jours.</p>"
+  },
+  {
+    "id": "q17",
+    "cluster": "formation-claude",
+    "question": "Je sais déjà demander à ChatGPT de reformuler un mail, j'ai vraiment besoin d'une formation pour ça ?",
+    "answer": "<p>Si tu t'en sors avec la reformulation de mails, c'est un bon début. Mais la vraie question c'est : est-ce que tu utilises l'IA sur tes dossiers complexes ? Tes comptes rendus de rendez-vous ? Tes réponses aux objections clients ?</p><p>Si la réponse est non, la formation va te faire sauter plusieurs niveaux en 2 jours plutôt qu'en 2 ans de tâtonnement seul. La différence entre \"utiliser ChatGPT pour reformuler\" et \"avoir un assistant IA qui connaît ta boîte et travaille sur tes vrais dossiers\" — c'est énorme. Et ça ne s'improvise pas sans méthode.</p>"
+  },
+  {
+    "id": "q18",
+    "cluster": "formation-claude",
+    "question": "C'est quoi un \"projet\" dans Claude, et pourquoi tout le monde m'en parle ?",
+    "answer": "<p>Un projet dans Claude, c'est un espace de travail persistant où tu donnes à Claude le contexte de ta boîte une bonne fois pour toutes : ton secteur, ton ton, tes clients types, tes documents de référence.</p><p>Résultat : Claude arrête de t'oublier d'une session à l'autre. Tu n'as plus besoin de ré-expliquer qui tu es à chaque conversation. C'est le truc qui fait passer de \"gadget utile\" à \"vrai assistant qui connaît mon business\". Pour un courtier, ça veut dire avoir Claude qui connaît déjà ta grille tarifaire, tes types de clients habituels et ton style de communication.</p>"
+  },
+  {
+    "id": "q19",
+    "cluster": "formation-claude",
+    "question": "La formation, elle dure combien de temps, c'est en présentiel, visio ou e-learning ?",
+    "answer": "<p>Tout se fait en visio, en direct avec moi. Les formats vont de la demi-journée intensive à plusieurs sessions espacées selon ton rythme.</p><p>Pas de module e-learning à regarder seul le soir — je préfère une session de travail où on traite tes vrais dossiers ensemble. Tu ressors avec des choses qui marchent immédiatement, pas avec une liste de slides à relire un jour. La durée exacte dépend de ce qu'on définit lors de l'appel découverte selon ton cas spécifique.</p>"
+  },
+  {
+    "id": "q20",
+    "cluster": "formation-claude",
+    "question": "Tu donnes des exemples concrets dans MON métier ou tu fais de la théorie générale ?",
+    "answer": "<p>Dans ton métier. C'est le point de départ : avant chaque formation, j'identifie avec toi les 3 à 5 cas d'usage les plus utiles pour ton activité.</p><p>Si tu es courtier, on travaille sur tes mails clients, ta collecte de documents, tes comptes rendus de visite. Si tu es CGP, on travaille sur tes notes de synthèse, tes présentations clients, ta veille. Si tu es restaurateur, on travaille sur ta gestion des plannings et commandes fournisseurs. On n'arrive jamais avec un exemple de \"boulangerie générique\" préparé à l'avance.</p>"
+  },
+  {
+    "id": "q21",
+    "cluster": "formation-claude",
+    "question": "Au bout de la formation, je sais faire quoi exactement que je savais pas faire avant ?",
+    "answer": "<p>Tu sais utiliser Claude comme un vrai assistant sur tes tâches quotidiennes : rédiger des mails complexes sans y passer 20 minutes, analyser un document long en 2 minutes, préparer une réunion client en 15 minutes, créer des modèles réutilisables pour les tâches qui reviennent souvent.</p><p>Tu sais aussi créer un \"projet\" Claude spécifique à ta boîte pour ne plus recommencer à zéro. Et surtout : tu as une méthode que tu peux appliquer à de nouveaux cas au fur et à mesure que tu en identifies — pas juste une liste de techniques figées.</p>"
+  },
+  {
+    "id": "q22",
+    "cluster": "formation-claude",
+    "question": "Pack Starter, Pack Pro, Pack VIP — c'est quoi la différence et lequel il me faut ?",
+    "answer": "<p>Les packs dépendent de ce que tu veux accomplir, de ton rythme et de tes disponibilités. Il n'y a pas de réponse universelle — ça dépend de toi.</p><p>Le plus simple c'est d'en parler lors de l'appel découverte. En 30 minutes, on identifie ce qui te correspond vraiment et tu repars avec une proposition claire et adaptée. C'est gratuit et sans engagement. <a href=\"https://calendly.com/thefrenchbot-coaching/30min\" target=\"_blank\" rel=\"noopener noreferrer\" class=\"text-primary-light hover:underline\">Réserve ton créneau ici.</a></p>"
+  },
+  {
+    "id": "q23",
+    "cluster": "formation-claude",
+    "question": "Je peux former mon équipe en même temps que moi, ou il faut un parcours par personne ?",
+    "answer": "<p>Tu peux former ton équipe en même temps — j'ai des formats groupe de 2 à 8 personnes. C'est souvent plus efficace car tout le monde parle le même \"langage IA\" après.</p><p>On travaille sur des cas concrets de l'équipe pendant la session. Domenico Zenica a fait former 4 personnes ensemble : ils ont ensuite créé leurs propres modèles de documents partagés, et chacun sait où demander de l'aide quand quelqu'un bloque. L'effet d'entraînement collectif est réel.</p>"
+  },
+  {
+    "id": "q24",
+    "cluster": "formation-claude",
+    "question": "J'ai un collaborateur de 55 ans qui a peur du changement, comment tu fais avec lui ?",
+    "answer": "<p>Je ne commence pas par \"voilà l'IA\". Je commence par sa tâche la plus pénible et je montre comment l'alléger. Quand la personne voit que sa douleur disparaît, la résistance tombe.</p><p>Sur les 100+ professionnels que j'ai formés, les plus sceptiques au départ sont souvent ceux qui repartent le plus enthousiastes. Le truc qui marche : on part toujours de ce que la personne connaît déjà, jamais d'un outil imposé de zéro. La peur du changement, c'est en général la peur de devenir incompétent — et c'est l'exact opposé de ce qui se passe.</p>"
+  },
+  {
+    "id": "q25",
+    "cluster": "formation-claude",
+    "question": "Si j'ai une question 3 semaines après la formation, je fais comment ?",
+    "answer": "<p>Tu m'écris. J'ai un suivi par message après chaque formation — tu poses ta question, je réponds sous 24h.</p><p>Pour les questions complexes qui nécessitent qu'on regarde ton écran ensemble, on planifie une session de suivi courte. Je ne laisse pas les clients se débrouiller seuls après avoir payé une formation — c'est pas mon style et c'est contre-productif pour tout le monde. L'objectif c'est que tu sois réellement autonome, pas juste que la session se termine.</p>"
+  },
+  {
+    "id": "q26",
+    "cluster": "formation-claude",
+    "question": "Tu apprends à utiliser Claude pour quoi exactement : mes mails, mes documents, ma compta, mon commercial… ?",
+    "answer": "<p>Mails, oui. Documents : analyse, résumé, extraction d'infos. Commercial : préparation de RDV, comptes rendus, relances. Gestion : briefs pour tes prestataires, procédures internes, onboarding de nouvelles recrues.</p><p>Pas la compta directement — c'est pas l'usage le plus adapté — mais tout ce qui tourne autour : les échanges avec ton expert-comptable, l'analyse de tes chiffres en langage humain, les rapports de gestion. En résumé : tout ce qui se fait avec du texte et de l'information peut être allégé avec Claude. Et dans une TPE, c'est 80% des tâches administratives.</p>"
+  },
+  {
+    "id": "q27",
+    "cluster": "formation-claude",
+    "question": "Tu vas m'apprendre à alléger ma charge mentale ou juste à utiliser un outil de plus ?",
+    "answer": "<p>Alléger ta charge mentale, c'est l'objectif réel. L'outil n'est qu'un moyen.</p><p>Ce qu'on vise : sortir de ta tête les tâches qui reviennent sans cesse et qui t'occupent même quand tu n'y travailles pas. Répondre au même type de mail pour la 50ème fois, reformuler le même document, préparer le même compte rendu... Ces tâches répétitives génèrent une fatigue mentale silencieuse. En les déléguant à l'IA, tu libères de la bande passante mentale pour ce qui compte vraiment dans ton business.</p>"
+  },
+  {
+    "id": "q28",
+    "cluster": "automatisation",
+    "question": "C'est quoi le no-code, et pourquoi ça me concerne en tant que dirigeant débordé ?",
+    "answer": "<p>Le no-code, c'est la capacité de créer des automatisations sans écrire une ligne de code — avec des outils visuels où tu connectes des blocs entre eux.</p><p>Ça te concerne parce que ces outils permettent de brancher ton outil métier à ton CRM, à tes mails, à ton agenda, sans passer par un développeur à 500€/jour. Une tâche manuelle qui te prend 2h peut devenir automatique en une après-midi. C'est pas de la magie — c'est de la plomberie intelligente entre tes outils, mise en place une fois et qui tourne ensuite sans toi.</p>"
+  },
+  {
+    "id": "q29",
+    "cluster": "automatisation",
+    "question": "Je suis pas développeur, je vais vraiment réussir à automatiser des trucs tout seul ?",
+    "answer": "<p>Oui. C'est fait pour ça. Make fonctionne comme un jeu de construction visuel — tu vois les données qui passent d'une case à l'autre.</p><p>J'ai formé des gens qui n'avaient jamais utilisé autre chose qu'Excel, et ils ont créé leurs premières automatisations en 2h de session. La condition : avoir un cas d'usage concret à automatiser. On part de ton problème réel, pas d'un exemple générique. Et si à un moment tu bloques, tu m'appelles — c'est pour ça que le suivi existe.</p>"
+  },
+  {
+    "id": "q30",
+    "cluster": "automatisation",
+    "question": "Make, Zapier, n8n — c'est quoi la différence et tu utilises lequel avec tes clients ?",
+    "answer": "<p>Je travaille principalement avec Make. C'est l'outil qui offre le meilleur équilibre entre puissance et accessibilité pour des non-développeurs.</p><p>Zapier est plus simple mais coûte plus cher et est moins flexible pour des cas complexes. n8n est très puissant mais demande des bases techniques. Pour 90% des cas des TPE et PME que j'accompagne, Make est la bonne réponse. Et si ton cas spécifique nécessite un autre outil, je te le dis franchement — je ne vends pas Make à tout le monde par principe.</p>"
+  },
+  {
+    "id": "q31",
+    "cluster": "automatisation",
+    "question": "Mon outil métier (Cifacil, Boond Manager, Carbone Alpha, Hector, Imo Facile, Paper Mark…) est mal connecté au reste, ça marche quand même avec une automatisation ?",
+    "answer": "<p>La plupart du temps oui — si l'outil a une API ou accepte les webhooks, on peut l'intégrer dans un workflow Make. Certains outils plus anciens nécessitent des contournements (extraction CSV automatisée, scraping léger) mais c'est rarement un blocage total.</p><p>La première chose à faire : me dire ton outil métier exact lors de l'appel découverte, et je te dis en 5 minutes ce qui est faisable. J'ai la liste des outils les plus courants dans les TPE françaises — il y a de bonnes chances que j'aie déjà travaillé avec le tien.</p>"
+  },
+  {
+    "id": "q32",
+    "cluster": "automatisation",
+    "question": "J'ai une double saisie permanente entre mon outil métier et mon tableau Excel — tu peux me sortir de là ?",
+    "answer": "<p>C'est le cas d'usage numéro 1 que je traite. La double saisie entre un outil métier et un tableau Excel, c'est typiquement ce qu'on peut automatiser en une demi-journée de travail.</p><p>On crée un flux qui récupère les données de l'outil, les met en forme, et les pousse dans le tableau Excel (ou Google Sheets) sans que tu touches à rien. Sébastien Sebach a éliminé 45 minutes de saisie quotidienne comme ça. C'est souvent la première automatisation qu'on fait ensemble — rapide à mettre en place, et l'impact est immédiatement visible.</p>"
+  },
+  {
+    "id": "q33",
+    "cluster": "automatisation",
+    "question": "Tu peux me donner un exemple concret d'automatisation pour un courtier, un CGP ou un restaurateur ?",
+    "answer": "<p>Courtier immo : chaque fois qu'un client envoie un mail avec des pièces jointes, l'automatisation les classe dans le bon dossier, envoie un accusé de réception personnalisé et met à jour le CRM — sans que tu touches à rien.</p><p>CGP : les notes de la réunion client (dictée vocale) sont transcrites, résumées et envoyées au client en compte rendu le soir même. Restaurateur : les commandes fournisseurs par mail sont extraites et consolidées dans un tableau de suivi sans ressaisie. Dans les trois cas : une tâche chronophage qui disparaît complètement du quotidien.</p>"
+  },
+  {
+    "id": "q34",
+    "cluster": "automatisation",
+    "question": "Tu peux automatiser le remplissage de mon CRM à partir de mes notes vocales WhatsApp en sortie de rendez-vous client ?",
+    "answer": "<p>Oui. C'est un cas concret que j'ai déjà mis en place. Tu envoies un vocal WhatsApp après ton RDV, l'automatisation le transcrit, en extrait les infos clés (nom client, besoin identifié, prochaine étape, date de suivi), et pousse ces infos directement dans ta fiche CRM.</p><p>Résultat : une tâche qui te prenait 10 à 15 minutes par RDV descend à 30 secondes. Sur 5 rendez-vous par jour, ça représente plus d'1h récupérée quotidiennement — juste sur cette tâche.</p>"
+  },
+  {
+    "id": "q35",
+    "cluster": "automatisation",
+    "question": "À chaque dossier client je reçois 30 pièces justificatives à taper à la main — tu peux automatiser ça ?",
+    "answer": "<p>C'est exactement le type de tâche qu'on peut traiter avec l'IA. On met en place un système qui reçoit les documents par mail ou via un lien de partage, les analyse automatiquement (reconnaissance de documents, extraction des champs clés), et remplit les formulaires ou tableaux correspondants.</p><p>Ce n'est pas magique à 100% — ça reste supervisé — mais ça divise le temps de traitement par 5 à 10 facilement. Pour un courtier ou un CGP qui traite 10 dossiers par mois, c'est plusieurs jours de travail récupérés.</p>"
+  },
+  {
+    "id": "q36",
+    "cluster": "automatisation",
+    "question": "J'ai des milliers de mails clients que je n'exploite pas, l'IA peut en sortir quelque chose d'utile ?",
+    "answer": "<p>Oui. On peut analyser un volume de mails pour en extraire des tendances : les objections qui reviennent, les questions les plus fréquentes, les sujets qui créent de la friction.</p><p>C'est le type d'analyse qui te prend 2 semaines à la main et 2 heures avec l'IA bien configurée. Ça peut aussi alimenter ta FAQ, améliorer tes modèles de réponse, ou identifier des opportunités commerciales que tu loupais. C'est un cas d'usage qu'on fait souvent en deuxième ou troisième étape, une fois les automatisations de base en place.</p>"
+  },
+  {
+    "id": "q37",
+    "cluster": "automatisation",
+    "question": "Une fois l'automatisation en place, ça tourne tout seul ou faut que je m'en occupe en permanence ?",
+    "answer": "<p>Ça tourne seul. C'est le but. Tu reçois des alertes si quelque chose se casse (et c'est rare), mais au quotidien ça s'exécute sans intervention.</p><p>Je configure aussi une supervision simple pour que tu puisses voir en un coup d'œil que tout tourne. Pour les automatisations que je construis, je reste disponible pour les ajustements pendant le premier mois — c'est inclus. Après, la maintenance courante c'est quelques minutes par mois maximum.</p>"
+  },
+  {
+    "id": "q38",
+    "cluster": "automatisation",
+    "question": "Et si demain mon outil métier change ou se met à jour, mon automatisation casse ?",
+    "answer": "<p>Ça peut arriver, surtout lors des grandes mises à jour qui changent les connexions. Mais dans la pratique, c'est beaucoup moins fréquent qu'on ne le croit.</p><p>Et quand ça arrive, c'est souvent une modification simple de 15 à 30 minutes. Je préfère être honnête là-dessus plutôt que te vendre une solution \"pour toujours\". La maintenance légère, c'est la réalité de toute automatisation — comme la maintenance de n'importe quel outil que tu utilises au quotidien.</p>"
+  },
+  {
+    "id": "q39",
+    "cluster": "automatisation",
+    "question": "Tu peux automatiser une tâche chronophage qui me bouffe une demi-journée par semaine ?",
+    "answer": "<p>C'est exactement pour ça que j'existe. Une demi-journée par semaine sur une tâche répétitive, c'est 25 jours par an — soit un mois de travail que tu passes sur quelque chose qui ne crée aucune valeur.</p><p>Commence par me décrire cette tâche précisément lors de l'appel découverte. En 30 minutes, je peux te dire si c'est automatisable et comment. La plupart du temps, oui — et on peut avoir quelque chose en place en moins de 2 semaines.</p>"
+  },
+  {
+    "id": "q40",
+    "cluster": "resultats",
+    "question": "Concrètement, qu'est-ce que tes clients ont gagné en bossant avec toi ? Tu as des chiffres réels ?",
+    "answer": "<p>Rémy chez Ninkasi : 3h gagnées par semaine sur la gestion des mails et comptes rendus. Sébastien Sebach : 8h par semaine récupérées sur la saisie de dossiers clients. Claudia YMANCI : zéro double saisie sur ses fiches de suivi. Guillaume Maurice : devis générés en 5 minutes au lieu de 45.</p><p>98% de satisfaction sur 100+ professionnels formés. Ce ne sont pas des chiffres marketing — ce sont les retours directs des clients après 30 jours d'utilisation. Je ne fais pas de formation pour cocher une case : je veux que ça marche dans ta boîte, pas juste pendant la session.</p>"
+  },
+  {
+    "id": "q41",
+    "cluster": "resultats",
+    "question": "Je veux voir un cas réel dans mon secteur avant de signer — tu peux me montrer ?",
+    "answer": "<p>Oui. Lors de l'appel découverte, je te montre un cas concret dans un secteur proche du tien. Pas une démo générique — une vraie automatisation ou une vraie session de travail que j'ai faite avec un client réel.</p><p>C'est aussi à ça que sert l'appel : à ce que tu voies exactement ce que ça donne avant de prendre une décision. Si ce que je te montre ne te parle pas, on ne va pas plus loin — et c'est ok. Je préfère un client convaincu à un client qui signe sans être sûr.</p>"
+  },
+  {
+    "id": "q42",
+    "cluster": "resultats",
+    "question": "Comment ça se passe l'appel découverte de 30 minutes — c'est commercial déguisé ou c'est utile ?",
+    "answer": "<p>C'est utile. Format réel : 10 minutes pour comprendre ton activité et ta plus grande perte de temps, 15 minutes pour identifier ce qu'on peut faire concrètement pour toi, 5 minutes pour voir si et comment on travaille ensemble.</p><p>Si après l'appel tu ne vois pas d'utilité claire, on ne va pas plus loin — et je ne relance pas à répétition. Tu repars dans tous les cas avec au moins une piste concrète sur ce que tu pourrais faire pour gagner du temps, même si on ne bosse pas ensemble.</p>"
+  },
+  {
+    "id": "q43",
+    "cluster": "resultats",
+    "question": "C'est quoi les étapes entre \"on s'appelle\" et \"ma boîte tourne avec de l'IA dedans\" ?",
+    "answer": "<p>1. Appel découverte 30 min (gratuit). 2. Je te propose une formule adaptée à ton cas. 3. On lance la première session dans les 7 à 14 jours. 4. Selon ce qu'on construit : formation en 1 à 3 sessions, ou automatisation construite en 1 à 5 jours. 5. Suivi pendant 30 jours.</p><p>La plupart des clients ont leur premier résultat concret dans les 2 semaines après le début. Pas une transformation complète — mais un truc précis qui marche et qui te fait gagner du temps dès la première semaine.</p>"
+  },
+  {
+    "id": "q44",
+    "cluster": "resultats",
+    "question": "OPCO, AGEFICE, CPF, prise en charge entreprise — explique-moi comment je trouve l'argent",
+    "answer": "<p>OPCO : si tu as des salariés, ton OPCO prend en charge une partie ou la totalité de la formation selon ton secteur. AGEFICE : si tu es commerçant ou artisan TNS, c'est ton organisme de référence. CPF : si la formation est éligible, tu l'utilises via MonCompteFormation.</p><p>Je t'aide à identifier la bonne voie lors de l'appel découverte — c'est une étape normale du parcours, pas une complication. La majorité de mes clients trouvent un financement partiel ou total, ce qui réduit significativement le reste à charge.</p>"
+  },
+  {
+    "id": "q45",
+    "cluster": "resultats",
+    "question": "Je suis indépendant sans OPCO, j'ai quand même des solutions de financement ?",
+    "answer": "<p>Oui. Si tu es micro-entrepreneur ou indépendant sans salariés, tu peux utiliser ton CPF (MonCompteFormation), ou certains fonds régionaux selon ta situation.</p><p>Et si aucun dispositif ne s'applique à ton cas, on peut regarder un étalement des paiements. L'objectif n'est pas que l'argent soit un blocage si le projet a du sens — on en parle franchement lors de l'appel. Je préfère trouver une solution qui tient la route plutôt qu'une vente forcée.</p>"
+  },
+  {
+    "id": "q46",
+    "cluster": "resultats",
+    "question": "Je veux d'abord automatiser un truc précis avant de me former à fond, c'est possible de commencer petit ?",
+    "answer": "<p>Complètement. Beaucoup de clients commencent par un projet d'automatisation sur mesure — un seul truc précis à régler — avant de décider de se former en profondeur.</p><p>C'est une bonne façon de tester : tu vois le résultat concret sur ta vraie activité, et tu décides ensuite si tu veux aller plus loin. Pas d'engagement à long terme dès le départ. Commencer petit, voir le résultat, puis construire — c'est souvent la meilleure méthode pour des gens qui ont déjà beaucoup à gérer.</p>"
+  },
+  {
+    "id": "q47",
+    "cluster": "resultats",
+    "question": "Tu travailles seul ou tu as une équipe pour les gros projets d'automatisation ?",
+    "answer": "<p>Je travaille seul sur la grande majorité des projets — c'est ce qui garantit la cohérence et la qualité. Tu as toujours la même personne en face, qui connaît ton dossier.</p><p>Pour les projets très ambitieux qui dépassent mon périmètre (développement spécifique, intégration de systèmes très complexes), je suis transparent là-dessus et je te mets en relation avec les bonnes personnes. Je ne te vends pas plus que ce que je peux livrer — c'est une règle de base.</p>"
+  },
+  {
+    "id": "q48",
+    "cluster": "resultats",
+    "question": "Si je signe aujourd'hui, dans combien de temps on commence vraiment ?",
+    "answer": "<p>En général, on peut lancer la première session dans les 7 à 14 jours selon les disponibilités mutuelles. Pour les projets urgents, j'essaie d'être flexible sur les créneaux.</p><p>Il n'y a pas de liste d'attente de 3 mois — quand tu es prêt à avancer, je suis disponible. Et si tu as une contrainte de timing (lancement d'activité, fin d'exercice fiscal, période creuse à exploiter), dis-le lors de l'appel, on s'organise en conséquence.</p>"
+  },
+  {
+    "id": "q49",
+    "cluster": "resultats",
+    "question": "C'est quoi ton engagement minimum — je suis pas chaud pour signer un contrat à rallonge ?",
+    "answer": "<p>Il n'y a pas de contrat à rallonge. Chaque projet est délimité dès le départ : telle formation, telle automatisation, tel budget, tels livrables. Tu sais exactement ce que tu achètes avant de signer.</p><p>Après, si tu veux continuer, on construit la suite ensemble. Mais rien ne t'oblige à aller au-delà de ce qu'on a défini. C'est volontairement simple : pas d'abonnement caché, pas de renouvellement automatique, pas de clause qui t'engage sur 12 mois.</p>"
+  },
+  {
+    "id": "q50",
+    "cluster": "resultats",
+    "question": "J'ai une dernière question avant de réserver l'appel, comment je te joins direct ?",
+    "answer": "<p>Par mail : <a href=\"mailto:contact@thefrenchbot.com\" class=\"text-primary-light hover:underline\">contact@thefrenchbot.com</a> — je réponds sous 24h. Ou directement via l'appel découverte sur Calendly si tu préfères parler avant d'écrire.</p><p>Pour les questions rapides, le formulaire de contact en bas du site marche aussi très bien. Il n'y a pas de service client automatisé qui filtre les messages — c'est moi qui réponds directement.</p>"
+  }
+]

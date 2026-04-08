@@ -1,0 +1,117 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import FAQSection from '../components/FAQSection.astro';
+import faqs from '../data/faq-globale.json';
+
+const clusters = [
+  {
+    id: 'qui-je-suis',
+    label: 'Qui je suis, comment je bosse',
+    icon: 'person',
+    color: 'primary',
+  },
+  {
+    id: 'formation-claude',
+    label: 'Formation Claude & IA au quotidien',
+    icon: 'psychology',
+    color: 'secondary',
+  },
+  {
+    id: 'automatisation',
+    label: 'Automatisation & no-code',
+    icon: 'bolt',
+    color: 'tertiary',
+  },
+  {
+    id: 'resultats',
+    label: 'Résultats, financement, passage à l\'action',
+    icon: 'rocket_launch',
+    color: 'primary',
+  },
+];
+---
+
+<BaseLayout
+  title="FAQ — The French Bot | Toutes vos questions sur la formation IA et l'automatisation"
+  description="Toutes les réponses sur les formations IA, l'automatisation no-code, les tarifs, le financement OPCO/CPF et l'accompagnement The French Bot. 50 questions réelles de dirigeants de TPE."
+>
+  <!-- Hero -->
+  <section class="relative pt-32 pb-16 px-6 md:px-8 overflow-hidden">
+    <div class="absolute top-1/4 -left-20 w-96 h-96 bg-primary/20 rounded-full blur-[120px] pointer-events-none"></div>
+    <div class="absolute bottom-0 -right-20 w-96 h-96 bg-secondary/15 rounded-full blur-[120px] pointer-events-none"></div>
+
+    <div class="max-w-4xl mx-auto text-center space-y-6 relative z-10">
+      <div class="inline-flex items-center gap-2 px-4 py-1 rounded-full bg-bg-surface-high border border-outline-variant/20">
+        <span class="material-symbols-outlined text-tertiary text-sm" style="font-variation-settings: 'FILL' 1;">help</span>
+        <span class="font-[family-name:var(--font-label)] text-xs uppercase tracking-[0.2em] text-text-secondary">50 questions réelles</span>
+      </div>
+      <h1 class="font-[family-name:var(--font-headline)] font-black text-5xl md:text-6xl lg:text-7xl text-white uppercase tracking-tight leading-[0.95]">
+        Questions <span class="gradient-text">fréquentes</span>
+      </h1>
+      <p class="font-[family-name:var(--font-body)] text-xl text-text-secondary max-w-2xl mx-auto leading-relaxed">
+        Les vraies questions que posent les dirigeants de TPE avant de se lancer. Sans jargon, sans langue de bois.
+      </p>
+    </div>
+  </section>
+
+  <!-- Cluster nav -->
+  <nav class="sticky top-[73px] z-40 bg-bg-base/80 backdrop-blur-xl border-b border-white/5 px-6 md:px-8 py-4">
+    <div class="max-w-4xl mx-auto flex flex-wrap gap-3 justify-center">
+      {clusters.map((c) => (
+        <a
+          href={`#${c.id}`}
+          class="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-bg-surface-high border border-outline-variant/20 font-[family-name:var(--font-label)] text-[11px] uppercase tracking-widest text-text-secondary hover:text-white hover:border-primary/40 transition-all duration-200"
+        >
+          <span class="material-symbols-outlined text-sm">{c.icon}</span>
+          {c.label}
+        </a>
+      ))}
+    </div>
+  </nav>
+
+  <!-- FAQ by cluster -->
+  <div class="py-16 md:py-24 px-6 md:px-8">
+    <div class="max-w-4xl mx-auto space-y-20">
+
+      {clusters.map((cluster) => {
+        const clusterFaqs = faqs.filter(f => f.cluster === cluster.id);
+        return (
+          <section id={cluster.id} class="scroll-mt-32">
+            <div class="flex items-center gap-4 mb-10">
+              <div class={`w-12 h-12 rounded-2xl flex items-center justify-center ${cluster.color === 'primary' ? 'bg-primary/20 border border-primary/30' : cluster.color === 'secondary' ? 'bg-secondary/20 border border-secondary/30' : 'bg-tertiary/20 border border-tertiary/30'}`}>
+                <span class={`material-symbols-outlined ${cluster.color === 'primary' ? 'text-primary-light' : cluster.color === 'secondary' ? 'text-secondary-light' : 'text-tertiary'}`}>{cluster.icon}</span>
+              </div>
+              <h2 class="font-[family-name:var(--font-headline)] font-black text-2xl md:text-3xl text-white uppercase tracking-tight">
+                {cluster.label}
+              </h2>
+            </div>
+            <FAQSection faqs={clusterFaqs} />
+          </section>
+        );
+      })}
+
+    </div>
+  </div>
+
+  <!-- CTA -->
+  <section class="py-16 md:py-24 px-6 md:px-8">
+    <div class="max-w-3xl mx-auto glass-panel p-10 md:p-16 rounded-[2.5rem] border border-white/10 text-center space-y-6 relative overflow-hidden">
+      <div class="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-primary via-secondary to-tertiary"></div>
+      <h2 class="font-[family-name:var(--font-headline)] font-black text-3xl md:text-4xl text-white uppercase tracking-tight">
+        Ta question n'est pas là ?
+      </h2>
+      <p class="font-[family-name:var(--font-body)] text-text-secondary max-w-xl mx-auto">
+        Réserve un appel découverte gratuit de 30 minutes. On répond à toutes tes questions sur ta situation précise — sans engagement.
+      </p>
+      <a
+        href="https://calendly.com/thefrenchbot-coaching/30min"
+        target="_blank"
+        rel="noopener noreferrer"
+        class="inline-flex items-center gap-3 gradient-cta text-white px-10 py-5 rounded-full font-[family-name:var(--font-headline)] font-bold text-sm uppercase tracking-widest neon-glow-primary hover:scale-105 transition-all duration-300"
+      >
+        Réserver l'appel découverte
+        <span class="material-symbols-outlined">calendar_month</span>
+      </a>
+    </div>
+  </section>
+</BaseLayout>

@@ -60,6 +60,49 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site);
 
   <!-- Favicon -->
   <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+
+  <!-- Entity schema: Organization + Person -->
+  <script type="application/ld+json">{JSON.stringify({
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "Organization",
+        "@id": "https://formation.thefrenchbot.com/#organization",
+        "name": "The French Bot",
+        "url": "https://formation.thefrenchbot.com",
+        "logo": "https://formation.thefrenchbot.com/images/og-default.jpg",
+        "description": "Agence de formation et d'automatisation par l'intelligence artificielle pour dirigeants de TPE et PME en France.",
+        "foundingDate": "2023",
+        "areaServed": "FR",
+        "knowsAbout": ["Formation IA", "Automatisation no-code", "Claude", "ChatGPT", "Make", "Zapier"],
+        "sameAs": [
+          "https://thefrenchbot.com",
+          "https://www.instagram.com/media_machines",
+          "https://www.linkedin.com/in/julianluneau",
+          "https://www.youtube.com/@thefrenchbot"
+        ],
+        "contactPoint": {
+          "@type": "ContactPoint",
+          "email": "contact@thefrenchbot.com",
+          "contactType": "customer service",
+          "availableLanguage": "French"
+        }
+      },
+      {
+        "@type": "Person",
+        "@id": "https://formation.thefrenchbot.com/#person",
+        "name": "Julian Luneau",
+        "jobTitle": "Fondateur & Formateur IA",
+        "worksFor": { "@id": "https://formation.thefrenchbot.com/#organization" },
+        "knowsAbout": ["Formation IA", "Automatisation no-code", "Claude", "Make", "Prompt engineering"],
+        "url": "https://formation.thefrenchbot.com",
+        "sameAs": [
+          "https://www.instagram.com/media_machines",
+          "https://www.linkedin.com/in/julianluneau"
+        ]
+      }
+    ]
+  })}</script>
 </head>
 <body>
   <Header />

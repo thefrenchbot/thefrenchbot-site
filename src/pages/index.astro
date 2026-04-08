@@ -1,6 +1,35 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 import ContactSection from '../components/ContactSection.astro';
+import FAQSection from '../components/FAQSection.astro';
+
+const homeFaqs = [
+  {
+    id: "home-q1",
+    question: "Je suis dirigeant de TPE débordé — est-ce que l'IA peut vraiment me faire gagner du temps rapidement ?",
+    answer: "<p>Oui — et souvent dès la première semaine. On part de ta tâche la plus chronophage et on l'automatise ou on t'apprend à la déléguer à l'IA. Sébastien Sebach a récupéré 8h par semaine. Rémy chez Ninkasi, 3h. Pas de transformation en 6 mois — un résultat concret en 2 semaines.</p>"
+  },
+  {
+    id: "home-q2",
+    question: "Je suis pas un geek, j'ai 45 ans, c'est encore pour moi ?",
+    answer: "<p>C'est exactement pour toi. Claude se pilote en français, avec des phrases normales — pas de code, pas d'école d'informatique. Sur 100+ professionnels formés, mes meilleurs retours viennent souvent de gens entre 40 et 60 ans qui n'avaient jamais touché à l'IA avant.</p>"
+  },
+  {
+    id: "home-q3",
+    question: "Comment ça se passe concrètement, c'est quoi la première étape ?",
+    answer: "<p>Un appel découverte de 30 minutes, gratuit, sans engagement. On identifie ta plus grande perte de temps, je te montre ce qu'on peut faire pour toi, et tu décides ensuite. Pas de relance agressive — juste 30 minutes utiles. <a href=\"https://calendly.com/thefrenchbot-coaching/30min\" target=\"_blank\" rel=\"noopener noreferrer\" class=\"text-primary-light hover:underline\">Réserver l'appel.</a></p>"
+  },
+  {
+    id: "home-q4",
+    question: "Est-ce que je peux faire financer la formation par mon OPCO ou mon CPF ?",
+    answer: "<p>Oui, dans la plupart des cas. OPCO si tu as des salariés, AGEFICE si tu es artisan ou commerçant, CPF via MonCompteFormation. On règle ça ensemble lors de l'appel découverte — c'est une étape normale, pas une complication.</p>"
+  },
+  {
+    id: "home-q5",
+    question: "Tu fais de la formation ou tu construis les automatisations à ma place ?",
+    answer: "<p>Les deux. Selon ton besoin : soit je te forme pour que tu sois autonome, soit je construis l'automatisation directement dans ton outil métier. Certains veulent apprendre à pêcher, d'autres veulent qu'on leur apporte le poisson — je m'adapte.</p>"
+  }
+];
 ---
 
 <BaseLayout title="The French Bot — Formation & Automatisation IA">
@@ -287,6 +316,26 @@ import ContactSection from '../components/ContactSection.astro';
           class="glass-panel border border-white/20 text-white px-10 md:px-12 py-5 md:py-6 rounded-full font-[family-name:var(--font-headline)] font-bold text-base md:text-lg uppercase tracking-widest hover:bg-white/10 transition-all duration-300"
         >
           Nous contacter
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Mini FAQ -->
+  <section class="py-24 md:py-32 px-6 md:px-8 relative">
+    <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-primary/10 rounded-full blur-[150px] pointer-events-none"></div>
+    <div class="max-w-4xl mx-auto relative z-10">
+      <FAQSection
+        faqs={homeFaqs}
+        title="Questions fréquentes"
+        subtitle="Les objections les plus courantes avant de se lancer — réponses directes, sans jargon."
+      />
+      <div class="mt-10 text-center">
+        <a
+          href="/faq"
+          class="inline-flex items-center gap-2 font-[family-name:var(--font-label)] text-sm text-primary-light uppercase tracking-widest hover:text-white transition-colors"
+        >
+          Voir les 50 questions <span class="material-symbols-outlined text-sm">arrow_forward</span>
         </a>
       </div>
     </div>

@@ -1,0 +1,76 @@
+---
+export interface FAQ {
+  id: string;
+  question: string;
+  answer: string;
+  cluster?: string;
+}
+
+interface Props {
+  faqs: FAQ[];
+  title?: string;
+  subtitle?: string;
+  compact?: boolean;
+}
+
+const { faqs, title, subtitle, compact = false } = Astro.props;
+
+const faqSchema = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": faqs.map(f => ({
+    "@type": "Question",
+    "name": f.question,
+    "acceptedAnswer": {
+      "@type": "Answer",
+      "text": f.answer.replace(/<[^>]*>/g, ' ').replace(/\s+/g, ' ').trim()
+    }
+  }))
+};
+---
+
+{title && (
+  <div class={`text-center space-y-4 ${compact ? 'mb-10' : 'mb-16 md:mb-20'}`}>
+    <h2 class={`font-[family-name:var(--font-headline)] font-black text-white uppercase tracking-[0.08em] ${compact ? 'text-3xl md:text-4xl' : 'text-4xl md:text-5xl'}`}>
+      {title}
+    </h2>
+    {subtitle && (
+      <p class="font-[family-name:var(--font-body)] text-text-secondary max-w-2xl mx-auto">{subtitle}</p>
+    )}
+  </div>
+)}
+
+<div class={`space-y-3 ${compact ? '' : 'max-w-4xl mx-auto'}`}>
+  {faqs.map((faq) => (
+    <details class="group glass-panel rounded-2xl border border-white/5 overflow-hidden hover:border-primary/20 transition-colors duration-300" id={faq.id}>
+      <summary class={`flex items-center justify-between gap-4 cursor-pointer list-none ${compact ? 'px-6 py-5' : 'px-8 py-6'}`}>
+        <span class={`font-[family-name:var(--font-headline)] font-bold text-white group-hover:text-primary-light transition-colors ${compact ? 'text-base' : 'text-lg'}`}>
+          {faq.question}
+        </span>
+        <span class="material-symbols-outlined text-text-secondary flex-shrink-0 group-open:rotate-180 transition-transform duration-300">
+          expand_more
+        </span>
+      </summary>
+      <div class={`font-[family-name:var(--font-body)] text-text-secondary leading-relaxed border-t border-white/5 faq-answer ${compact ? 'px-6 py-5 text-sm' : 'px-8 py-6'}`} set:html={faq.answer} />
+    </details>
+  ))}
+</div>
+
+<script type="application/ld+json" set:html={JSON.stringify(faqSchema)} />
+
+<style>
+  .faq-answer :global(p) {
+    margin-bottom: 0.75rem;
+  }
+  .faq-answer :global(p:last-child) {
+    margin-bottom: 0;
+  }
+  .faq-answer :global(a) {
+    color: var(--color-primary-light);
+    text-decoration: underline;
+    text-underline-offset: 2px;
+  }
+  .faq-answer :global(a:hover) {
+    color: white;
+  }
+</style>
