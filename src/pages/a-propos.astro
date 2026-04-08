@@ -1,0 +1,209 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import ContactSection from '../components/ContactSection.astro';
+---
+
+<BaseLayout
+  title="À propos — Julian Luneau & The French Bot"
+  description="Julian Luneau, fondateur de The French Bot. Formateur et automatiseur IA pour dirigeants de TPE et PME. Son histoire, son approche, pourquoi il a créé The French Bot."
+>
+  <!-- Hero -->
+  <section class="relative pt-32 pb-16 px-6 md:px-8 overflow-hidden">
+    <div class="absolute top-1/4 -left-20 w-96 h-96 bg-primary/20 rounded-full blur-[120px] pointer-events-none"></div>
+    <div class="absolute bottom-0 -right-20 w-80 h-80 bg-secondary/15 rounded-full blur-[120px] pointer-events-none"></div>
+
+    <div class="max-w-4xl mx-auto relative z-10">
+      <div class="inline-flex items-center gap-2 px-4 py-1 rounded-full bg-bg-surface-high border border-outline-variant/20 mb-6">
+        <span class="material-symbols-outlined text-primary-light text-sm" style="font-variation-settings: 'FILL' 1;">person</span>
+        <span class="font-[family-name:var(--font-label)] text-xs uppercase tracking-[0.2em] text-text-secondary">Fondateur</span>
+      </div>
+      <h1 class="font-[family-name:var(--font-headline)] font-black text-4xl sm:text-5xl md:text-6xl lg:text-7xl text-white uppercase tracking-tight leading-[0.95] mb-8">
+        Julian <span class="gradient-text">Luneau</span>
+      </h1>
+      <p class="font-[family-name:var(--font-body)] text-xl text-text-secondary max-w-2xl leading-relaxed">
+        Formateur IA et automatiseur pour dirigeants de TPE et PME. Fondateur de The French Bot. Anti-bullshit, exemples concrets, résultats mesurables.
+      </p>
+    </div>
+  </section>
+
+  <!-- Main content -->
+  <div class="max-w-4xl mx-auto px-6 md:px-8 pb-24 md:pb-32 space-y-20 md:space-y-24">
+
+    <!-- Portrait + intro -->
+    <div class="grid grid-cols-1 md:grid-cols-5 gap-10 md:gap-16 items-start">
+      <!-- Avatar -->
+      <div class="md:col-span-2">
+        <div class="glass-panel rounded-3xl overflow-hidden border border-white/10 aspect-square flex items-center justify-center bg-gradient-to-br from-primary/20 via-bg-surface to-secondary/15 relative">
+          <span class="material-symbols-outlined text-primary-light/30 text-[100px]">person</span>
+          <div class="absolute bottom-0 left-0 right-0 p-6">
+            <p class="font-[family-name:var(--font-headline)] font-black text-white text-lg uppercase tracking-tight">Julian Luneau</p>
+            <p class="font-[family-name:var(--font-label)] text-xs text-primary-light uppercase tracking-widest">Fondateur — The French Bot</p>
+          </div>
+        </div>
+        <!-- Stats -->
+        <div class="grid grid-cols-2 gap-3 mt-4">
+          <div class="glass-panel rounded-2xl p-4 text-center border border-white/5">
+            <p class="font-[family-name:var(--font-headline)] font-black text-3xl text-white">100+</p>
+            <p class="font-[family-name:var(--font-label)] text-[10px] uppercase tracking-widest text-text-secondary mt-1">Pros formés</p>
+          </div>
+          <div class="glass-panel rounded-2xl p-4 text-center border border-white/5">
+            <p class="font-[family-name:var(--font-headline)] font-black text-3xl text-white">98%</p>
+            <p class="font-[family-name:var(--font-label)] text-[10px] uppercase tracking-widest text-text-secondary mt-1">Satisfaction</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Story -->
+      <div class="md:col-span-3 space-y-6 font-[family-name:var(--font-body)] text-text-secondary leading-relaxed">
+        <p class="text-lg text-white font-medium">
+          J'ai créé The French Bot parce que j'en avais marre de voir des dirigeants talentueux passer leurs soirées sur des tâches que l'IA peut faire en 30 secondes.
+        </p>
+        <p>
+          Avant The French Bot, j'accompagnais des entreprises sur leur stratégie digitale. Je voyais partout la même chose : des outils IA disponibles, des gens curieux, mais personne pour faire le lien entre la technologie et la réalité du terrain. Les formations génériques ne servaient à rien — trop théoriques, trop éloignées des vrais cas métier.
+        </p>
+        <p>
+          Alors j'ai pris un parti clair : ne travailler qu'avec des cas réels, dans le métier de la personne, sur le problème qui lui coûte le plus de temps. Pas de slides pendant 3 heures. Pas d'exemples inventés. On ouvre ton outil, on travaille sur ton dossier, et tu repars avec quelque chose qui marche dès le lendemain matin.
+        </p>
+        <p>
+          Aujourd'hui, j'accompagne des courtiers immobiliers, des CGP, des restaurateurs, des artisans BTP, des cabinets RH, des conciergeries... Des gens qui bossent vraiment et qui n'ont pas une heure à perdre sur une formation qui ne colle pas à leur réalité.
+        </p>
+      </div>
+    </div>
+
+    <!-- Approche -->
+    <section>
+      <div class="flex items-center gap-4 mb-10">
+        <span class="w-12 h-1 bg-primary-light rounded-full"></span>
+        <h2 class="font-[family-name:var(--font-headline)] font-black text-2xl md:text-3xl text-white uppercase tracking-tight">Mon approche</h2>
+      </div>
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+        {[
+          {
+            icon: 'construction',
+            title: 'Ton problème d\'abord',
+            desc: "Je commence toujours par la tâche qui te coûte le plus de temps. Pas par une intro théorique. En 10 minutes d'appel, j'identifie ce qu'on va attaquer en priorité.",
+            color: 'primary',
+          },
+          {
+            icon: 'work',
+            title: 'Ton métier, tes outils',
+            desc: "Je connais les outils métier des TPE françaises — Cifacil, Boond Manager, Carbone Alpha, Imo Facile... Je travaille dans ton environnement réel, pas dans un exemple générique.",
+            color: 'secondary',
+          },
+          {
+            icon: 'emoji_people',
+            title: 'Zéro jargon technique',
+            desc: "Claude se pilote en français, avec des phrases normales. Je n'ai jamais eu besoin de savoir coder pour automatiser des trucs complexes — et toi non plus.",
+            color: 'tertiary',
+          },
+          {
+            icon: 'support_agent',
+            title: 'Suivi après la session',
+            desc: "Je ne laisse pas les clients se débrouiller seuls après avoir payé une formation. Tu as une question 3 semaines après ? Tu m'écris. Je réponds sous 24h.",
+            color: 'primary',
+          },
+        ].map((item) => (
+          <div class="glass-panel p-6 md:p-8 rounded-2xl border border-white/5 flex gap-5">
+            <div class={`w-12 h-12 rounded-xl flex items-center justify-center flex-shrink-0 ${
+              item.color === 'primary' ? 'bg-primary/20 border border-primary/30' :
+              item.color === 'secondary' ? 'bg-secondary/20 border border-secondary/30' :
+              'bg-tertiary/20 border border-tertiary/30'
+            }`}>
+              <span class={`material-symbols-outlined ${
+                item.color === 'primary' ? 'text-primary-light' :
+                item.color === 'secondary' ? 'text-secondary-light' :
+                'text-tertiary'
+              }`}>{item.icon}</span>
+            </div>
+            <div>
+              <h3 class="font-[family-name:var(--font-headline)] font-bold text-white text-lg mb-2">{item.title}</h3>
+              <p class="font-[family-name:var(--font-body)] text-text-secondary text-sm leading-relaxed">{item.desc}</p>
+            </div>
+          </div>
+        ))}
+      </div>
+    </section>
+
+    <!-- Ce que je maîtrise -->
+    <section>
+      <div class="flex items-center gap-4 mb-10">
+        <span class="w-12 h-1 bg-secondary-light rounded-full"></span>
+        <h2 class="font-[family-name:var(--font-headline)] font-black text-2xl md:text-3xl text-white uppercase tracking-tight">Ce que je maîtrise</h2>
+      </div>
+      <div class="flex flex-wrap gap-3">
+        {[
+          'Claude', 'ChatGPT', 'Make (Integromat)', 'n8n', 'Zapier',
+          'Prompt Engineering', 'Automatisation no-code', 'Workflows IA',
+          'Intégrations API', 'CRM automation', 'Traitement documentaire',
+          'Formation individuelle', 'Formation équipe',
+        ].map((skill) => (
+          <span class="px-4 py-2 rounded-full glass-panel border border-white/10 font-[family-name:var(--font-label)] text-xs uppercase tracking-widest text-text-secondary hover:text-white hover:border-primary/30 transition-colors duration-200">
+            {skill}
+          </span>
+        ))}
+      </div>
+    </section>
+
+    <!-- Citation -->
+    <section class="p-8 md:p-12 rounded-[2.5rem] glass-panel border border-white/10 relative overflow-hidden">
+      <div class="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-primary via-secondary to-tertiary"></div>
+      <span class="material-symbols-outlined text-white/10 text-6xl block mb-4" style="font-variation-settings: 'FILL' 1;">format_quote</span>
+      <p class="font-[family-name:var(--font-headline)] text-xl md:text-2xl text-white leading-relaxed italic mb-6">
+        "Je ne forme pas à l'usage de l'IA. Je forme à regagner du temps sur ce qui t'épuise — et à utiliser l'IA pour ça, concrètement, dans ton métier."
+      </p>
+      <p class="font-[family-name:var(--font-label)] text-sm text-primary-light uppercase tracking-widest">Julian Luneau — The French Bot</p>
+    </section>
+
+    <!-- Social / liens -->
+    <section>
+      <div class="flex items-center gap-4 mb-8">
+        <span class="w-12 h-1 bg-tertiary rounded-full"></span>
+        <h2 class="font-[family-name:var(--font-headline)] font-black text-2xl md:text-3xl text-white uppercase tracking-tight">Me retrouver</h2>
+      </div>
+      <div class="flex flex-wrap gap-4">
+        {[
+          { label: 'Instagram', handle: '@media_machines', icon: 'photo_camera', href: 'https://www.instagram.com/media_machines' },
+          { label: 'YouTube', handle: '@thefrenchbot', icon: 'play_circle', href: 'https://www.youtube.com/@thefrenchbot' },
+          { label: 'LinkedIn', handle: 'Julian Luneau', icon: 'business_center', href: 'https://www.linkedin.com/in/julianluneau' },
+          { label: 'Site principal', handle: 'thefrenchbot.com', icon: 'language', href: 'https://thefrenchbot.com' },
+        ].map((link) => (
+          <a
+            href={link.href}
+            target="_blank"
+            rel="noopener noreferrer"
+            class="flex items-center gap-3 glass-panel px-5 py-4 rounded-2xl border border-white/10 hover:border-primary/30 transition-all duration-300 group"
+          >
+            <span class="material-symbols-outlined text-text-secondary group-hover:text-primary-light transition-colors">{link.icon}</span>
+            <div>
+              <p class="font-[family-name:var(--font-headline)] font-bold text-white text-sm">{link.label}</p>
+              <p class="font-[family-name:var(--font-body)] text-text-secondary text-xs">{link.handle}</p>
+            </div>
+          </a>
+        ))}
+      </div>
+    </section>
+
+    <!-- CTA -->
+    <div class="glass-panel p-10 md:p-14 rounded-[2.5rem] border border-white/10 text-center space-y-6 relative overflow-hidden">
+      <div class="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-primary via-secondary to-tertiary"></div>
+      <h2 class="font-[family-name:var(--font-headline)] font-black text-3xl md:text-4xl text-white uppercase tracking-tight">
+        On se parle ?
+      </h2>
+      <p class="font-[family-name:var(--font-body)] text-text-secondary max-w-lg mx-auto">
+        30 minutes, gratuit, sans engagement. Tu m'expliques ta plus grande perte de temps, je te dis ce qu'on peut faire concrètement.
+      </p>
+      <a
+        href="https://calendly.com/thefrenchbot-coaching/30min"
+        target="_blank"
+        rel="noopener noreferrer"
+        class="inline-flex items-center gap-3 gradient-cta text-white px-10 py-5 rounded-full font-[family-name:var(--font-headline)] font-bold text-sm uppercase tracking-widest neon-glow-primary hover:scale-105 transition-all duration-300"
+      >
+        Réserver l'appel découverte
+        <span class="material-symbols-outlined">calendar_month</span>
+      </a>
+    </div>
+
+  </div>
+
+  <ContactSection />
+</BaseLayout>

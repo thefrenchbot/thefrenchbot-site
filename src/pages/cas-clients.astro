@@ -1,0 +1,193 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import ContactSection from '../components/ContactSection.astro';
+
+const cas = [
+  {
+    id: 'sebastien-s',
+    prenom: 'Sébastien S.',
+    secteur: 'Courtier immobilier',
+    icon: 'home_work',
+    color: 'primary',
+    probleme: 'Double saisie quotidienne entre logiciel métier et tableaux Excel. 45 minutes par jour passées à copier-coller les mêmes données dans deux outils différents.',
+    solution: 'Automatisation complète du flux entre l\'outil métier et les tableaux de suivi via Make. Les données se synchronisent en temps réel sans intervention manuelle.',
+    resultat: '8h récupérées par semaine',
+    detail: 'Sur 5 jours de travail, 45 minutes économisées par jour. En 30 jours, c\'est une semaine entière rendue.',
+    tags: ['Make', 'Automatisation', 'Excel', 'Outil métier'],
+  },
+  {
+    id: 'remy-m',
+    prenom: 'Rémy M.',
+    secteur: 'Restauration',
+    icon: 'restaurant',
+    color: 'secondary',
+    probleme: 'Mails fournisseurs, comptes rendus d\'équipe, réponses clients — Rémy passait ses soirées sur des tâches de rédaction répétitives qui ne créaient aucune valeur.',
+    solution: 'Formation Claude en 2 sessions. Création d\'un "projet" Claude avec le contexte du restaurant : ton maison, clients types, modèles de réponse réutilisables.',
+    resultat: '3h gagnées par semaine',
+    detail: 'Les soirées au bureau ont presque disparu. Rémy répond à ses mails en 10 minutes là où il en passait 40.',
+    tags: ['Claude', 'Formation', 'Mails', 'Comptes rendus'],
+  },
+  {
+    id: 'claudia-y',
+    prenom: 'Claudia Y.',
+    secteur: 'Conseil en gestion de patrimoine',
+    icon: 'account_balance',
+    color: 'tertiary',
+    probleme: 'Ressaisie manuelle des informations clients entre trois outils différents : CRM, outil de reporting et tableaux de suivi. Risque d\'erreur et temps perdu quotidiennement.',
+    solution: 'Mise en place d\'un workflow automatisé qui synchronise les données entre les trois outils dès qu\'une fiche client est créée ou mise à jour.',
+    resultat: 'Zéro double saisie',
+    detail: 'Plus aucune ressaisie manuelle. Les données sont toujours à jour dans les trois outils simultanément.',
+    tags: ['Make', 'CRM', 'Automatisation', 'CGP'],
+  },
+  {
+    id: 'guillaume-m',
+    prenom: 'Guillaume M.',
+    secteur: 'Artisan BTP',
+    icon: 'construction',
+    color: 'primary',
+    probleme: 'Guillaume, 52 ans, passait 45 minutes sur chaque devis. Rassembler les éléments, rédiger la description des travaux, calculer, mettre en forme — chronophage et répétitif.',
+    solution: 'Formation Claude pour la génération de devis. Création d\'un modèle de prompt spécifique au BTP qui génère une base de devis complète à partir de quelques infos clés.',
+    resultat: 'Devis en 5 min au lieu de 45',
+    detail: 'Pour 3 devis par semaine, c\'est 2h récupérées. Et une réponse aux clients le jour même au lieu de 2-3 jours.',
+    tags: ['Claude', 'Formation', 'Devis', 'BTP'],
+  },
+  {
+    id: 'domenico-z',
+    prenom: 'Domenico Z.',
+    secteur: 'PME Services',
+    icon: 'groups',
+    color: 'secondary',
+    probleme: 'Domenico voulait que son équipe entière adopte l\'IA — pas juste lui. Mais les formations individuelles ne créaient pas de cohérence : chacun faisait à sa façon.',
+    solution: 'Formation groupe de 4 personnes en 2 jours. Travail sur des cas réels de l\'entreprise. Création de modèles de documents partagés utilisables par toute l\'équipe.',
+    resultat: '4 personnes autonomes en 2 jours',
+    detail: 'L\'équipe parle le même langage, partage ses modèles. L\'effet d\'entraînement est bien plus fort qu\'une formation individuelle.',
+    tags: ['Claude', 'Formation équipe', 'PME', 'Modèles partagés'],
+  },
+  {
+    id: 'sebastien-c',
+    prenom: 'Sébastien C.',
+    secteur: 'Cabinet RH',
+    icon: 'manage_accounts',
+    color: 'tertiary',
+    probleme: 'Des dizaines de candidatures par semaine à trier, des réponses à envoyer, des dossiers à suivre. La charge administrative liée au recrutement prenait 2h par jour.',
+    solution: 'Automatisation du premier niveau de traitement des candidatures : réception, tri par poste, accusé de réception personnalisé, mise à jour du suivi. Claude pour les réponses.',
+    resultat: '2h libérées par jour',
+    detail: 'Les candidats reçoivent une réponse dans la journée. L\'équipe se concentre sur les entretiens, pas sur l\'administratif.',
+    tags: ['Claude', 'Make', 'RH', 'Recrutement'],
+  },
+];
+
+const colorMap: Record<string, { bg: string; text: string; border: string; tag: string }> = {
+  primary:   { bg: 'bg-primary/10',   text: 'text-primary-light',   border: 'border-primary/20',   tag: 'bg-primary/10 text-primary-light border-primary/20' },
+  secondary: { bg: 'bg-secondary/10', text: 'text-secondary-light', border: 'border-secondary/20', tag: 'bg-secondary/10 text-secondary-light border-secondary/20' },
+  tertiary:  { bg: 'bg-tertiary/10',  text: 'text-tertiary',        border: 'border-tertiary/20',  tag: 'bg-tertiary/10 text-tertiary border-tertiary/20' },
+};
+---
+
+<BaseLayout
+  title="Cas clients — The French Bot | Résultats réels formation IA et automatisation"
+  description="6 cas clients réels : courtier immobilier, CGP, restaurateur, artisan BTP, PME. Résultats concrets de la formation IA et automatisation The French Bot — chiffres réels, avant/après."
+>
+  <!-- Hero -->
+  <section class="relative pt-32 pb-16 px-6 md:px-8 overflow-hidden">
+    <div class="absolute top-1/4 -left-20 w-96 h-96 bg-primary/20 rounded-full blur-[120px] pointer-events-none"></div>
+
+    <div class="max-w-4xl mx-auto relative z-10 space-y-6">
+      <div class="inline-flex items-center gap-2 px-4 py-1 rounded-full bg-bg-surface-high border border-outline-variant/20">
+        <span class="material-symbols-outlined text-tertiary text-sm" style="font-variation-settings: 'FILL' 1;">trending_up</span>
+        <span class="font-[family-name:var(--font-label)] text-xs uppercase tracking-[0.2em] text-text-secondary">Résultats réels</span>
+      </div>
+      <h1 class="font-[family-name:var(--font-headline)] font-black text-4xl sm:text-5xl md:text-6xl text-white uppercase tracking-tight leading-[0.95]">
+        Ce que ça donne <span class="gradient-text">concrètement</span>
+      </h1>
+      <p class="font-[family-name:var(--font-body)] text-xl text-text-secondary max-w-2xl leading-relaxed">
+        Pas des études de cas inventées. Des vrais clients, des vrais problèmes, des vrais chiffres — dans des métiers comme le tien.
+      </p>
+    </div>
+  </section>
+
+  <!-- Cases -->
+  <div class="max-w-4xl mx-auto px-6 md:px-8 pb-24 md:pb-32 space-y-10">
+    {cas.map((c, i) => {
+      const col = colorMap[c.color];
+      return (
+        <article class="glass-panel rounded-[2rem] border border-white/5 overflow-hidden hover:border-white/10 transition-colors duration-300" id={c.id}>
+          <!-- Header -->
+          <div class={`p-6 md:p-8 border-b border-white/5 flex flex-col sm:flex-row sm:items-center gap-4 justify-between`}>
+            <div class="flex items-center gap-4">
+              <div class={`w-12 h-12 rounded-2xl flex items-center justify-center flex-shrink-0 ${col.bg} border ${col.border}`}>
+                <span class={`material-symbols-outlined ${col.text}`}>{c.icon}</span>
+              </div>
+              <div>
+                <p class="font-[family-name:var(--font-headline)] font-bold text-white">{c.prenom}</p>
+                <p class={`font-[family-name:var(--font-label)] text-xs uppercase tracking-widest ${col.text}`}>{c.secteur}</p>
+              </div>
+            </div>
+            <!-- Metric -->
+            <div class={`self-start sm:self-center px-5 py-2.5 rounded-full ${col.bg} border ${col.border} flex items-center gap-2`}>
+              <span class={`material-symbols-outlined text-sm ${col.text}`} style="font-variation-settings: 'FILL' 1;">trending_up</span>
+              <span class={`font-[family-name:var(--font-headline)] font-black text-sm ${col.text}`}>{c.resultat}</span>
+            </div>
+          </div>
+
+          <!-- Body -->
+          <div class="p-6 md:p-8 grid grid-cols-1 md:grid-cols-2 gap-8">
+            <!-- Problème -->
+            <div class="space-y-3">
+              <div class="flex items-center gap-2">
+                <span class="w-2 h-2 rounded-full bg-secondary-light"></span>
+                <h3 class="font-[family-name:var(--font-label)] text-xs uppercase tracking-widest text-text-secondary">Le problème</h3>
+              </div>
+              <p class="font-[family-name:var(--font-body)] text-text-secondary text-sm leading-relaxed">{c.probleme}</p>
+            </div>
+
+            <!-- Solution -->
+            <div class="space-y-3">
+              <div class="flex items-center gap-2">
+                <span class={`w-2 h-2 rounded-full ${col.text.replace('text-', 'bg-')}`}></span>
+                <h3 class="font-[family-name:var(--font-label)] text-xs uppercase tracking-widest text-text-secondary">Ce qu'on a fait</h3>
+              </div>
+              <p class="font-[family-name:var(--font-body)] text-text-secondary text-sm leading-relaxed">{c.solution}</p>
+            </div>
+          </div>
+
+          <!-- Footer -->
+          <div class="px-6 md:px-8 pb-6 md:pb-8 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+            <p class={`font-[family-name:var(--font-body)] text-sm font-medium ${col.text}`}>
+              → {c.detail}
+            </p>
+            <div class="flex flex-wrap gap-2">
+              {c.tags.map(tag => (
+                <span class={`px-3 py-1 rounded-full text-[10px] font-[family-name:var(--font-label)] uppercase tracking-widest border ${col.tag}`}>{tag}</span>
+              ))}
+            </div>
+          </div>
+        </article>
+      );
+    })}
+  </div>
+
+  <!-- CTA -->
+  <section class="py-16 md:py-24 px-6 md:px-8">
+    <div class="max-w-3xl mx-auto glass-panel p-10 md:p-16 rounded-[2.5rem] border border-white/10 text-center space-y-6 relative overflow-hidden">
+      <div class="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-primary via-secondary to-tertiary"></div>
+      <h2 class="font-[family-name:var(--font-headline)] font-black text-3xl md:text-4xl text-white uppercase tracking-tight">
+        Ton secteur n'est pas là ?
+      </h2>
+      <p class="font-[family-name:var(--font-body)] text-text-secondary max-w-xl mx-auto">
+        Appel découverte gratuit de 30 minutes. Je te montre un cas concret dans un secteur proche du tien avant que tu décides quoi que ce soit.
+      </p>
+      <a
+        href="https://calendly.com/thefrenchbot-coaching/30min"
+        target="_blank"
+        rel="noopener noreferrer"
+        class="inline-flex items-center gap-3 gradient-cta text-white px-10 py-5 rounded-full font-[family-name:var(--font-headline)] font-bold text-sm uppercase tracking-widest neon-glow-primary hover:scale-105 transition-all duration-300"
+      >
+        Réserver l'appel découverte
+        <span class="material-symbols-outlined">calendar_month</span>
+      </a>
+    </div>
+  </section>
+
+  <ContactSection />
+</BaseLayout>
