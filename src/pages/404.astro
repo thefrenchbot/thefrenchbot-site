@@ -1,0 +1,89 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+---
+
+<BaseLayout
+  title="Page introuvable — The French Bot"
+  description="Cette page n'existe pas. Retrouvez les formations IA et l'accompagnement The French Bot."
+>
+  <section class="relative min-h-screen flex flex-col items-center justify-center px-6 md:px-8 text-center overflow-hidden">
+    <!-- Background glows -->
+    <div class="absolute top-1/4 -left-20 w-96 h-96 bg-primary/20 rounded-full blur-[120px] pointer-events-none"></div>
+    <div class="absolute bottom-1/4 -right-20 w-96 h-96 bg-secondary/15 rounded-full blur-[120px] pointer-events-none"></div>
+
+    <div class="relative z-10 space-y-8 max-w-2xl mx-auto">
+      <!-- 404 -->
+      <p class="font-[family-name:var(--font-headline)] font-black text-[120px] md:text-[180px] leading-none gradient-text tracking-tighter">
+        404
+      </p>
+
+      <!-- Message -->
+      <div class="space-y-4">
+        <h1 class="font-[family-name:var(--font-headline)] font-black text-3xl md:text-4xl text-white uppercase tracking-tight">
+          Cette page a disparu dans le cloud
+        </h1>
+        <p class="font-[family-name:var(--font-body)] text-text-secondary text-lg leading-relaxed max-w-lg mx-auto">
+          Pas de panique — l'IA ne peut pas encore retrouver les pages perdues. Mais on peut t'aider à trouver ce que tu cherches.
+        </p>
+      </div>
+
+      <!-- Links -->
+      <div class="flex flex-col sm:flex-row gap-4 justify-center pt-4">
+        <a
+          href="/"
+          class="gradient-cta text-white px-8 py-4 rounded-full font-[family-name:var(--font-headline)] font-bold text-sm uppercase tracking-widest neon-glow-primary hover:scale-105 transition-all duration-300 flex items-center justify-center gap-2"
+        >
+          <span class="material-symbols-outlined text-sm">home</span>
+          Retour à l'accueil
+        </a>
+        <a
+          href="/formations"
+          class="glass-panel border border-white/20 text-white px-8 py-4 rounded-full font-[family-name:var(--font-headline)] font-bold text-sm uppercase tracking-widest hover:bg-white/10 transition-all duration-300 flex items-center justify-center gap-2"
+        >
+          <span class="material-symbols-outlined text-sm">school</span>
+          Voir les formations
+        </a>
+      </div>
+
+      <!-- Divider -->
+      <div class="flex items-center gap-4 py-4">
+        <div class="flex-1 h-px bg-white/10"></div>
+        <span class="font-[family-name:var(--font-label)] text-xs uppercase tracking-widest text-text-muted">ou</span>
+        <div class="flex-1 h-px bg-white/10"></div>
+      </div>
+
+      <!-- Calendly CTA -->
+      <div class="glass-panel p-8 rounded-[2rem] border border-white/10 space-y-4">
+        <p class="font-[family-name:var(--font-body)] text-text-secondary">
+          Tu cherchais à nous contacter ? L'appel découverte de 30 minutes est gratuit et sans engagement.
+        </p>
+        <a
+          href="https://calendly.com/thefrenchbot-coaching/30min"
+          target="_blank"
+          rel="noopener noreferrer"
+          class="inline-flex items-center gap-2 text-primary-light hover:text-white transition-colors font-[family-name:var(--font-headline)] font-bold text-sm uppercase tracking-widest"
+        >
+          <span class="material-symbols-outlined text-sm">calendar_month</span>
+          Réserver un appel gratuit
+          <span class="material-symbols-outlined text-sm">open_in_new</span>
+        </a>
+      </div>
+
+      <!-- Quick nav -->
+      <div class="flex flex-wrap justify-center gap-4 pt-2">
+        {[
+          { label: 'FAQ', href: '/faq' },
+          { label: 'Experts', href: '/experts' },
+          { label: 'Contact', href: '/#contact' },
+        ].map(link => (
+          <a
+            href={link.href}
+            class="font-[family-name:var(--font-label)] text-xs uppercase tracking-widest text-text-muted hover:text-primary-light transition-colors"
+          >
+            {link.label}
+          </a>
+        ))}
+      </div>
+    </div>
+  </section>
+</BaseLayout>
