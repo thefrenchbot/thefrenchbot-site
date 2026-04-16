@@ -1,0 +1,243 @@
+---
+import { getCollection, render, type CollectionEntry } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+
+export async function getStaticPaths() {
+  const posts = await getCollection('blog');
+  return posts.map((post) => ({
+    params: { slug: post.id },
+    props: { post },
+  }));
+}
+
+interface Props {
+  post: CollectionEntry<'blog'>;
+}
+
+const { post } = Astro.props;
+const { Content } = await render(post);
+
+function formatDate(date: Date): string {
+  return date.toLocaleDateString('fr-FR', { day: 'numeric', month: 'long', year: 'numeric' });
+}
+---
+
+<BaseLayout
+  title={`${post.data.title} — The French Bot`}
+  description={post.data.description}
+  ogImage={post.data.image}
+>
+  <!-- JSON-LD Article -->
+  <script type="application/ld+json" set:html={JSON.stringify({
+    "@context": "https://schema.org",
+    "@type": "BlogPosting",
+    "headline": post.data.title,
+    "description": post.data.description,
+    "datePublished": post.data.pubDate.toISOString(),
+    "author": {
+      "@type": "Person",
+      "name": post.data.author,
+      "url": "https://thefrenchbot.com"
+    },
+    "publisher": {
+      "@type": "Organization",
+      "name": "The French Bot",
+      "url": "https://thefrenchbot.com"
+    },
+    "url": `https://thefrenchbot.com/blog/${post.id}`
+  })} />
+
+  <div class="relative overflow-hidden">
+    <!-- Background Glows -->
+    <div class="absolute top-32 -left-20 w-80 h-80 bg-primary/10 rounded-full blur-[120px] pointer-events-none"></div>
+    <div class="absolute top-64 -right-20 w-80 h-80 bg-secondary/8 rounded-full blur-[120px] pointer-events-none"></div>
+
+    <!-- Article Header -->
+    <header class="px-6 md:px-24 pt-36 pb-12 max-w-[800px] mx-auto">
+
+      <!-- Back link -->
+      <a
+        href="/blog"
+        class="inline-flex items-center gap-2 text-text-muted hover:text-text-primary transition-colors mb-10 font-[family-name:var(--font-label)] text-xs uppercase tracking-[0.15em]"
+      >
+        <span class="material-symbols-outlined text-sm">arrow_back</span>
+        Tous les articles
+      </a>
+
+      <!-- Tags -->
+      {post.data.tags.length > 0 && (
+        <div class="flex flex-wrap gap-2 mb-6">
+          {post.data.tags.map((tag) => (
+            <span class="text-[10px] uppercase tracking-[0.15em] font-[family-name:var(--font-label)] px-2.5 py-1 rounded-full bg-primary/10 text-primary-light border border-primary/20">
+              {tag}
+            </span>
+          ))}
+        </div>
+      )}
+
+      <!-- Title -->
+      <h1 class="font-[family-name:var(--font-headline)] font-black text-3xl md:text-5xl leading-tight text-white mb-6">
+        {post.data.title}
+      </h1>
+
+      <!-- Description -->
+      <p class="text-text-secondary text-lg md:text-xl leading-relaxed mb-8">
+        {post.data.description}
+      </p>
+
+      <!-- Meta -->
+      <div class="flex items-center gap-4 pb-8 border-b border-outline-variant/20">
+        <div class="w-8 h-8 rounded-full bg-gradient-to-br from-primary to-secondary flex items-center justify-center text-white text-xs font-bold">
+          JL
+        </div>
+        <div>
+          <p class="text-text-primary text-sm font-[family-name:var(--font-headline)] font-bold">{post.data.author}</p>
+          <time class="text-text-muted text-xs font-[family-name:var(--font-label)]" datetime={post.data.pubDate.toISOString()}>
+            {formatDate(post.data.pubDate)}
+          </time>
+        </div>
+      </div>
+    </header>
+
+    <!-- Cover image -->
+    {post.data.image && (
+      <div class="px-6 md:px-24 pb-12 max-w-[800px] mx-auto">
+        <img
+          src={post.data.image}
+          alt={post.data.title}
+          class="w-full rounded-2xl object-cover max-h-[420px]"
+          loading="eager"
+        />
+      </div>
+    )}
+
+    <!-- Article Content -->
+    <article class="px-6 md:px-24 pb-24 max-w-[800px] mx-auto prose-blog">
+      <Content />
+    </article>
+
+    <!-- CTA Section -->
+    <div class="px-6 md:px-24 pb-24 max-w-[800px] mx-auto">
+      <div class="glass-card rounded-2xl border border-primary/20 p-8 md:p-10 text-center space-y-4">
+        <span class="material-symbols-outlined text-tertiary text-3xl" style="font-variation-settings: 'FILL' 1;">calendar_month</span>
+        <h2 class="font-[family-name:var(--font-headline)] font-black text-2xl text-white">
+          Prêt à passer à l'action ?
+        </h2>
+        <p class="text-text-secondary max-w-md mx-auto">
+          30 minutes d'appel découverte, gratuit, sans engagement. On identifie votre tâche prioritaire à automatiser.
+        </p>
+        <a
+          href="https://calendly.com/thefrenchbot-coaching/30min"
+          target="_blank"
+          rel="noopener noreferrer"
+          class="inline-flex items-center gap-2 gradient-cta text-white px-8 py-4 rounded-full font-[family-name:var(--font-headline)] font-bold text-sm uppercase tracking-widest neon-glow-primary hover:scale-105 transition-all duration-300"
+        >
+          Réserver l'appel gratuit
+          <span class="material-symbols-outlined">arrow_forward</span>
+        </a>
+      </div>
+    </div>
+  </div>
+</BaseLayout>
+
+<style>
+  .prose-blog :global(h2) {
+    font-family: var(--font-headline);
+    font-weight: 800;
+    font-size: 1.5rem;
+    color: var(--color-text-primary);
+    margin-top: 2.5rem;
+    margin-bottom: 1rem;
+    line-height: 1.2;
+  }
+
+  .prose-blog :global(h3) {
+    font-family: var(--font-headline);
+    font-weight: 700;
+    font-size: 1.125rem;
+    color: var(--color-text-primary);
+    margin-top: 2rem;
+    margin-bottom: 0.75rem;
+  }
+
+  .prose-blog :global(p) {
+    color: var(--color-text-secondary);
+    line-height: 1.8;
+    margin-bottom: 1.25rem;
+    font-size: 1.0625rem;
+  }
+
+  .prose-blog :global(strong) {
+    color: var(--color-text-primary);
+    font-weight: 600;
+  }
+
+  .prose-blog :global(em) {
+    color: var(--color-text-muted);
+  }
+
+  .prose-blog :global(ul),
+  .prose-blog :global(ol) {
+    color: var(--color-text-secondary);
+    padding-left: 1.5rem;
+    margin-bottom: 1.25rem;
+    line-height: 1.8;
+  }
+
+  .prose-blog :global(li) {
+    margin-bottom: 0.5rem;
+  }
+
+  .prose-blog :global(ul li)::marker {
+    color: var(--color-primary-light);
+  }
+
+  .prose-blog :global(ol li)::marker {
+    color: var(--color-primary-light);
+    font-weight: 700;
+  }
+
+  .prose-blog :global(a) {
+    color: var(--color-primary-light);
+    text-decoration: underline;
+    text-underline-offset: 3px;
+    transition: color 0.2s;
+  }
+
+  .prose-blog :global(a:hover) {
+    color: var(--color-tertiary);
+  }
+
+  .prose-blog :global(pre) {
+    background: var(--color-bg-surface-high);
+    border: 1px solid var(--color-outline-variant);
+    border-radius: 0.75rem;
+    padding: 1.5rem;
+    overflow-x: auto;
+    margin-bottom: 1.5rem;
+  }
+
+  .prose-blog :global(code) {
+    font-family: 'JetBrains Mono', 'Fira Code', monospace;
+    font-size: 0.875rem;
+    color: var(--color-primary-light);
+  }
+
+  .prose-blog :global(pre code) {
+    color: var(--color-text-primary);
+    font-size: 0.875rem;
+  }
+
+  .prose-blog :global(blockquote) {
+    border-left: 3px solid var(--color-primary);
+    padding-left: 1.5rem;
+    margin: 1.5rem 0;
+    color: var(--color-text-muted);
+    font-style: italic;
+  }
+
+  .prose-blog :global(hr) {
+    border-color: var(--color-outline-variant);
+    margin: 2.5rem 0;
+  }
+</style>
