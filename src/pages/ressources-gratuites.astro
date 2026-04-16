@@ -4,11 +4,11 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 const formations = [
   {
     titre: "Boîte à outils IA — Les guides complets",
-    description: "Plus de 46 leçons pour maîtriser l'IA de A à Z : Claude, NotebookLM, automatisation, prompts avancés. La référence complète pour aller vite et bien.",
+    description: "Plus de 46 documents à télécharger et utiliser à vie : guides pratiques, prompts prêts à l'emploi, tutoriels Claude dans Excel, Claude dans PowerPoint, migration ChatGPT → Claude et bien plus. Tout ce qu'il faut pour intégrer l'IA dans ton quotidien, à ton rythme.",
     icon: "workspace_premium",
     color: "secondary",
     lien: "https://mediamachines.podia.com/boite-a-outils-ia-les-guides-complets-the-french-bot-formation",
-    tag: "46 leçons · Formation complète",
+    tag: "46 documents · Accès à vie",
     payant: true,
   },
 ];
@@ -83,7 +83,7 @@ const colorMap: Record<string, { bg: string; border: string; text: string; badge
     <div class="max-w-5xl mx-auto space-y-6">
       <div class="flex items-center gap-3">
         <span class="material-symbols-outlined text-secondary-light" style="font-variation-settings: 'FILL' 1;">workspace_premium</span>
-        <h2 class="font-[family-name:var(--font-label)] text-xs uppercase tracking-[0.2em] text-text-muted">Formation complète</h2>
+        <h2 class="font-[family-name:var(--font-label)] text-xs uppercase tracking-[0.2em] text-text-muted">Boîte à outils</h2>
       </div>
       {formations.map((r) => {
         const c = colorMap[r.color];
@@ -111,7 +111,7 @@ const colorMap: Record<string, { bg: string; border: string; text: string; badge
                 {r.description}
               </p>
               <div class={`mt-2 inline-flex items-center gap-2 font-[family-name:var(--font-label)] text-xs uppercase tracking-widest ${c.text} group-hover:gap-3 transition-all duration-200`}>
-                Découvrir la formation
+                Découvrir la boîte à outils
                 <span class="material-symbols-outlined text-base">arrow_forward</span>
               </div>
             </div>
