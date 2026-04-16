@@ -1,0 +1,136 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+
+const ressources = [
+  {
+    titre: "Guide MCP — NotebookLM dans Claude",
+    description: "Apprends à connecter NotebookLM directement à Claude via le protocole MCP. Zéro copier-coller, tout est automatique.",
+    icon: "settings_input_component",
+    color: "primary",
+    lien: "https://mediamachines.podia.com/notebooklm-dans-claude-mcp-the-french-bot",
+    tag: "MCP · Claude",
+  },
+  {
+    titre: "Guide NotebookLM × Claude — Mémoire infinie",
+    description: "Donne une mémoire longue durée à Claude grâce à NotebookLM. Idéal pour travailler sur des projets complexes sans perdre le fil.",
+    icon: "memory",
+    color: "secondary",
+    lien: "https://mediamachines.podia.com/claude-notebooklm-memoire-infinie",
+    tag: "NotebookLM · Claude",
+  },
+  {
+    titre: "Pack migration ChatGPT → Claude",
+    description: "Tout ce qu'il faut pour passer de ChatGPT à Claude sans perdre de temps : comparatif, prompts, méthode de transition.",
+    icon: "swap_horiz",
+    color: "tertiary",
+    lien: "https://mediamachines.podia.com/migrer-de-chat-gpt-a-claude",
+    tag: "Claude · Prompts",
+  },
+  {
+    titre: "Prompt Passeport IA",
+    description: "Un prompt universel pour te présenter à l'IA une bonne fois pour toutes : contexte, style, objectifs. Claude te comprend dès la première phrase.",
+    icon: "badge",
+    color: "primary",
+    lien: "https://mediamachines.podia.com/migrer-de-chat-gpt-a-claude",
+    tag: "Prompt · Claude",
+  },
+];
+
+const colorMap: Record<string, { bg: string; border: string; text: string; badge: string }> = {
+  primary:   { bg: "bg-primary/10",   border: "border-primary/30",   text: "text-primary-light", badge: "bg-primary/20 text-primary-light" },
+  secondary: { bg: "bg-secondary/10", border: "border-secondary/30", text: "text-secondary-light", badge: "bg-secondary/20 text-secondary-light" },
+  tertiary:  { bg: "bg-tertiary/10",  border: "border-tertiary/30",  text: "text-tertiary", badge: "bg-tertiary/20 text-tertiary" },
+};
+---
+
+<BaseLayout
+  title="Ressources gratuites — The French Bot | Guides IA à télécharger"
+  description="Guides gratuits pour apprendre à utiliser Claude, NotebookLM et l'IA au quotidien. Télécharge les ressources créées par Julian Luneau — The French Bot."
+>
+  <!-- Hero -->
+  <section class="relative pt-32 pb-16 px-6 md:px-8 overflow-hidden">
+    <div class="absolute top-1/4 -left-20 w-96 h-96 bg-primary/20 rounded-full blur-[120px] pointer-events-none"></div>
+    <div class="absolute bottom-0 -right-20 w-96 h-96 bg-secondary/15 rounded-full blur-[120px] pointer-events-none"></div>
+
+    <div class="max-w-4xl mx-auto text-center space-y-6 relative z-10">
+      <div class="inline-flex items-center gap-2 px-4 py-1 rounded-full bg-bg-surface-high border border-outline-variant/20">
+        <span class="material-symbols-outlined text-tertiary text-sm" style="font-variation-settings: 'FILL' 1;">redeem</span>
+        <span class="font-[family-name:var(--font-label)] text-xs uppercase tracking-[0.2em] text-text-secondary">100% gratuit</span>
+      </div>
+      <h1 class="font-[family-name:var(--font-headline)] font-black text-4xl sm:text-5xl md:text-6xl lg:text-7xl text-white uppercase tracking-tight leading-[0.95]">
+        Ressources <span class="gradient-text">gratuites</span>
+      </h1>
+      <p class="font-[family-name:var(--font-body)] text-xl text-text-secondary max-w-2xl mx-auto leading-relaxed">
+        Des guides pratiques pour démarrer avec l'IA, créés par Julian Luneau. Clique sur la ressource qui t'intéresse, entre ton adresse email et reçois-la directement.
+      </p>
+    </div>
+  </section>
+
+  <!-- Cards -->
+  <section class="py-16 md:py-24 px-6 md:px-8">
+    <div class="max-w-5xl mx-auto grid grid-cols-1 sm:grid-cols-2 gap-6">
+      {ressources.map((r) => {
+        const c = colorMap[r.color];
+        return (
+          <a
+            href={r.lien}
+            target="_blank"
+            rel="noopener noreferrer"
+            class={`group relative flex flex-col gap-5 p-8 rounded-3xl border ${c.border} bg-bg-surface hover:bg-bg-surface-high transition-all duration-300 hover:-translate-y-1 hover:shadow-xl`}
+          >
+            <!-- Top bar accent -->
+            <div class={`absolute top-0 left-8 right-8 h-px ${c.bg} opacity-60`}></div>
+
+            <!-- Icon + tag -->
+            <div class="flex items-start justify-between">
+              <div class={`w-12 h-12 rounded-2xl flex items-center justify-center ${c.bg} border ${c.border}`}>
+                <span class={`material-symbols-outlined ${c.text}`} style="font-variation-settings: 'FILL' 1;">{r.icon}</span>
+              </div>
+              <span class={`font-[family-name:var(--font-label)] text-[10px] uppercase tracking-[0.15em] px-3 py-1 rounded-full ${c.badge}`}>
+                {r.tag}
+              </span>
+            </div>
+
+            <!-- Text -->
+            <div class="flex flex-col gap-2 flex-1">
+              <h2 class="font-[family-name:var(--font-headline)] font-black text-lg text-white uppercase tracking-tight leading-tight group-hover:gradient-text transition-all">
+                {r.titre}
+              </h2>
+              <p class="font-[family-name:var(--font-body)] text-sm text-text-secondary leading-relaxed">
+                {r.description}
+              </p>
+            </div>
+
+            <!-- CTA -->
+            <div class={`inline-flex items-center gap-2 font-[family-name:var(--font-label)] text-xs uppercase tracking-widest ${c.text} group-hover:gap-3 transition-all duration-200`}>
+              Télécharger gratuitement
+              <span class="material-symbols-outlined text-base">arrow_forward</span>
+            </div>
+          </a>
+        );
+      })}
+    </div>
+  </section>
+
+  <!-- CTA bas de page -->
+  <section class="py-16 md:py-24 px-6 md:px-8">
+    <div class="max-w-3xl mx-auto glass-panel p-10 md:p-16 rounded-[2.5rem] border border-white/10 text-center space-y-6 relative overflow-hidden">
+      <div class="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-primary via-secondary to-tertiary"></div>
+      <h2 class="font-[family-name:var(--font-headline)] font-black text-3xl md:text-4xl text-white uppercase tracking-tight">
+        Tu veux aller plus loin ?
+      </h2>
+      <p class="font-[family-name:var(--font-body)] text-text-secondary max-w-xl mx-auto">
+        Ces guides sont un point de départ. Réserve un appel découverte gratuit pour voir comment l'IA peut transformer concrètement ton quotidien.
+      </p>
+      <a
+        href="https://calendly.com/thefrenchbot-coaching/30min"
+        target="_blank"
+        rel="noopener noreferrer"
+        class="inline-flex items-center gap-3 gradient-cta text-white px-10 py-5 rounded-full font-[family-name:var(--font-headline)] font-bold text-sm uppercase tracking-widest neon-glow-primary hover:scale-105 transition-all duration-300"
+      >
+        Réserver l'appel découverte
+        <span class="material-symbols-outlined">calendar_month</span>
+      </a>
+    </div>
+  </section>
+</BaseLayout>
