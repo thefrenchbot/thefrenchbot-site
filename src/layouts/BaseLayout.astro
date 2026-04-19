@@ -7,12 +7,14 @@ interface Props {
   title: string;
   description?: string;
   ogImage?: string;
+  pageSchema?: object | object[];
 }
 
 const {
   title,
-  description = "The French Bot — Agence de formation et d'automatisation par l'intelligence artificielle. Formations haute-fidélité pour professionnels exigeants.",
+  description = "Formation IA en France — The French Bot forme les professionnels à l'intelligence artificielle, l'automatisation no-code et Claude. Coaching IA personnalisé pour TPE et PME.",
   ogImage = '/images/og-default.jpg',
+  pageSchema,
 } = Astro.props;
 
 const canonicalURL = new URL(Astro.url.pathname, Astro.site);
@@ -62,21 +64,26 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site);
   <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
 
   <!-- Entity schema: Organization + Person -->
-  <script type="application/ld+json">{JSON.stringify({
+  <script type="application/ld+json" set:html={JSON.stringify({
     "@context": "https://schema.org",
     "@graph": [
       {
         "@type": "Organization",
-        "@id": "https://formation.thefrenchbot.com/#organization",
+        "@id": "https://thefrenchbot.com/#organization",
         "name": "The French Bot",
-        "url": "https://formation.thefrenchbot.com",
-        "logo": "https://formation.thefrenchbot.com/images/og-default.jpg",
-        "description": "Agence de formation et d'automatisation par l'intelligence artificielle pour dirigeants de TPE et PME en France.",
+        "url": "https://thefrenchbot.com",
+        "logo": {
+          "@type": "ImageObject",
+          "url": "https://thefrenchbot.com/images/og-default.jpg"
+        },
+        "description": "Organisme de formation IA en France. Coaching IA, accompagnement IA et automatisation no-code pour dirigeants de TPE et PME.",
         "foundingDate": "2023",
-        "areaServed": "FR",
-        "knowsAbout": ["Formation IA", "Automatisation no-code", "Claude", "ChatGPT", "Make", "Zapier"],
+        "areaServed": {
+          "@type": "Country",
+          "name": "France"
+        },
+        "knowsAbout": ["Formation IA", "Coaching IA", "Accompagnement IA", "Automatisation no-code", "Claude Code", "ChatGPT", "Make", "Zapier", "Prompt engineering"],
         "sameAs": [
-          "https://thefrenchbot.com",
           "https://www.instagram.com/media_machines",
           "https://www.linkedin.com/in/julianluneau",
           "https://www.youtube.com/@thefrenchbot"
@@ -90,19 +97,24 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site);
       },
       {
         "@type": "Person",
-        "@id": "https://formation.thefrenchbot.com/#person",
+        "@id": "https://thefrenchbot.com/#person",
         "name": "Julian Luneau",
-        "jobTitle": "Fondateur & Formateur IA",
-        "worksFor": { "@id": "https://formation.thefrenchbot.com/#organization" },
-        "knowsAbout": ["Formation IA", "Automatisation no-code", "Claude", "Make", "Prompt engineering"],
-        "url": "https://formation.thefrenchbot.com",
+        "jobTitle": "Formateur IA & Coach en Intelligence Artificielle",
+        "worksFor": { "@id": "https://thefrenchbot.com/#organization" },
+        "knowsAbout": ["Formation IA", "Coaching IA", "Automatisation no-code", "Claude Code", "Make", "Prompt engineering"],
+        "url": "https://thefrenchbot.com",
         "sameAs": [
           "https://www.instagram.com/media_machines",
           "https://www.linkedin.com/in/julianluneau"
         ]
       }
     ]
-  })}</script>
+  })} />
+
+  <!-- Page-level schema (Course, FAQ, etc.) -->
+  {pageSchema && (Array.isArray(pageSchema) ? pageSchema : [pageSchema]).map(schema =>
+    <script type="application/ld+json" set:html={JSON.stringify(schema)} />
+  )}
 </head>
 <body>
   <Header />
@@ -110,5 +122,152 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site);
     <slot />
   </main>
   <Footer />
+
+  <!-- POPUP FORMATIONS CLAUDE -->
+  <div id="popup-overlay" style="
+    position:fixed; inset:0; z-index:9999;
+    background:rgba(11,10,20,0.75); backdrop-filter:blur(6px);
+    display:flex; align-items:center; justify-content:center;
+    padding:16px;
+    opacity:0; pointer-events:none;
+    transition:opacity 0.4s ease;
+  ">
+    <div id="popup-card" style="
+      position:relative;
+      background:linear-gradient(135deg,#13121c 0%,#1c1a25 100%);
+      border:1px solid #3524E8;
+      border-radius:24px;
+      padding:40px 36px 32px;
+      max-width:480px; width:100%;
+      box-shadow:0 0 60px rgba(53,36,232,0.35), 0 0 120px rgba(199,0,211,0.15);
+      transform:translateY(24px) scale(0.97);
+      transition:transform 0.4s cubic-bezier(0.34,1.56,0.64,1);
+      text-align:center;
+      font-family:'Outfit',sans-serif;
+      color:#e5e0f0;
+    ">
+      <!-- Close -->
+      <button id="popup-close" aria-label="Fermer" style="
+        position:absolute; top:14px; right:16px;
+        background:none; border:none; cursor:pointer;
+        color:#908fa2; font-size:22px; line-height:1;
+        transition:color 0.2s;
+      " onmouseover="this.style.color='#e5e0f0'" onmouseout="this.style.color='#908fa2'">✕</button>
+
+      <!-- Badge -->
+      <div style="
+        display:inline-flex; align-items:center; gap:6px;
+        background:linear-gradient(90deg,#3524E8,#C700D3);
+        border-radius:100px; padding:4px 16px;
+        font-size:0.72rem; font-weight:700; letter-spacing:0.12em;
+        text-transform:uppercase; color:#fff;
+        margin-bottom:20px;
+      ">🔥 Places limitées</div>
+
+      <!-- Title -->
+      <div style="font-size:2rem; margin-bottom:6px;">🤖</div>
+      <h2 style="
+        font-family:'Space Grotesk',sans-serif;
+        font-size:1.55rem; font-weight:900;
+        line-height:1.2; margin-bottom:8px;
+        color:#fff;
+      ">Maîtrisez Claude.<br>Pour de vrai.</h2>
+      <p style="font-size:0.95rem; color:#c7c4d9; margin-bottom:28px; line-height:1.6;">
+        Deux sessions intensives pour passer de curieux à expert.<br>Choisissez votre date 👇
+      </p>
+
+      <!-- Dates -->
+      <div style="display:flex; gap:12px; margin-bottom:28px; flex-wrap:wrap; justify-content:center;">
+
+        <div style="
+          flex:1; min-width:160px;
+          background:#1c1a25;
+          border:1px solid #3524E8;
+          border-radius:16px; padding:18px 14px;
+          position:relative; overflow:hidden;
+        ">
+          <div style="
+            position:absolute; top:0; left:0; right:0; height:3px;
+            background:linear-gradient(90deg,#3524E8,#64d8d9);
+          "></div>
+          <div style="font-size:1.6rem; margin-bottom:6px;">📅</div>
+          <div style="font-size:0.72rem; font-weight:700; text-transform:uppercase; letter-spacing:0.1em; color:#bcbbff; margin-bottom:4px;">Session 1</div>
+          <div style="font-size:1.05rem; font-weight:800; color:#fff;">Mercredi</div>
+          <div style="font-size:1.5rem; font-weight:900; color:#64d8d9; line-height:1.1;">29 avril</div>
+        </div>
+
+        <div style="
+          flex:1; min-width:160px;
+          background:#1c1a25;
+          border:1px solid #C700D3;
+          border-radius:16px; padding:18px 14px;
+          position:relative; overflow:hidden;
+        ">
+          <div style="
+            position:absolute; top:0; left:0; right:0; height:3px;
+            background:linear-gradient(90deg,#C700D3,#ffa9fb);
+          "></div>
+          <div style="font-size:1.6rem; margin-bottom:6px;">🗓️</div>
+          <div style="font-size:0.72rem; font-weight:700; text-transform:uppercase; letter-spacing:0.1em; color:#ffa9fb; margin-bottom:4px;">Session 2</div>
+          <div style="font-size:1.05rem; font-weight:800; color:#fff;">Mercredi</div>
+          <div style="font-size:1.5rem; font-weight:900; color:#ffa9fb; line-height:1.1;">20 mai</div>
+        </div>
+
+      </div>
+
+      <!-- CTA -->
+      <a href="https://calendly.com/thefrenchbot-coaching/30min" target="_blank" rel="noopener" style="
+        display:inline-flex; align-items:center; gap:8px;
+        background:linear-gradient(90deg,#3524E8,#C700D3);
+        color:#fff; font-weight:700; font-size:1rem;
+        padding:14px 32px; border-radius:100px;
+        text-decoration:none;
+        box-shadow:0 4px 24px rgba(53,36,232,0.4);
+        transition:transform 0.2s, box-shadow 0.2s;
+        margin-bottom:14px;
+      "
+      onmouseover="this.style.transform='translateY(-2px)';this.style.boxShadow='0 8px 32px rgba(53,36,232,0.5)'"
+      onmouseout="this.style.transform='none';this.style.boxShadow='0 4px 24px rgba(53,36,232,0.4)'"
+      >
+        ✨ Je réserve ma place
+      </a>
+
+      <p style="font-size:0.78rem; color:#908fa2;">Appel découverte gratuit · Sans engagement</p>
+    </div>
+  </div>
+
+  <script>
+    (function() {
+      const SESSION_KEY = 'tfb_popup_seen';
+      if (sessionStorage.getItem(SESSION_KEY)) return;
+
+      const overlay = document.getElementById('popup-overlay');
+      const card = document.getElementById('popup-card');
+      const closeBtn = document.getElementById('popup-close');
+
+      function openPopup() {
+        overlay.style.opacity = '1';
+        overlay.style.pointerEvents = 'auto';
+        card.style.transform = 'translateY(0) scale(1)';
+        sessionStorage.setItem(SESSION_KEY, '1');
+      }
+
+      function closePopup() {
+        overlay.style.opacity = '0';
+        overlay.style.pointerEvents = 'none';
+        card.style.transform = 'translateY(24px) scale(0.97)';
+      }
+
+      setTimeout(openPopup, 1800);
+
+      closeBtn.addEventListener('click', closePopup);
+      overlay.addEventListener('click', function(e) {
+        if (e.target === overlay) closePopup();
+      });
+      document.addEventListener('keydown', function(e) {
+        if (e.key === 'Escape') closePopup();
+      });
+    })();
+  </script>
 </body>
 </html>
