@@ -25,8 +25,8 @@ import logo from '../assets/logo.jpg';
       <a href="/experts" class="font-[family-name:var(--font-headline)] font-black text-[11px] uppercase tracking-[0.2em] text-text-secondary hover:text-text-primary transition-colors">
         Experts
       </a>
-      <a href="/faq" class="font-[family-name:var(--font-headline)] font-black text-[11px] uppercase tracking-[0.2em] text-text-secondary hover:text-text-primary transition-colors">
-        FAQ
+      <a href="/coaching-ia" class="font-[family-name:var(--font-headline)] font-black text-[11px] uppercase tracking-[0.2em] text-text-secondary hover:text-text-primary transition-colors">
+        Coaching IA
       </a>
       <a href="/blog" class="font-[family-name:var(--font-headline)] font-black text-[11px] uppercase tracking-[0.2em] text-text-secondary hover:text-text-primary transition-colors">
         Blog
@@ -43,17 +43,18 @@ import logo from '../assets/logo.jpg';
       </a>
     </div>
 
-    <!-- Mobile: hamburger button (44×44px touch target) -->
+    <!-- Mobile: hamburger button (48×48px touch target) -->
     <button
       id="mobile-menu-btn"
-      class="md:hidden relative z-50 flex flex-col justify-center items-center w-11 h-11 gap-[6px] rounded-lg focus:outline-none"
+      class="md:hidden relative z-50 flex flex-col justify-center items-center w-12 h-12 gap-[5px] rounded-xl border border-white/20 bg-white/8 hover:bg-white/15 active:scale-95 focus:outline-none focus:ring-2 focus:ring-primary/60 transition-all duration-200"
       aria-label="Ouvrir le menu"
       aria-expanded="false"
       aria-controls="mobile-menu"
+      style="box-shadow: 0 0 12px rgba(53,36,232,0.25);"
     >
-      <span id="ham-1" class="block w-6 h-0.5 bg-white rounded-full transition-all duration-300 origin-center"></span>
-      <span id="ham-2" class="block w-6 h-0.5 bg-white rounded-full transition-all duration-300"></span>
-      <span id="ham-3" class="block w-6 h-0.5 bg-white rounded-full transition-all duration-300 origin-center"></span>
+      <span id="ham-1" class="block w-5 h-[2px] bg-white rounded-full transition-all duration-300 origin-center"></span>
+      <span id="ham-2" class="block w-5 h-[2px] bg-white rounded-full transition-all duration-300"></span>
+      <span id="ham-3" class="block w-5 h-[2px] bg-white rounded-full transition-all duration-300 origin-center"></span>
     </button>
 
   </div>
@@ -93,8 +94,8 @@ import logo from '../assets/logo.jpg';
         <span class="font-[family-name:var(--font-headline)] font-black text-3xl uppercase tracking-tight text-white group-hover:text-primary-light transition-colors duration-200">Experts</span>
         <span class="material-symbols-outlined text-text-muted group-hover:text-primary-light transition-colors duration-200">arrow_forward</span>
       </a>
-      <a href="/faq" class="mobile-nav-link flex items-center justify-between py-5 border-b border-white/10 group">
-        <span class="font-[family-name:var(--font-headline)] font-black text-3xl uppercase tracking-tight text-white group-hover:text-primary-light transition-colors duration-200">FAQ</span>
+      <a href="/coaching-ia" class="mobile-nav-link flex items-center justify-between py-5 border-b border-white/10 group">
+        <span class="font-[family-name:var(--font-headline)] font-black text-3xl uppercase tracking-tight text-white group-hover:text-primary-light transition-colors duration-200">Coaching IA</span>
         <span class="material-symbols-outlined text-text-muted group-hover:text-primary-light transition-colors duration-200">arrow_forward</span>
       </a>
       <a href="/blog" class="mobile-nav-link flex items-center justify-between py-5 border-b border-white/10 group">
@@ -143,9 +144,9 @@ import logo from '../assets/logo.jpg';
     if (menu) { menu.style.visibility = 'visible'; menu.style.opacity = '1'; }
     btn?.setAttribute('aria-expanded', 'true');
     document.body.style.overflow = 'hidden';
-    if (l1) l1.style.transform = 'translateY(8px) rotate(45deg)';
+    if (l1) l1.style.transform = 'translateY(7px) rotate(45deg)';
     if (l2) l2.style.opacity = '0';
-    if (l3) l3.style.transform = 'translateY(-8px) rotate(-45deg)';
+    if (l3) l3.style.transform = 'translateY(-7px) rotate(-45deg)';
   }
 
   function closeMenu() {
