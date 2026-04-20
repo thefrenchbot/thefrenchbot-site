@@ -43,132 +43,124 @@ import logo from '../assets/logo.jpg';
       </a>
     </div>
 
-    <!-- Mobile: hamburger button (48×48px touch target) -->
-    <button
-      id="mobile-menu-btn"
-      class="md:hidden relative z-50 flex flex-col justify-center items-center w-12 h-12 gap-[5px] rounded-xl border border-white/20 bg-white/8 hover:bg-white/15 active:scale-95 focus:outline-none focus:ring-2 focus:ring-primary/60 transition-all duration-200"
-      aria-label="Ouvrir le menu"
-      aria-expanded="false"
-      aria-controls="mobile-menu"
-      style="box-shadow: 0 0 12px rgba(53,36,232,0.25);"
-    >
-      <span id="ham-1" class="block w-5 h-[2px] bg-white rounded-full transition-all duration-300 origin-center"></span>
-      <span id="ham-2" class="block w-5 h-[2px] bg-white rounded-full transition-all duration-300"></span>
-      <span id="ham-3" class="block w-5 h-[2px] bg-white rounded-full transition-all duration-300 origin-center"></span>
-    </button>
-
   </div>
   <div class="bg-gradient-to-b from-white/10 to-transparent h-[1px]"></div>
 </header>
 
-<!-- Mobile Menu Overlay -->
-<div
-  id="mobile-menu"
-  class="fixed inset-0 z-40 flex flex-col md:hidden"
-  style="visibility: hidden; opacity: 0; transition: opacity 0.3s ease, visibility 0.3s ease;"
-  role="dialog"
-  aria-modal="true"
-  aria-label="Menu de navigation"
+<!-- ===== MOBILE BOTTOM NAV BAR ===== -->
+<nav
+  id="bottom-nav"
+  class="md:hidden fixed bottom-0 left-0 right-0 z-50"
+  aria-label="Navigation principale"
+  style="
+    background: rgba(11,10,20,0.92);
+    backdrop-filter: blur(20px);
+    border-top: 1px solid rgba(255,255,255,0.08);
+    box-shadow: 0 -8px 32px rgba(0,0,0,0.4), 0 -1px 0 rgba(53,36,232,0.2);
+    padding-bottom: env(safe-area-inset-bottom);
+  "
 >
-  <!-- Backdrop -->
-  <div class="absolute inset-0 bg-bg-base/96 backdrop-blur-2xl"></div>
+  <div style="display:flex; justify-content:space-around; align-items:center; padding: 8px 4px 6px;">
 
-  <!-- Glow decorations -->
-  <div class="absolute top-1/4 -left-20 w-80 h-80 bg-primary/15 rounded-full blur-[100px] pointer-events-none"></div>
-  <div class="absolute bottom-1/4 -right-20 w-80 h-80 bg-secondary/10 rounded-full blur-[100px] pointer-events-none"></div>
+    <!-- Accueil -->
+    <a href="/" class="bottom-nav-item" aria-label="Accueil" style="
+      display:flex; flex-direction:column; align-items:center; gap:3px;
+      padding:6px 12px; border-radius:14px;
+      color: rgba(255,255,255,0.5);
+      font-family: var(--font-headline, 'Outfit', sans-serif);
+      font-size: 9px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase;
+      text-decoration: none;
+      transition: color 0.2s, background 0.2s;
+      -webkit-tap-highlight-color: transparent;
+    ">
+      <span class="material-symbols-outlined" style="font-size:22px; font-variation-settings:'FILL' 0,'wght' 300;">home</span>
+      Accueil
+    </a>
 
-  <!-- Content -->
-  <div class="relative z-10 flex flex-col h-full pt-24 pb-10 px-8 justify-between">
+    <!-- Formations -->
+    <a href="/formations" class="bottom-nav-item" aria-label="Formations" style="
+      display:flex; flex-direction:column; align-items:center; gap:3px;
+      padding:6px 12px; border-radius:14px;
+      color: rgba(255,255,255,0.5);
+      font-family: var(--font-headline, 'Outfit', sans-serif);
+      font-size: 9px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase;
+      text-decoration: none;
+      transition: color 0.2s, background 0.2s;
+      -webkit-tap-highlight-color: transparent;
+    ">
+      <span class="material-symbols-outlined" style="font-size:22px; font-variation-settings:'FILL' 0,'wght' 300;">school</span>
+      Formations
+    </a>
 
-    <!-- Nav links -->
-    <nav class="flex flex-col" role="navigation">
-      <a href="/" class="mobile-nav-link flex items-center justify-between py-5 border-b border-white/10 group">
-        <span class="font-[family-name:var(--font-headline)] font-black text-3xl uppercase tracking-tight text-white group-hover:text-primary-light transition-colors duration-200">Accueil</span>
-        <span class="material-symbols-outlined text-text-muted group-hover:text-primary-light transition-colors duration-200">arrow_forward</span>
-      </a>
-      <a href="/formations" class="mobile-nav-link flex items-center justify-between py-5 border-b border-white/10 group">
-        <span class="font-[family-name:var(--font-headline)] font-black text-3xl uppercase tracking-tight text-white group-hover:text-primary-light transition-colors duration-200">Formations</span>
-        <span class="material-symbols-outlined text-text-muted group-hover:text-primary-light transition-colors duration-200">arrow_forward</span>
-      </a>
-      <a href="/experts" class="mobile-nav-link flex items-center justify-between py-5 border-b border-white/10 group">
-        <span class="font-[family-name:var(--font-headline)] font-black text-3xl uppercase tracking-tight text-white group-hover:text-primary-light transition-colors duration-200">Experts</span>
-        <span class="material-symbols-outlined text-text-muted group-hover:text-primary-light transition-colors duration-200">arrow_forward</span>
-      </a>
-      <a href="/coaching-ia" class="mobile-nav-link flex items-center justify-between py-5 border-b border-white/10 group">
-        <span class="font-[family-name:var(--font-headline)] font-black text-3xl uppercase tracking-tight text-white group-hover:text-primary-light transition-colors duration-200">Coaching IA</span>
-        <span class="material-symbols-outlined text-text-muted group-hover:text-primary-light transition-colors duration-200">arrow_forward</span>
-      </a>
-      <a href="/blog" class="mobile-nav-link flex items-center justify-between py-5 border-b border-white/10 group">
-        <span class="font-[family-name:var(--font-headline)] font-black text-3xl uppercase tracking-tight text-white group-hover:text-primary-light transition-colors duration-200">Blog</span>
-        <span class="material-symbols-outlined text-text-muted group-hover:text-primary-light transition-colors duration-200">arrow_forward</span>
-      </a>
-      <a href="/cas-clients" class="mobile-nav-link flex items-center justify-between py-5 border-b border-white/10 group">
-        <span class="font-[family-name:var(--font-headline)] font-black text-3xl uppercase tracking-tight text-white group-hover:text-primary-light transition-colors duration-200">Cas clients</span>
-        <span class="material-symbols-outlined text-text-muted group-hover:text-primary-light transition-colors duration-200">arrow_forward</span>
-      </a>
-    </nav>
+    <!-- Coaching — bouton central mis en valeur -->
+    <a href="/coaching-ia" class="bottom-nav-item" aria-label="Coaching IA" style="
+      display:flex; flex-direction:column; align-items:center; gap:3px;
+      padding:6px 12px; border-radius:14px;
+      color: rgba(255,255,255,0.5);
+      font-family: var(--font-headline, 'Outfit', sans-serif);
+      font-size: 9px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase;
+      text-decoration: none;
+      transition: color 0.2s, background 0.2s;
+      -webkit-tap-highlight-color: transparent;
+      position: relative;
+    ">
+      <div style="
+        width:44px; height:44px; border-radius:50%;
+        background: linear-gradient(135deg, #3524E8, #C700D3);
+        display:flex; align-items:center; justify-content:center;
+        box-shadow: 0 0 20px rgba(53,36,232,0.5), 0 0 40px rgba(199,0,211,0.2);
+        margin-bottom:2px;
+        margin-top:-14px;
+      ">
+        <span class="material-symbols-outlined" style="font-size:22px; color:#fff; font-variation-settings:'FILL' 0,'wght' 300;">psychology</span>
+      </div>
+      Coaching
+    </a>
 
-    <!-- Bottom CTAs -->
-    <div class="space-y-3 pt-6">
-      <a
-        href="#contact"
-        class="mobile-nav-link block w-full gradient-cta text-white py-5 rounded-2xl font-[family-name:var(--font-headline)] font-black text-sm uppercase tracking-widest neon-glow-primary text-center hover:scale-[1.02] transition-transform active:scale-[0.98]"
-      >
-        Nous contacter
-      </a>
-      <a
-        href="https://calendly.com/thefrenchbot-coaching/30min"
-        target="_blank"
-        rel="noopener noreferrer"
-        class="mobile-nav-link flex items-center justify-center gap-2 w-full glass-panel text-white py-4 rounded-2xl font-[family-name:var(--font-headline)] font-bold text-sm uppercase tracking-widest border border-white/10 hover:bg-white/5 transition-colors"
-      >
-        <span class="material-symbols-outlined text-primary-light text-base">calendar_month</span>
-        Appel découverte gratuit
-      </a>
-    </div>
+    <!-- Blog -->
+    <a href="/blog" class="bottom-nav-item" aria-label="Blog" style="
+      display:flex; flex-direction:column; align-items:center; gap:3px;
+      padding:6px 12px; border-radius:14px;
+      color: rgba(255,255,255,0.5);
+      font-family: var(--font-headline, 'Outfit', sans-serif);
+      font-size: 9px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase;
+      text-decoration: none;
+      transition: color 0.2s, background 0.2s;
+      -webkit-tap-highlight-color: transparent;
+    ">
+      <span class="material-symbols-outlined" style="font-size:22px; font-variation-settings:'FILL' 0,'wght' 300;">article</span>
+      Blog
+    </a>
+
+    <!-- Contact -->
+    <a href="#contact" class="bottom-nav-item" aria-label="Contact" style="
+      display:flex; flex-direction:column; align-items:center; gap:3px;
+      padding:6px 12px; border-radius:14px;
+      color: rgba(255,255,255,0.5);
+      font-family: var(--font-headline, 'Outfit', sans-serif);
+      font-size: 9px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase;
+      text-decoration: none;
+      transition: color 0.2s, background 0.2s;
+      -webkit-tap-highlight-color: transparent;
+    ">
+      <span class="material-symbols-outlined" style="font-size:22px; font-variation-settings:'FILL' 0,'wght' 300;">mail</span>
+      Contact
+    </a>
 
   </div>
-</div>
+</nav>
 
 <script>
-  const btn = document.getElementById('mobile-menu-btn') as HTMLButtonElement | null;
-  const menu = document.getElementById('mobile-menu') as HTMLElement | null;
-  const l1 = document.getElementById('ham-1') as HTMLElement | null;
-  const l2 = document.getElementById('ham-2') as HTMLElement | null;
-  const l3 = document.getElementById('ham-3') as HTMLElement | null;
-
-  let isOpen = false;
-
-  function openMenu() {
-    isOpen = true;
-    if (menu) { menu.style.visibility = 'visible'; menu.style.opacity = '1'; }
-    btn?.setAttribute('aria-expanded', 'true');
-    document.body.style.overflow = 'hidden';
-    if (l1) l1.style.transform = 'translateY(7px) rotate(45deg)';
-    if (l2) l2.style.opacity = '0';
-    if (l3) l3.style.transform = 'translateY(-7px) rotate(-45deg)';
-  }
-
-  function closeMenu() {
-    isOpen = false;
-    if (menu) {
-      menu.style.opacity = '0';
-      setTimeout(() => { if (menu) menu.style.visibility = 'hidden'; }, 300);
+  // Highlight active tab based on current path
+  const path = window.location.pathname;
+  document.querySelectorAll('.bottom-nav-item').forEach((link) => {
+    const href = link.getAttribute('href') ?? '';
+    const isActive =
+      href === '/' ? path === '/' : (href !== '#contact' && path.startsWith(href));
+    if (isActive) {
+      (link as HTMLElement).style.color = '#bcbbff';
+      const icon = link.querySelector('.material-symbols-outlined') as HTMLElement | null;
+      if (icon) icon.style.fontVariationSettings = "'FILL' 1,'wght' 400";
     }
-    btn?.setAttribute('aria-expanded', 'false');
-    document.body.style.overflow = '';
-    if (l1) l1.style.transform = '';
-    if (l2) l2.style.opacity = '';
-    if (l3) l3.style.transform = '';
-  }
-
-  btn?.addEventListener('click', () => isOpen ? closeMenu() : openMenu());
-
-  document.querySelectorAll('.mobile-nav-link').forEach(link => {
-    link.addEventListener('click', closeMenu);
-  });
-
-  document.addEventListener('keydown', (e) => {
-    if (e.key === 'Escape' && isOpen) closeMenu();
   });
 </script>
