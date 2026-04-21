@@ -10,6 +10,9 @@ export default defineConfig({
   output: 'static',
   adapter: vercel(),
   integrations: [sitemap()],
+  redirects: {
+    '/formation': '/formations',
+  },
   vite: {
     plugins: [tailwindcss()],
   },
