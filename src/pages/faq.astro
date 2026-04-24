@@ -3,6 +3,19 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 import FAQSection from '../components/FAQSection.astro';
 import faqs from '../data/faq-globale.json';
 
+const faqPageSchema = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": faqs.map((f: { question: string; answer: string }) => ({
+    "@type": "Question",
+    "name": f.question,
+    "acceptedAnswer": {
+      "@type": "Answer",
+      "text": f.answer.replace(/<[^>]*>/g, ' ').replace(/\s+/g, ' ').trim()
+    }
+  }))
+};
+
 const clusters = [
   {
     id: 'qui-je-suis',
@@ -34,6 +47,7 @@ const clusters = [
 <BaseLayout
   title="FAQ — The French Bot | Toutes vos questions sur la formation IA et l'automatisation"
   description="Toutes les réponses sur les formations IA, l'automatisation no-code, les tarifs, le financement OPCO/CPF et l'accompagnement The French Bot. 50 questions réelles de dirigeants de TPE."
+  pageSchema={faqPageSchema}
 >
   <!-- Hero -->
   <section class="relative pt-32 pb-16 px-6 md:px-8 overflow-hidden">
@@ -85,7 +99,7 @@ const clusters = [
                 {cluster.label}
               </h2>
             </div>
-            <FAQSection faqs={clusterFaqs} />
+            <FAQSection faqs={clusterFaqs} emitSchema={false} />
           </section>
         );
       })}

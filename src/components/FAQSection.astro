@@ -11,9 +11,10 @@ interface Props {
   title?: string;
   subtitle?: string;
   compact?: boolean;
+  emitSchema?: boolean;
 }
 
-const { faqs, title, subtitle, compact = false } = Astro.props;
+const { faqs, title, subtitle, compact = false, emitSchema = true } = Astro.props;
 
 const faqSchema = {
   "@context": "https://schema.org",
@@ -56,7 +57,7 @@ const faqSchema = {
   ))}
 </div>
 
-<script type="application/ld+json" set:html={JSON.stringify(faqSchema)} />
+{emitSchema && <script type="application/ld+json" set:html={JSON.stringify(faqSchema)} />}
 
 <style>
   .faq-answer :global(p) {

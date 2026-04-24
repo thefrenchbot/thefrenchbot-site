@@ -78,11 +78,42 @@ const formations = [
 ];
 
 const categories = ['Toutes', 'Produit', 'Engineering', 'Stratégie'];
+
+const coursesSchema = {
+  "@context": "https://schema.org",
+  "@type": "ItemList",
+  "name": "Formations IA — The French Bot",
+  "description": "Catalogue de formations en intelligence artificielle, coaching IA et automatisation no-code pour professionnels en France.",
+  "url": "https://thefrenchbot.com/formations",
+  "itemListElement": formations.map((f, i) => ({
+    "@type": "ListItem",
+    "position": i + 1,
+    "item": {
+      "@type": "Course",
+      "name": f.title,
+      "description": f.description,
+      "url": `https://thefrenchbot.com/formations/${f.slug}`,
+      "provider": {
+        "@type": "Organization",
+        "name": "The French Bot",
+        "url": "https://thefrenchbot.com"
+      },
+      "inLanguage": "fr",
+      "courseMode": "blended",
+      "offers": f.price !== 'Nous contacter' ? {
+        "@type": "Offer",
+        "price": f.price.replace('€', '').replace(' ', ''),
+        "priceCurrency": "EUR"
+      } : undefined
+    }
+  }))
+};
 ---
 
 <BaseLayout
-  title="Catalogue de Formations — The French Bot"
-  description="Découvrez nos formations IA : Prompt Engineering, No-Code, Product Management IA et plus. Programmes conçus par des experts pour professionnels exigeants."
+  title="Formations IA en France | Coaching IA & Automatisation — The French Bot"
+  description="Découvrez toutes nos formations IA : Claude Code, Prompt Engineering, No-Code, automatisation. Formations IA en présentiel et en ligne pour professionnels et dirigeants. Financement OPCO disponible."
+  pageSchema={coursesSchema}
 >
   <!-- Header Section -->
   <section class="pt-32 pb-12 md:pb-20 px-6 md:px-12 max-w-[1440px] mx-auto">

@@ -200,11 +200,53 @@ export function getStaticPaths() {
 
 const { formation } = Astro.props;
 const f = formation;
+
+const courseSchema = {
+  "@context": "https://schema.org",
+  "@type": "Course",
+  "name": f.title,
+  "description": f.description,
+  "url": `https://thefrenchbot.com/formations/${f.slug}`,
+  "provider": {
+    "@type": "Organization",
+    "name": "The French Bot",
+    "url": "https://thefrenchbot.com",
+    "sameAs": "https://thefrenchbot.com"
+  },
+  "instructor": {
+    "@type": "Person",
+    "name": f.instructor?.name ?? "Julian Luneau",
+    "jobTitle": "Formateur IA & Coach en Intelligence Artificielle"
+  },
+  "inLanguage": "fr",
+  "courseMode": f.format?.includes('Présentiel') ? "blended" : "online",
+  "hasCourseInstance": {
+    "@type": "CourseInstance",
+    "courseMode": f.format?.includes('Présentiel') ? "blended" : "online",
+    "inLanguage": "fr"
+  },
+  ...(f.price && f.price !== 'Nous contacter' ? {
+    "offers": {
+      "@type": "Offer",
+      "price": f.price.replace('€', '').replace(/\s/g, ''),
+      "priceCurrency": "EUR",
+      "availability": "https://schema.org/InStock"
+    }
+  } : {}),
+  ...(f.faqs && f.faqs.length > 0 ? {
+    "about": f.faqs.map((faq: { q: string; a: string }) => ({
+      "@type": "Question",
+      "name": faq.q,
+      "acceptedAnswer": { "@type": "Answer", "text": faq.a }
+    }))
+  } : {})
+};
 ---
 
 <BaseLayout
-  title={`${f.title} — The French Bot`}
-  description={f.description}
+  title={`${f.title} — Formation IA | The French Bot`}
+  description={`${f.description} Formation IA dispensée par Julian Luneau, expert en intelligence artificielle et automatisation.`}
+  pageSchema={courseSchema}
 >
   <!-- Hero -->
   <section class="relative pt-32 pb-20 md:pb-24 px-6 md:px-8 overflow-hidden">

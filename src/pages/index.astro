@@ -33,9 +33,13 @@ const homeFaqs = [
     answer: "<p>Les deux. Selon ton besoin : soit je te forme pour que tu sois autonome, soit je construis l'automatisation directement dans ton outil métier. Certains veulent apprendre à pêcher, d'autres veulent qu'on leur apporte le poisson — je m'adapte.</p>"
   }
 ];
+
 ---
 
-<BaseLayout title="The French Bot — Formation & Automatisation IA">
+<BaseLayout
+  title="Formation IA en France | Coaching & Automatisation — The French Bot"
+  description="Formez-vous à l'intelligence artificielle avec The French Bot : formation IA, coaching IA, accompagnement IA et automatisation no-code pour professionnels. 100+ pros formés. Résultats dès la 1ère semaine."
+>
   <!-- Hero Section -->
   <section class="relative min-h-screen flex flex-col justify-center px-6 md:px-24 pt-24 overflow-hidden">
     <!-- Background Glows -->
@@ -50,12 +54,12 @@ const homeFaqs = [
         </div>
 
         <h1 class="font-[family-name:var(--font-headline)] font-black text-4xl sm:text-5xl md:text-7xl lg:text-8xl leading-[0.9] tracking-tight text-white">
-          Propulsez-vous dans
-          <span class="gradient-text">l'ère de l'IA</span>
+          Formation IA &
+          <span class="gradient-text">coaching IA</span>
         </h1>
 
         <p class="font-[family-name:var(--font-body)] text-xl text-text-secondary max-w-lg leading-relaxed">
-          Formations haute-fidélité pour professionnels exigeants. Maîtrisez les outils de demain avec The French Bot.
+          Accompagnement IA et automatisation no-code pour professionnels exigeants. Maîtrisez Claude Code, Make et les outils d'intelligence artificielle avec The French Bot — 100+ pros formés en France.
         </p>
 
         <div class="flex flex-wrap gap-6 pt-4">
@@ -341,6 +345,7 @@ const homeFaqs = [
         faqs={homeFaqs}
         title="Questions fréquentes"
         subtitle="Les objections les plus courantes avant de se lancer — réponses directes, sans jargon."
+        emitSchema={false}
       />
       <div class="mt-10 text-center">
         <a

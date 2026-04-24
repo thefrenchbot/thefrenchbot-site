@@ -1,7 +1,19 @@
 ---
+export const prerender = false;
+
+import { createHash } from 'crypto';
 import DashboardLayout from '../layouts/DashboardLayout.astro';
 
-// ─── Formations data ───────────────────────────────────────────────────────
+// ─── Auth (100% côté serveur — le mot de passe ne quitte jamais le serveur) ──
+const DASHBOARD_PASSWORD = import.meta.env.DASHBOARD_PASSWORD;
+const SESSION_SECRET = import.meta.env.SESSION_SECRET || DASHBOARD_PASSWORD || '';
+const EXPECTED_TOKEN = createHash('sha256').update(SESSION_SECRET + ':tfb-dashboard').digest('hex');
+
+const sessionCookie = Astro.cookies.get('tfb_session')?.value;
+const isAuthed = Boolean(SESSION_SECRET) && sessionCookie === EXPECTED_TOKEN;
+const hasError = Astro.url.searchParams.get('error') === '1';
+
+// ─── Formations data ──────────────────────────────────────────────────────────
 const formations = [
   {
     id: 1,
@@ -53,10 +65,7 @@ const formationsData = formations.map(f => ({
   )),
 }));
 
-// ─── Auth ─────────────────────────────────────────────────────────────────
-const DASHBOARD_PWD = import.meta.env.PUBLIC_DASHBOARD_PASSWORD || 'thefrenchbot2026';
-
-// ─── HubSpot (server-side build-time — token jamais exposé au client) ─────
+// ─── HubSpot (server-side — token jamais exposé au client) ───────────────────
 const HUBSPOT_TOKEN = import.meta.env.HUBSPOT_TOKEN;
 
 interface HubContact {
@@ -76,7 +85,7 @@ const hubspot = {
   }),
 };
 
-if (HUBSPOT_TOKEN) {
+if (isAuthed && HUBSPOT_TOKEN) {
   try {
     const h = { Authorization: `Bearer ${HUBSPOT_TOKEN}` };
     const [cRes, dRes] = await Promise.all([
@@ -121,15 +130,16 @@ function relDate(str?: string) {
 
 <DashboardLayout title="Dashboard — The French Bot">
 
+{!isAuthed ? (
   <!-- ═══════════════════════════════════════════════
-       AUTH GATE
+       LOGIN — affiché uniquement si non connecté
+       Le dashboard n'est PAS dans ce HTML.
   ════════════════════════════════════════════════ -->
-  <div id="auth-gate" class="fixed inset-0 z-50 flex items-center justify-center bg-bg-base">
+  <div class="fixed inset-0 z-50 flex items-center justify-center bg-bg-base">
     <div class="absolute top-1/3 left-1/4 w-[500px] h-[500px] rounded-full bg-primary/15 blur-[140px] pointer-events-none"></div>
     <div class="absolute bottom-1/4 right-1/4 w-[400px] h-[400px] rounded-full bg-secondary/15 blur-[140px] pointer-events-none"></div>
 
     <div class="relative z-10 w-full max-w-sm mx-4">
-      <!-- Brand -->
       <div class="text-center mb-8 space-y-1">
         <p class="font-[family-name:var(--font-script)] text-5xl gradient-text leading-none">The French Bot</p>
         <p class="font-[family-name:var(--font-headline)] font-black text-xs uppercase tracking-[0.35em] text-text-muted mt-3">
@@ -137,31 +147,39 @@ function relDate(str?: string) {
         </p>
       </div>
 
-      <!-- Card -->
       <div class="glass-panel rounded-3xl border border-white/10 p-8 space-y-5">
-        <div>
-          <label class="font-[family-name:var(--font-headline)] font-bold text-[10px] uppercase tracking-[0.25em] text-text-secondary block mb-2">
-            Mot de passe
-          </label>
-          <input
-            id="pwd-input"
-            type="password"
-            placeholder="••••••••••••"
-            class="w-full bg-bg-surface border border-outline-variant/40 rounded-xl px-4 py-3.5 text-white placeholder-text-muted font-[family-name:var(--font-body)] text-sm focus:outline-none focus:border-primary/70 focus:ring-1 focus:ring-primary/30 transition-all"
-            autocomplete="current-password"
-          />
-        </div>
+        <form method="POST" action="/api/login" class="space-y-5">
+          <div>
+            <label
+              for="pwd-input"
+              class="font-[family-name:var(--font-headline)] font-bold text-[10px] uppercase tracking-[0.25em] text-text-secondary block mb-2"
+            >
+              Mot de passe
+            </label>
+            <input
+              id="pwd-input"
+              name="password"
+              type="password"
+              placeholder="••••••••••••"
+              class="w-full bg-bg-surface border border-outline-variant/40 rounded-xl px-4 py-3.5 text-white placeholder-text-muted font-[family-name:var(--font-body)] text-sm focus:outline-none focus:border-primary/70 focus:ring-1 focus:ring-primary/30 transition-all"
+              autocomplete="current-password"
+              autofocus
+            />
+          </div>
 
-        <p id="auth-error" class="hidden text-xs text-center font-[family-name:var(--font-body)]" style="color: #ffb4ab;">
-          Mot de passe incorrect. Réessaie.
-        </p>
+          {hasError && (
+            <p class="text-xs text-center font-[family-name:var(--font-body)]" style="color: #ffb4ab;">
+              Mot de passe incorrect. Réessaie.
+            </p>
+          )}
 
-        <button
-          id="login-btn"
-          class="w-full gradient-cta text-white py-3.5 rounded-xl font-[family-name:var(--font-headline)] font-black text-xs uppercase tracking-[0.25em] neon-glow-primary hover:scale-[1.02] active:scale-[0.98] transition-all duration-200"
-        >
-          Accéder au dashboard
-        </button>
+          <button
+            type="submit"
+            class="w-full gradient-cta text-white py-3.5 rounded-xl font-[family-name:var(--font-headline)] font-black text-xs uppercase tracking-[0.25em] neon-glow-primary hover:scale-[1.02] active:scale-[0.98] transition-all duration-200"
+          >
+            Accéder au dashboard
+          </button>
+        </form>
       </div>
 
       <p class="text-center text-text-muted text-xs font-[family-name:var(--font-body)] mt-6">
@@ -170,16 +188,16 @@ function relDate(str?: string) {
     </div>
   </div>
 
+) : (
 
   <!-- ═══════════════════════════════════════════════
-       DASHBOARD APP
+       DASHBOARD — affiché uniquement si connecté
   ════════════════════════════════════════════════ -->
-  <div id="dashboard-app" class="h-screen flex" style="display: none;">
+  <div id="dashboard-app" class="h-screen flex">
 
     <!-- ─── SIDEBAR ──────────────────────────────── -->
     <aside class="w-64 flex-shrink-0 h-full flex flex-col glass-panel border-r border-white/5 z-10">
 
-      <!-- Brand -->
       <div class="px-6 py-5 border-b border-white/5 flex-shrink-0">
         <p class="font-[family-name:var(--font-script)] text-3xl gradient-text leading-none">The French Bot</p>
         <p class="font-[family-name:var(--font-headline)] font-bold text-[9px] uppercase tracking-[0.3em] text-text-muted mt-1.5">
@@ -187,42 +205,34 @@ function relDate(str?: string) {
         </p>
       </div>
 
-      <!-- Nav -->
       <nav class="flex-1 px-3 py-4 space-y-1 overflow-y-auto">
-
         <button data-tab="formations"
           class="tab-btn w-full flex items-center gap-3 px-4 py-3 rounded-xl text-left transition-all duration-200">
           <span class="material-symbols-outlined text-xl flex-shrink-0">school</span>
           <span class="font-[family-name:var(--font-headline)] font-bold text-xs uppercase tracking-wider">Formations</span>
         </button>
-
         <button data-tab="coaching"
           class="tab-btn w-full flex items-center gap-3 px-4 py-3 rounded-xl text-left transition-all duration-200">
           <span class="material-symbols-outlined text-xl flex-shrink-0">handshake</span>
           <span class="font-[family-name:var(--font-headline)] font-bold text-xs uppercase tracking-wider">Coaching</span>
         </button>
-
         <button data-tab="hubspot"
           class="tab-btn w-full flex items-center gap-3 px-4 py-3 rounded-xl text-left transition-all duration-200">
           <span class="material-symbols-outlined text-xl flex-shrink-0">contacts</span>
           <span class="font-[family-name:var(--font-headline)] font-bold text-xs uppercase tracking-wider">CRM HubSpot</span>
         </button>
-
         <button data-tab="contenu"
           class="tab-btn w-full flex items-center gap-3 px-4 py-3 rounded-xl text-left transition-all duration-200">
           <span class="material-symbols-outlined text-xl flex-shrink-0">video_library</span>
           <span class="font-[family-name:var(--font-headline)] font-bold text-xs uppercase tracking-wider">Contenu</span>
         </button>
-
         <button data-tab="automation"
           class="tab-btn w-full flex items-center gap-3 px-4 py-3 rounded-xl text-left transition-all duration-200">
           <span class="material-symbols-outlined text-xl flex-shrink-0">hub</span>
           <span class="font-[family-name:var(--font-headline)] font-bold text-xs uppercase tracking-wider">Automatisation n8n</span>
         </button>
-
       </nav>
 
-      <!-- User + logout -->
       <div class="px-4 py-4 border-t border-white/5 flex-shrink-0">
         <div class="flex items-center gap-3 px-2 mb-3">
           <div class="w-9 h-9 rounded-full gradient-cta flex items-center justify-center text-white text-xs font-bold flex-shrink-0 font-[family-name:var(--font-headline)]">JL</div>
@@ -231,11 +241,15 @@ function relDate(str?: string) {
             <p class="text-text-muted text-[10px] font-[family-name:var(--font-body)] truncate">The French Bot</p>
           </div>
         </div>
-        <button id="logout-btn"
-          class="w-full flex items-center gap-2 px-3 py-2 rounded-xl text-text-muted hover:text-white hover:bg-white/5 transition-all duration-200 text-xs font-[family-name:var(--font-body)]">
-          <span class="material-symbols-outlined text-base">logout</span>
-          Déconnexion
-        </button>
+        <form method="POST" action="/api/logout">
+          <button
+            type="submit"
+            class="w-full flex items-center gap-2 px-3 py-2 rounded-xl text-text-muted hover:text-white hover:bg-white/5 transition-all duration-200 text-xs font-[family-name:var(--font-body)]"
+          >
+            <span class="material-symbols-outlined text-base">logout</span>
+            Déconnexion
+          </button>
+        </form>
       </div>
     </aside>
 
@@ -243,7 +257,6 @@ function relDate(str?: string) {
     <!-- ─── MAIN CONTENT ─────────────────────────── -->
     <main class="flex-1 overflow-y-auto flex flex-col min-w-0">
 
-      <!-- Top bar -->
       <div class="sticky top-0 z-10 glass-panel border-b border-white/5 px-8 py-4 flex items-center justify-between flex-shrink-0">
         <h1 id="page-title"
           class="font-[family-name:var(--font-headline)] font-black text-lg uppercase tracking-[0.15em] text-white">
@@ -262,21 +275,17 @@ function relDate(str?: string) {
       <!-- ═══ TAB : FORMATIONS ══════════════════════ -->
       <div id="tab-formations" class="flex-1 p-8 space-y-8">
 
-        <!-- KPIs -->
         <div class="grid grid-cols-3 gap-4">
-
           <div class="glass-card rounded-2xl p-6 border border-white/5 space-y-1">
             <p class="font-[family-name:var(--font-body)] text-[10px] uppercase tracking-[0.25em] text-text-muted">Sessions</p>
             <p class="font-[family-name:var(--font-headline)] font-black text-5xl text-white">2</p>
             <p class="font-[family-name:var(--font-body)] text-xs text-text-secondary">Programmées en 2026</p>
           </div>
-
           <div class="glass-card rounded-2xl p-6 border border-white/5 space-y-1">
             <p class="font-[family-name:var(--font-body)] text-[10px] uppercase tracking-[0.25em] text-text-muted">Prochaine session</p>
-            <p id="days-countdown" class="font-[family-name:var(--font-headline)] font-black text-5xl text-white">—</p>
+            <p id="days-countdown" class="font-[family-name:var(--font-headline)] font-black text-5xl text-white">{formationsData[0].daysUntil}</p>
             <p class="font-[family-name:var(--font-body)] text-xs text-text-secondary">Jours restants</p>
           </div>
-
           <div class="glass-card rounded-2xl p-6 border border-white/5 space-y-1">
             <p class="font-[family-name:var(--font-body)] text-[10px] uppercase tracking-[0.25em] text-text-muted">Contacts HubSpot</p>
             <p class={`font-[family-name:var(--font-headline)] font-black text-5xl ${hubspot.connected ? 'text-white' : 'text-text-muted'}`}>
@@ -289,10 +298,8 @@ function relDate(str?: string) {
               }
             </p>
           </div>
-
         </div>
 
-        <!-- Section title -->
         <div class="flex items-end gap-4">
           <h2 class="font-[family-name:var(--font-headline)] font-black text-3xl uppercase tracking-tight text-white">
             Mes formations
@@ -300,20 +307,13 @@ function relDate(str?: string) {
           <span class="font-[family-name:var(--font-hand)] text-xl text-text-muted pb-0.5">— 2026</span>
         </div>
 
-        <!-- Formation cards -->
         <div class="grid grid-cols-1 xl:grid-cols-2 gap-6">
           {formationsData.map((f) => (
             <div class="glass-panel rounded-3xl border border-white/5 overflow-hidden relative flex flex-col">
-
-              <!-- Top accent line -->
               <div class="h-[3px] w-full flex-shrink-0" style={`background: linear-gradient(90deg, ${f.accent}, ${f.accentLight}40)`}></div>
-
               <div class="p-7 flex flex-col gap-6 flex-1">
-
-                <!-- Header -->
                 <div class="flex items-start justify-between gap-4">
                   <div class="space-y-3 flex-1 min-w-0">
-                    <!-- Badges -->
                     <div class="flex items-center gap-2 flex-wrap">
                       <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[10px] font-[family-name:var(--font-headline)] font-bold uppercase tracking-widest border"
                         style={`color:${f.accentLight}; border-color:${f.accent}50; background:${f.accent}18`}>
@@ -324,19 +324,16 @@ function relDate(str?: string) {
                         J — {f.daysUntil}
                       </span>
                     </div>
-                    <!-- Title -->
                     <h3 class="font-[family-name:var(--font-headline)] font-black text-2xl text-white uppercase tracking-tight leading-tight">
                       {f.title}
                     </h3>
                   </div>
-                  <!-- Icon -->
                   <div class="flex-shrink-0 w-12 h-12 rounded-2xl flex items-center justify-center border"
                     style={`background:${f.accent}18; border-color:${f.accent}40`}>
                     <span class="material-symbols-outlined text-xl" style={`color:${f.accentLight}`}>school</span>
                   </div>
                 </div>
 
-                <!-- Meta info -->
                 <div class="flex items-center gap-5">
                   <div class="flex items-center gap-1.5 text-text-secondary font-[family-name:var(--font-body)] text-sm">
                     <span class="material-symbols-outlined text-base">calendar_today</span>
@@ -348,7 +345,6 @@ function relDate(str?: string) {
                   </div>
                 </div>
 
-                <!-- Duration chips -->
                 <div class="flex items-center gap-3">
                   <div class="flex items-center gap-2 px-4 py-2 rounded-xl bg-white/5 border border-white/10">
                     <span class="material-symbols-outlined text-base" style={`color:${f.accentLight}`}>videocam</span>
@@ -365,7 +361,6 @@ function relDate(str?: string) {
                   </div>
                 </div>
 
-                <!-- Programme -->
                 <div class="space-y-3">
                   <p class="font-[family-name:var(--font-headline)] font-bold text-[10px] uppercase tracking-[0.25em] text-text-muted">
                     Programme
@@ -383,7 +378,6 @@ function relDate(str?: string) {
                   </div>
                 </div>
 
-                <!-- Actions -->
                 <div class="flex items-center gap-3 pt-2 border-t border-white/5 mt-auto">
                   <button
                     class="flex items-center gap-2 px-5 py-2.5 rounded-xl font-[family-name:var(--font-headline)] font-bold text-[11px] uppercase tracking-widest text-white transition-all hover:scale-105 active:scale-95"
@@ -392,7 +386,6 @@ function relDate(str?: string) {
                     <span class="material-symbols-outlined text-base">edit</span>
                     Gérer
                   </button>
-
                   <button
                     class="flex items-center gap-2 px-5 py-2.5 rounded-xl font-[family-name:var(--font-headline)] font-bold text-[11px] uppercase tracking-widest text-text-secondary bg-white/5 border border-white/10 hover:bg-white/10 hover:text-white transition-all"
                   >
@@ -400,7 +393,6 @@ function relDate(str?: string) {
                     Inscrits HubSpot
                   </button>
                 </div>
-
               </div>
             </div>
           ))}
@@ -422,10 +414,8 @@ function relDate(str?: string) {
 
       <!-- ═══ TAB : HUBSPOT ════════════════════════ -->
       <div id="tab-hubspot" class="flex-1 p-8 space-y-8" style="display:none">
-
         {hubspot.connected ? (
           <>
-            <!-- Status bar -->
             <div class="flex items-center justify-between">
               <div class="flex items-center gap-3">
                 <span class="w-2 h-2 rounded-full bg-tertiary"></span>
@@ -435,8 +425,6 @@ function relDate(str?: string) {
                 Données au {hubspot.builtAt}
               </p>
             </div>
-
-            <!-- KPIs -->
             <div class="grid grid-cols-2 gap-4">
               <div class="glass-card rounded-2xl p-6 border border-white/5 space-y-1">
                 <p class="font-[family-name:var(--font-body)] text-[10px] uppercase tracking-[0.25em] text-text-muted">Contacts</p>
@@ -449,8 +437,6 @@ function relDate(str?: string) {
                 <p class="font-[family-name:var(--font-body)] text-xs text-text-secondary">Opportunités</p>
               </div>
             </div>
-
-            <!-- Recent contacts -->
             <div class="space-y-4">
               <h2 class="font-[family-name:var(--font-headline)] font-black text-xl uppercase tracking-[0.15em] text-white">
                 Contacts récents
@@ -540,80 +526,25 @@ function relDate(str?: string) {
     </main>
   </div>
 
-
-  <!-- ═══════════════════════════════════════════════
-       CLIENT-SIDE SCRIPT
-  ════════════════════════════════════════════════ -->
-  <script define:vars={{ pwd: DASHBOARD_PWD }}>
-    const SESSION_KEY = 'tfb_auth_v1';
-
-    // ── DOM refs ──
-    const authGate   = document.getElementById('auth-gate');
-    const dashApp    = document.getElementById('dashboard-app');
-    const pwdInput   = document.getElementById('pwd-input');
-    const loginBtn   = document.getElementById('login-btn');
-    const authError  = document.getElementById('auth-error');
-    const logoutBtn  = document.getElementById('logout-btn');
+  <!-- Script onglets uniquement (aucune logique d'auth) -->
+  <script>
     const pageTitleEl = document.getElementById('page-title');
-    const dateEl     = document.getElementById('current-date');
-    const countdownEl = document.getElementById('days-countdown');
+    const dateEl      = document.getElementById('current-date');
 
-    // ── Current date display ──
     if (dateEl) {
       dateEl.textContent = new Date().toLocaleDateString('fr-FR', {
         weekday: 'long', day: 'numeric', month: 'long', year: 'numeric'
       });
     }
 
-    // ── Countdown to next formation ──
-    if (countdownEl) {
-      const nextDate = new Date('2026-04-29');
-      const diff = Math.ceil((nextDate - new Date()) / 86400000);
-      countdownEl.textContent = diff > 0 ? String(diff) : '0';
-    }
-
-    // ── Auth ──
-    function isAuth() {
-      return sessionStorage.getItem(SESSION_KEY) === '1';
-    }
-
-    function showDashboard() {
-      authGate.style.display = 'none';
-      dashApp.style.display  = 'flex';
-    }
-
-    function showGate() {
-      dashApp.style.display  = 'none';
-      authGate.style.display = '';
-    }
-
-    if (isAuth()) showDashboard();
-
-    function tryLogin() {
-      if (pwdInput.value === pwd) {
-        sessionStorage.setItem(SESSION_KEY, '1');
-        authError.style.display = 'none';
-        showDashboard();
-      } else {
-        authError.style.display = 'block';
-        pwdInput.value = '';
-        pwdInput.focus();
-      }
-    }
-
-    loginBtn.addEventListener('click', tryLogin);
-    pwdInput.addEventListener('keydown', (e) => { if (e.key === 'Enter') tryLogin(); });
-    logoutBtn.addEventListener('click', () => { sessionStorage.removeItem(SESSION_KEY); showGate(); pwdInput.value = ''; });
-
-    // ── Tabs ──
-    const tabs = {
+    const tabs: Record<string, HTMLElement | null> = {
       formations: document.getElementById('tab-formations'),
       coaching:   document.getElementById('tab-coaching'),
       hubspot:    document.getElementById('tab-hubspot'),
       contenu:    document.getElementById('tab-contenu'),
       automation: document.getElementById('tab-automation'),
     };
-    const tabLabels = {
+    const tabLabels: Record<string, string> = {
       formations: 'Formations',
       coaching:   'Coaching',
       hubspot:    'CRM HubSpot',
@@ -621,33 +552,27 @@ function relDate(str?: string) {
       automation: 'Automatisation n8n',
     };
 
-    let currentTab = 'formations';
-
-    function activateTab(name) {
-      currentTab = name;
-      // Panels
+    function activateTab(name: string) {
       for (const [key, el] of Object.entries(tabs)) {
         if (el) el.style.display = key === name ? '' : 'none';
       }
-      // Page title
       if (pageTitleEl) pageTitleEl.textContent = tabLabels[name] || name;
-      // Nav buttons
-      document.querySelectorAll('.tab-btn').forEach(btn => {
+      document.querySelectorAll<HTMLElement>('.tab-btn').forEach(btn => {
         const isActive = btn.dataset.tab === name;
-        btn.style.background    = isActive ? 'rgba(53,36,232,0.12)' : '';
-        btn.style.color         = isActive ? '#ffffff' : '';
-        btn.style.borderRadius  = '0.75rem';
-        btn.querySelector('.material-symbols-outlined').style.color =
-          isActive ? '#c2c1ff' : '';
+        btn.style.background   = isActive ? 'rgba(53,36,232,0.12)' : '';
+        btn.style.color        = isActive ? '#ffffff' : '';
+        const icon = btn.querySelector<HTMLElement>('.material-symbols-outlined');
+        if (icon) icon.style.color = isActive ? '#c2c1ff' : '';
       });
     }
 
-    document.querySelectorAll('.tab-btn').forEach(btn => {
-      btn.addEventListener('click', () => activateTab(btn.dataset.tab));
+    document.querySelectorAll<HTMLElement>('.tab-btn').forEach(btn => {
+      btn.addEventListener('click', () => activateTab(btn.dataset.tab ?? 'formations'));
     });
 
-    // Init active tab
     activateTab('formations');
   </script>
+
+)}
 
 </DashboardLayout>
