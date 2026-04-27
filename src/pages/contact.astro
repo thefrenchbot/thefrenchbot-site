@@ -1,0 +1,42 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import ContactSection from '../components/ContactSection.astro';
+
+const contactSchema = {
+  "@context": "https://schema.org",
+  "@type": "ContactPage",
+  "name": "Contact — The French Bot",
+  "description": "Contactez The French Bot pour vos projets de formation IA, automatisation ou accompagnement sur-mesure. Réponse sous 24h.",
+  "url": "https://thefrenchbot.com/contact",
+  "mainEntity": {
+    "@type": "Organization",
+    "name": "The French Bot",
+    "url": "https://thefrenchbot.com",
+    "email": "contact@thefrenchbot.com",
+    "founder": {
+      "@type": "Person",
+      "name": "Julian Luneau"
+    }
+  }
+};
+---
+
+<BaseLayout
+  title="Contact | The French Bot — Formation IA & Automatisation"
+  description="Contactez The French Bot pour vos projets de formation IA, automatisation ou coaching sur-mesure. Formulaire, email direct ou réservation d'appel. Réponse sous 24h."
+  pageSchema={contactSchema}
+>
+  <!-- Hero -->
+  <section class="pt-32 pb-4 px-6 md:px-12 max-w-[1440px] mx-auto">
+    <header class="text-center">
+      <h1 class="font-[family-name:var(--font-headline)] font-black text-4xl sm:text-5xl md:text-7xl mb-6 uppercase tracking-tight leading-none">
+        Nous <span class="gradient-text">Contacter</span>
+      </h1>
+      <p class="font-[family-name:var(--font-body)] text-text-secondary max-w-2xl mx-auto text-lg leading-relaxed">
+        Une question, un projet de formation ou envie d'échanger sur l'IA ? On vous répond en moins de 24h.
+      </p>
+    </header>
+  </section>
+
+  <ContactSection />
+</BaseLayout>

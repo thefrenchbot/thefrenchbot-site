@@ -1,0 +1,9 @@
+{
+  "redirects": [
+    {
+      "source": "/formation",
+      "destination": "/formations",
+      "permanent": true
+    }
+  ]
+}
