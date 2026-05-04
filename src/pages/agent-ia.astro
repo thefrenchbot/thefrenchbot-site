@@ -1,0 +1,659 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+
+// TODO: Remplacer par le vrai lien Podia une fois obtenu
+const PODIA_LINK = "#acheter";
+
+const pageSchema = {
+  "@context": "https://schema.org",
+  "@type": "Course",
+  "name": "Agent IA Telegram — Formation e-learning",
+  "description": "Créez votre agent IA personnel sur Telegram en une demi-journée. Gérez vos mails, agenda et automatisations depuis votre mobile. 1h30 de formation vidéo, accès à vie.",
+  "provider": {
+    "@type": "Organization",
+    "name": "The French Bot",
+    "url": "https://thefrenchbot.com"
+  },
+  "url": "https://thefrenchbot.com/agent-ia",
+  "offers": {
+    "@type": "Offer",
+    "price": "299",
+    "priceCurrency": "EUR",
+    "availability": "https://schema.org/InStock"
+  },
+  "inLanguage": "fr",
+  "educationalLevel": "Beginner",
+  "teaches": ["Agent IA", "Telegram bot", "Claude Code", "Automatisation", "Intelligence Artificielle"]
+};
+---
+
+<BaseLayout
+  title="Formation Agent IA Telegram — Pilotez votre IA depuis votre téléphone | The French Bot"
+  description="Créez votre agent IA personnel sur Telegram en une demi-journée. Gérez vos mails, agenda et automatisations depuis votre mobile. 1h30 de formation e-learning. Accès à vie. 299€."
+  pageSchema={pageSchema}
+>
+
+<!-- ===== HERO ===== -->
+<section class="relative min-h-[90vh] flex flex-col justify-center px-6 md:px-24 pt-32 pb-20 overflow-hidden">
+  <!-- Background blobs -->
+  <div class="absolute top-1/4 -left-20 w-[500px] h-[500px] bg-primary/20 rounded-full blur-[140px] pointer-events-none"></div>
+  <div class="absolute bottom-1/4 -right-20 w-[500px] h-[500px] bg-secondary/20 rounded-full blur-[140px] pointer-events-none"></div>
+  <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[300px] h-[300px] bg-tertiary/10 rounded-full blur-[100px] pointer-events-none"></div>
+
+  <div class="max-w-5xl mx-auto z-10 text-center space-y-8">
+    <!-- Badge accès immédiat -->
+    <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-bg-surface-high border border-primary/30">
+      <span class="w-2 h-2 rounded-full bg-tertiary animate-pulse"></span>
+      <span class="font-[family-name:var(--font-label)] text-xs uppercase tracking-[0.2em] text-tertiary font-bold">Formation e-learning · Accès immédiat</span>
+    </div>
+
+    <!-- Headline -->
+    <h1 class="font-[family-name:var(--font-headline)] font-black text-5xl md:text-7xl leading-[0.9] tracking-tight text-white">
+      Votre agent IA.<br>
+      <span class="gradient-text">Dans votre poche.</span><br>
+      <span class="text-4xl md:text-5xl text-text-secondary font-bold">Opérationnel en une demi-journée.</span>
+    </h1>
+
+    <!-- Sous-titre -->
+    <p class="font-[family-name:var(--font-body)] text-xl text-text-secondary max-w-3xl mx-auto leading-relaxed">
+      Fini de rester coincé à votre bureau pour être productif.<br>
+      Gérez vos mails, votre agenda et vos automatisations directement depuis Telegram — en texte ou en vocal, depuis n'importe où.
+    </p>
+
+    <!-- Prix + CTA -->
+    <div class="flex flex-col items-center gap-4 pt-4">
+      <div class="flex items-baseline gap-3">
+        <span class="text-5xl font-[family-name:var(--font-headline)] font-black text-white">299€</span>
+        <span class="text-text-muted line-through text-2xl">499€</span>
+        <span class="bg-tertiary/20 text-tertiary text-xs font-bold px-3 py-1 rounded-full border border-tertiary/30">−200€ offerts</span>
+      </div>
+      <p class="text-text-muted text-sm">Paiement unique · Accès à vie · Sans abonnement</p>
+      <a
+        href={PODIA_LINK}
+        target="_blank"
+        rel="noopener noreferrer"
+        class="gradient-cta text-white px-12 py-5 rounded-full font-[family-name:var(--font-headline)] font-bold text-base uppercase tracking-widest neon-glow-primary hover:scale-105 transition-all duration-300 flex items-center gap-3"
+      >
+        Accéder à la formation
+        <span class="material-symbols-outlined">arrow_forward</span>
+      </a>
+      <p class="text-text-muted text-xs">🔒 Paiement sécurisé · 1h30 de vidéos + documents pratiques</p>
+    </div>
+  </div>
+</section>
+
+<!-- ===== AVANT / APRÈS ===== -->
+<section class="py-24 px-6 md:px-8 max-w-[1440px] mx-auto">
+  <div class="text-center mb-3">
+    <span class="font-[family-name:var(--font-label)] text-xs uppercase tracking-[0.2em] text-text-muted">Avant · Après</span>
+  </div>
+  <h2 class="font-[family-name:var(--font-headline)] font-black text-4xl md:text-5xl text-white uppercase tracking-[0.06em] text-center mb-16">
+    Deux versions de votre semaine.
+  </h2>
+
+  <div class="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-5xl mx-auto">
+
+    <!-- SANS agent -->
+    <div class="glass-panel p-8 md:p-10 rounded-[2.5rem] border border-white/5 space-y-6">
+      <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-error-container/30 border border-error/20">
+        <span class="material-symbols-outlined text-error text-sm" style="font-variation-settings: 'FILL' 1;">close</span>
+        <span class="font-[family-name:var(--font-label)] text-xs uppercase tracking-[0.15em] text-error font-bold">Sans agent IA</span>
+      </div>
+      <h3 class="font-[family-name:var(--font-headline)] font-black text-2xl text-white">Votre semaine sans agent</h3>
+      <ul class="space-y-4">
+        {[
+          "Répondre aux mails depuis votre ordinateur, assis à votre bureau",
+          "Utiliser Claude depuis votre navigateur — seulement devant votre écran",
+          "Gérer votre agenda manuellement, application par application",
+          "Des process longs qui vous enchaînent à votre desktop",
+          "Perdre du temps à switcher entre 5 applications différentes",
+          "Impossible d'être vraiment productif en déplacement",
+        ].map(item => (
+          <li class="flex items-start gap-3 text-text-secondary text-sm leading-relaxed">
+            <span class="material-symbols-outlined text-text-muted text-base mt-0.5 flex-shrink-0" style="font-variation-settings: 'FILL' 1;">remove</span>
+            {item}
+          </li>
+        ))}
+      </ul>
+    </div>
+
+    <!-- AVEC agent -->
+    <div
+      class="relative p-8 md:p-10 rounded-[2.5rem] border border-primary/30 space-y-6 overflow-hidden"
+      style="background: linear-gradient(135deg, #13121c 0%, #1a183a 100%); box-shadow: 0 0 60px rgba(53,36,232,0.15);"
+    >
+      <div class="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-primary via-secondary to-tertiary"></div>
+      <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-tertiary/10 border border-tertiary/30">
+        <span class="material-symbols-outlined text-tertiary text-sm" style="font-variation-settings: 'FILL' 1;">check</span>
+        <span class="font-[family-name:var(--font-label)] text-xs uppercase tracking-[0.15em] text-tertiary font-bold">Avec votre agent Telegram</span>
+      </div>
+      <h3 class="font-[family-name:var(--font-headline)] font-black text-2xl text-white">Votre semaine avec l'agent</h3>
+      <ul class="space-y-4">
+        {[
+          "Gérer vos mails depuis Telegram — en texte ou en vocal, depuis n'importe où",
+          "Piloter Claude depuis votre téléphone, en 4G, même portable dans la poche",
+          "Prendre et confirmer des RDV directement par message en quelques secondes",
+          "Des automatisations qui tournent seules — même téléphone éteint",
+          "Une seule interface pour tout : vos outils, vos mails, votre agenda",
+          "Productif dans le train, entre deux clients, depuis n'importe quel endroit",
+        ].map(item => (
+          <li class="flex items-start gap-3 text-white text-sm leading-relaxed">
+            <span class="material-symbols-outlined text-tertiary text-base mt-0.5 flex-shrink-0" style="font-variation-settings: 'FILL' 1;">check_circle</span>
+            {item}
+          </li>
+        ))}
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- ===== LA PROMESSE ===== -->
+<section class="py-20 bg-bg-surface-low px-6 md:px-8">
+  <div class="max-w-[1440px] mx-auto">
+    <div class="text-center mb-3">
+      <span class="font-[family-name:var(--font-label)] text-xs uppercase tracking-[0.2em] text-text-muted">La promesse</span>
+    </div>
+    <h2 class="font-[family-name:var(--font-headline)] font-black text-4xl md:text-5xl text-white uppercase tracking-[0.06em] text-center mb-4">
+      Simple. Rapide. Mobile.
+    </h2>
+    <p class="text-center text-text-secondary mb-16 max-w-2xl mx-auto">
+      Trois raisons pour lesquelles vous allez vraiment le faire cette fois.
+    </p>
+
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-5xl mx-auto">
+      <div class="glass-panel p-10 rounded-[2.5rem] border border-white/5 space-y-6 text-center">
+        <div class="w-14 h-14 rounded-2xl bg-primary/20 flex items-center justify-center border border-primary/30 mx-auto">
+          <span class="font-[family-name:var(--font-headline)] font-black text-2xl text-primary-dim">01</span>
+        </div>
+        <h3 class="font-[family-name:var(--font-headline)] font-black text-2xl text-white uppercase">Pas de code</h3>
+        <p class="text-text-secondary text-sm leading-relaxed">
+          Vous parlez à votre agent en français, avec vos mots. Il se débrouille avec le reste. Aucun prérequis technique requis.
+        </p>
+      </div>
+
+      <div class="glass-panel p-10 rounded-[2.5rem] border border-white/5 space-y-6 text-center">
+        <div class="w-14 h-14 rounded-2xl bg-secondary/20 flex items-center justify-center border border-secondary/30 mx-auto">
+          <span class="font-[family-name:var(--font-headline)] font-black text-2xl text-secondary-light">02</span>
+        </div>
+        <h3 class="font-[family-name:var(--font-headline)] font-black text-2xl text-white uppercase">Une demi-journée</h3>
+        <p class="text-text-secondary text-sm leading-relaxed">
+          Matin : vous installez et configurez. Après-midi : votre agent est opérationnel. Pas trois semaines — une demi-journée.
+        </p>
+      </div>
+
+      <div class="glass-panel p-10 rounded-[2.5rem] border border-white/5 space-y-6 text-center">
+        <div class="w-14 h-14 rounded-2xl bg-tertiary/20 flex items-center justify-center border border-tertiary-container/50 mx-auto">
+          <span class="font-[family-name:var(--font-headline)] font-black text-2xl text-tertiary">03</span>
+        </div>
+        <h3 class="font-[family-name:var(--font-headline)] font-black text-2xl text-white uppercase">Mobile-first</h3>
+        <p class="text-text-secondary text-sm leading-relaxed">
+          Telegram est sur votre téléphone. Votre agent aussi. Productif partout, tout le temps — sans ouvrir votre laptop.
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== TELEGRAM MOCKUP ===== -->
+<section class="py-24 px-6 md:px-8 max-w-[1440px] mx-auto">
+  <div class="text-center mb-3">
+    <span class="font-[family-name:var(--font-label)] text-xs uppercase tracking-[0.2em] text-text-muted">Comment ça marche</span>
+  </div>
+  <h2 class="font-[family-name:var(--font-headline)] font-black text-4xl md:text-5xl text-white uppercase tracking-[0.06em] text-center mb-16">
+    Une phrase. Une action.<br>
+    <span class="gradient-text">Depuis votre téléphone.</span>
+  </h2>
+
+  <div class="max-w-sm mx-auto">
+    <!-- Phone mockup -->
+    <div
+      class="relative rounded-[2.5rem] overflow-hidden border border-white/10 shadow-[0_0_80px_rgba(53,36,232,0.3)]"
+      style="background:#0F0E18;"
+    >
+      <!-- Top bar gradient -->
+      <div class="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-primary via-secondary to-tertiary"></div>
+
+      <!-- Chat header -->
+      <div class="flex items-center justify-between px-5 py-3 border-b border-white/5" style="background:rgba(19,18,28,0.95);">
+        <div class="flex items-center gap-3">
+          <div class="w-9 h-9 rounded-full bg-gradient-to-br from-primary to-secondary flex items-center justify-center text-xs font-bold text-white">IA</div>
+          <div>
+            <p class="text-white text-sm font-bold">Agent IA</p>
+            <p class="text-tertiary text-xs">en ligne</p>
+          </div>
+        </div>
+        <span class="material-symbols-outlined text-text-muted text-xl">more_vert</span>
+      </div>
+
+      <!-- Messages -->
+      <div class="p-4 space-y-3 font-[family-name:var(--font-body)]" style="min-height:380px;">
+
+        <!-- User message -->
+        <div class="flex justify-end">
+          <div class="bg-primary/80 text-white text-sm px-4 py-2.5 rounded-2xl rounded-br-sm max-w-[80%] leading-relaxed">
+            Réponds à la dernière question de Claire et propose-lui un RDV jeudi.
+            <div class="text-right text-xs text-primary-dim/70 mt-1">10:14 ✓✓</div>
+          </div>
+        </div>
+
+        <!-- Agent response -->
+        <div class="flex justify-start">
+          <div class="bg-bg-surface-high text-text-primary text-sm px-4 py-2.5 rounded-2xl rounded-bl-sm max-w-[85%] leading-relaxed border border-white/5">
+            Brouillon rédigé. Elle demandait la durée. Je lui propose jeudi 14h ou 16h. Je confirme ?
+            <div class="text-xs text-text-muted mt-1">10:14</div>
+          </div>
+        </div>
+
+        <!-- User -->
+        <div class="flex justify-end">
+          <div class="bg-primary/80 text-white text-sm px-4 py-2.5 rounded-2xl rounded-br-sm max-w-[80%] leading-relaxed">
+            14h. Et mets-la dans le CRM, étape "devis envoyé".
+            <div class="text-right text-xs text-primary-dim/70 mt-1">10:15 ✓✓</div>
+          </div>
+        </div>
+
+        <!-- Agent -->
+        <div class="flex justify-start">
+          <div class="bg-bg-surface-high text-text-primary text-sm px-4 py-2.5 rounded-2xl rounded-bl-sm max-w-[85%] leading-relaxed border border-white/5">
+            Fait. Mail envoyé, RDV jeudi 14h dans l'agenda, fiche CRM mise à jour. Rappel mercredi soir.
+            <div class="text-xs text-text-muted mt-1">10:15</div>
+          </div>
+        </div>
+
+        <!-- User vocal -->
+        <div class="flex justify-end">
+          <div class="bg-primary/80 text-white text-sm px-4 py-2.5 rounded-2xl rounded-br-sm flex items-center gap-3">
+            <span class="material-symbols-outlined text-base" style="font-variation-settings: 'FILL' 1;">mic</span>
+            <div>
+              <div class="flex items-end gap-px w-28 h-5">
+                {[3,6,9,5,8,11,4,7,10,5,8,4,6,9,3].map((h: number) => (
+                  <div class="bg-white/70 rounded-full flex-1" style={`height:${h}px`}></div>
+                ))}
+              </div>
+              <div class="text-right text-xs text-primary-dim/70 mt-1">0:06 ✓✓</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Typing -->
+        <div class="flex justify-start">
+          <div class="bg-bg-surface-high text-text-muted text-xs px-4 py-2.5 rounded-2xl rounded-bl-sm border border-white/5 flex items-center gap-1.5">
+            <span class="w-1.5 h-1.5 rounded-full bg-text-muted animate-bounce" style="animation-delay:0ms"></span>
+            <span class="w-1.5 h-1.5 rounded-full bg-text-muted animate-bounce" style="animation-delay:150ms"></span>
+            <span class="w-1.5 h-1.5 rounded-full bg-text-muted animate-bounce" style="animation-delay:300ms"></span>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Input bar -->
+      <div class="flex items-center gap-3 px-4 py-3 border-t border-white/5" style="background:rgba(19,18,28,0.95);">
+        <div class="flex-1 bg-bg-surface-high rounded-full px-4 py-2 text-text-muted text-sm border border-white/5">
+          Écrivez un message...
+        </div>
+        <div class="w-9 h-9 rounded-full bg-gradient-to-br from-primary to-secondary flex items-center justify-center flex-shrink-0">
+          <span class="material-symbols-outlined text-white text-base" style="font-variation-settings: 'FILL' 1;">mic</span>
+        </div>
+      </div>
+    </div>
+    <p class="text-center text-text-muted text-sm mt-6">Texte, vocal, photo — tout ce que Telegram accepte.</p>
+  </div>
+</section>
+
+<!-- ===== PROGRAMME ===== -->
+<section class="py-24 bg-bg-surface-low px-6 md:px-8">
+  <div class="max-w-[1440px] mx-auto">
+    <div class="text-center mb-3">
+      <span class="font-[family-name:var(--font-label)] text-xs uppercase tracking-[0.2em] text-text-muted">Le programme</span>
+    </div>
+    <h2 class="font-[family-name:var(--font-headline)] font-black text-4xl md:text-5xl text-white uppercase tracking-[0.06em] text-center mb-4">
+      Votre agent opérationnel<br>dès ce soir.
+    </h2>
+    <p class="text-center text-text-secondary mb-16 max-w-2xl mx-auto">
+      1h30 de formation vidéo. Des documents pratiques à chaque étape. Accès à vie.
+    </p>
+
+    <div class="max-w-3xl mx-auto space-y-6">
+
+      <!-- Module 01 -->
+      <div class="glass-panel rounded-[2rem] border border-white/5 overflow-hidden">
+        <div class="p-8 flex items-start gap-6">
+          <div class="w-14 h-14 rounded-xl bg-primary/20 flex items-center justify-center border border-primary/30 flex-shrink-0">
+            <span class="material-symbols-outlined text-primary-light text-2xl" style="font-variation-settings: 'FILL' 1;">terminal</span>
+          </div>
+          <div class="flex-1">
+            <div class="flex items-center gap-3 mb-2 flex-wrap">
+              <span class="font-[family-name:var(--font-label)] text-xs uppercase tracking-[0.15em] text-primary-dim font-bold">Module 01</span>
+              <span class="text-text-muted text-xs">· 30 min</span>
+            </div>
+            <h3 class="font-[family-name:var(--font-headline)] font-black text-xl text-white mb-4">Installer Claude Code</h3>
+            <ul class="space-y-2.5">
+              {[
+                "Installer et configurer Claude Code sur votre machine (Mac ou Windows)",
+                "Créer votre mémoire personnalisée — l'agent sait qui vous êtes, vos outils, votre façon de travailler",
+                "Les 3 règles de base pour que votre agent reste un allié, pas une source de bruit",
+                "Documents de configuration prêts à copier-coller — rien à créer de zéro",
+              ].map(item => (
+                <li class="flex items-start gap-2 text-text-secondary text-sm leading-relaxed">
+                  <span class="material-symbols-outlined text-primary-dim text-base mt-0.5 flex-shrink-0" style="font-variation-settings: 'FILL' 1;">check_small</span>
+                  {item}
+                </li>
+              ))}
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <!-- Module 02 -->
+      <div class="glass-panel rounded-[2rem] border border-white/5 overflow-hidden">
+        <div class="p-8 flex items-start gap-6">
+          <div class="w-14 h-14 rounded-xl bg-secondary/20 flex items-center justify-center border border-secondary/30 flex-shrink-0">
+            <span class="material-symbols-outlined text-secondary-light text-2xl" style="font-variation-settings: 'FILL' 1;">smartphone</span>
+          </div>
+          <div class="flex-1">
+            <div class="flex items-center gap-3 mb-2 flex-wrap">
+              <span class="font-[family-name:var(--font-label)] text-xs uppercase tracking-[0.15em] text-secondary-light font-bold">Module 02</span>
+              <span class="text-text-muted text-xs">· 35 min</span>
+            </div>
+            <h3 class="font-[family-name:var(--font-headline)] font-black text-xl text-white mb-4">Configurer le bot Telegram</h3>
+            <ul class="space-y-2.5">
+              {[
+                "Créer votre bot Telegram en 5 minutes — sans toucher à une seule ligne de code",
+                "Connecter Claude à Telegram : le pont entre votre IA et votre téléphone",
+                "Parler à votre agent en texte ET en vocal depuis votre mobile",
+                "Tester les premières instructions en langage naturel et valider que tout fonctionne",
+              ].map(item => (
+                <li class="flex items-start gap-2 text-text-secondary text-sm leading-relaxed">
+                  <span class="material-symbols-outlined text-secondary-light text-base mt-0.5 flex-shrink-0" style="font-variation-settings: 'FILL' 1;">check_small</span>
+                  {item}
+                </li>
+              ))}
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <!-- Module 03 -->
+      <div class="glass-panel rounded-[2rem] border border-white/5 overflow-hidden">
+        <div class="p-8 flex items-start gap-6">
+          <div class="w-14 h-14 rounded-xl bg-tertiary/20 flex items-center justify-center border border-tertiary-container/50 flex-shrink-0">
+            <span class="material-symbols-outlined text-tertiary text-2xl" style="font-variation-settings: 'FILL' 1;">auto_awesome</span>
+          </div>
+          <div class="flex-1">
+            <div class="flex items-center gap-3 mb-2 flex-wrap">
+              <span class="font-[family-name:var(--font-label)] text-xs uppercase tracking-[0.15em] text-tertiary font-bold">Module 03</span>
+              <span class="text-text-muted text-xs">· 25 min</span>
+            </div>
+            <h3 class="font-[family-name:var(--font-headline)] font-black text-xl text-white mb-4">Créer des automatisations</h3>
+            <ul class="space-y-2.5">
+              {[
+                "Automatiser les tâches récurrentes : mails, agenda, relances clients",
+                "Connecter vos outils : Gmail, Google Calendar, Notion, Airtable, HubSpot…",
+                "Faire tourner les process même téléphone éteint — 24h/24",
+                "Créer vos premiers 'skills' : vos raccourcis personnels sur-mesure",
+              ].map(item => (
+                <li class="flex items-start gap-2 text-text-secondary text-sm leading-relaxed">
+                  <span class="material-symbols-outlined text-tertiary text-base mt-0.5 flex-shrink-0" style="font-variation-settings: 'FILL' 1;">check_small</span>
+                  {item}
+                </li>
+              ))}
+            </ul>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- CTA milieu -->
+    <div class="text-center mt-16">
+      <a
+        href={PODIA_LINK}
+        target="_blank"
+        rel="noopener noreferrer"
+        class="inline-flex items-center gap-3 gradient-cta text-white px-12 py-5 rounded-full font-[family-name:var(--font-headline)] font-bold text-sm uppercase tracking-widest neon-glow-primary hover:scale-105 transition-all duration-300"
+      >
+        Accéder à la formation — 299€
+        <span class="material-symbols-outlined">arrow_forward</span>
+      </a>
+      <p class="text-text-muted text-sm mt-3">Accès à vie · Paiement unique</p>
+    </div>
+  </div>
+</section>
+
+<!-- ===== EXEMPLES CONCRETS ===== -->
+<section class="py-24 px-6 md:px-8 max-w-[1440px] mx-auto">
+  <div class="text-center mb-3">
+    <span class="font-[family-name:var(--font-label)] text-xs uppercase tracking-[0.2em] text-text-muted">Exemples concrets</span>
+  </div>
+  <h2 class="font-[family-name:var(--font-headline)] font-black text-4xl md:text-5xl text-white uppercase tracking-[0.06em] text-center mb-16">
+    Ce que vous pourrez lui<br>demander dès ce soir.
+  </h2>
+
+  <div class="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-4xl mx-auto">
+    {[
+      {
+        icon: "mail",
+        label: "Gmail · Outlook",
+        text: "Trie mes mails non lus, résume les urgences et prépare les réponses en attente.",
+      },
+      {
+        icon: "calendar_month",
+        label: "Google Calendar",
+        text: "Confirme le RDV de Marc jeudi à 14h et bloque 30 min de préparation avant.",
+      },
+      {
+        icon: "hub",
+        label: "CRM · Airtable · Notion",
+        text: "Mets à jour la fiche de Camille : appel fait, devis envoyé, relance dans 5 jours.",
+      },
+      {
+        icon: "notifications_active",
+        label: "Automatisation · Telegram",
+        text: "Préviens-moi chaque matin à 8h avec un résumé de ma journée et mes mails importants.",
+      },
+    ].map(ex => (
+      <div class="glass-panel p-8 rounded-2xl border border-white/5 space-y-4">
+        <div class="flex items-center gap-3">
+          <div class="w-9 h-9 rounded-lg bg-primary/20 flex items-center justify-center border border-primary/30 flex-shrink-0">
+            <span class="material-symbols-outlined text-primary-light text-base" style="font-variation-settings: 'FILL' 1;">{ex.icon}</span>
+          </div>
+          <span class="text-text-muted text-xs font-bold uppercase tracking-widest">{ex.label}</span>
+        </div>
+        <p class="text-white text-base leading-relaxed italic">"{ex.text}"</p>
+      </div>
+    ))}
+  </div>
+</section>
+
+<!-- ===== QUI JE SUIS ===== -->
+<section class="py-24 bg-bg-surface-low px-6 md:px-8">
+  <div class="max-w-4xl mx-auto">
+    <div class="text-center mb-3">
+      <span class="font-[family-name:var(--font-label)] text-xs uppercase tracking-[0.2em] text-text-muted">Votre formateur</span>
+    </div>
+    <h2 class="font-[family-name:var(--font-headline)] font-black text-4xl text-white uppercase tracking-[0.06em] text-center mb-16">Qui je suis.</h2>
+
+    <div class="glass-panel p-10 md:p-16 rounded-[3rem] border border-white/5 flex flex-col md:flex-row gap-10 items-center md:items-start">
+      <!-- Avatar / Photo -->
+      <div class="flex-shrink-0 flex flex-col items-center gap-3">
+        <div class="w-24 h-24 rounded-full bg-gradient-to-br from-primary to-secondary flex items-center justify-center text-4xl font-[family-name:var(--font-headline)] font-black text-white border-4 border-primary/30 shadow-[0_0_40px_rgba(53,36,232,0.4)]">
+          J
+        </div>
+      </div>
+      <!-- Bio -->
+      <div class="space-y-6 text-center md:text-left">
+        <div>
+          <h3 class="font-[family-name:var(--font-headline)] font-black text-2xl text-white">Julian Luneau</h3>
+          <p class="text-primary-dim text-sm font-bold uppercase tracking-widest mt-1">Fondateur · The French Bot</p>
+        </div>
+        <p class="text-text-secondary leading-relaxed">
+          Je ne suis pas développeur. Je suis entrepreneur, formateur IA, et j'ai fondé The French Bot après avoir réalisé une chose simple : l'IA la plus puissante du monde ne sert à rien si vous ne pouvez l'utiliser que depuis votre ordinateur de bureau.
+        </p>
+        <p class="text-text-secondary leading-relaxed">
+          J'utilise cet agent Telegram tous les jours. Pour mes mails, mon agenda, mes automatisations — depuis mon téléphone, en déplacement, entre deux réunions. Ce que je vous enseigne, c'est exactement ce que j'utilise. Rien d'autre.
+        </p>
+        <div class="flex flex-wrap gap-8 justify-center md:justify-start pt-2">
+          <div class="text-center">
+            <div class="font-[family-name:var(--font-headline)] font-black text-3xl gradient-text">100+</div>
+            <div class="text-text-muted text-xs uppercase tracking-widest mt-1">Pros formés</div>
+          </div>
+          <div class="text-center">
+            <div class="font-[family-name:var(--font-headline)] font-black text-3xl gradient-text">98%</div>
+            <div class="text-text-muted text-xs uppercase tracking-widest mt-1">Satisfaction</div>
+          </div>
+          <div class="text-center">
+            <div class="font-[family-name:var(--font-headline)] font-black text-3xl gradient-text">15+</div>
+            <div class="text-text-muted text-xs uppercase tracking-widest mt-1">Formations</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== TÉMOIGNAGES ===== -->
+<section class="py-24 px-6 md:px-8 max-w-[1440px] mx-auto">
+  <div class="text-center mb-3">
+    <span class="font-[family-name:var(--font-label)] text-xs uppercase tracking-[0.2em] text-text-muted">Témoignages</span>
+  </div>
+  <h2 class="font-[family-name:var(--font-headline)] font-black text-4xl md:text-5xl text-white uppercase tracking-[0.06em] text-center mb-16">
+    Ils ont franchi le pas.
+  </h2>
+
+  <div class="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-5xl mx-auto">
+    {[
+      {
+        quote: "J'avais peur que ce soit trop technique pour moi. En deux sessions, j'ai arrêté de passer mes soirées à écrire des mails. Julian part vraiment de ce que tu fais au quotidien — pas d'un cours en slides.",
+        result: "3h récupérées / semaine",
+        name: "Rémy M.",
+        role: "Gérant · Restauration",
+      },
+      {
+        quote: "La double saisie entre mon logiciel et mes tableaux Excel me bouffait 45 minutes par jour depuis des années. En une demi-journée avec Julian, c'est réglé. Je regrette juste de ne pas l'avoir fait bien avant.",
+        result: "8h récupérées / semaine",
+        name: "Sébastien S.",
+        role: "Dirigeant · Courtier immobilier",
+      },
+      {
+        quote: "J'ai 52 ans et je ne suis vraiment pas un geek. Faire un devis en 5 minutes au lieu de 45, ça parle à tout le monde. Mes clients reçoivent une réponse le jour même maintenant.",
+        result: "Devis en 5 min au lieu de 45",
+        name: "Guillaume M.",
+        role: "Artisan · BTP",
+      },
+    ].map(t => (
+      <div class="glass-panel p-8 rounded-[2rem] border border-white/5 space-y-6 flex flex-col">
+        <div class="flex-1">
+          <span class="material-symbols-outlined text-primary-dim text-4xl mb-4 block" style="font-variation-settings: 'FILL' 1;">format_quote</span>
+          <p class="text-white text-sm leading-relaxed italic">"{t.quote}"</p>
+        </div>
+        <div class="flex items-center gap-3 pt-2 border-t border-white/5 flex-wrap">
+          <div class="w-10 h-10 rounded-full bg-gradient-to-br from-primary/40 to-secondary/40 flex items-center justify-center font-bold text-white text-sm flex-shrink-0">
+            {t.name[0]}
+          </div>
+          <div class="flex-1">
+            <p class="font-bold text-white text-sm">{t.name}</p>
+            <p class="text-text-muted text-xs">{t.role}</p>
+          </div>
+          <div class="bg-tertiary/10 border border-tertiary/20 rounded-full px-3 py-1 flex items-center gap-1">
+            <span class="material-symbols-outlined text-tertiary text-xs" style="font-variation-settings: 'FILL' 1;">trending_up</span>
+            <span class="text-tertiary text-xs font-bold">{t.result}</span>
+          </div>
+        </div>
+      </div>
+    ))}
+  </div>
+</section>
+
+<!-- ===== FAQ ===== -->
+<section class="py-24 bg-bg-surface-low px-6 md:px-8">
+  <div class="max-w-3xl mx-auto">
+    <div class="text-center mb-3">
+      <span class="font-[family-name:var(--font-label)] text-xs uppercase tracking-[0.2em] text-text-muted">FAQ</span>
+    </div>
+    <h2 class="font-[family-name:var(--font-headline)] font-black text-4xl text-white uppercase tracking-[0.06em] text-center mb-16">
+      Vos questions.
+    </h2>
+    <div class="space-y-4">
+      {[
+        {
+          q: "Faut-il savoir coder ?",
+          a: "Non. Jamais. Vous parlez à votre agent en français, avec vos mots. Il comprend et exécute. La formation est entièrement conçue pour les non-techniques."
+        },
+        {
+          q: "Fonctionne sur iPhone et Android ?",
+          a: "Oui. Telegram est disponible sur iOS et Android — vous l'avez probablement déjà sur votre téléphone. Votre agent est accessible depuis n'importe quel appareil."
+        },
+        {
+          q: "En combien de temps mon agent sera opérationnel ?",
+          a: "Une demi-journée. Matin : installation de Claude Code et configuration de la mémoire. Après-midi : bot Telegram connecté, premières automatisations en place. Vous repartez autonome."
+        },
+        {
+          q: "Combien ça coûte par mois, en dehors de la formation ?",
+          a: "Environ 20€/mois pour l'abonnement Claude (Anthropic). C'est tout. Pas d'abonnement Zapier, pas de Make, pas de Railway, pas d'empilement d'outils."
+        },
+        {
+          q: "C'est quoi 'accès à vie' ?",
+          a: "Vous accédez à la formation pour toujours. Toutes les mises à jour futures sont incluses — nouveaux modules, nouveaux outils, nouvelles fonctionnalités. Sans frais supplémentaires."
+        },
+        {
+          q: "Et si j'ai une question ou un problème ?",
+          a: "Vous pouvez nous écrire directement à contact@thefrenchbot.com. Et dans la plupart des cas, votre agent peut lui-même diagnostiquer et résoudre ses propres erreurs si vous lui décrivez le problème."
+        },
+      ].map(faq => (
+        <div class="glass-panel p-8 rounded-2xl border border-white/5">
+          <h3 class="font-[family-name:var(--font-headline)] font-bold text-white text-lg mb-3">{faq.q}</h3>
+          <p class="text-text-secondary leading-relaxed">{faq.a}</p>
+        </div>
+      ))}
+    </div>
+  </div>
+</section>
+
+<!-- ===== CTA FINAL ===== -->
+<section class="py-24 px-6 md:px-8">
+  <div
+    class="max-w-3xl mx-auto relative rounded-[3rem] overflow-hidden text-center"
+    style="background: linear-gradient(135deg, #13121c 0%, #1a183a 100%); border: 1px solid rgba(53,36,232,0.3); box-shadow: 0 0 100px rgba(53,36,232,0.2), 0 0 200px rgba(199,0,211,0.1);"
+  >
+    <div class="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-primary via-secondary to-tertiary"></div>
+    <div class="p-12 md:p-20 space-y-8">
+      <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-bg-surface-high border border-primary/30">
+        <span class="w-2 h-2 rounded-full bg-tertiary animate-pulse"></span>
+        <span class="font-[family-name:var(--font-label)] text-xs uppercase tracking-[0.2em] text-tertiary font-bold">Offre de lancement</span>
+      </div>
+
+      <h2 class="font-[family-name:var(--font-headline)] font-black text-4xl md:text-6xl text-white uppercase leading-tight">
+        Votre agent IA<br>
+        <span class="gradient-text">pourrait tourner</span><br>
+        dès ce soir.
+      </h2>
+
+      <p class="text-text-secondary text-lg max-w-xl mx-auto leading-relaxed">
+        1h30 de formation vidéo. Des documents pratiques. Un agent Telegram opérationnel en une demi-journée.
+      </p>
+
+      <!-- Prix -->
+      <div class="flex items-baseline justify-center gap-4">
+        <span class="text-6xl font-[family-name:var(--font-headline)] font-black text-white">299€</span>
+        <div class="text-left">
+          <div class="text-text-muted line-through text-xl">499€</div>
+          <div class="bg-tertiary/20 text-tertiary text-xs font-bold px-3 py-1 rounded-full border border-tertiary/30 mt-1">−200€</div>
+        </div>
+      </div>
+      <p class="text-text-muted text-sm">Paiement unique · Accès à vie · Sans abonnement</p>
+
+      <a
+        href={PODIA_LINK}
+        target="_blank"
+        rel="noopener noreferrer"
+        class="inline-flex items-center gap-3 bg-white text-bg-base px-12 py-5 rounded-full font-[family-name:var(--font-headline)] font-black text-base uppercase tracking-widest hover:scale-105 transition-all duration-300 shadow-[0_0_50px_rgba(255,255,255,0.2)]"
+      >
+        Accéder à la formation
+        <span class="material-symbols-outlined">arrow_forward</span>
+      </a>
+      <p class="text-text-muted text-xs">🔒 Paiement sécurisé via Podia</p>
+    </div>
+  </div>
+</section>
+
+</BaseLayout>
