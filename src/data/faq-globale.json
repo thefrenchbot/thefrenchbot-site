@@ -298,5 +298,65 @@
     "cluster": "resultats",
     "question": "J'ai une dernière question avant de réserver l'appel, comment je te joins direct ?",
     "answer": "<p>Par mail : <a href=\"mailto:contact@thefrenchbot.com\" class=\"text-primary-light hover:underline\">contact@thefrenchbot.com</a> — je réponds sous 24h. Ou directement via l'appel découverte sur Calendly si tu préfères parler avant d'écrire.</p><p>Pour les questions rapides, le formulaire de contact en bas du site marche aussi très bien. Il n'y a pas de service client automatisé qui filtre les messages — c'est moi qui réponds directement.</p>"
+  },
+  {
+    "id": "q51",
+    "cluster": "agent-ia",
+    "question": "C'est quoi un agent IA, et c'est différent d'un simple chatbot ?",
+    "answer": "<p>Un chatbot répond à des questions prédéfinies — il suit un script. Un agent IA, c'est différent : il peut lire des documents, analyser une situation, décider d'une action et l'exécuter.</p><p>Concrètement, au lieu de répondre \"votre commande sera traitée sous 48h\" en boucle, un agent IA peut aller chercher le statut réel de la commande dans ton système, envoyer une notification à ton équipe et mettre à jour ton CRM — sans intervention humaine. Un chatbot parle. Un agent IA agit.</p>"
+  },
+  {
+    "id": "q52",
+    "cluster": "agent-ia",
+    "question": "Comment créer un agent IA sans coder — c'est vraiment possible pour quelqu'un comme moi ?",
+    "answer": "<p>Oui, et c'est fait pour des gens exactement comme toi. Des plateformes no-code permettent de construire un agent IA en quelques heures, sans écrire une seule ligne de code. Tu définis ce que l'agent doit savoir (tes produits, tes process, tes réponses types), tu le connectes à tes outils (Telegram, Gmail, CRM), et il répond à ta place 24h/24.</p><p>J'ai formé des artisans, des courtiers et des restaurateurs qui avaient leur agent IA opérationnel en moins d'une journée de travail. La barrière technique n'est pas là où la plupart des gens la pensent.</p>"
+  },
+  {
+    "id": "q53",
+    "cluster": "agent-ia",
+    "question": "Peut-on créer un agent IA directement sur Telegram pour ses clients ?",
+    "answer": "<p>Oui, et c'est même l'un des canaux les plus simples à mettre en place. Via BotFather — le compte officiel Telegram — tu crées un bot en quelques minutes, tu obtiens un token sécurisé, et tu le connectes à ta plateforme IA. Résultat : tes clients t'écrivent sur Telegram, l'agent IA répond en temps réel, 24h/24, depuis ta base de connaissances.</p><p>Plus besoin de surveiller les messages à toute heure. J'ai un article complet sur le blog qui explique chaque étape — de la création du bot jusqu'aux premières conversations automatisées.</p>"
+  },
+  {
+    "id": "q54",
+    "cluster": "agent-ia",
+    "question": "C'est quoi BotFather sur Telegram et comment ça marche ?",
+    "answer": "<p>BotFather, c'est le compte officiel Telegram qui te permet de créer et gérer des bots. Tu lui envoies la commande <code>/newbot</code>, tu choisis un nom d'affichage, puis un identifiant unique qui se termine par \"_bot\" — et il te génère un token alphanumérique. Ce token, c'est la clé qui relie ton bot à ta plateforme IA.</p><p>Garde-le confidentiel : ne le colle jamais dans un dépôt de code public ou une capture d'écran partagée. Si tu penses qu'il a fuité, tu peux le révoquer via BotFather en quelques secondes via <code>/mybots</code> → API Token → Revoke.</p>"
+  },
+  {
+    "id": "q55",
+    "cluster": "agent-ia",
+    "question": "Un agent IA peut-il gérer les demandes clients à ma place quand je ne suis pas disponible ?",
+    "answer": "<p>C'est exactement l'intérêt. Un agent IA ne prend jamais de congés, ne dort pas, ne rate pas un message. Il répond à partir de ta base de connaissances — tes produits, tes tarifs, tes conditions, tes process — transfère à un humain quand la situation le nécessite, et retient le contexte de chaque conversation d'une session à l'autre.</p><p>Pour un indépendant ou un dirigeant de TPE qui ne peut pas être disponible en permanence, c'est de la disponibilité gratuite — 24h/24, 7j/7. Paul Dufrap, chef d'entreprise BTP, a récupéré 1h30 par jour juste en connectant un agent IA à ses conversations Telegram.</p>"
+  },
+  {
+    "id": "q56",
+    "cluster": "agent-ia",
+    "question": "Quelle plateforme utiliser pour créer un agent IA sans compétences techniques ?",
+    "answer": "<p>Il en existe plusieurs, avec des niveaux de puissance et de complexité différents. Pour des agents IA simples à déployer sur Telegram ou WhatsApp, des plateformes no-code spécialisées font le travail sans code. Pour des agents plus complexes, connectés à plusieurs outils métier, Make combiné à Claude est souvent la meilleure option pour les TPE.</p><p>Le bon choix dépend de ce que tu veux automatiser et de ton outil métier exact. C'est ce qu'on évalue ensemble lors de l'appel découverte — avant que tu ne t'engages sur quoi que ce soit.</p>"
+  },
+  {
+    "id": "q57",
+    "cluster": "agent-ia",
+    "question": "Mon agent IA peut-il parler à mes clients en français, avec le ton de ma marque ?",
+    "answer": "<p>Oui, et c'est ce qui fait la différence entre un bot générique et un vrai assistant qui représente ta marque. Tu définis le ton dans le \"system prompt\" — tu lui expliques qui il est, comment il parle, ce qu'il peut et ne peut pas dire. Formel ou détendu, direct ou chaleureux, en français soigné ou avec le ton exact de ta boîte — c'est toi qui décides.</p><p>J'ai des clients dont l'agent IA est indiscernable de leur propre façon d'écrire. Le secret : un briefing clair dès le départ. Comme pour n'importe quel collaborateur que tu intègres à ton équipe.</p>"
+  },
+  {
+    "id": "q58",
+    "cluster": "agent-ia",
+    "question": "Est-ce qu'un agent IA peut traiter des paiements ou des commandes directement dans le bot ?",
+    "answer": "<p>Oui, dans certains cas. Des plateformes permettent d'intégrer le traitement de paiements (via Stripe par exemple) directement dans un bot Telegram. L'agent peut afficher un catalogue, prendre une commande, déclencher un paiement et envoyer une confirmation — sans que tu touches à rien.</p><p>C'est plus complexe à mettre en place qu'un simple agent de réponse, mais c'est faisable. C'est le type de cas qu'on évalue lors de l'appel découverte : faisabilité, complexité réelle, ROI estimé — avant que tu signes quoi que ce soit.</p>"
+  },
+  {
+    "id": "q59",
+    "cluster": "agent-ia",
+    "question": "Combien de temps faut-il pour créer son premier agent IA ?",
+    "answer": "<p>Moins que tu ne le penses. Pour un agent simple — qui répond à tes questions fréquentes sur Telegram, par exemple — on peut avoir quelque chose d'opérationnel en une demi-journée de travail avec la bonne plateforme. Pour un agent plus complet, connecté à ton CRM ou tes outils métier, comptez 1 à 3 jours selon la complexité.</p><p>La vraie question ce n'est pas le temps de construction — c'est d'identifier le bon cas d'usage de départ. Commencer petit, valider, puis étendre. C'est la méthode que j'applique avec tous mes clients, et c'est ce qui garantit que ça tient dans la durée.</p>"
+  },
+  {
+    "id": "q60",
+    "cluster": "agent-ia",
+    "question": "Mon agent IA aura-t-il accès à mes données clients — est-ce sécurisé ?",
+    "answer": "<p>C'est une question légitime, et il faut y répondre sans langue de bois. Un agent IA n'a accès qu'à ce que tu lui donnes. Si tu lui fournis ta FAQ et tes conditions générales, il répond à partir de ça — pas plus. Si tu l'intègres à ton CRM, il accède aux données que tu lui autorises explicitement.</p><p>Pour les données sensibles (informations clients, données financières), on met en place des garde-fous : accès limité au strict nécessaire, anonymisation si possible, ou transfert à un humain pour les situations délicates. C'est une architecture que je conçois au cas par cas — pas un template générique appliqué à tout le monde.</p>"
   }
 ]
