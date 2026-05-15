@@ -161,7 +161,7 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site);
         position:absolute; top:14px; right:16px;
         background:none; border:none; cursor:pointer;
         color:#908fa2; font-size:22px; line-height:1;
-        transition:color 0.2s;
+        transition:color 0.2s; z-index:10000;
       " onmouseover="this.style.color='#e5e0f0'" onmouseout="this.style.color='#908fa2'">✕</button>
 
       <!-- Badge -->
@@ -226,12 +226,12 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site);
       </div>
 
       <!-- CTA -->
-      <a href="https://calendly.com/thefrenchbot-coaching/30min" target="_blank" rel="noopener" style="
+      <button id="popup-cta" style="
         display:inline-flex; align-items:center; gap:8px;
         background:linear-gradient(90deg,#3524E8,#C700D3);
         color:#fff; font-weight:700; font-size:1rem;
         padding:14px 32px; border-radius:100px;
-        text-decoration:none;
+        border:none; cursor:pointer;
         box-shadow:0 4px 24px rgba(53,36,232,0.4);
         transition:transform 0.2s, box-shadow 0.2s;
         margin-bottom:14px;
@@ -240,7 +240,7 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site);
       onmouseout="this.style.transform='none';this.style.boxShadow='0 4px 24px rgba(53,36,232,0.4)'"
       >
         ✨ Je réserve ma place
-      </a>
+      </button>
 
       <p style="font-size:0.78rem; color:#908fa2;">Appel découverte gratuit · Sans engagement</p>
     </div>
@@ -270,7 +270,26 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site);
 
       setTimeout(openPopup, 1800);
 
-      closeBtn.addEventListener('click', closePopup);
+      closeBtn.addEventListener('click', function(e) {
+        e.preventDefault();
+        e.stopPropagation();
+        closePopup();
+      });
+
+      const ctaBtn = document.getElementById('popup-cta');
+      if (ctaBtn) {
+        ctaBtn.addEventListener('click', function(e) {
+          e.stopPropagation();
+          window.open('https://calendly.com/thefrenchbot-coaching/30min', '_blank', 'noopener');
+        });
+      }
+
+      card.addEventListener('click', function(e) {
+        if (!closeBtn.contains(e.target) && !ctaBtn.contains(e.target)) {
+          window.open('https://calendly.com/thefrenchbot-coaching/30min', '_blank', 'noopener');
+        }
+      });
+
       overlay.addEventListener('click', function(e) {
         if (e.target === overlay) closePopup();
       });
