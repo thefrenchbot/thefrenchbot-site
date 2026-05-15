@@ -46,34 +46,39 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site);
   <meta name="twitter:description" content={description} />
   <meta name="twitter:image" content={ogImage} />
 
-  <!-- Fonts (async — non-blocking) -->
+  <!-- Fonts: preconnect -->
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+
+  <!-- Critical UI fonts: Space Grotesk (headlines) + Outfit (body) — print trick = non-blocking -->
   <link
-    rel="preload"
-    as="style"
-    href="https://fonts.googleapis.com/css2?family=Mr+Dafoe&family=Outfit:wght@300;400;600;800&family=Space+Grotesk:wght@300;500;700;900&family=Patrick+Hand&display=swap"
-    onload="this.onload=null;this.rel='stylesheet'"
+    rel="stylesheet"
+    media="print"
+    onload="this.media='all'"
+    href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@700;900&family=Outfit:wght@400;600;800&display=swap"
+  />
+  <!-- Decorative fonts: low priority, font-display:optional avoids layout shift -->
+  <link
+    rel="stylesheet"
+    media="print"
+    onload="this.media='all'"
+    href="https://fonts.googleapis.com/css2?family=Mr+Dafoe&family=Patrick+Hand&display=optional"
   />
   <noscript>
-    <link
-      href="https://fonts.googleapis.com/css2?family=Mr+Dafoe&family=Outfit:wght@300;400;600;800&family=Space+Grotesk:wght@300;500;700;900&family=Patrick+Hand&display=swap"
-      rel="stylesheet"
-    />
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@700;900&family=Outfit:wght@400;600;800&family=Mr+Dafoe&family=Patrick+Hand&display=swap" rel="stylesheet" />
   </noscript>
 
-  <!-- Material Symbols (async — non-blocking) -->
-  <link
-    rel="preload"
-    as="style"
-    href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap"
-    onload="this.onload=null;this.rel='stylesheet'"
-  />
+  <!-- Material Symbols: loaded after DOMContentLoaded (not in LCP path; nav icons replaced by SVG) -->
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      var l = document.createElement('link');
+      l.rel = 'stylesheet';
+      l.href = 'https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0..1,0&icon_names=analytics,arrow_forward,auto_awesome,bolt,calendar_today,east,hub,precision_manufacturing,psychology,rocket_launch,star,terminal&display=optional';
+      document.head.appendChild(l);
+    });
+  </script>
   <noscript>
-    <link
-      href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap"
-      rel="stylesheet"
-    />
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0..1,0&display=optional" rel="stylesheet" />
   </noscript>
 
   <!-- Favicon -->
@@ -145,7 +150,7 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site);
   <div id="popup-overlay" style="
     position:fixed; inset:0; z-index:9999;
     background:rgba(11,10,20,0.75); backdrop-filter:blur(6px);
-    display:flex; align-items:center; justify-content:center;
+    display:none; align-items:center; justify-content:center;
     padding:16px;
     opacity:0; pointer-events:none;
     transition:opacity 0.4s ease;
@@ -264,6 +269,7 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site);
       const closeBtn = document.getElementById('popup-close');
 
       function openPopup() {
+        overlay.style.display = 'flex';
         overlay.style.opacity = '1';
         overlay.style.pointerEvents = 'auto';
         card.style.transform = 'translateY(0) scale(1)';

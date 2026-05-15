@@ -121,3 +121,22 @@ body {
   background: linear-gradient(90deg, transparent, var(--color-primary), var(--color-secondary), transparent);
   width: 100%;
 }
+
+/* ============================================
+   Mobile Performance Optimizations
+   ============================================ */
+
+@media (max-width: 767px) {
+  /* Reduce expensive backdrop-filter blur on mobile GPU */
+  .glass-panel,
+  .glass-card {
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+  }
+
+  /* Simplify header blur: use solid bg instead of blur composite */
+  header {
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+  }
+}
