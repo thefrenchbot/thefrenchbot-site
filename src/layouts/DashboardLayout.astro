@@ -17,19 +17,11 @@ const { title = 'Dashboard — The French Bot' } = Astro.props;
   <meta name="robots" content="noindex, nofollow" />
   <title>{title}</title>
 
-  <!-- Fonts — same stack as scalewithouss.com -->
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link
-    href="https://fonts.googleapis.com/css2?family=Mr+Dafoe&family=Outfit:wght@300;400;600;800&family=Space+Grotesk:wght@300;500;700;900&family=Patrick+Hand&display=swap"
-    rel="stylesheet"
-  />
-
-  <!-- Material Symbols -->
-  <link
-    href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap"
-    rel="stylesheet"
-  />
+  <!-- Fonts: self-hosted (defined in src/styles/fonts.css + globals.css, imported above).
+       Preload only the above-the-fold faces — same approach as BaseLayout. -->
+  <link rel="preload" href="/fonts/material-symbols-subset.woff2" as="font" type="font/woff2" crossorigin />
+  <link rel="preload" href="/fonts/space-grotesk-700-latin.woff2" as="font" type="font/woff2" crossorigin />
+  <link rel="preload" href="/fonts/outfit-400-latin.woff2" as="font" type="font/woff2" crossorigin />
 
   <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
 </head>
