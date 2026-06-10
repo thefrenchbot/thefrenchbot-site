@@ -3,6 +3,7 @@ export const prerender = false;
 
 import { createHash } from 'crypto';
 import DashboardLayout from '../layouts/DashboardLayout.astro';
+import { upcomingSessions, dateDisplay, claudeProgramme } from '../data/sessions';
 
 // ─── Auth (100% côté serveur — le mot de passe ne quitte jamais le serveur) ──
 const DASHBOARD_PASSWORD = import.meta.env.DASHBOARD_PASSWORD;
@@ -13,55 +14,24 @@ const sessionCookie = Astro.cookies.get('tfb_session')?.value;
 const isAuthed = Boolean(SESSION_SECRET) && sessionCookie === EXPECTED_TOKEN;
 const hasError = Astro.url.searchParams.get('error') === '1';
 
-// ─── Formations data ──────────────────────────────────────────────────────────
-const formations = [
-  {
-    id: 1,
-    title: "Claude et son environnement",
-    dateISO: "2026-04-29",
-    dateDisplay: "Mercredi 29 avril 2026",
-    location: "Robelot",
-    liveDuration: "7h",
-    elearningDuration: "14h",
-    accent: "#3524E8",
-    accentLight: "#c2c1ff",
-    modules: [
-      { icon: "table_chart",    label: "Claude dans Excel" },
-      { icon: "slideshow",      label: "Claude dans PowerPoint" },
-      { icon: "auto_awesome",   label: "Les artefacts dans Claude" },
-      { icon: "terminal",       label: "Claude Code" },
-      { icon: "image",          label: "Concurrents & création d'images (NanoBanana)" },
-      { icon: "psychology",     label: "Créer un second cerveau IA multi-LLM" },
-      { icon: "compare_arrows", label: "ChatGPT, Gemini & autres LLMs" },
-    ],
-  },
-  {
-    id: 2,
-    title: "Maîtriser Claude",
-    dateISO: "2026-05-20",
-    dateDisplay: "Mercredi 20 mai 2026",
-    location: "Robelot",
-    liveDuration: "7h",
-    elearningDuration: "14h",
-    accent: "#C700D3",
-    accentLight: "#ffa9fb",
-    modules: [
-      { icon: "table_chart",    label: "Claude dans Excel" },
-      { icon: "slideshow",      label: "Claude dans PowerPoint" },
-      { icon: "auto_awesome",   label: "Les artefacts dans Claude" },
-      { icon: "terminal",       label: "Claude Code" },
-      { icon: "image",          label: "Concurrents & création d'images (NanoBanana)" },
-      { icon: "psychology",     label: "Créer un second cerveau IA multi-LLM" },
-      { icon: "compare_arrows", label: "ChatGPT, Gemini & autres LLMs" },
-    ],
-  },
-];
+// ─── Formations data — source unique : src/data/sessions.ts ──────────────────
+// Page SSR : la liste se met à jour à chaque requête (les sessions passées
+// disparaissent toutes seules).
+const sessionAccents = {
+  primary:   { accent: '#3524E8', accentLight: '#c2c1ff' },
+  secondary: { accent: '#C700D3', accentLight: '#ffa9fb' },
+};
 
-const today = new Date();
-const formationsData = formations.map(f => ({
-  ...f,
+const formationsData = upcomingSessions().map((s) => ({
+  title: s.title,
+  dateDisplay: dateDisplay(s),
+  location: s.location,
+  liveDuration: '7h',
+  elearningDuration: '14h',
+  ...sessionAccents[s.color],
+  modules: claudeProgramme,
   daysUntil: Math.max(0, Math.ceil(
-    (new Date(f.dateISO).getTime() - today.getTime()) / (1000 * 60 * 60 * 24)
+    (new Date(s.dateISO).getTime() - Date.now()) / (1000 * 60 * 60 * 24)
   )),
 }));
 
@@ -278,12 +248,12 @@ function relDate(str?: string) {
         <div class="grid grid-cols-3 gap-4">
           <div class="glass-card rounded-2xl p-6 border border-white/5 space-y-1">
             <p class="font-[family-name:var(--font-body)] text-[10px] uppercase tracking-[0.25em] text-text-muted">Sessions</p>
-            <p class="font-[family-name:var(--font-headline)] font-black text-5xl text-white">2</p>
-            <p class="font-[family-name:var(--font-body)] text-xs text-text-secondary">Programmées en 2026</p>
+            <p class="font-[family-name:var(--font-headline)] font-black text-5xl text-white">{formationsData.length}</p>
+            <p class="font-[family-name:var(--font-body)] text-xs text-text-secondary">À venir</p>
           </div>
           <div class="glass-card rounded-2xl p-6 border border-white/5 space-y-1">
             <p class="font-[family-name:var(--font-body)] text-[10px] uppercase tracking-[0.25em] text-text-muted">Prochaine session</p>
-            <p id="days-countdown" class="font-[family-name:var(--font-headline)] font-black text-5xl text-white">{formationsData[0].daysUntil}</p>
+            <p id="days-countdown" class="font-[family-name:var(--font-headline)] font-black text-5xl text-white">{formationsData[0]?.daysUntil ?? '—'}</p>
             <p class="font-[family-name:var(--font-body)] text-xs text-text-secondary">Jours restants</p>
           </div>
           <div class="glass-card rounded-2xl p-6 border border-white/5 space-y-1">

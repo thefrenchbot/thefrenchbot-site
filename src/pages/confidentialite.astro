@@ -46,7 +46,7 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 
       <div class="space-y-3">
         <h2 class="font-[family-name:var(--font-headline)] font-bold text-white text-lg uppercase tracking-tight">Destinataires des données</h2>
-        <p>Vos données sont transmises à Formspree (service de traitement de formulaires) pour l'acheminement de votre message. Aucune donnée n'est vendue ou partagée avec des tiers à des fins commerciales.</p>
+        <p>Vos données de contact sont transmises à Formspree (service de traitement de formulaires) pour l'acheminement de votre message. Si vous avez accepté la mesure d'audience, des données de navigation sont transmises à Google (Google Analytics — voir la section Cookies ci-dessous). Aucune donnée n'est vendue ou partagée avec des tiers à des fins commerciales.</p>
       </div>
 
       <div class="space-y-3">
@@ -72,11 +72,30 @@ import BaseLayout from '../layouts/BaseLayout.astro';
       </div>
 
       <div class="space-y-3">
-        <h2 class="font-[family-name:var(--font-headline)] font-bold text-white text-lg uppercase tracking-tight">Cookies</h2>
-        <p>Ce site n'utilise pas de cookies de traçage ou publicitaires. Seuls des cookies techniques strictement nécessaires au bon fonctionnement du site peuvent être déposés. Aucun outil d'analyse comportementale tiers n'est actuellement actif sur ce site.</p>
+        <h2 class="font-[family-name:var(--font-headline)] font-bold text-white text-lg uppercase tracking-tight">Cookies et mesure d'audience</h2>
+        <p>Ce site utilise Google Analytics (Google Ireland Limited / Google LLC) pour mesurer son audience, <strong class="text-white">uniquement si vous y consentez</strong> via le bandeau prévu à cet effet. Tant que vous n'avez pas cliqué sur « Accepter », aucun cookie de mesure d'audience n'est déposé et aucune donnée n'est transmise à Google. Les données de mesure d'audience peuvent faire l'objet d'un transfert hors de l'Union européenne par Google.</p>
+        <p>Votre choix (acceptation ou refus) est conservé localement dans votre navigateur pendant 13 mois maximum, puis vous est redemandé. Vous pouvez le modifier à tout moment :</p>
+        <button
+          id="reset-consent"
+          class="inline-flex items-center gap-2 px-5 py-3 rounded-full bg-bg-surface-high border border-outline-variant/30 font-[family-name:var(--font-label)] text-xs uppercase tracking-widest text-text-secondary hover:text-white hover:border-primary/40 transition-all duration-200 cursor-pointer"
+        >
+          Modifier mon choix de cookies
+        </button>
+        <p>En dehors de cette mesure d'audience, seuls des éléments techniques strictement nécessaires au bon fonctionnement du site sont utilisés.</p>
       </div>
 
-      <p class="text-xs text-text-muted pt-4 border-t border-white/5">Dernière mise à jour : avril 2026</p>
+      <p class="text-xs text-text-muted pt-4 border-t border-white/5">Dernière mise à jour : juin 2026</p>
     </div>
   </section>
+
+  <script is:inline>
+    (function () {
+      var btn = document.getElementById('reset-consent');
+      if (!btn) return;
+      btn.addEventListener('click', function () {
+        if (window.__tfbClearConsent) window.__tfbClearConsent();
+        location.reload(); // le bandeau réapparaît
+      });
+    })();
+  </script>
 </BaseLayout>

@@ -1,35 +1,25 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import ContactSection from '../../components/ContactSection.astro';
+import { upcomingSessions, dateDisplay, dayMonth } from '../../data/sessions';
+
+// ── Sessions présentiel à venir — source unique : src/data/sessions.ts ──────
+const sessionCards = upcomingSessions().map((s) => ({
+  title: s.title,
+  slug: s.slug,
+  description: "Formation complète sur Claude et son environnement : Excel, PowerPoint, artefacts, Claude Code, NanoBanana, second cerveau IA et comparatif des LLMs.",
+  price: 'Nous contacter',
+  rating: 'Nouveau',
+  level: `${dayMonth(s)} — ${s.location}`,
+  levelColor: s.color === 'primary' ? 'primary-light' : 'secondary-light',
+  icon: 'psychology',
+  iconGradient: s.color === 'primary' ? 'from-primary/40 to-bg-surface' : 'from-secondary/40 to-bg-surface',
+  date: dateDisplay(s),
+  isNew: true,
+}));
 
 const formations = [
-  // ── Formations réelles 2026 ──────────────────────────────────────────────
-  {
-    title: 'Maîtriser Claude',
-    slug: 'maitriser-claude-mai-2026',
-    description: "Formation complète sur Claude et son environnement : Excel, PowerPoint, artefacts, Claude Code, NanoBanana, second cerveau IA et comparatif des LLMs.",
-    price: 'Nous contacter',
-    rating: 'Nouveau',
-    level: '17 Juin — Robelot',
-    levelColor: 'primary-light',
-    icon: 'psychology',
-    iconGradient: 'from-primary/40 to-bg-surface',
-    date: 'Mercredi 17 juin 2026',
-    isNew: true,
-  },
-  {
-    title: 'Maîtriser Claude',
-    slug: 'maitriser-claude-juillet-2026',
-    description: "Formation complète sur Claude et son environnement : Excel, PowerPoint, artefacts, Claude Code, NanoBanana, second cerveau IA et comparatif des LLMs.",
-    price: 'Nous contacter',
-    rating: 'Nouveau',
-    level: '22 Juillet — Robelot',
-    levelColor: 'secondary-light',
-    icon: 'psychology',
-    iconGradient: 'from-secondary/40 to-bg-surface',
-    date: 'Mercredi 22 juillet 2026',
-    isNew: true,
-  },
+  ...sessionCards,
   // ── Catalogue en ligne ───────────────────────────────────────────────────
   {
     title: 'Prompt Engineering Pro',
@@ -78,6 +68,14 @@ const formations = [
 ];
 
 const categories = ['Toutes', 'Produit', 'Engineering', 'Stratégie'];
+
+// Classes écrites en toutes lettres : Tailwind ne génère pas les classes
+// construites dynamiquement (`bg-${color}/10` ne fonctionne que par accident).
+const levelBadgeClasses: Record<string, string> = {
+  'primary-light': 'bg-primary-light/10 text-primary-light border-primary-light/20',
+  'secondary-light': 'bg-secondary-light/10 text-secondary-light border-secondary-light/20',
+  'tertiary': 'bg-tertiary/10 text-tertiary border-tertiary/20',
+};
 
 const coursesSchema = {
   "@context": "https://schema.org",
@@ -165,7 +163,7 @@ const coursesSchema = {
             </span>
             <div class="absolute inset-0 bg-gradient-to-t from-bg-base to-transparent"></div>
             <div class="absolute bottom-4 left-4 flex gap-2">
-              <span class={`px-3 py-1 bg-${f.levelColor}/10 backdrop-blur-md text-${f.levelColor} text-[10px] font-bold rounded-full border border-${f.levelColor}/20 uppercase tracking-widest`}>
+              <span class={`px-3 py-1 backdrop-blur-md text-[10px] font-bold rounded-full border uppercase tracking-widest ${levelBadgeClasses[f.levelColor]}`}>
                 {f.level}
               </span>
             </div>

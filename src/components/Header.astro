@@ -39,7 +39,7 @@ import logo from '../assets/logo.jpg';
     <!-- Desktop CTA -->
     <div class="hidden md:flex items-center gap-4">
       <a
-        href="#contact"
+        href="/contact"
         class="gradient-cta text-white px-6 py-2.5 rounded-full font-[family-name:var(--font-headline)] font-black text-[10px] uppercase tracking-[0.2em] hover:scale-105 transition-transform neon-glow-primary"
       >
         Nous contacter
@@ -151,7 +151,7 @@ import logo from '../assets/logo.jpg';
     </a>
 
     <!-- Contact -->
-    <a href="#contact" class="bottom-nav-item" aria-label="Contact" style="
+    <a href="/contact" class="bottom-nav-item" aria-label="Contact" style="
       display:flex; flex-direction:column; align-items:center; gap:3px;
       padding:6px 12px; border-radius:14px;
       color: rgba(255,255,255,0.5);
@@ -173,8 +173,7 @@ import logo from '../assets/logo.jpg';
   const path = window.location.pathname;
   document.querySelectorAll('.bottom-nav-item').forEach((link) => {
     const href = link.getAttribute('href') ?? '';
-    const isActive =
-      href === '/' ? path === '/' : (href !== '#contact' && path.startsWith(href));
+    const isActive = href === '/' ? path === '/' : path.startsWith(href);
     if (isActive) {
       (link as HTMLElement).style.color = '#bcbbff';
       const icon = link.querySelector('.material-symbols-outlined') as HTMLElement | null;

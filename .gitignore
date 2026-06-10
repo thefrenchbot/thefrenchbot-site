@@ -2,6 +2,8 @@
 dist/
 # generated types
 .astro/
+# matérialisé depuis scripts/og-default.jpg.b64 (voir astro.config.mjs)
+public/images/og-default.jpg
 
 # dependencies
 node_modules/

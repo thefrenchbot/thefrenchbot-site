@@ -1,9 +1,10 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import ContactSection from '../../components/ContactSection.astro';
+import { sessions, dateDisplay, shortDate } from '../../data/sessions';
 
 export function getStaticPaths() {
-  // Formation data shared for both Claude sessions
+  // Formation data shared for all Claude sessions
   const claudeFormationBase = {
     subtitle: 'Formation complète — Présentiel + E-learning',
     description: "Une journée intensive en présentiel pour maîtriser Claude et tout son écosystème : Excel, PowerPoint, artefacts, Claude Code, création d'images, second cerveau IA et comparatif des LLMs. Complétée par 14h de e-learning en accès immédiat.",
@@ -40,31 +41,24 @@ export function getStaticPaths() {
   };
 
   const formations = [
-    // ── Formations réelles 2026 ──────────────────────────────────────────
-    {
+    // ── Sessions présentiel — source unique : src/data/sessions.ts ───────
+    // Une page est générée pour CHAQUE session du fichier (passée ou non),
+    // pour qu'aucun lien interne ne tombe en 404. Quand une session est
+    // retirée du fichier, ajouter une redirection dans astro.config.mjs.
+    ...sessions.map((s) => ({
       ...claudeFormationBase,
-      slug: 'maitriser-claude-mai-2026',
-      title: 'Maîtriser Claude',
-      date: 'Mercredi 20 mai 2026',
+      slug: s.slug,
+      title: s.title,
+      date: dateDisplay(s),
+      dateISO: s.dateISO,
+      location: s.location,
       includes: [
         { label: 'Live présentiel', value: '7 heures' },
         { label: 'E-learning', value: '14 heures' },
-        { label: 'Date', value: '20 mai 2026' },
-        { label: 'Lieu', value: 'Robelot' },
+        { label: 'Date', value: shortDate(s) },
+        { label: 'Lieu', value: s.location },
       ],
-    },
-    {
-      ...claudeFormationBase,
-      slug: 'maitriser-claude-juin-2026',
-      title: 'Maîtriser Claude',
-      date: 'Mercredi 17 juin 2026',
-      includes: [
-        { label: 'Live présentiel', value: '7 heures' },
-        { label: 'E-learning', value: '14 heures' },
-        { label: 'Date', value: '17 juin 2026' },
-        { label: 'Lieu', value: 'Robelot' },
-      ],
-    },
+    })),
     // ── Catalogue en ligne ───────────────────────────────────────────────
     {
       slug: 'prompt-engineering',
@@ -223,7 +217,9 @@ const courseSchema = {
   "hasCourseInstance": {
     "@type": "CourseInstance",
     "courseMode": f.format?.includes('Présentiel') ? "blended" : "online",
-    "inLanguage": "fr"
+    "inLanguage": "fr",
+    ...((f as any).dateISO ? { "startDate": (f as any).dateISO } : {}),
+    ...((f as any).location ? { "location": { "@type": "Place", "name": (f as any).location } } : {})
   },
   ...(f.price && f.price !== 'Nous contacter' ? {
     "offers": {
@@ -424,15 +420,9 @@ const courseSchema = {
             </div>
           </div>
 
-          {f.price === 'Nous contacter' ? (
-            <a href="#contact" class="block w-full gradient-cta py-4 md:py-5 rounded-2xl font-[family-name:var(--font-headline)] font-bold text-lg md:text-xl text-white text-center hover:shadow-[0_0_30px_rgba(53,36,232,0.6)] hover:scale-[1.02] active:scale-[0.98] transition-all duration-300">
-              Nous contacter
-            </a>
-          ) : (
-            <button class="w-full gradient-cta py-4 md:py-5 rounded-2xl font-[family-name:var(--font-headline)] font-bold text-lg md:text-xl text-white hover:shadow-[0_0_30px_rgba(53,36,232,0.6)] hover:scale-[1.02] active:scale-[0.98] transition-all duration-300">
-              S'inscrire maintenant
-            </button>
-          )}
+          <a href="#contact" class="block w-full gradient-cta py-4 md:py-5 rounded-2xl font-[family-name:var(--font-headline)] font-bold text-lg md:text-xl text-white text-center hover:shadow-[0_0_30px_rgba(53,36,232,0.6)] hover:scale-[1.02] active:scale-[0.98] transition-all duration-300">
+            {f.price === 'Nous contacter' ? 'Nous contacter' : "S'inscrire maintenant"}
+          </a>
         </div>
 
         <div class="p-6 md:p-8 rounded-[2rem] bg-bg-surface-low border border-white/5">

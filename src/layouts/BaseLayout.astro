@@ -2,6 +2,8 @@
 import '../styles/globals.css';
 import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
+import CookieBanner from '../components/CookieBanner.astro';
+import { upcomingSessions, weekday, dayMonth } from '../data/sessions';
 
 interface Props {
   title: string;
@@ -18,6 +20,15 @@ const {
 } = Astro.props;
 
 const canonicalURL = new URL(Astro.url.pathname, Astro.site);
+// og:image doit être une URL absolue (exigence du protocole Open Graph)
+const ogImageURL = new URL(ogImage, Astro.site);
+
+// Sessions affichées dans le popup (2 max) — source unique : src/data/sessions.ts
+const popupSessions = upcomingSessions().slice(0, 2);
+const popupAccents = {
+  primary: { border: '#3524E8', bar: 'linear-gradient(90deg,#3524E8,#64d8d9)', label: '#bcbbff', date: '#64d8d9', emoji: '📅' },
+  secondary: { border: '#C700D3', bar: 'linear-gradient(90deg,#C700D3,#ffa9fb)', label: '#ffa9fb', date: '#ffa9fb', emoji: '🗓️' },
+};
 ---
 
 <!DOCTYPE html>
@@ -37,14 +48,14 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site);
   <meta property="og:url" content={canonicalURL} />
   <meta property="og:title" content={title} />
   <meta property="og:description" content={description} />
-  <meta property="og:image" content={ogImage} />
+  <meta property="og:image" content={ogImageURL} />
   <meta property="og:locale" content="fr_FR" />
 
   <!-- Twitter -->
   <meta name="twitter:card" content="summary_large_image" />
   <meta name="twitter:title" content={title} />
   <meta name="twitter:description" content={description} />
-  <meta name="twitter:image" content={ogImage} />
+  <meta name="twitter:image" content={ogImageURL} />
 
   <!-- Fonts: self-hosted (defined in src/styles/fonts.css + globals.css).
        Preload only the above-the-fold faces so they fetch in parallel with CSS:
@@ -109,29 +120,54 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site);
     <script type="application/ld+json" set:html={JSON.stringify(schema)} />
   )}
 
-  <!-- Google Analytics — queued immediately, library loaded once the page is
-       idle so it stays off the critical path (pageview still fires on load). -->
+  <!-- Google Analytics — chargé UNIQUEMENT après consentement (bandeau cookies,
+       exigence CNIL/RGPD). Une fois consenti, la librairie est chargée quand la
+       page est idle pour rester hors du chemin critique. Le choix est conservé
+       13 mois maximum (durée max CNIL), puis redemandé. -->
   <script is:inline>
-    window.dataLayer = window.dataLayer || [];
-    function gtag(){dataLayer.push(arguments);}
-    gtag('js', new Date());
-    gtag('config', 'G-7QN1R5L1PE');
     (function () {
+      var GA_ID = 'G-7QN1R5L1PE';
+      var KEY = 'tfb_consent';
+      var MAX_AGE = 394 * 864e5; // ~13 mois
+
+      window.__tfbReadConsent = function () {
+        try {
+          var raw = JSON.parse(localStorage.getItem(KEY));
+          if (!raw || !raw.v) return null;
+          if (Date.now() - (raw.t || 0) > MAX_AGE) { localStorage.removeItem(KEY); return null; }
+          return raw.v;
+        } catch (e) { return null; }
+      };
+      window.__tfbSaveConsent = function (v) {
+        try { localStorage.setItem(KEY, JSON.stringify({ v: v, t: Date.now() })); } catch (e) {}
+      };
+      window.__tfbClearConsent = function () {
+        try { localStorage.removeItem(KEY); } catch (e) {}
+      };
+
       function loadGA() {
         if (window.__gaLoaded) return;
         window.__gaLoaded = true;
+        window.dataLayer = window.dataLayer || [];
+        window.gtag = function () { dataLayer.push(arguments); };
+        gtag('js', new Date());
+        gtag('config', GA_ID);
         var s = document.createElement('script');
         s.async = true;
-        s.src = 'https://www.googletagmanager.com/gtag/js?id=G-7QN1R5L1PE';
+        s.src = 'https://www.googletagmanager.com/gtag/js?id=' + GA_ID;
         document.head.appendChild(s);
       }
-      var schedule = function () {
-        ('requestIdleCallback' in window)
-          ? requestIdleCallback(loadGA, { timeout: 3000 })
-          : setTimeout(loadGA, 1200);
+      window.__tfbEnableAnalytics = function () {
+        var schedule = function () {
+          ('requestIdleCallback' in window)
+            ? requestIdleCallback(loadGA, { timeout: 3000 })
+            : setTimeout(loadGA, 1200);
+        };
+        if (document.readyState === 'complete') schedule();
+        else window.addEventListener('load', schedule, { once: true });
       };
-      if (document.readyState === 'complete') schedule();
-      else window.addEventListener('load', schedule, { once: true });
+
+      if (window.__tfbReadConsent() === 'granted') window.__tfbEnableAnalytics();
     })();
   </script>
 
@@ -142,8 +178,11 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site);
     <slot />
   </main>
   <Footer />
+  <CookieBanner />
 
-  <!-- POPUP FORMATIONS CLAUDE -->
+  <!-- POPUP FORMATIONS CLAUDE — rendu uniquement s'il reste des sessions à venir
+       (dates générées depuis src/data/sessions.ts) -->
+  {popupSessions.length > 0 && (<>
   <div id="popup-overlay" style="
     position:fixed; inset:0; z-index:9999;
     background:rgba(11,10,20,0.75); backdrop-filter:blur(6px);
@@ -193,46 +232,25 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site);
         color:#fff;
       ">Maîtrisez Claude.<br>Pour de vrai.</h2>
       <p style="font-size:0.95rem; color:#c7c4d9; margin-bottom:28px; line-height:1.6;">
-        Deux sessions intensives pour passer de curieux à expert.<br>Choisissez votre date 👇
+        {popupSessions.length > 1
+          ? <>Deux sessions intensives pour passer de curieux à expert.<br />Choisissez votre date 👇</>
+          : <>Une session intensive pour passer de curieux à expert.<br />Réservez votre place 👇</>}
       </p>
 
       <!-- Dates -->
       <div style="display:flex; gap:12px; margin-bottom:28px; flex-wrap:wrap; justify-content:center;">
-
-        <div style="
-          flex:1; min-width:160px;
-          background:#1c1a25;
-          border:1px solid #3524E8;
-          border-radius:16px; padding:18px 14px;
-          position:relative; overflow:hidden;
-        ">
-          <div style="
-            position:absolute; top:0; left:0; right:0; height:3px;
-            background:linear-gradient(90deg,#3524E8,#64d8d9);
-          "></div>
-          <div style="font-size:1.6rem; margin-bottom:6px;">📅</div>
-          <div style="font-size:0.72rem; font-weight:700; text-transform:uppercase; letter-spacing:0.1em; color:#bcbbff; margin-bottom:4px;">Session 1</div>
-          <div style="font-size:1.05rem; font-weight:800; color:#fff;">Mercredi</div>
-          <div style="font-size:1.5rem; font-weight:900; color:#64d8d9; line-height:1.1;">17 juin</div>
-        </div>
-
-        <div style="
-          flex:1; min-width:160px;
-          background:#1c1a25;
-          border:1px solid #C700D3;
-          border-radius:16px; padding:18px 14px;
-          position:relative; overflow:hidden;
-        ">
-          <div style="
-            position:absolute; top:0; left:0; right:0; height:3px;
-            background:linear-gradient(90deg,#C700D3,#ffa9fb);
-          "></div>
-          <div style="font-size:1.6rem; margin-bottom:6px;">🗓️</div>
-          <div style="font-size:0.72rem; font-weight:700; text-transform:uppercase; letter-spacing:0.1em; color:#ffa9fb; margin-bottom:4px;">Session 2</div>
-          <div style="font-size:1.05rem; font-weight:800; color:#fff;">Mercredi</div>
-          <div style="font-size:1.5rem; font-weight:900; color:#ffa9fb; line-height:1.1;">22 juillet</div>
-        </div>
-
+        {popupSessions.map((s, i) => {
+          const a = popupAccents[s.color];
+          return (
+            <div style={`flex:1; min-width:160px; background:#1c1a25; border:1px solid ${a.border}; border-radius:16px; padding:18px 14px; position:relative; overflow:hidden;`}>
+              <div style={`position:absolute; top:0; left:0; right:0; height:3px; background:${a.bar};`}></div>
+              <div style="font-size:1.6rem; margin-bottom:6px;">{a.emoji}</div>
+              <div style={`font-size:0.72rem; font-weight:700; text-transform:uppercase; letter-spacing:0.1em; color:${a.label}; margin-bottom:4px;`}>Session {i + 1}</div>
+              <div style="font-size:1.05rem; font-weight:800; color:#fff;">{weekday(s)}</div>
+              <div style={`font-size:1.5rem; font-weight:900; color:${a.date}; line-height:1.1;`}>{dayMonth(s)}</div>
+            </div>
+          );
+        })}
       </div>
 
       <!-- CTA -->
@@ -308,5 +326,6 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site);
       });
     })();
   </script>
+  </>)}
 </body>
 </html>

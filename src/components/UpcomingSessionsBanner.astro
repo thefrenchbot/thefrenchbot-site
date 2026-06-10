@@ -1,24 +1,11 @@
 ---
-const sessions = [
-  {
-    slug: 'maitriser-claude-mai-2026',
-    title: 'Maîtriser Claude',
-    date: '20 mai 2026',
-    dateISO: '2026-05-20',
-    location: 'Robelot',
-    color: 'primary',
-  },
-  {
-    slug: 'maitriser-claude-juin-2026',
-    title: 'Maîtriser Claude',
-    date: '17 juin 2026',
-    dateISO: '2026-06-17',
-    location: 'Robelot',
-    color: 'secondary',
-  },
-];
+// Sessions à venir — source unique : src/data/sessions.ts
+import { upcomingSessions, shortDate } from '../data/sessions';
+
+const sessions = upcomingSessions();
 ---
 
+{sessions.length > 0 && (
 <section class="py-10 md:py-12 px-6 md:px-8 bg-bg-surface-low border-y border-white/5 relative overflow-hidden">
   <!-- Subtle glow -->
   <div class="absolute inset-0 bg-gradient-to-r from-primary/5 via-transparent to-secondary/5 pointer-events-none"></div>
@@ -57,7 +44,7 @@ const sessions = [
             <div>
               <p class="font-[family-name:var(--font-headline)] font-bold text-white text-sm">{s.title}</p>
               <p class={`font-[family-name:var(--font-label)] text-xs ${s.color === 'primary' ? 'text-primary-light' : 'text-secondary-light'}`}>
-                {s.date} · {s.location}
+                {shortDate(s)} · {s.location}
               </p>
             </div>
             <!-- Countdown badge -->
@@ -88,6 +75,7 @@ const sessions = [
     </div>
   </div>
 </section>
+)}
 
 <script>
   // Calculate days remaining dynamically

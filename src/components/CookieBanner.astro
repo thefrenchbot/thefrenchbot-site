@@ -1,0 +1,53 @@
+---
+// Bandeau de consentement cookies (CNIL/RGPD).
+// Google Analytics n'est chargé qu'après un clic sur « Accepter » — la logique
+// de chargement et la lecture/écriture du choix (localStorage, 13 mois max)
+// vivent dans BaseLayout (window.__tfb*). Refuser est aussi simple qu'accepter.
+---
+
+<div
+  id="cookie-banner"
+  hidden
+  role="region"
+  aria-label="Gestion des cookies"
+  class="fixed z-[60] left-4 right-4 bottom-[calc(84px+env(safe-area-inset-bottom))] md:left-auto md:right-6 md:bottom-6 md:max-w-md glass-panel rounded-2xl border border-white/10 p-5 shadow-[0_8px_40px_rgba(0,0,0,0.5)]"
+>
+  <p class="font-[family-name:var(--font-body)] text-sm text-text-secondary leading-relaxed mb-4">
+    On utilise Google Analytics pour mesurer l'audience du site — rien d'autre,
+    pas de pub. Vous pouvez refuser sans rien perdre.
+    <a href="/confidentialite" class="text-primary-light underline underline-offset-2 hover:text-white transition-colors">En savoir plus</a>
+  </p>
+  <div class="flex gap-3">
+    <button
+      id="cookie-accept"
+      class="flex-1 gradient-cta text-white py-2.5 px-4 rounded-xl font-[family-name:var(--font-headline)] font-bold text-xs uppercase tracking-widest hover:scale-[1.02] transition-transform"
+    >
+      Accepter
+    </button>
+    <button
+      id="cookie-refuse"
+      class="flex-1 bg-white/5 border border-white/10 text-text-secondary py-2.5 px-4 rounded-xl font-[family-name:var(--font-headline)] font-bold text-xs uppercase tracking-widest hover:bg-white/10 hover:text-white transition-colors"
+    >
+      Refuser
+    </button>
+  </div>
+</div>
+
+<script is:inline>
+  (function () {
+    var banner = document.getElementById('cookie-banner');
+    if (!banner) return;
+    var read = window.__tfbReadConsent;
+    if (read && read()) return; // choix déjà fait et encore valide
+
+    banner.hidden = false;
+
+    function choose(v) {
+      if (window.__tfbSaveConsent) window.__tfbSaveConsent(v);
+      banner.hidden = true;
+      if (v === 'granted' && window.__tfbEnableAnalytics) window.__tfbEnableAnalytics();
+    }
+    document.getElementById('cookie-accept').addEventListener('click', function () { choose('granted'); });
+    document.getElementById('cookie-refuse').addEventListener('click', function () { choose('denied'); });
+  })();
+</script>
