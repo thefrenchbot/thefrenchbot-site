@@ -31,6 +31,13 @@ export const sessions: Session[] = [
     location: 'Robelot',
     color: 'secondary',
   },
+  {
+    slug: 'maitriser-claude-aout-2026',
+    title: 'Maîtriser Claude',
+    dateISO: '2026-08-12',
+    location: 'Robelot',
+    color: 'primary',
+  },
 ];
 
 const capitalize = (s: string) => s.charAt(0).toUpperCase() + s.slice(1);
