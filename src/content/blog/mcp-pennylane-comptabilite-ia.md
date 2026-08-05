@@ -49,9 +49,9 @@ D'ici 6 à 8 mois, si les cabinets ne prennent pas ce virage, l'écart avec ceux
 
 ## Comment le connecter — étape par étape
 
-Le processus est quasi identique sur ChatGPT, Claude et Mistral.
+Le processus est quasi identique sur ChatGPT, Claude et Mistral. L'URL à coller est la même partout : [https://mcp.pennylane.com/mcp](https://mcp.pennylane.com/mcp). La [documentation officielle Pennylane](https://pennylane-mcp.readme.io/docs/getting-started) détaille chaque étape si vous voulez aller plus loin.
 
-**Sur ChatGPT** : dans la section plugins/connecteurs, vous créez un MCP personnalisé. Vous nommez le connecteur "Pennylane", vous collez l'URL de la documentation Pennylane fournie par l'éditeur, vous validez. ChatGPT vous avertit — normal, c'est une mise en garde standard sur les connecteurs personnalisés pour éviter les malwares. Rien d'inquiétant ici, le MCP est bien créé par Pennylane. Vous vous connectez ensuite avec votre email et votre mot de passe Pennylane, et vous acceptez les scopes de lecture proposés.
+**Sur ChatGPT** : dans la section plugins/connecteurs, vous créez un MCP personnalisé. Vous nommez le connecteur "Pennylane", vous collez l'URL ci-dessus, vous validez. ChatGPT vous avertit — normal, c'est une mise en garde standard sur les connecteurs personnalisés pour éviter les malwares. Rien d'inquiétant ici, le MCP est bien créé par Pennylane. Vous vous connectez ensuite avec votre email et votre mot de passe Pennylane, et vous acceptez les scopes de lecture proposés.
 
 **Sur Claude** : même logique, dans la colonne des connecteurs personnalisés. Vous ajoutez un nouveau connecteur, vous le nommez, vous collez la même URL, vous vous authentifiez.
 
