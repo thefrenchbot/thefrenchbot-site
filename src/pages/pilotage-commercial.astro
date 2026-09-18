@@ -1,0 +1,1097 @@
+---
+import DashboardLayout from '../layouts/DashboardLayout.astro';
+import { icon } from '../lib/pc-icons';
+
+// Application de pilotage commercial (CRM léger) pour PME.
+// 100 % côté client : les données vivent dans le localStorage du navigateur.
+// Le jeu de données de démonstration est injecté au premier lancement
+// (voir SEED dans le <script> ci-dessous) — dates relatives à aujourd'hui
+// pour que les relances automatiques soient toujours pertinentes.
+---
+
+<DashboardLayout title="Pilotage commercial — The French Bot">
+  <div id="pc-app" class="pc-app">
+
+    <!-- ─── Barre haute : titre, filtres, actions ─────────────────── -->
+    <header class="pc-top">
+      <div class="pc-brand">
+        <p class="pc-brand-script">The French Bot</p>
+        <h1 class="pc-brand-title">Pilotage commercial</h1>
+      </div>
+
+      <div class="pc-filters" role="search">
+        <label class="pc-field pc-field--search">
+          <Fragment set:html={icon('search')} />
+          <input id="f-search" type="search" placeholder="Entreprise, contact…" autocomplete="off" />
+        </label>
+        <label class="pc-field">
+          <span class="pc-field-label">Commercial</span>
+          <select id="f-commercial"><option value="">Tous</option></select>
+        </label>
+        <label class="pc-field">
+          <span class="pc-field-label">Statut</span>
+          <select id="f-statut">
+            <option value="">Tous</option>
+            <option value="__open">Ouverts</option>
+          </select>
+        </label>
+        <button id="f-reset" class="pc-btn pc-btn--ghost" type="button" title="Effacer les filtres" hidden>
+          <Fragment set:html={icon('filter-off')} />
+          <span>Effacer</span>
+        </button>
+      </div>
+
+      <div class="pc-actions">
+        <button id="btn-export" class="pc-btn pc-btn--ghost" type="button" title="Exporter la sélection en CSV">
+          <Fragment set:html={icon('download')} />
+          <span class="pc-btn-text">CSV</span>
+        </button>
+        <button id="btn-reset-data" class="pc-btn pc-btn--ghost" type="button" title="Restaurer les données de démonstration">
+          <Fragment set:html={icon('refresh')} />
+          <span class="pc-btn-text">Démo</span>
+        </button>
+        <button id="btn-new" class="pc-btn pc-btn--primary" type="button">
+          <Fragment set:html={icon('plus')} />
+          <span>Nouveau prospect</span>
+        </button>
+      </div>
+    </header>
+
+    <main class="pc-main">
+
+      <!-- ─── Dashboard : indicateurs clés ────────────────────────── -->
+      <section class="pc-kpis" aria-label="Indicateurs clés">
+        <article class="pc-kpi">
+          <p class="pc-kpi-label">CA potentiel</p>
+          <p class="pc-kpi-value" id="kpi-potentiel">—</p>
+          <p class="pc-kpi-sub" id="kpi-potentiel-sub">Pipeline ouvert</p>
+        </article>
+        <article class="pc-kpi pc-kpi--accent">
+          <p class="pc-kpi-label">CA pondéré</p>
+          <p class="pc-kpi-value" id="kpi-pondere">—</p>
+          <p class="pc-kpi-sub" id="kpi-pondere-sub">Montant × probabilité</p>
+        </article>
+        <article class="pc-kpi">
+          <p class="pc-kpi-label">Opportunités</p>
+          <p class="pc-kpi-value" id="kpi-opps">—</p>
+          <p class="pc-kpi-sub" id="kpi-opps-sub">En cours</p>
+        </article>
+        <article class="pc-kpi">
+          <p class="pc-kpi-label">Taux de conversion</p>
+          <p class="pc-kpi-value" id="kpi-conv">—</p>
+          <p class="pc-kpi-sub" id="kpi-conv-sub">Gagnés / clôturés</p>
+        </article>
+      </section>
+
+      <!-- ─── Vues ────────────────────────────────────────────────── -->
+      <nav class="pc-views" aria-label="Vues">
+        <button class="pc-view-btn is-active" data-view="pipeline" type="button">
+          <Fragment set:html={icon('kanban')} />Pipeline
+        </button>
+        <button class="pc-view-btn" data-view="liste" type="button">
+          <Fragment set:html={icon('rows')} />Liste
+        </button>
+        <button class="pc-view-btn" data-view="relances" type="button">
+          <Fragment set:html={icon('bell')} />À relancer
+          <span class="pc-badge" id="badge-relances" hidden>0</span>
+        </button>
+        <p class="pc-views-meta" id="views-meta"></p>
+      </nav>
+
+      <section id="view-pipeline" class="pc-view pc-board" aria-label="Pipeline"></section>
+
+      <section id="view-liste" class="pc-view" hidden aria-label="Liste des prospects">
+        <div class="pc-table-wrap">
+          <table class="pc-table">
+            <thead>
+              <tr>
+                <th data-sort="entreprise">Entreprise</th>
+                <th>Contact</th>
+                <th data-sort="commercial">Commercial</th>
+                <th data-sort="statut">Statut</th>
+                <th data-sort="montant" class="num">Montant</th>
+                <th data-sort="probabilite" class="num">Prob.</th>
+                <th data-sort="pondere" class="num">Pondéré</th>
+                <th data-sort="dateProchaineAction">Prochaine action</th>
+                <th></th>
+              </tr>
+            </thead>
+            <tbody id="table-body"></tbody>
+          </table>
+        </div>
+      </section>
+
+      <section id="view-relances" class="pc-view pc-relances" hidden aria-label="Prospects à relancer"></section>
+    </main>
+  </div>
+
+  <!-- ─── Modale création / édition ─────────────────────────────── -->
+  <dialog id="pc-modal" class="pc-modal">
+    <form id="pc-form" method="dialog" novalidate>
+      <input type="hidden" name="id" />
+      <header class="pc-modal-head">
+        <h2 id="modal-title">Nouveau prospect</h2>
+        <button type="button" class="pc-icon-btn" data-close aria-label="Fermer">
+          <Fragment set:html={icon('close')} />
+        </button>
+      </header>
+
+      <div class="pc-form-grid">
+        <label class="pc-f pc-f--full">
+          <span>Entreprise *</span>
+          <input name="entreprise" required maxlength="80" />
+        </label>
+        <label class="pc-f">
+          <span>Contact</span>
+          <input name="contact" maxlength="80" placeholder="Prénom Nom" />
+        </label>
+        <label class="pc-f">
+          <span>Fonction</span>
+          <input name="fonction" maxlength="60" placeholder="Gérant, DAF…" />
+        </label>
+        <label class="pc-f">
+          <span>Email</span>
+          <input name="email" type="email" maxlength="120" />
+        </label>
+        <label class="pc-f">
+          <span>Téléphone</span>
+          <input name="telephone" type="tel" maxlength="30" />
+        </label>
+        <label class="pc-f">
+          <span>Commercial</span>
+          <input name="commercial" list="commerciaux-list" maxlength="60" placeholder="Nom du commercial" />
+          <datalist id="commerciaux-list"></datalist>
+        </label>
+        <label class="pc-f">
+          <span>Statut</span>
+          <select name="statut"></select>
+        </label>
+        <label class="pc-f">
+          <span>Montant potentiel (€ HT)</span>
+          <input name="montant" type="number" min="0" step="100" inputmode="numeric" />
+        </label>
+        <label class="pc-f">
+          <span>Probabilité de signature — <output id="prob-out">50</output> %</span>
+          <input name="probabilite" type="range" min="0" max="100" step="5" value="50" />
+        </label>
+        <label class="pc-f pc-f--full">
+          <span>Prochaine action</span>
+          <input name="prochaineAction" maxlength="120" placeholder="Relance téléphonique, envoi devis, RDV…" />
+        </label>
+        <label class="pc-f">
+          <span>Date prochaine action</span>
+          <input name="dateProchaineAction" type="date" />
+        </label>
+        <label class="pc-f">
+          <span>Dernier contact</span>
+          <input name="dernierContact" type="date" />
+        </label>
+        <label class="pc-f pc-f--full">
+          <span>Notes</span>
+          <textarea name="notes" rows="3" maxlength="600"></textarea>
+        </label>
+      </div>
+
+      <p class="pc-form-error" id="form-error" hidden></p>
+
+      <footer class="pc-modal-foot">
+        <button type="button" class="pc-btn pc-btn--danger" id="btn-delete" hidden>
+          <Fragment set:html={icon('trash')} />Supprimer
+        </button>
+        <span class="pc-spacer"></span>
+        <button type="button" class="pc-btn pc-btn--ghost" data-close>Annuler</button>
+        <button type="submit" class="pc-btn pc-btn--primary" id="btn-save">Enregistrer</button>
+      </footer>
+    </form>
+  </dialog>
+
+  <div id="pc-toasts" class="pc-toasts" aria-live="polite"></div>
+</DashboardLayout>
+
+<style is:global>
+  /* ══════════════════════════════════════════════════════════════
+     Pilotage commercial — charte TFB light (fond blanc)
+     Global car le DOM est en grande partie généré côté client.
+     ══════════════════════════════════════════════════════════════ */
+  :root {
+    --pc-bg: #FFFFFF;
+    --pc-bg-alt: #F5F5FA;
+    --pc-ink: #0B0A14;
+    --pc-muted: #555570;
+    --pc-border: #E4E4EF;
+    --pc-blue: #3524E8;
+    --pc-magenta: #E93BF3;
+    --pc-magenta-text: #C51FD0;
+    --pc-violet: #7B2FF2;
+    --pc-coral-text: #D93B3B;
+    --pc-amber-text: #B45309;
+    --pc-gradient: linear-gradient(135deg, #3524E8, #E93BF3);
+    --pc-glass: rgba(255, 255, 255, 0.72);
+    --pc-shadow: 0 4px 24px rgba(11, 10, 20, 0.06);
+    --pc-shadow-blue: 0 8px 24px rgba(53, 36, 232, 0.15);
+  }
+  body { background: var(--pc-bg); color: var(--pc-ink); }
+  .pc-i { flex: 0 0 auto; }
+  .pc-app {
+    height: 100dvh;
+    overflow-y: auto;
+    /* Halos dégradés très flous : indispensables avant tout glassmorphism sur blanc */
+    background:
+      radial-gradient(900px 520px at 8% -12%, rgba(53, 36, 232, 0.14), transparent 62%),
+      radial-gradient(760px 520px at 100% 0%, rgba(233, 59, 243, 0.12), transparent 62%),
+      var(--pc-bg);
+    color: var(--pc-ink);
+    font-family: var(--font-body);
+  }
+
+  /* ─── Barre haute ─────────────────────────────────────────────── */
+  .pc-top {
+    position: sticky; top: 0; z-index: 20;
+    display: flex; flex-wrap: wrap; align-items: center; gap: 14px 24px;
+    padding: 14px 24px;
+    background: rgba(255, 255, 255, 0.78);
+    backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px);
+    border-bottom: 1px solid var(--pc-border);
+  }
+  .pc-brand { display: flex; flex-direction: column; gap: 2px; min-width: 200px; }
+  .pc-brand-script {
+    font-family: var(--font-script); font-size: 22px; line-height: 1;
+    background: var(--pc-gradient);
+    -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent;
+  }
+  .pc-brand-title {
+    font-family: var(--font-headline); font-weight: 700; font-size: 14px;
+    text-transform: uppercase; letter-spacing: 0.2em; color: var(--pc-ink);
+  }
+  .pc-filters { display: flex; flex-wrap: wrap; align-items: center; gap: 10px; flex: 1 1 420px; }
+  .pc-field {
+    display: flex; align-items: center; gap: 8px;
+    background: var(--pc-bg); border: 1px solid var(--pc-border);
+    border-radius: 10px; padding: 0 12px; height: 40px; min-width: 0;
+    transition: border-color .15s, box-shadow .15s;
+  }
+  .pc-field:focus-within { border-color: var(--pc-blue); box-shadow: 0 0 0 3px rgba(53, 36, 232, 0.12); }
+  .pc-field--search { flex: 1 1 200px; }
+  .pc-field .pc-i { width: 18px; height: 18px; color: var(--pc-muted); }
+  .pc-field-label {
+    font-family: var(--font-headline); font-size: 9px; font-weight: 700;
+    text-transform: uppercase; letter-spacing: 0.2em; color: var(--pc-muted); white-space: nowrap;
+  }
+  .pc-field input, .pc-field select {
+    background: transparent; border: 0; outline: 0; color: var(--pc-ink); font: inherit; font-size: 13px; min-width: 0; width: 100%;
+  }
+  .pc-field input::placeholder { color: #8a8aa3; }
+  .pc-field select { cursor: pointer; }
+  .pc-actions { display: flex; align-items: center; gap: 8px; margin-left: auto; }
+
+  /* ─── Boutons ─────────────────────────────────────────────────── */
+  .pc-btn {
+    display: inline-flex; align-items: center; gap: 6px; height: 40px; padding: 0 14px;
+    border-radius: 8px; border: 1px solid transparent; cursor: pointer;
+    font-family: var(--font-headline); font-weight: 700; font-size: 11px;
+    text-transform: uppercase; letter-spacing: 0.15em; white-space: nowrap;
+    transition: transform .15s, background .15s, border-color .15s, color .15s, box-shadow .15s;
+  }
+  .pc-btn .pc-i { width: 17px; height: 17px; }
+  .pc-btn:active { transform: scale(0.97); }
+  .pc-btn:focus-visible, .pc-icon-btn:focus-visible, .pc-view-btn:focus-visible, .pc-card:focus-visible {
+    outline: 2px solid var(--pc-blue); outline-offset: 2px;
+  }
+  .pc-btn--primary { color: #fff; background: var(--pc-gradient); box-shadow: var(--pc-shadow-blue); }
+  .pc-btn--primary:hover { transform: translateY(-1px); box-shadow: 0 10px 28px rgba(53, 36, 232, 0.24); }
+  .pc-btn--ghost { color: var(--pc-ink); background: var(--pc-bg); border-color: var(--pc-border); }
+  .pc-btn--ghost:hover { background: var(--pc-bg-alt); border-color: #d4d4e3; }
+  .pc-btn--danger { color: var(--pc-coral-text); background: rgba(217, 59, 59, 0.08); border-color: rgba(217, 59, 59, 0.25); }
+  .pc-btn--danger:hover { background: rgba(217, 59, 59, 0.14); }
+  .pc-btn--sm { height: 32px; padding: 0 10px; font-size: 10px; }
+  .pc-icon-btn {
+    display: inline-flex; align-items: center; justify-content: center; width: 32px; height: 32px;
+    border-radius: 8px; border: 0; background: transparent; color: var(--pc-muted); cursor: pointer;
+  }
+  .pc-icon-btn:hover { background: var(--pc-bg-alt); color: var(--pc-ink); }
+  .pc-icon-btn .pc-i { width: 17px; height: 17px; }
+
+  /* ─── Contenu ─────────────────────────────────────────────────── */
+  .pc-main { padding: 24px; display: flex; flex-direction: column; gap: 22px; max-width: 1800px; margin: 0 auto; }
+
+  .pc-kpis { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 14px; }
+  .pc-kpi {
+    position: relative; overflow: hidden;
+    background: var(--pc-glass);
+    backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
+    border: 1px solid var(--pc-border); border-radius: 16px; padding: 18px 20px;
+    box-shadow: var(--pc-shadow);
+  }
+  .pc-kpi--accent::before {
+    content: ""; position: absolute; inset: 0 0 auto 0; height: 4px;
+    background: var(--pc-gradient);
+  }
+  .pc-kpi--accent .pc-kpi-value {
+    background: var(--pc-gradient);
+    -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent;
+  }
+  .pc-kpi-label {
+    font-size: 10px; text-transform: uppercase; letter-spacing: 0.25em; color: var(--pc-muted);
+  }
+  .pc-kpi-value {
+    font-family: var(--font-headline); font-weight: 700; font-size: clamp(26px, 2.6vw, 38px);
+    color: var(--pc-ink); line-height: 1.15; margin-top: 6px; font-variant-numeric: tabular-nums;
+  }
+  .pc-kpi-sub { font-size: 12px; color: var(--pc-muted); margin-top: 4px; }
+
+  .pc-views { display: flex; align-items: center; gap: 6px; flex-wrap: wrap; }
+  .pc-view-btn {
+    display: inline-flex; align-items: center; gap: 6px; height: 36px; padding: 0 14px;
+    border-radius: 999px; border: 1px solid transparent; background: transparent; cursor: pointer;
+    color: var(--pc-muted); font-family: var(--font-headline); font-weight: 700;
+    font-size: 11px; text-transform: uppercase; letter-spacing: 0.15em;
+  }
+  .pc-view-btn .pc-i { width: 17px; height: 17px; }
+  .pc-view-btn:hover { color: var(--pc-ink); }
+  .pc-view-btn.is-active { color: var(--pc-blue); background: rgba(53, 36, 232, 0.07); border-color: rgba(53, 36, 232, 0.2); }
+  .pc-badge {
+    display: inline-flex; align-items: center; justify-content: center; min-width: 20px; height: 20px;
+    padding: 0 6px; border-radius: 999px; font-size: 10px; color: #fff;
+    background: var(--pc-gradient);
+  }
+  .pc-views-meta { margin-left: auto; font-size: 12px; color: var(--pc-muted); }
+
+  /* ─── Kanban ──────────────────────────────────────────────────── */
+  .pc-board {
+    display: grid; grid-auto-flow: column; grid-auto-columns: minmax(268px, 1fr);
+    gap: 14px; overflow-x: auto; padding-bottom: 12px; align-items: start;
+    scroll-snap-type: x proximity;
+  }
+  .pc-col {
+    display: flex; flex-direction: column; gap: 10px; min-height: 320px; scroll-snap-align: start;
+    background: var(--pc-bg-alt);
+    border: 1px solid var(--pc-border); border-radius: 16px; padding: 12px;
+    transition: border-color .15s, background .15s, box-shadow .15s;
+  }
+  .pc-col.is-over { border-color: var(--col-color, var(--pc-blue)); background: #fff; box-shadow: var(--pc-shadow-blue); }
+  .pc-col-head { display: flex; align-items: center; gap: 8px; padding: 2px 4px 6px; }
+  .pc-col-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--col-color); }
+  .pc-col-title { font-family: var(--font-headline); font-weight: 700; font-size: 12px; text-transform: uppercase; letter-spacing: 0.15em; color: var(--pc-ink); }
+  .pc-col-count { font-size: 11px; color: var(--pc-muted); background: #fff; border: 1px solid var(--pc-border); border-radius: 999px; padding: 1px 8px; }
+  .pc-col-sum { margin-left: auto; font-size: 11px; color: var(--pc-muted); font-variant-numeric: tabular-nums; }
+  .pc-col-empty { font-size: 12px; color: var(--pc-muted); text-align: center; padding: 26px 8px; border: 1px dashed #d4d4e3; border-radius: 12px; }
+
+  .pc-card {
+    position: relative; cursor: grab;
+    background: var(--pc-bg);
+    border: 1px solid var(--pc-border); border-radius: 12px; padding: 12px 14px;
+    display: flex; flex-direction: column; gap: 8px;
+    box-shadow: var(--pc-shadow);
+    transition: transform .15s, border-color .15s, box-shadow .15s;
+  }
+  .pc-card:hover { border-color: rgba(53, 36, 232, 0.35); transform: translateY(-1px); box-shadow: var(--pc-shadow-blue); }
+  .pc-card.is-dragging { opacity: 0.4; cursor: grabbing; }
+  .pc-card.is-late { border-color: rgba(217, 59, 59, 0.45); }
+  .pc-card-top { display: flex; align-items: flex-start; justify-content: space-between; gap: 8px; }
+  .pc-card-company { font-family: var(--font-headline); font-weight: 700; font-size: 14px; color: var(--pc-ink); line-height: 1.25; }
+  .pc-card-contact { font-size: 12px; color: var(--pc-muted); }
+  .pc-avatar {
+    flex: 0 0 auto; width: 26px; height: 26px; border-radius: 50%;
+    display: inline-flex; align-items: center; justify-content: center;
+    font-family: var(--font-headline); font-weight: 700; font-size: 10px; color: #fff;
+    background: var(--av, var(--pc-blue));
+  }
+  .pc-card-amount { display: flex; align-items: baseline; gap: 6px; font-family: var(--font-headline); font-weight: 700; font-size: 16px; color: var(--pc-ink); font-variant-numeric: tabular-nums; }
+  .pc-card-amount small { font-family: var(--font-body); font-weight: 400; font-size: 11px; color: var(--pc-muted); }
+  .pc-prob { height: 4px; border-radius: 999px; background: var(--pc-border); overflow: hidden; }
+  .pc-prob i { display: block; height: 100%; border-radius: 999px; background: linear-gradient(90deg, var(--pc-blue), var(--pc-magenta)); }
+  .pc-card-action { display: flex; align-items: center; gap: 6px; font-size: 12px; color: var(--pc-ink); }
+  .pc-card-action .pc-i { width: 14px; height: 14px; color: var(--pc-muted); }
+  .pc-card-action b { font-weight: 400; color: var(--pc-muted); white-space: nowrap; }
+
+  .pc-flag {
+    display: inline-flex; align-items: center; gap: 4px; align-self: flex-start;
+    font-size: 10px; font-weight: 600; letter-spacing: 0.05em; text-transform: uppercase;
+    padding: 3px 8px; border-radius: 999px; border: 1px solid;
+  }
+  .pc-flag .pc-i { width: 12px; height: 12px; }
+  .pc-flag--late { color: var(--pc-coral-text); border-color: rgba(217, 59, 59, 0.3); background: rgba(217, 59, 59, 0.07); }
+  .pc-flag--today { color: var(--pc-amber-text); border-color: rgba(180, 83, 9, 0.3); background: rgba(180, 83, 9, 0.08); }
+  .pc-flag--silent { color: var(--pc-magenta-text); border-color: rgba(197, 31, 208, 0.3); background: rgba(233, 59, 243, 0.07); }
+
+  /* ─── Table ───────────────────────────────────────────────────── */
+  .pc-table-wrap {
+    overflow-x: auto; border-radius: 16px; border: 1px solid var(--pc-border);
+    background: var(--pc-bg); box-shadow: var(--pc-shadow);
+  }
+  .pc-table { width: 100%; border-collapse: collapse; font-size: 13px; min-width: 900px; }
+  .pc-table th {
+    text-align: left; padding: 12px 14px; font-family: var(--font-headline); font-weight: 700;
+    font-size: 10px; text-transform: uppercase; letter-spacing: 0.18em;
+    background: var(--pc-ink); color: #fff;
+    white-space: nowrap; user-select: none;
+  }
+  .pc-table th[data-sort] { cursor: pointer; }
+  .pc-table th[data-sort]:hover { color: #ffa9fb; }
+  .pc-table th.is-sorted { color: var(--pc-magenta); }
+  .pc-table th.is-sorted::after { content: " ↓"; }
+  .pc-table th.is-sorted.asc::after { content: " ↑"; }
+  .pc-table td { padding: 11px 14px; border-bottom: 1px solid var(--pc-border); vertical-align: middle; color: var(--pc-ink); }
+  .pc-table tbody tr:nth-child(even) td { background: var(--pc-bg-alt); }
+  .pc-table tr:last-child td { border-bottom: 0; }
+  .pc-table tbody tr { cursor: pointer; transition: background .12s; }
+  .pc-table tbody tr:hover td { background: rgba(53, 36, 232, 0.05); }
+  .pc-table .num, .pc-table td.num { text-align: right; font-variant-numeric: tabular-nums; }
+  .pc-table .strong { font-weight: 600; }
+  .pc-table .muted { color: var(--pc-muted); font-size: 12px; }
+  .pc-table-empty { padding: 40px; text-align: center; color: var(--pc-muted); }
+  .pc-status {
+    display: inline-flex; align-items: center; gap: 6px; padding: 3px 10px; border-radius: 999px;
+    font-size: 11px; font-weight: 600; white-space: nowrap;
+    color: var(--st); border: 1px solid color-mix(in oklab, var(--st) 35%, transparent);
+    background: color-mix(in oklab, var(--st) 9%, white);
+  }
+  .pc-status::before { content: ""; width: 6px; height: 6px; border-radius: 50%; background: var(--st); }
+  .pc-row-actions { display: flex; gap: 2px; justify-content: flex-end; }
+  .pc-cell-person { display: flex; align-items: center; gap: 8px; white-space: nowrap; }
+
+  /* ─── Relances ────────────────────────────────────────────────── */
+  .pc-relances { display: grid; grid-template-columns: repeat(auto-fill, minmax(330px, 1fr)); gap: 14px; }
+  .pc-rel {
+    display: flex; flex-direction: column; gap: 10px;
+    background: var(--pc-bg);
+    border: 1px solid var(--pc-border); border-radius: 16px; padding: 16px 18px;
+    box-shadow: var(--pc-shadow);
+    position: relative; overflow: hidden; padding-left: 22px;
+  }
+  .pc-rel::before { content: ""; position: absolute; left: 0; top: 0; bottom: 0; width: 4px; background: var(--pc-gradient); }
+  .pc-rel-head { display: flex; align-items: flex-start; justify-content: space-between; gap: 10px; }
+  .pc-rel-company { font-family: var(--font-headline); font-weight: 700; font-size: 15px; color: var(--pc-ink); }
+  .pc-rel-meta { font-size: 12px; color: var(--pc-muted); display: flex; flex-wrap: wrap; gap: 4px 12px; }
+  .pc-rel-reason { font-size: 13px; color: var(--pc-ink); }
+  .pc-rel-foot { display: flex; align-items: center; gap: 8px; margin-top: 4px; }
+  .pc-rel-foot .pc-status { margin-right: auto; }
+  .pc-relances-empty, .pc-relances-intro {
+    grid-column: 1 / -1; text-align: center; padding: 40px 20px; color: var(--pc-muted);
+    border: 1px dashed #d4d4e3; border-radius: 16px; background: var(--pc-bg-alt);
+  }
+  .pc-relances-empty strong { display: block; color: var(--pc-ink); font-family: var(--font-headline); font-size: 18px; margin-bottom: 6px; }
+  .pc-relances-intro { text-align: left; padding: 12px 16px; font-size: 12px; border-style: solid; border-color: var(--pc-border); }
+
+  /* ─── Modale ──────────────────────────────────────────────────── */
+  .pc-modal {
+    width: min(720px, calc(100vw - 32px)); max-height: calc(100dvh - 32px);
+    border: 1px solid var(--pc-border); border-radius: 16px; padding: 0;
+    background: var(--pc-bg); color: var(--pc-ink);
+    box-shadow: 0 30px 80px rgba(11, 10, 20, 0.25), var(--pc-shadow-blue);
+    margin: auto; overflow: auto;
+  }
+  .pc-modal::backdrop { background: rgba(11, 10, 20, 0.45); backdrop-filter: blur(4px); }
+  .pc-modal form { display: flex; flex-direction: column; }
+  .pc-modal-head {
+    display: flex; align-items: center; justify-content: space-between; padding: 18px 22px 12px;
+    position: sticky; top: 0; background: var(--pc-bg); z-index: 1;
+  }
+  .pc-modal-head h2 { font-family: var(--font-headline); font-weight: 700; font-size: 16px; text-transform: uppercase; letter-spacing: 0.12em; color: var(--pc-ink); }
+  .pc-form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px 14px; padding: 4px 22px 16px; }
+  .pc-f { display: flex; flex-direction: column; gap: 6px; min-width: 0; }
+  .pc-f--full { grid-column: 1 / -1; }
+  .pc-f > span { font-size: 10px; text-transform: uppercase; letter-spacing: 0.18em; color: var(--pc-muted); font-family: var(--font-headline); font-weight: 700; }
+  .pc-f input:not([type=range]), .pc-f select, .pc-f textarea {
+    background: var(--pc-bg); border: 1px solid var(--pc-border); border-radius: 8px;
+    padding: 10px 12px; color: var(--pc-ink); font: inherit; font-size: 13px; outline: 0; width: 100%;
+    transition: border-color .15s, box-shadow .15s;
+  }
+  .pc-f input::placeholder, .pc-f textarea::placeholder { color: #8a8aa3; }
+  .pc-f input:focus, .pc-f select:focus, .pc-f textarea:focus { border-color: var(--pc-blue); box-shadow: 0 0 0 3px rgba(53, 36, 232, 0.12); }
+  .pc-f textarea { resize: vertical; }
+  .pc-f input[type=range] { accent-color: var(--pc-blue); width: 100%; margin-top: 10px; }
+  .pc-f input[type=date] { color-scheme: light; }
+  .pc-form-error { margin: 0 22px 10px; font-size: 12px; color: var(--pc-coral-text); }
+  .pc-modal-foot {
+    display: flex; align-items: center; gap: 8px; padding: 12px 22px 20px;
+    border-top: 1px solid var(--pc-border);
+  }
+  .pc-spacer { flex: 1; }
+
+  /* ─── Toasts (bandeau sombre ponctuel) ────────────────────────── */
+  .pc-toasts { position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%); z-index: 50; display: flex; flex-direction: column; gap: 8px; pointer-events: none; }
+  .pc-toast {
+    pointer-events: auto; display: flex; align-items: center; gap: 10px;
+    background: var(--pc-ink); border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 10px; padding: 10px 14px; font-size: 13px; color: #fff;
+    width: max-content; max-width: calc(100vw - 32px);
+    box-shadow: 0 10px 30px rgba(11, 10, 20, 0.25); animation: pc-toast-in .2s ease-out;
+  }
+  .pc-toast .pc-i { width: 18px; height: 18px; color: #ffa9fb; }
+  .pc-toast button { background: transparent; border: 0; color: #bcbbff; font: inherit; font-weight: 600; cursor: pointer; }
+  @keyframes pc-toast-in { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: none; } }
+  @media (prefers-reduced-motion: reduce) {
+    .pc-toast { animation: none; }
+    .pc-btn, .pc-card, .pc-col { transition: none; }
+  }
+
+  /* ─── Responsive ──────────────────────────────────────────────── */
+  @media (max-width: 1100px) { .pc-kpis { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+  @media (max-width: 720px) {
+    .pc-top { position: static; padding: 12px 16px; gap: 10px; }
+    .pc-filters { flex-basis: 100%; }
+    .pc-field--search { flex-basis: 100%; }
+    .pc-filters .pc-field:not(.pc-field--search) { flex: 1 1 40%; }
+    .pc-brand { min-width: 0; }
+    .pc-actions { margin-left: 0; width: 100%; }
+    .pc-actions .pc-btn--primary { flex: 1; justify-content: center; }
+    .pc-btn-text { display: none; }
+    .pc-main { padding: 16px; gap: 16px; }
+    .pc-kpis { gap: 10px; }
+    .pc-kpi { padding: 14px 16px; border-radius: 14px; }
+    .pc-form-grid { grid-template-columns: 1fr; }
+    .pc-views-meta { width: 100%; margin-left: 0; }
+    .pc-board { grid-auto-columns: minmax(84vw, 1fr); }
+  }
+</style>
+
+<script>
+  // ═══════════════════════════════════════════════════════════════
+  //  Pilotage commercial — logique applicative (100 % client)
+  // ═══════════════════════════════════════════════════════════════
+
+  import { icon } from '../lib/pc-icons';
+
+  const STORAGE_KEY = 'tfb-pilotage-commercial-v1';
+  const RELANCE_SILENCE_DAYS = 14; // sans contact depuis X jours → à relancer
+
+  const STAGES = [
+    { id: 'nouveau',     label: 'Nouveau',     color: '#555570', prob: 10 },
+    { id: 'contacte',    label: 'Contacté',    color: '#0090B8', prob: 25 },
+    { id: 'proposition', label: 'Proposition', color: '#3524E8', prob: 50 },
+    { id: 'negociation', label: 'Négociation', color: '#C51FD0', prob: 75 },
+    { id: 'gagne',       label: 'Gagné',       color: '#15803D', prob: 100 },
+    { id: 'perdu',       label: 'Perdu',       color: '#D93B3B', prob: 0 },
+  ];
+  const STAGE_BY_ID = Object.fromEntries(STAGES.map((s) => [s.id, s]));
+  const CLOSED = new Set(['gagne', 'perdu']);
+
+  const AVATAR_COLORS = ['#3524E8', '#C51FD0', '#7B2FF2', '#0090B8', '#D93B3B', '#0F766E'];
+
+  // ─── Helpers dates / formats ────────────────────────────────────
+  const todayISO = () => {
+    const d = new Date();
+    return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`;
+  };
+  const isoOffset = (days) => {
+    const d = new Date();
+    d.setDate(d.getDate() + days);
+    return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`;
+  };
+  const daysBetween = (fromISO, toISO) =>
+    Math.round((new Date(toISO + 'T00:00:00') - new Date(fromISO + 'T00:00:00')) / 86400000);
+
+  const fmtEUR = new Intl.NumberFormat('fr-FR', { style: 'currency', currency: 'EUR', maximumFractionDigits: 0 });
+  const fmtEURShort = (n) => (Math.abs(n) >= 10000 ? `${(n / 1000).toLocaleString('fr-FR', { maximumFractionDigits: 1 })} k€` : fmtEUR.format(n));
+  const fmtDate = (iso) => (iso ? new Date(iso + 'T00:00:00').toLocaleDateString('fr-FR', { day: 'numeric', month: 'short' }) : '—');
+  const fmtDateLong = (iso) => (iso ? new Date(iso + 'T00:00:00').toLocaleDateString('fr-FR', { weekday: 'short', day: 'numeric', month: 'long' }) : '—');
+  const esc = (s) => String(s ?? '').replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' })[c]);
+  const initials = (name) => (name || '?').split(/\s+/).filter(Boolean).slice(0, 2).map((w) => w[0].toUpperCase()).join('') || '?';
+  const slug = (s) => s.normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase();
+  const uid = () => (crypto.randomUUID ? crypto.randomUUID() : `p_${Date.now()}_${Math.random().toString(36).slice(2, 8)}`);
+
+  // ─── Jeu de données de démonstration ─────────────────────────────
+  // Dates exprimées en jours relatifs à aujourd'hui : dpa = prochaine action,
+  // dc = dernier contact (null = jamais contacté).
+  const SEED = [
+    ['Boulangerie Martin', 'Claire Martin', 'Gérante', 'Julian Luneau', 2400, 'contacte', 40, 'Envoyer devis formation IA', -4, -12, 'Veut automatiser ses réponses Google et sa compta.'],
+    ['Cabinet Durand Expertise', 'Philippe Durand', 'Expert-comptable', 'Camille Roux', 18500, 'proposition', 60, 'Relance téléphonique sur la proposition', -2, -9, '12 collaborateurs. Intérêt fort pour Claude sur les liasses.'],
+    ['Garage Auto Chenôve', 'Karim Belkacem', 'Directeur', 'Mehdi Benali', 4200, 'nouveau', 15, 'Premier appel de qualification', 1, null, 'Entré via formulaire site.'],
+    ['Menuiserie Vallet', 'Antoine Vallet', 'Dirigeant', 'Sophie Marchand', 6800, 'negociation', 80, 'Valider le calendrier de formation', 3, -2, 'Négocie 2 sessions groupées.'],
+    ['Clinique Vétérinaire des Ducs', 'Dr Élodie Perrin', 'Associée', 'Julian Luneau', 9500, 'proposition', 55, 'Présenter le cas client dentaire', 0, -5, 'Sensible aux enjeux RGPD.'],
+    ['Agence Immo Côte-d’Or', 'Thomas Girard', 'Directeur agence', 'Camille Roux', 12000, 'negociation', 70, 'RDV signature au bureau', 5, -1, 'Veut un agent IA pour la qualification des leads.'],
+    ['Transports Bourgogne Express', 'Nadia Hamidi', 'DAF', 'Mehdi Benali', 27000, 'proposition', 45, 'Relancer la DAF après le CODIR', -7, -15, 'Décision CODIR reportée deux fois.'],
+    ['Domaine Viticole Lambert', 'Hugo Lambert', 'Propriétaire', 'Sophie Marchand', 3900, 'contacte', 30, 'Envoyer replay webinaire', 2, -3, 'Export : veut traduire ses fiches produits.'],
+    ['Pharmacie de la République', 'Isabelle Cottin', 'Titulaire', 'Julian Luneau', 2900, 'gagne', 100, '', null, -6, 'Pack Starter signé.'],
+    ['Studio Archi Nova', 'Léa Fontaine', 'Architecte associée', 'Camille Roux', 7500, 'contacte', 35, 'Proposer un audit process 1h', -1, -18, 'Peu réactive par email, préférer le téléphone.'],
+    ['Restaurant Le Pré aux Clercs', 'Marc Desplat', 'Chef propriétaire', 'Mehdi Benali', 1800, 'perdu', 0, '', null, -20, 'Budget gelé jusqu’à la saison prochaine.'],
+    ['Électricité Roussel & Fils', 'Bernard Roussel', 'Gérant', 'Sophie Marchand', 5400, 'nouveau', 10, '', null, -21, 'Recommandé par Menuiserie Vallet.'],
+    ['Cabinet d’avocats Morel-Lévy', 'Me Sarah Lévy', 'Associée', 'Julian Luneau', 22000, 'negociation', 65, 'Envoyer la version amendée du contrat', 1, -1, 'Exige une clause de confidentialité renforcée.'],
+    ['Maison de retraite Les Tilleuls', 'Sylvie Bouchard', 'Directrice', 'Camille Roux', 14000, 'proposition', 40, 'Relancer sur la proposition envoyée', -12, -12, 'Silence radio depuis l’envoi.'],
+    ['Imprimerie Dijonnaise', 'Olivier Marchal', 'PDG', 'Mehdi Benali', 8200, 'gagne', 100, '', null, -3, 'Pack Pro signé, session du 22 juillet.'],
+    ['Auto-école Conduite Plus', 'Julie Renard', 'Gérante', 'Sophie Marchand', 2100, 'contacte', 25, 'Appel de découverte', 4, -1, 'Veut automatiser la prise de RDV.'],
+    ['BTP Lacroix Construction', 'Frédéric Lacroix', 'DG', 'Julian Luneau', 45000, 'proposition', 50, 'Atelier de cadrage avec les conducteurs de travaux', -3, -8, 'Plus gros deal du trimestre. 40 salariés.'],
+    ['Opticien Vision Centre', 'Camille Petit', 'Opticienne', 'Camille Roux', 1500, 'nouveau', 10, 'Qualifier le besoin par téléphone', 0, null, 'Demande via Instagram.'],
+    ['Coopérative Agricole du Val', 'Jean-Luc Berthier', 'Président', 'Mehdi Benali', 16500, 'contacte', 30, 'Envoyer les références secteur agricole', 7, -4, 'Conseil d’administration le mois prochain.'],
+    ['Fleuriste Pétales & Co', 'Anaïs Moreau', 'Gérante', 'Sophie Marchand', 1200, 'perdu', 0, '', null, -30, 'A choisi une formation en ligne gratuite.'],
+    ['Hôtel Le Jacquemart', 'Vincent Chapuis', 'Directeur', 'Julian Luneau', 6300, 'negociation', 75, 'Confirmer les dates de formation équipe réception', 2, -2, 'Veut démarrer avant la haute saison.'],
+    ['Laboratoire Dentaire Sirius', 'Pauline Aubert', 'Gérante', 'Camille Roux', 3600, 'contacte', 35, 'Relancer après envoi du programme', -6, -16, 'Intéressée par le Pack Starter.'],
+  ];
+
+  function buildSeed() {
+    const now = new Date().toISOString();
+    return SEED.map(([entreprise, contact, fonction, commercial, montant, statut, probabilite, prochaineAction, dpa, dc, notes], i) => ({
+      id: `demo-${i + 1}`,
+      entreprise, contact, fonction, commercial, montant, statut, probabilite, prochaineAction, notes,
+      email: `${slug(contact).replace(/^(dr|me)\s+/, '').replace(/[^a-z]+/g, '.').replace(/^\.|\.$/g, '')}@${slug(entreprise).replace(/[^a-z]+/g, '-').replace(/^-|-$/g, '')}.fr`,
+      telephone: `03 80 ${String(10 + i).padStart(2, '0')} ${String(20 + i * 3).padStart(2, '0').slice(-2)} ${String(40 + i * 7).padStart(2, '0').slice(-2)}`,
+      dateProchaineAction: dpa === null ? '' : isoOffset(dpa),
+      dernierContact: dc === null ? '' : isoOffset(dc),
+      createdAt: now, updatedAt: now,
+    }));
+  }
+
+  // ─── Persistance ────────────────────────────────────────────────
+  function load() {
+    try {
+      const raw = localStorage.getItem(STORAGE_KEY);
+      if (raw) {
+        const parsed = JSON.parse(raw);
+        if (Array.isArray(parsed)) return parsed;
+      }
+    } catch { /* stockage indisponible ou corrompu → on repart sur la démo */ }
+    const seed = buildSeed();
+    save(seed);
+    return seed;
+  }
+  function save(list) {
+    try { localStorage.setItem(STORAGE_KEY, JSON.stringify(list)); } catch { /* mode privé, quota… : l'app reste utilisable en mémoire */ }
+  }
+
+  // ─── État ───────────────────────────────────────────────────────
+  let prospects = load();
+  const state = {
+    view: 'pipeline',
+    search: '',
+    commercial: '',
+    statut: '',
+    sortKey: 'montant',
+    sortDir: 'desc',
+  };
+  const avatarColor = (() => {
+    const cache = new Map();
+    return (name) => {
+      if (!cache.has(name)) cache.set(name, AVATAR_COLORS[cache.size % AVATAR_COLORS.length]);
+      return cache.get(name);
+    };
+  })();
+
+  // ─── Règles métier ──────────────────────────────────────────────
+  const weighted = (p) => (Number(p.montant) || 0) * (Number(p.probabilite) || 0) / 100;
+
+  /** Retourne null si rien à faire, sinon { level, label, priority } */
+  function relanceInfo(p) {
+    if (CLOSED.has(p.statut)) return null;
+    const today = todayISO();
+    if (p.dateProchaineAction) {
+      const diff = daysBetween(today, p.dateProchaineAction);
+      if (diff < 0) return { level: 'late', label: `En retard de ${-diff} j`, priority: 0, sort: diff };
+      if (diff === 0) return { level: 'today', label: "À faire aujourd'hui", priority: 1, sort: 0 };
+      return null;
+    }
+    if (p.dernierContact) {
+      const silence = daysBetween(p.dernierContact, today);
+      if (silence >= RELANCE_SILENCE_DAYS) return { level: 'silent', label: `Sans contact depuis ${silence} j`, priority: 2, sort: -silence };
+      return null;
+    }
+    return { level: 'silent', label: 'Jamais contacté, aucune action planifiée', priority: 2, sort: 0 };
+  }
+
+  function filtered() {
+    const q = state.search.trim().toLowerCase();
+    return prospects.filter((p) => {
+      if (state.commercial && p.commercial !== state.commercial) return false;
+      if (state.statut === '__open' ? CLOSED.has(p.statut) : state.statut && p.statut !== state.statut) return false;
+      if (q && !`${p.entreprise} ${p.contact} ${p.fonction} ${p.notes}`.toLowerCase().includes(q)) return false;
+      return true;
+    });
+  }
+
+  // ─── DOM refs ───────────────────────────────────────────────────
+  const $ = (sel, root = document) => root.querySelector(sel);
+  const el = {
+    search: $('#f-search'), commercial: $('#f-commercial'), statut: $('#f-statut'), resetFilters: $('#f-reset'),
+    board: $('#view-pipeline'), tableBody: $('#table-body'), relances: $('#view-relances'),
+    badge: $('#badge-relances'), meta: $('#views-meta'),
+    modal: $('#pc-modal'), form: $('#pc-form'), modalTitle: $('#modal-title'), formError: $('#form-error'),
+    btnDelete: $('#btn-delete'), probOut: $('#prob-out'), toasts: $('#pc-toasts'),
+  };
+
+  // Options statuts (filtre + formulaire)
+  for (const s of STAGES) {
+    el.statut.insertAdjacentHTML('beforeend', `<option value="${s.id}">${s.label}</option>`);
+    el.form.statut.insertAdjacentHTML('beforeend', `<option value="${s.id}">${s.label}</option>`);
+  }
+
+  // ─── Rendu ──────────────────────────────────────────────────────
+  function render() {
+    const list = filtered();
+    renderCommerciaux();
+    renderKPIs(list);
+    renderBoard(list);
+    renderTable(list);
+    renderRelances(list);
+    const hasFilter = state.search || state.commercial || state.statut;
+    el.resetFilters.hidden = !hasFilter;
+    el.meta.textContent = `${list.length} prospect${list.length > 1 ? 's' : ''}${hasFilter ? ` sur ${prospects.length}` : ''}`;
+  }
+
+  function renderCommerciaux() {
+    const names = [...new Set(prospects.map((p) => p.commercial).filter(Boolean))].sort((a, b) => a.localeCompare(b, 'fr'));
+    const current = el.commercial.value;
+    el.commercial.innerHTML = '<option value="">Tous</option>' + names.map((n) => `<option value="${esc(n)}">${esc(n)}</option>`).join('');
+    el.commercial.value = names.includes(current) ? current : '';
+    if (!names.includes(state.commercial)) state.commercial = '';
+    $('#commerciaux-list').innerHTML = names.map((n) => `<option value="${esc(n)}">`).join('');
+  }
+
+  function renderKPIs(list) {
+    const open = list.filter((p) => !CLOSED.has(p.statut));
+    const won = list.filter((p) => p.statut === 'gagne');
+    const lost = list.filter((p) => p.statut === 'perdu');
+    const potentiel = open.reduce((s, p) => s + (Number(p.montant) || 0), 0);
+    const pondere = open.reduce((s, p) => s + weighted(p), 0);
+    const signe = won.reduce((s, p) => s + (Number(p.montant) || 0), 0);
+    const closed = won.length + lost.length;
+
+    $('#kpi-potentiel').textContent = fmtEUR.format(potentiel);
+    $('#kpi-potentiel-sub').textContent = open.length ? `Panier moyen ${fmtEUR.format(potentiel / open.length)}` : 'Aucune opportunité ouverte';
+    $('#kpi-pondere').textContent = fmtEUR.format(pondere);
+    $('#kpi-pondere-sub').textContent = potentiel ? `${Math.round((pondere / potentiel) * 100)} % du potentiel` : 'Montant × probabilité';
+    $('#kpi-opps').textContent = String(open.length);
+    $('#kpi-opps-sub').textContent = `${won.length} gagnée${won.length > 1 ? 's' : ''} · ${lost.length} perdue${lost.length > 1 ? 's' : ''}`;
+    $('#kpi-conv').textContent = closed ? `${Math.round((won.length / closed) * 100)} %` : '—';
+    $('#kpi-conv-sub').textContent = closed ? `${won.length}/${closed} clôturés · ${fmtEUR.format(signe)} signés` : 'Aucun dossier clôturé';
+  }
+
+  function cardHTML(p) {
+    const rel = relanceInfo(p);
+    const nextAction = p.prochaineAction || p.dateProchaineAction
+      ? `<p class="pc-card-action">${icon('flag')}<span>${esc(p.prochaineAction || 'Action planifiée')}</span>${p.dateProchaineAction ? `<b>· ${fmtDate(p.dateProchaineAction)}</b>` : ''}</p>`
+      : '';
+    return `
+      <article class="pc-card ${rel?.level === 'late' ? 'is-late' : ''}" draggable="true" data-id="${p.id}" tabindex="0" role="button" aria-label="Modifier ${esc(p.entreprise)}">
+        <div class="pc-card-top">
+          <div>
+            <p class="pc-card-company">${esc(p.entreprise)}</p>
+            <p class="pc-card-contact">${esc(p.contact || 'Contact à définir')}${p.fonction ? ` · ${esc(p.fonction)}` : ''}</p>
+          </div>
+          <span class="pc-avatar" style="--av:${avatarColor(p.commercial)}" title="${esc(p.commercial || 'Non attribué')}">${initials(p.commercial)}</span>
+        </div>
+        <div class="pc-card-amount">${fmtEUR.format(Number(p.montant) || 0)}<small>${p.probabilite} % · pondéré ${fmtEURShort(weighted(p))}</small></div>
+        <div class="pc-prob" aria-hidden="true"><i style="width:${p.probabilite}%"></i></div>
+        ${nextAction}
+        ${rel ? `<span class="pc-flag pc-flag--${rel.level}">${icon(rel.level === 'late' ? 'warning' : rel.level === 'today' ? 'calendar' : 'clock')}${rel.label}</span>` : ''}
+      </article>`;
+  }
+
+  function renderBoard(list) {
+    el.board.innerHTML = STAGES.map((s) => {
+      const items = list.filter((p) => p.statut === s.id).sort((a, b) => (b.montant || 0) - (a.montant || 0));
+      const sum = items.reduce((t, p) => t + (Number(p.montant) || 0), 0);
+      return `
+        <div class="pc-col" data-stage="${s.id}" style="--col-color:${s.color}">
+          <div class="pc-col-head">
+            <span class="pc-col-dot"></span>
+            <span class="pc-col-title">${s.label}</span>
+            <span class="pc-col-count">${items.length}</span>
+            <span class="pc-col-sum">${fmtEURShort(sum)}</span>
+          </div>
+          ${items.length ? items.map(cardHTML).join('') : '<p class="pc-col-empty">Glissez une opportunité ici</p>'}
+        </div>`;
+    }).join('');
+  }
+
+  function renderTable(list) {
+    const dir = state.sortDir === 'asc' ? 1 : -1;
+    const key = state.sortKey;
+    const val = (p) => key === 'pondere' ? weighted(p) : key === 'statut' ? STAGES.findIndex((s) => s.id === p.statut) : p[key];
+    const rows = [...list].sort((a, b) => {
+      const va = val(a), vb = val(b);
+      if (typeof va === 'number' || typeof vb === 'number') return ((Number(va) || 0) - (Number(vb) || 0)) * dir;
+      return String(va || '').localeCompare(String(vb || ''), 'fr') * dir;
+    });
+    document.querySelectorAll('.pc-table th[data-sort]').forEach((th) => {
+      th.classList.toggle('is-sorted', th.dataset.sort === key);
+      th.classList.toggle('asc', th.dataset.sort === key && state.sortDir === 'asc');
+    });
+    if (!rows.length) {
+      el.tableBody.innerHTML = '<tr><td colspan="9" class="pc-table-empty">Aucun prospect ne correspond aux filtres.</td></tr>';
+      return;
+    }
+    el.tableBody.innerHTML = rows.map((p) => {
+      const s = STAGE_BY_ID[p.statut] || STAGES[0];
+      const rel = relanceInfo(p);
+      return `
+        <tr data-id="${p.id}">
+          <td class="strong">${esc(p.entreprise)}</td>
+          <td>${esc(p.contact || '—')}${p.fonction ? `<div class="muted">${esc(p.fonction)}</div>` : ''}</td>
+          <td><span class="pc-cell-person"><span class="pc-avatar" style="--av:${avatarColor(p.commercial)}">${initials(p.commercial)}</span>${esc(p.commercial || '—')}</span></td>
+          <td><span class="pc-status" style="--st:${s.color}">${s.label}</span></td>
+          <td class="num strong">${fmtEUR.format(Number(p.montant) || 0)}</td>
+          <td class="num">${p.probabilite} %</td>
+          <td class="num">${fmtEUR.format(weighted(p))}</td>
+          <td>${esc(p.prochaineAction || '—')}<div class="muted">${p.dateProchaineAction ? fmtDate(p.dateProchaineAction) : ''}${rel ? ` <span class="pc-flag pc-flag--${rel.level}">${rel.label}</span>` : ''}</div></td>
+          <td><div class="pc-row-actions">
+            <button class="pc-icon-btn" data-edit="${p.id}" title="Modifier">${icon('edit')}</button>
+            <button class="pc-icon-btn" data-delete="${p.id}" title="Supprimer">${icon('trash')}</button>
+          </div></td>
+        </tr>`;
+    }).join('');
+  }
+
+  function renderRelances(list) {
+    const items = list.map((p) => ({ p, rel: relanceInfo(p) })).filter((x) => x.rel)
+      .sort((a, b) => a.rel.priority - b.rel.priority || a.rel.sort - b.rel.sort || (b.p.montant || 0) - (a.p.montant || 0));
+    // Le badge compte sur l'ensemble des données, pas seulement la sélection filtrée
+    const total = prospects.filter((p) => relanceInfo(p)).length;
+    el.badge.textContent = String(total);
+    el.badge.hidden = !total;
+
+    if (!items.length) {
+      el.relances.innerHTML = '<div class="pc-relances-empty"><strong>Rien à relancer.</strong>Toutes les opportunités ouvertes ont une prochaine action planifiée.</div>';
+      return;
+    }
+    const atRisk = items.reduce((s, x) => s + weighted(x.p), 0);
+    el.relances.innerHTML = `
+      <p class="pc-relances-intro">Règles : prochaine action dépassée ou prévue aujourd'hui, ou aucun contact depuis ${RELANCE_SILENCE_DAYS} jours sans action planifiée.
+        ${items.length} dossier${items.length > 1 ? 's' : ''} · ${fmtEUR.format(atRisk)} de CA pondéré en attente.</p>` +
+      items.map(({ p, rel }) => {
+        const s = STAGE_BY_ID[p.statut] || STAGES[0];
+        return `
+          <article class="pc-rel">
+            <div class="pc-rel-head">
+              <div>
+                <p class="pc-rel-company">${esc(p.entreprise)}</p>
+                <p class="pc-rel-meta"><span>${esc(p.contact || '—')}</span>${p.telephone ? `<span>${esc(p.telephone)}</span>` : ''}${p.email ? `<span>${esc(p.email)}</span>` : ''}</p>
+              </div>
+              <span class="pc-flag pc-flag--${rel.level}">${icon(rel.level === 'late' ? 'warning' : rel.level === 'today' ? 'calendar' : 'clock')}${rel.label}</span>
+            </div>
+            <p class="pc-rel-reason">${p.prochaineAction ? `<b>${esc(p.prochaineAction)}</b>${p.dateProchaineAction ? ` — prévu le ${fmtDateLong(p.dateProchaineAction)}` : ''}` : 'Aucune action définie. Planifiez la prochaine étape.'}</p>
+            <p class="pc-rel-meta"><span>${esc(p.commercial || 'Non attribué')}</span><span>${fmtEUR.format(Number(p.montant) || 0)} · ${p.probabilite} %</span>${p.dernierContact ? `<span>Dernier contact ${fmtDate(p.dernierContact)}</span>` : ''}</p>
+            <div class="pc-rel-foot">
+              <span class="pc-status" style="--st:${s.color}">${s.label}</span>
+              <button class="pc-btn pc-btn--ghost pc-btn--sm" data-edit="${p.id}" type="button">${icon('calendar')}Planifier</button>
+              <button class="pc-btn pc-btn--primary pc-btn--sm" data-done="${p.id}" type="button">${icon('check')}Relancé</button>
+            </div>
+          </article>`;
+      }).join('');
+  }
+
+  // ─── Mutations ──────────────────────────────────────────────────
+  function upsert(data) {
+    const now = new Date().toISOString();
+    const idx = prospects.findIndex((p) => p.id === data.id);
+    if (idx >= 0) prospects[idx] = { ...prospects[idx], ...data, updatedAt: now };
+    else prospects.unshift({ ...data, id: uid(), createdAt: now, updatedAt: now });
+    save(prospects);
+    render();
+  }
+
+  function remove(id) {
+    const p = prospects.find((x) => x.id === id);
+    if (!p) return;
+    if (!confirm(`Supprimer « ${p.entreprise} » ? Cette action est définitive.`)) return;
+    const snapshot = [...prospects];
+    prospects = prospects.filter((x) => x.id !== id);
+    save(prospects);
+    render();
+    toast(`« ${p.entreprise} » supprimé.`, { label: 'Annuler', fn: () => { prospects = snapshot; save(prospects); render(); } });
+  }
+
+  function moveTo(id, stageId) {
+    const p = prospects.find((x) => x.id === id);
+    if (!p || p.statut === stageId) return;
+    const from = STAGE_BY_ID[p.statut]?.label;
+    const patch = { statut: stageId, dernierContact: todayISO() };
+    if (stageId === 'gagne') patch.probabilite = 100;
+    else if (stageId === 'perdu') patch.probabilite = 0;
+    else if (CLOSED.has(p.statut)) patch.probabilite = STAGE_BY_ID[stageId].prob; // réouverture : on repart de la proba par défaut de l'étape
+    if (CLOSED.has(stageId)) { patch.prochaineAction = ''; patch.dateProchaineAction = ''; }
+    upsert({ id, ...patch });
+    toast(`${p.entreprise} : ${from} → ${STAGE_BY_ID[stageId].label}`);
+  }
+
+  function markDone(id) {
+    const p = prospects.find((x) => x.id === id);
+    if (!p) return;
+    upsert({ id, dernierContact: todayISO(), prochaineAction: '', dateProchaineAction: '' });
+    toast(`${p.entreprise} relancé. Pensez à planifier la suite.`, { label: 'Planifier', fn: () => openModal(id) });
+  }
+
+  // ─── Modale ─────────────────────────────────────────────────────
+  function openModal(id = null) {
+    const f = el.form;
+    f.reset();
+    el.formError.hidden = true;
+    const p = id ? prospects.find((x) => x.id === id) : null;
+    el.modalTitle.textContent = p ? 'Modifier le prospect' : 'Nouveau prospect';
+    el.btnDelete.hidden = !p;
+    f.id.value = p?.id || '';
+    f.entreprise.value = p?.entreprise || '';
+    f.contact.value = p?.contact || '';
+    f.fonction.value = p?.fonction || '';
+    f.email.value = p?.email || '';
+    f.telephone.value = p?.telephone || '';
+    f.commercial.value = p?.commercial || (state.commercial || '');
+    f.statut.value = p?.statut || (state.statut && state.statut !== '__open' ? state.statut : 'nouveau');
+    f.montant.value = p ? p.montant : '';
+    f.probabilite.value = p ? p.probabilite : STAGE_BY_ID[f.statut.value].prob;
+    f.prochaineAction.value = p?.prochaineAction || '';
+    f.dateProchaineAction.value = p?.dateProchaineAction || '';
+    f.dernierContact.value = p ? (p.dernierContact || '') : todayISO();
+    f.notes.value = p?.notes || '';
+    el.probOut.value = f.probabilite.value;
+    el.modal.showModal();
+    setTimeout(() => f.entreprise.focus(), 30);
+  }
+
+  el.form.addEventListener('submit', (e) => {
+    e.preventDefault();
+    const f = el.form;
+    const data = {
+      id: f.id.value || undefined,
+      entreprise: f.entreprise.value.trim(),
+      contact: f.contact.value.trim(),
+      fonction: f.fonction.value.trim(),
+      email: f.email.value.trim(),
+      telephone: f.telephone.value.trim(),
+      commercial: f.commercial.value.trim(),
+      statut: f.statut.value,
+      montant: Math.max(0, Math.round(Number(f.montant.value) || 0)),
+      probabilite: Math.min(100, Math.max(0, Math.round(Number(f.probabilite.value) || 0))),
+      prochaineAction: f.prochaineAction.value.trim(),
+      dateProchaineAction: f.dateProchaineAction.value,
+      dernierContact: f.dernierContact.value,
+      notes: f.notes.value.trim(),
+    };
+    if (!data.entreprise) return showFormError("Le nom de l'entreprise est obligatoire.");
+    if (data.email && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(data.email)) return showFormError('Adresse email invalide.');
+    if (!STAGE_BY_ID[data.statut]) return showFormError('Statut invalide.');
+    const isNew = !data.id;
+    upsert(data);
+    el.modal.close();
+    toast(isNew ? `« ${data.entreprise} » ajouté au pipeline.` : `« ${data.entreprise} » mis à jour.`);
+  });
+  function showFormError(msg) { el.formError.textContent = msg; el.formError.hidden = false; }
+
+  el.form.probabilite.addEventListener('input', () => { el.probOut.value = el.form.probabilite.value; });
+  // Changer de statut dans le formulaire propose la probabilité par défaut de l'étape
+  el.form.statut.addEventListener('change', () => {
+    el.form.probabilite.value = STAGE_BY_ID[el.form.statut.value]?.prob ?? 50;
+    el.probOut.value = el.form.probabilite.value;
+  });
+  el.modal.querySelectorAll('[data-close]').forEach((b) => b.addEventListener('click', () => el.modal.close()));
+  el.modal.addEventListener('click', (e) => { if (e.target === el.modal) el.modal.close(); });
+  el.btnDelete.addEventListener('click', () => { const id = el.form.id.value; el.modal.close(); remove(id); });
+
+  // ─── Toasts ─────────────────────────────────────────────────────
+  function toast(msg, action) {
+    const t = document.createElement('div');
+    t.className = 'pc-toast';
+    t.innerHTML = `${icon('check-circle')}<span>${esc(msg)}</span>`;
+    if (action) {
+      const b = document.createElement('button');
+      b.type = 'button'; b.textContent = action.label;
+      b.addEventListener('click', () => { action.fn(); t.remove(); });
+      t.appendChild(b);
+    }
+    el.toasts.appendChild(t);
+    setTimeout(() => t.remove(), action ? 6000 : 3200);
+  }
+
+  // ─── Filtres / vues ─────────────────────────────────────────────
+  el.search.addEventListener('input', () => { state.search = el.search.value; render(); });
+  el.commercial.addEventListener('change', () => { state.commercial = el.commercial.value; render(); });
+  el.statut.addEventListener('change', () => { state.statut = el.statut.value; render(); });
+  el.resetFilters.addEventListener('click', () => {
+    state.search = state.commercial = state.statut = '';
+    el.search.value = el.commercial.value = el.statut.value = '';
+    render();
+  });
+  document.querySelectorAll('.pc-view-btn').forEach((b) => b.addEventListener('click', () => {
+    state.view = b.dataset.view;
+    document.querySelectorAll('.pc-view-btn').forEach((x) => x.classList.toggle('is-active', x === b));
+    document.querySelectorAll('.pc-view').forEach((v) => { v.hidden = v.id !== `view-${state.view}`; });
+  }));
+  document.querySelectorAll('.pc-table th[data-sort]').forEach((th) => th.addEventListener('click', () => {
+    const k = th.dataset.sort;
+    if (state.sortKey === k) state.sortDir = state.sortDir === 'asc' ? 'desc' : 'asc';
+    else { state.sortKey = k; state.sortDir = k === 'entreprise' || k === 'commercial' || k === 'statut' ? 'asc' : 'desc'; }
+    render();
+  }));
+
+  // ─── Actions déléguées (édition, suppression, relance) ──────────
+  document.addEventListener('click', (e) => {
+    const t = e.target.closest('[data-edit],[data-delete],[data-done]');
+    if (t) {
+      e.stopPropagation();
+      if (t.dataset.edit) return openModal(t.dataset.edit);
+      if (t.dataset.delete) return remove(t.dataset.delete);
+      if (t.dataset.done) return markDone(t.dataset.done);
+    }
+    const card = e.target.closest('.pc-card[data-id], tr[data-id]');
+    if (card) openModal(card.dataset.id);
+  });
+  el.board.addEventListener('keydown', (e) => {
+    if ((e.key === 'Enter' || e.key === ' ') && e.target.classList.contains('pc-card')) { e.preventDefault(); openModal(e.target.dataset.id); }
+  });
+
+  $('#btn-new').addEventListener('click', () => openModal());
+
+  // ─── Drag & drop Kanban ─────────────────────────────────────────
+  let dragId = null;
+  el.board.addEventListener('dragstart', (e) => {
+    const card = e.target.closest('.pc-card');
+    if (!card) return;
+    dragId = card.dataset.id;
+    card.classList.add('is-dragging');
+    e.dataTransfer.effectAllowed = 'move';
+    e.dataTransfer.setData('text/plain', dragId);
+  });
+  el.board.addEventListener('dragend', (e) => {
+    e.target.closest?.('.pc-card')?.classList.remove('is-dragging');
+    el.board.querySelectorAll('.pc-col.is-over').forEach((c) => c.classList.remove('is-over'));
+    dragId = null;
+  });
+  el.board.addEventListener('dragover', (e) => {
+    const col = e.target.closest('.pc-col');
+    if (!col || !dragId) return;
+    e.preventDefault();
+    e.dataTransfer.dropEffect = 'move';
+    el.board.querySelectorAll('.pc-col.is-over').forEach((c) => c !== col && c.classList.remove('is-over'));
+    col.classList.add('is-over');
+  });
+  el.board.addEventListener('dragleave', (e) => {
+    const col = e.target.closest('.pc-col');
+    if (col && !col.contains(e.relatedTarget)) col.classList.remove('is-over');
+  });
+  el.board.addEventListener('drop', (e) => {
+    const col = e.target.closest('.pc-col');
+    if (!col) return;
+    e.preventDefault();
+    const id = dragId || e.dataTransfer.getData('text/plain');
+    col.classList.remove('is-over');
+    if (id) moveTo(id, col.dataset.stage);
+  });
+
+  // ─── Export CSV & reset démo ────────────────────────────────────
+  $('#btn-export').addEventListener('click', () => {
+    const cols = ['entreprise', 'contact', 'fonction', 'email', 'telephone', 'commercial', 'statut', 'montant', 'probabilite', 'pondere', 'prochaineAction', 'dateProchaineAction', 'dernierContact', 'notes'];
+    const cell = (v) => `"${String(v ?? '').replace(/"/g, '""')}"`;
+    const lines = [cols.join(';'), ...filtered().map((p) => cols.map((c) =>
+      cell(c === 'pondere' ? Math.round(weighted(p)) : c === 'statut' ? STAGE_BY_ID[p.statut]?.label : p[c])).join(';'))];
+    const blob = new Blob(['﻿' + lines.join('\r\n')], { type: 'text/csv;charset=utf-8' });
+    const a = Object.assign(document.createElement('a'), { href: URL.createObjectURL(blob), download: `pipeline-${todayISO()}.csv` });
+    a.click();
+    setTimeout(() => URL.revokeObjectURL(a.href), 1000);
+    toast('Export CSV généré.');
+  });
+  $('#btn-reset-data').addEventListener('click', () => {
+    if (!confirm('Restaurer les 22 prospects de démonstration ? Vos données actuelles seront remplacées.')) return;
+    prospects = buildSeed();
+    save(prospects);
+    render();
+    toast('Données de démonstration restaurées.');
+  });
+
+  // Raccourci clavier : N = nouveau prospect
+  document.addEventListener('keydown', (e) => {
+    if (e.key.toLowerCase() === 'n' && !e.metaKey && !e.ctrlKey && !el.modal.open && !['INPUT', 'SELECT', 'TEXTAREA'].includes(document.activeElement?.tagName)) {
+      e.preventDefault(); openModal();
+    }
+  });
+
+  render();
+</script>
