@@ -1,0 +1,673 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Carnet de Vie Matériel</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto+Slab:wght@700&family=Inter:wght@400;600&display=swap">
+<style>
+:root{
+  --bg:#FFFFFF;--bg-alt:#F5F5FA;--ink:#0B0A14;--text:#0B0A14;--muted:#555570;--border:#E4E4EF;
+  --blue:#3524E8;--magenta:#E93BF3;--magenta-text:#C51FD0;--violet:#7B2FF2;
+  --ok:#1B8A5A;--ok-bg:#E6F5EE;--warn:#B45309;--warn-bg:#FEF3E2;--crit:#C22F2F;--crit-bg:#FCE9E9;--info-bg:#EAE8FD;
+  --grad:linear-gradient(135deg,#3524E8,#E93BF3);
+  --card:#FFFFFF;--shadow:0 4px 24px rgba(11,10,20,.06);--shadow-blue:0 8px 24px rgba(53,36,232,.15);
+  --r:12px;--rs:8px;
+  --ft:'Rockwell','Roboto Slab',Georgia,serif;--fb:'Inter',Calibri,Arial,sans-serif;
+  color-scheme:light;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --bg:#0B0A14;--bg-alt:#15142A;--text:#F2F1FA;--muted:#A9A8C2;--border:#2A2945;--card:#131226;
+  --ok:#4CCB8E;--ok-bg:#0F2E22;--warn:#F0B35B;--warn-bg:#3A2A0F;--crit:#F27A7A;--crit-bg:#3F1616;--info-bg:#221E4D;
+  --magenta-text:#F06CF7;--shadow:0 4px 24px rgba(0,0,0,.4);color-scheme:dark;
+}}
+:root[data-theme="dark"]{
+  --bg:#0B0A14;--bg-alt:#15142A;--text:#F2F1FA;--muted:#A9A8C2;--border:#2A2945;--card:#131226;
+  --ok:#4CCB8E;--ok-bg:#0F2E22;--warn:#F0B35B;--warn-bg:#3A2A0F;--crit:#F27A7A;--crit-bg:#3F1616;--info-bg:#221E4D;
+  --magenta-text:#F06CF7;--shadow:0 4px 24px rgba(0,0,0,.4);color-scheme:dark;
+}
+*{box-sizing:border-box}
+html,body{margin:0;height:100%}
+body{background:var(--bg);color:var(--text);font:400 15px/1.5 var(--fb);-webkit-font-smoothing:antialiased}
+h1,h2,h3{font-family:var(--ft);font-weight:700;margin:0;text-wrap:balance;line-height:1.2}
+h1{font-size:1.5rem}h2{font-size:1.25rem}h3{font-size:1.05rem}
+button,input,select,textarea{font:inherit;color:inherit}
+a{color:var(--magenta-text)}
+.num{font-variant-numeric:tabular-nums}
+
+/* Header */
+.topbar{position:sticky;top:env(safe-area-inset-top,0px);z-index:20;background:var(--bg);border-bottom:1px solid var(--border)}
+.topbar::before{content:"";display:block;height:4px;background:var(--grad)}
+.topbar-in{max-width:1180px;margin:0 auto;padding:12px 16px;display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+.brand{display:flex;align-items:center;gap:10px;flex:1;min-width:200px}
+.brand .mark{width:34px;height:34px;border-radius:9px;background:var(--grad);display:grid;place-items:center;color:#fff;font-family:var(--ft);font-weight:700;font-size:15px;box-shadow:var(--shadow-blue)}
+.brand small{display:block;color:var(--muted);font-size:.8rem}
+.actions{display:flex;gap:8px;flex-wrap:wrap}
+nav.tabs{max-width:1180px;margin:0 auto;padding:0 16px;display:flex;gap:4px;overflow-x:auto;scrollbar-width:none}
+nav.tabs::-webkit-scrollbar{display:none}
+nav.tabs button{background:none;border:0;border-bottom:3px solid transparent;padding:10px 12px;color:var(--muted);font-weight:600;white-space:nowrap;cursor:pointer;display:flex;align-items:center;gap:6px}
+nav.tabs button.on{color:var(--text);border-bottom-color:var(--blue)}
+nav.tabs button:focus-visible,.btn:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-visible{outline:2px solid var(--blue);outline-offset:2px}
+.count{background:var(--crit);color:#fff;border-radius:999px;font-size:.7rem;padding:1px 6px;min-width:18px;text-align:center}
+.count.warn{background:var(--warn)}
+.count.zero{display:none}
+
+main{max-width:1180px;margin:0 auto;padding:20px 16px 48px}
+.view{display:grid;gap:20px}
+
+/* Buttons */
+.btn{border:1px solid var(--border);background:var(--card);border-radius:var(--rs);padding:8px 14px;font-weight:600;cursor:pointer;display:inline-flex;align-items:center;gap:6px;line-height:1.2}
+.btn:hover{border-color:var(--blue)}
+.btn.primary{background:var(--grad);color:#fff;border:0;box-shadow:var(--shadow-blue)}
+.btn.ghost{background:transparent;color:var(--blue);border-color:var(--blue)}
+.btn.danger{color:var(--crit);border-color:var(--crit)}
+.btn.sm{padding:5px 10px;font-size:.85rem}
+.btn:disabled{opacity:.5;cursor:not-allowed}
+
+/* Cards & tiles */
+.card{background:var(--card);border:1px solid var(--border);border-radius:var(--r);padding:18px;box-shadow:var(--shadow)}
+.card.flat{box-shadow:none;background:var(--bg-alt)}
+.card-h{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;margin-bottom:12px}
+.tiles{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px}
+.tile{background:var(--card);border:1px solid var(--border);border-radius:var(--r);padding:14px 16px}
+.tile .lbl{font-size:.75rem;text-transform:uppercase;letter-spacing:.06em;color:var(--muted);font-weight:600}
+.tile .val{font-family:var(--ft);font-size:1.9rem;line-height:1.1;margin-top:4px}
+.tile .val.grad{background:var(--grad);-webkit-background-clip:text;background-clip:text;color:transparent}
+.tile .sub{font-size:.8rem;color:var(--muted);margin-top:4px}
+.tile.crit{border-color:var(--crit);background:var(--crit-bg)}
+.tile.warn{border-color:var(--warn);background:var(--warn-bg)}
+.tile.ok{border-color:var(--ok);background:var(--ok-bg)}
+.band{background:var(--ink);color:#fff;border-radius:var(--r);padding:22px 24px;display:grid;gap:14px;grid-template-columns:1fr auto;align-items:center}
+.band h2{color:#fff;font-size:1.35rem}
+.band p{margin:6px 0 0;color:#B0B0C0;max-width:60ch}
+.band .promise{display:grid;gap:6px;font-family:var(--ft);font-size:1rem}
+.band .promise span{background:linear-gradient(135deg,#8A7DFF,#F06CF7);-webkit-background-clip:text;background-clip:text;color:transparent}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:20px}
+@media (max-width:760px){.grid2{grid-template-columns:1fr}.band{grid-template-columns:1fr}}
+
+/* Lists */
+.list{display:grid;gap:8px}
+.row{display:grid;grid-template-columns:auto minmax(0,1fr);gap:6px 12px;align-items:center;padding:10px 12px;border:1px solid var(--border);border-radius:var(--rs);background:var(--card)}
+.row .stripe{width:6px;align-self:stretch;grid-row:1/3;border-radius:4px;background:var(--border)}
+.row.crit .stripe{background:var(--crit)}.row.warn .stripe{background:var(--warn)}.row.ok .stripe{background:var(--ok)}.row.info .stripe{background:var(--blue)}
+.row .t{font-weight:600}
+.row .d{color:var(--muted);font-size:.85rem}
+.row .r{grid-column:2;font-size:.85rem;display:flex;gap:6px;align-items:center;flex-wrap:wrap;justify-content:flex-start;color:var(--muted)}
+.row .r .num{margin-right:2px}
+.pill{display:inline-block;border-radius:999px;padding:2px 9px;font-size:.75rem;font-weight:600;white-space:nowrap}
+.pill.ok{background:var(--ok-bg);color:var(--ok)}.pill.warn{background:var(--warn-bg);color:var(--warn)}.pill.crit{background:var(--crit-bg);color:var(--crit)}.pill.info{background:var(--info-bg);color:var(--blue)}.pill.muted{background:var(--bg-alt);color:var(--muted)}
+.empty{color:var(--muted);padding:18px;text-align:center;border:1px dashed var(--border);border-radius:var(--rs)}
+
+/* Equipment cards */
+.eqgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(270px,1fr));gap:12px}
+.eq{background:var(--card);border:1px solid var(--border);border-radius:var(--r);padding:14px;cursor:pointer;display:grid;gap:6px;border-top:3px solid var(--blue)}
+.eq:hover{box-shadow:var(--shadow-blue)}
+.eq.crit{border-top-color:var(--crit)}.eq.warn{border-top-color:var(--warn)}.eq.ok{border-top-color:var(--ok)}
+.eq .cat{font-size:.72rem;text-transform:uppercase;letter-spacing:.06em;color:var(--muted);font-weight:600}
+.eq .meta{font-size:.85rem;color:var(--muted)}
+.eq .foot{display:flex;gap:6px;flex-wrap:wrap;margin-top:4px}
+.toolbar{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+.toolbar input,.toolbar select{padding:8px 10px;border:1px solid var(--border);border-radius:var(--rs);background:var(--card)}
+.toolbar input{flex:1;min-width:160px}
+
+/* Tables */
+.tw{overflow-x:auto}
+table{width:100%;border-collapse:collapse;font-size:.9rem}
+th{text-align:left;font-size:.72rem;text-transform:uppercase;letter-spacing:.06em;color:var(--muted);padding:8px 10px;border-bottom:1px solid var(--border)}
+td{padding:9px 10px;border-bottom:1px solid var(--border);vertical-align:top}
+tr:nth-child(even) td{background:var(--bg-alt)}
+
+/* Forms */
+.form{display:grid;gap:12px;grid-template-columns:1fr 1fr}
+.form .full{grid-column:1/-1}
+.form label{display:grid;gap:4px;font-size:.8rem;color:var(--muted);font-weight:600}
+.form input,.form select,.form textarea{padding:9px 10px;border:1px solid var(--border);border-radius:var(--rs);background:var(--card);color:var(--text);width:100%}
+.form textarea{min-height:90px;resize:vertical}
+@media (max-width:560px){.form{grid-template-columns:1fr}}
+.chk{display:flex;gap:10px;align-items:flex-start;padding:10px 12px;border:1px solid var(--border);border-radius:var(--rs);background:var(--card)}
+.chk input{width:20px;height:20px;margin-top:2px;accent-color:var(--blue);flex:none}
+.chk.auto-bad{border-color:var(--crit);background:var(--crit-bg)}
+.chk.auto-warn{border-color:var(--warn);background:var(--warn-bg)}
+.chk small{display:block;color:var(--muted)}
+.verdict{border-radius:var(--r);padding:18px 20px;display:flex;align-items:center;gap:16px;flex-wrap:wrap}
+.verdict .big{font-family:var(--ft);font-size:2rem}
+.verdict.go{background:var(--ok-bg);border:2px solid var(--ok);color:var(--ok)}
+.verdict.nogo{background:var(--crit-bg);border:2px solid var(--crit);color:var(--crit)}
+.verdict.pending{background:var(--bg-alt);border:2px solid var(--border);color:var(--muted)}
+pre.gen{white-space:pre-wrap;background:var(--bg-alt);border:1px solid var(--border);border-radius:var(--rs);padding:12px;font:.85rem/1.5 ui-monospace,Menlo,Consolas,monospace;max-height:320px;overflow:auto}
+
+/* Detail */
+.kv{display:grid;grid-template-columns:auto 1fr;gap:4px 14px;font-size:.9rem}
+.kv dt{color:var(--muted)}.kv dd{margin:0}
+.section{display:grid;gap:8px}
+.section h3{display:flex;justify-content:space-between;align-items:center;gap:8px}
+.hist{border-left:2px solid var(--border);padding-left:12px;display:grid;gap:8px;font-size:.88rem}
+.hist div b{color:var(--muted);font-weight:600;margin-right:6px;font-variant-numeric:tabular-nums}
+.battery{display:flex;align-items:center;gap:10px;font-size:.88rem}
+.battery .bar{flex:1;height:8px;background:var(--bg-alt);border-radius:4px;overflow:hidden;border:1px solid var(--border)}
+.battery .bar i{display:block;height:100%;background:var(--ok)}
+.battery .bar i.warn{background:var(--warn)}.battery .bar i.crit{background:var(--crit)}
+
+/* Modal */
+.modal{position:fixed;inset:0;background:rgba(11,10,20,.55);display:flex;align-items:flex-end;justify-content:center;z-index:50;padding:0}
+.modal .box{background:var(--bg);width:100%;max-width:820px;max-height:92vh;overflow:auto;border-radius:16px 16px 0 0;padding:20px 16px calc(20px + env(safe-area-inset-bottom,0px))}
+@media (min-width:700px){.modal{align-items:center;padding:20px}.modal .box{border-radius:16px;padding:24px}}
+.modal .box>h2{margin-bottom:14px}
+.mfoot{display:flex;gap:8px;justify-content:flex-end;flex-wrap:wrap;margin-top:16px;padding-top:12px;border-top:1px solid var(--border)}
+.toast{position:fixed;left:50%;bottom:calc(20px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);background:var(--ink);color:#fff;padding:10px 16px;border-radius:var(--rs);font-size:.9rem;z-index:60;box-shadow:var(--shadow);opacity:0;transition:opacity .2s}
+.toast.show{opacity:1}
+.foot-note{color:var(--muted);font-size:.8rem;text-align:center;margin-top:12px}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+</head>
+<body>
+<header class="topbar">
+  <div class="topbar-in">
+    <div class="brand">
+      <div class="mark">GE</div>
+      <div><h1>Carnet de Vie Matériel</h1><small>Cabinet de géomètres-experts · prototype The French Bot</small></div>
+    </div>
+    <div class="actions">
+      <button class="btn" id="btn-export">Exporter</button>
+      <button class="btn primary" id="btn-add">+ Matériel</button>
+    </div>
+  </div>
+  <nav class="tabs" id="tabs"></nav>
+</header>
+<main><div class="view" id="view"></div></main>
+<div id="modal-root"></div>
+<div class="toast" id="toast"></div>
+
+<script>
+/* ============ Utils ============ */
+const KEY='tfb-geo-materiel-v1';
+const $=(s,r=document)=>r.querySelector(s);
+const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const uid=()=>Math.random().toString(36).slice(2,9);
+const todayISO=()=>new Date().toISOString().slice(0,10);
+const addDays=(iso,n)=>{const d=new Date(iso+'T00:00:00');d.setDate(d.getDate()+n);return d.toISOString().slice(0,10)};
+const addMonths=(iso,n)=>{const d=new Date(iso+'T00:00:00');d.setMonth(d.getMonth()+n);return d.toISOString().slice(0,10)};
+const daysUntil=iso=>Math.round((new Date(iso+'T00:00:00')-new Date(todayISO()+'T00:00:00'))/86400000);
+const fmtD=iso=>iso?new Date(iso+'T00:00:00').toLocaleDateString('fr-FR',{day:'2-digit',month:'short',year:'numeric'}):'—';
+const fmtE=n=>(n||0).toLocaleString('fr-FR',{style:'currency',currency:'EUR',maximumFractionDigits:0});
+const D=n=>addDays(todayISO(),n);
+const M=n=>addMonths(todayISO(),n);
+
+const CATS=['Positionnement','Drone','Scanner 3D','Détection','Accessoires','Informatique','Véhicule','EPI','Logiciel'];
+const STATUTS={service:['En service','ok'],maintenance:['En maintenance','warn'],sav:['Au SAV','crit'],hs:['Hors service','crit'],reserve:['En réserve','muted']};
+const TEAM=['Marc Delorme (géomètre-expert)','Sophie Ravier (technicienne)','Karim Benali (télépilote)','Léa Fontaine (apprentie)'];
+
+/* ============ Demo data ============ */
+function demoData(){
+  const eq=(o)=>Object.assign({id:uid(),statut:'service',echeances:[],batteries:[],documents:[],historique:[]},o);
+  const ech=(type,derniere,intervalleMois,extra={})=>Object.assign({id:uid(),type,derniere,intervalleMois,prochaine:addMonths(derniere,intervalleMois)},extra);
+  const doc=(type,titre,date,extrait={})=>({id:uid(),type,titre,date,extrait});
+  const h=(date,texte)=>({date,texte});
+  const equipements=[
+    eq({nom:'Station totale robotisée',categorie:'Positionnement',marque:'Leica',modele:'TS16 P 1"',serie:'3512877',achat:M(-42),prix:38500,fournisseur:'Leica Geosystems France',affecte:TEAM[0],lieu:'Véhicule 1',
+      echeances:[ech('Vérification / étalonnage constructeur',M(-13),12,{obligatoire:true}),ech('Mise à jour firmware Captivate',M(-4),6)],
+      batteries:[{id:uid(),ref:'GEB222 n°1',cycles:310,sante:88},{id:uid(),ref:'GEB222 n°2',cycles:295,sante:85},{id:uid(),ref:'GEB222 n°3',cycles:540,sante:61}],
+      documents:[doc('Facture','Facture Leica FA-2023-0412',M(-42),{montant:38500,garantie:'24 mois',serie:'3512877'}),doc('Certificat','Certificat de vérification 2025',M(-13),{ecart_angulaire:'0,8"',ecart_distance:'1,2 mm',validite:'12 mois'}),doc('Rapport SAV','Rapport SAV Leica — remplacement compensateur',M(-20),{montant:1250,immobilisation:'21 jours',piece:'Compensateur biaxial'})],
+      historique:[h(M(-42),'Achat et mise en service'),h(M(-20),'Retour SAV : compensateur remplacé (21 j)'),h(M(-13),'Vérification constructeur OK — certificat archivé')]}),
+    eq({nom:'Récepteur GNSS RTK',categorie:'Positionnement',marque:'Trimble',modele:'R12i',serie:'6231K04512',achat:M(-30),prix:24900,fournisseur:'Geomesure',affecte:TEAM[1],lieu:'Véhicule 2',
+      echeances:[ech('Vérification annuelle sur points connus',D(12-365),12,{obligatoire:true}),ech('Abonnement réseau RTK (Orphéon)',D(40-365),12,{cout:1990})],
+      batteries:[{id:uid(),ref:'Batterie interne 7,4 V',cycles:410,sante:79}],
+      documents:[doc('Facture','Facture Geomesure GM-24-1187',M(-30),{montant:24900,garantie:'36 mois'}),doc('Notice','Manuel utilisateur R12i',M(-30),{})],
+      historique:[h(M(-30),'Achat et mise en service'),h(D(12-365),'Contrôle sur 3 points connus : écart max 9 mm')]}),
+    eq({nom:'Contrôleur de terrain',categorie:'Informatique',marque:'Trimble',modele:'TSC7',serie:'TSC7-88213',achat:M(-30),prix:5200,fournisseur:'Geomesure',affecte:TEAM[1],lieu:'Véhicule 2',
+      echeances:[ech('Renouvellement licence Trimble Access',D(25-365),12,{cout:890})],
+      batteries:[{id:uid(),ref:'Pack Li-ion 11,1 V',cycles:520,sante:70}],
+      documents:[doc('Rapport SAV','Rapport SAV — remplacement écran',M(-8),{montant:480,immobilisation:'6 jours'})],
+      historique:[h(M(-30),'Achat'),h(M(-8),'Écran remplacé après chute (6 j)')]}),
+    eq({nom:'Niveau numérique + mire invar 3 m',categorie:'Positionnement',marque:'Leica',modele:'LS15',serie:'LS15-771203',achat:M(-70),prix:9800,fournisseur:'Leica Geosystems France',affecte:TEAM[0],lieu:'Bureau — armoire A',
+      echeances:[ech('Contrôle collimation (essai des 2 piquets)',M(-6),12)],
+      batteries:[{id:uid(),ref:'GEB222',cycles:180,sante:92}],documents:[doc('Facture','Facture Leica FA-2020-0098',M(-70),{montant:9800})],historique:[h(M(-70),'Achat')]}),
+    eq({nom:'Scanner laser 3D',categorie:'Scanner 3D',marque:'Leica',modele:'RTC360',serie:'RTC-3306541',achat:M(-18),prix:62000,fournisseur:'Leica Geosystems France',affecte:TEAM[0],lieu:'Bureau — coffre',
+      echeances:[ech('Révision constructeur annuelle',D(90-365),12,{obligatoire:true}),ech('Contrôle nettoyage optique',M(-2),3)],
+      batteries:[{id:uid(),ref:'GEB361 n°1',cycles:140,sante:94},{id:uid(),ref:'GEB361 n°2',cycles:150,sante:93}],
+      documents:[doc('Facture','Facture Leica FA-2025-0231',M(-18),{montant:62000,garantie:'24 mois'}),doc('Certificat','Certificat calibration usine',M(-18),{})],historique:[h(M(-18),'Achat et formation initiale')]}),
+    eq({nom:'Drone photogrammétrie',categorie:'Drone',marque:'DJI',modele:'Mavic 3 Enterprise RTK',serie:'1581F5FJD23A',achat:M(-20),prix:6500,fournisseur:'Drone Volt',affecte:TEAM[2],lieu:'Véhicule 1',
+      echeances:[ech('Assurance RC drone (renouvellement)',D(18-365),12,{cout:620,obligatoire:true}),ech('Révision 200 h / hélices + IMU',M(-7),12),ech('Recyclage télépilote (certificat)',M(-50),60,{obligatoire:true})],
+      batteries:[{id:uid(),ref:'BWX260 n°1',cycles:118,sante:90},{id:uid(),ref:'BWX260 n°2',cycles:122,sante:88},{id:uid(),ref:'BWX260 n°3',cycles:160,sante:35,hs:true},{id:uid(),ref:'BWX260 n°4',cycles:60,sante:97}],
+      documents:[doc('Facture','Facture Drone Volt DV-2025-3341',M(-20),{montant:6500}),doc('Attestation','Attestation assurance RC aérienne',D(18-365),{validite:'12 mois'}),doc('Enregistrement','Enregistrement AlphaTango UAS-FR-0928431',M(-20),{})],
+      historique:[h(M(-20),'Achat, enregistrement AlphaTango'),h(M(-7),'Révision 200 h : hélices changées'),h(D(-3),'Batterie n°3 gonflée → mise hors service')]}),
+    eq({nom:'Drone LiDAR',categorie:'Drone',marque:'DJI',modele:'Matrice 350 RTK + Zenmuse L2',serie:'1ZNBJ8T0020XXX',achat:M(-9),prix:32000,fournisseur:'Drone Volt',affecte:TEAM[2],lieu:'SAV DJI (Pays-Bas)',statut:'sav',
+      echeances:[ech('Assurance RC drone (renouvellement)',M(-9),12,{cout:980,obligatoire:true}),ech('Calibration IMU nacelle L2',M(-9),12)],
+      batteries:[{id:uid(),ref:'TB65 n°1',cycles:45,sante:97},{id:uid(),ref:'TB65 n°2',cycles:44,sante:97},{id:uid(),ref:'TB65 n°3',cycles:40,sante:98},{id:uid(),ref:'TB65 n°4',cycles:41,sante:98}],
+      documents:[doc('Facture','Facture Drone Volt DV-2026-0187',M(-9),{montant:32000,garantie:'24 mois'})],
+      historique:[h(M(-9),'Achat'),h(D(-9),'Erreur IMU nacelle L2 — envoi SAV DJI sous garantie')]}),
+    eq({nom:'Détecteur de réseaux enterrés',categorie:'Détection',marque:'Radiodetection',modele:'RD8200 + Tx-10',serie:'RD8200-10/44219',achat:M(-56),prix:7900,fournisseur:'Radiodetection France',affecte:TEAM[1],lieu:'Véhicule 2',
+      echeances:[ech('Étalonnage annuel certifié (obligatoire DT-DICT)',D(5-365),12,{obligatoire:true,cout:350})],
+      batteries:[{id:uid(),ref:'Pack Li-ion récepteur',cycles:220,sante:83},{id:uid(),ref:'Pack Li-ion Tx-10',cycles:200,sante:86}],
+      documents:[doc('Certificat','Certificat d’étalonnage 2025',D(5-365),{validite:'12 mois'}),doc('Facture','Facture Radiodetection RF-21-771',M(-56),{montant:7900})],historique:[h(M(-56),'Achat')]}),
+    eq({nom:'Télémètre laser',categorie:'Accessoires',marque:'Leica',modele:'Disto X4',serie:'DX4-2231190',achat:M(-38),prix:450,fournisseur:'Leica Geosystems France',affecte:TEAM[3],lieu:'Bureau — tiroir',
+      echeances:[ech('Contrôle sur distance étalon 10 m',M(-10),12)],batteries:[{id:uid(),ref:'Li-ion interne',cycles:90,sante:95}],documents:[],historique:[h(M(-38),'Achat')]}),
+    eq({nom:'Prisme 360° + canne télescopique',categorie:'Accessoires',marque:'Leica',modele:'GRZ122 + GLS12',serie:'GRZ-90231',achat:M(-42),prix:1900,fournisseur:'Leica Geosystems France',affecte:TEAM[0],lieu:'Véhicule 1',
+      echeances:[ech('Contrôle bulle et constante prisme',M(-5),12)],batteries:[],documents:[doc('Facture','Facture Leica FA-2023-0412 (ligne 2)',M(-42),{montant:1900})],historique:[h(M(-42),'Achat'),h(M(-3),'Oublié sur chantier, récupéré le lendemain')]}),
+    eq({nom:'Trépied carbone',categorie:'Accessoires',marque:'Leica',modele:'GST120-9',serie:'—',achat:M(-80),prix:520,fournisseur:'Leica Geosystems France',affecte:TEAM[0],lieu:'Véhicule 1',
+      echeances:[ech('Vérification serrage / jeu des pieds',M(-3),6)],batteries:[],documents:[],historique:[h(M(-80),'Achat')]}),
+    eq({nom:'Tablette durcie',categorie:'Informatique',marque:'Panasonic',modele:'Toughbook FZ-G2',serie:'2KKSA13421',achat:M(-28),prix:2800,fournisseur:'Bechtle',affecte:TEAM[1],lieu:'Véhicule 2',
+      echeances:[ech('Sauvegarde et mise à jour système',M(-1),3)],batteries:[{id:uid(),ref:'FZ-VZSU1',cycles:380,sante:74}],documents:[doc('Facture','Facture Bechtle BE-2024-5590',M(-28),{montant:2800})],historique:[h(M(-28),'Achat')]}),
+    eq({nom:'Radio UHF liaison base/mobile',categorie:'Positionnement',marque:'Trimble',modele:'TDL450H',serie:'TDL-5521',achat:M(-30),prix:2300,fournisseur:'Geomesure',affecte:TEAM[1],lieu:'Véhicule 2',
+      echeances:[],batteries:[{id:uid(),ref:'Batterie externe 12 V',cycles:250,sante:80}],documents:[],historique:[h(M(-30),'Achat')]}),
+    eq({nom:'Véhicule 1 — Peugeot Expert',categorie:'Véhicule',marque:'Peugeot',modele:'Expert L2 (GC-482-XL)',serie:'VF3VEAHXKLZ0xxxxx',achat:M(-60),prix:28000,fournisseur:'Peugeot Dijon',affecte:TEAM[0],lieu:'Parking bureau',
+      echeances:[ech('Contrôle technique',D(60-730),24,{obligatoire:true}),ech('Révision / vidange',D(-12-365),12,{cout:320}),ech('Pneus hiver (pose)',M(-10),12)],
+      batteries:[],documents:[doc('Facture','Facture révision Peugeot',D(-12-365),{montant:320,km:'88 400'})],historique:[h(M(-60),'Achat'),h(D(-12-365),'Révision 88 400 km')]}),
+    eq({nom:'Véhicule 2 — Dacia Duster',categorie:'Véhicule',marque:'Dacia',modele:'Duster 4x4 (FR-219-MQ)',serie:'UU1HSDCVG6xxxxxxx',achat:M(-36),prix:22000,fournisseur:'Dacia Dijon',affecte:TEAM[1],lieu:'Parking bureau',
+      echeances:[ech('Contrôle technique',M(-14),24,{obligatoire:true}),ech('Révision / vidange',M(-7),12,{cout:280})],
+      batteries:[],documents:[],historique:[h(M(-36),'Achat')]}),
+    eq({nom:'Détecteur de métaux (recherche de bornes)',categorie:'Détection',marque:'Garrett',modele:'ACE 400i',serie:'—',achat:M(-64),prix:400,fournisseur:'Amazon Pro',affecte:TEAM[3],lieu:'Véhicule 2',
+      echeances:[],batteries:[{id:uid(),ref:'4 piles AA',cycles:0,sante:100}],documents:[],historique:[h(M(-64),'Achat')]}),
+    eq({nom:'Kit EPI chantier (4 pers.)',categorie:'EPI',marque:'Divers',modele:'Casques, gilets HV, chaussures S3',serie:'—',achat:M(-26),prix:900,fournisseur:'Würth',affecte:'Équipe',lieu:'Bureau — vestiaire',
+      echeances:[ech('Vérification casques (5 ans max) et gilets',M(-2),12,{obligatoire:true})],batteries:[],documents:[doc('Facture','Facture Würth W-2024-8812',M(-26),{montant:900})],historique:[h(M(-26),'Achat')]}),
+    eq({nom:'Licences bureau (Covadis + AutoCAD)',categorie:'Logiciel',marque:'Geomedia / Autodesk',modele:'Covadis 18 + AutoCAD 2026',serie:'CVD-2026-4451',achat:M(-11),prix:4100,fournisseur:'Geomedia',affecte:'Bureau',lieu:'Postes 1 à 3',
+      echeances:[ech('Renouvellement abonnement annuel',M(-11),12,{cout:4100})],batteries:[],documents:[doc('Facture','Facture Geomedia GEO-2025-0919',M(-11),{montant:4100})],historique:[h(M(-11),'Renouvellement')]}),
+  ];
+  const find=n=>equipements.find(e=>e.nom.startsWith(n));
+  const incidents=[
+    {id:uid(),ref:'INC-0006',equipId:find('Drone LiDAR').id,date:D(-9),gravite:'haute',titre:'Erreur IMU nacelle Zenmuse L2 au démarrage',description:'Message « IMU error » répété après calibration. Mission LiDAR de la ZAC reportée.',declarant:TEAM[2],statut:'ouvert',actions:'Retour SAV DJI via Drone Volt (garantie). Ticket DV-SAV-4471.',cloture:null,resolution:'',cout:0,joursImmo:null},
+    {id:uid(),ref:'INC-0005',equipId:find('Drone photogrammétrie').id,date:D(-3),gravite:'haute',titre:'Batterie BWX260 n°3 gonflée',description:'Batterie déformée constatée au chargeur. Mise hors service immédiate, stockage bac sable.',declarant:TEAM[2],statut:'ouvert',actions:'Commande batterie de remplacement à faire. Recyclage batterie via déchetterie pro.',cloture:null,resolution:'',cout:0,joursImmo:null},
+    {id:uid(),ref:'INC-0004',equipId:find('Véhicule 1').id,date:D(-2),gravite:'faible',titre:'Voyant entretien allumé',description:'Voyant « service » au tableau de bord. Vidange en retard.',declarant:TEAM[0],statut:'ouvert',actions:'',cloture:null,resolution:'',cout:0,joursImmo:null},
+    {id:uid(),ref:'INC-0003',equipId:find('Prisme 360°').id,date:M(-3),gravite:'moyenne',titre:'Prisme oublié sur chantier (Longvic)',description:'Prisme laissé sur la borne en fin de journée.',declarant:TEAM[3],statut:'clos',actions:'Retour sur site le lendemain matin.',cloture:addDays(M(-3),1),resolution:'Récupéré intact. Checklist de retour renforcée.',cout:0,joursImmo:1},
+    {id:uid(),ref:'INC-0002',equipId:find('Contrôleur').id,date:M(-8),gravite:'moyenne',titre:'Écran fissuré après chute',description:'Chute d’environ 1 m sur béton. Tactile partiellement inopérant.',declarant:TEAM[1],statut:'clos',actions:'Envoi SAV Geomesure.',cloture:addDays(M(-8),6),resolution:'Écran remplacé, 480 € HT. Dragonne obligatoire désormais.',cout:480,joursImmo:6},
+    {id:uid(),ref:'INC-0001',equipId:find('Station totale').id,date:M(-20),gravite:'haute',titre:'Compensateur hors plage',description:'Message « compensateur hors plage » sur toutes les stations, même à niveau.',declarant:TEAM[0],statut:'clos',actions:'Retour SAV Leica.',cloture:addDays(M(-20),21),resolution:'Compensateur biaxial remplacé. 1 250 € HT, 21 jours d’immobilisation.',cout:1250,joursImmo:21},
+  ];
+  const checklists=[
+    {id:uid(),date:D(-1),mission:'Bornage — Chevigny-Saint-Sauveur',operateur:TEAM[0],equipIds:[find('Station totale').id,find('Prisme 360°').id,find('Trépied').id,find('Véhicule 1').id],verdict:'GO',remarques:'RAS'},
+    {id:uid(),date:D(-4),mission:'Levé topo — ZAC Valmy',operateur:TEAM[1],equipIds:[find('Récepteur GNSS').id,find('Contrôleur').id,find('Détecteur de réseaux').id,find('Véhicule 2').id],verdict:'GO',remarques:'Batterie TSC7 à 40 % au départ, chargée en route'},
+  ];
+  return {version:1,cabinet:'Cabinet Delorme & Associés — Dijon',equipements,incidents,checklists};
+}
+
+/* ============ State ============ */
+let S=load();
+function load(){try{const r=localStorage.getItem(KEY);if(r){const d=JSON.parse(r);if(d&&d.equipements)return d}}catch(e){}return demoData()}
+function save(){try{localStorage.setItem(KEY,JSON.stringify(S))}catch(e){}}
+function eqById(id){return S.equipements.find(e=>e.id===id)}
+function commit(msg){save();render();if(msg)toast(msg)}
+
+/* ============ Derived ============ */
+function echState(e){const d=daysUntil(e.prochaine);return d<0?'crit':d<=30?'warn':'ok'}
+function allEch(){return S.equipements.flatMap(eq=>eq.echeances.map(e=>({...e,eq}))).sort((a,b)=>a.prochaine.localeCompare(b.prochaine))}
+function openIncidents(){return S.incidents.filter(i=>i.statut==='ouvert')}
+function eqState(eq){
+  if(eq.statut==='sav'||eq.statut==='hs')return 'crit';
+  if(openIncidents().some(i=>i.equipId===eq.id&&i.gravite==='haute'))return 'crit';
+  if(eq.echeances.some(e=>echState(e)==='crit'))return 'crit';
+  if(eq.statut==='maintenance'||openIncidents().some(i=>i.equipId===eq.id)||eq.echeances.some(e=>echState(e)==='warn')||eq.batteries.some(b=>!b.hs&&b.sante<65))return 'warn';
+  return 'ok';
+}
+function eqProblems(eq){
+  const p=[];
+  if(eq.statut!=='service')p.push({lvl:'crit',txt:'Statut : '+STATUTS[eq.statut][0]});
+  openIncidents().filter(i=>i.equipId===eq.id).forEach(i=>p.push({lvl:i.gravite==='haute'?'crit':'warn',txt:'Incident ouvert : '+i.titre}));
+  eq.echeances.forEach(e=>{const s=echState(e);const d=daysUntil(e.prochaine);if(s==='crit')p.push({lvl:'crit',txt:e.type+' en retard de '+(-d)+' j'});else if(s==='warn')p.push({lvl:'warn',txt:e.type+' dans '+d+' j'})});
+  eq.batteries.forEach(b=>{if(b.hs)p.push({lvl:'warn',txt:'Batterie HS : '+b.ref});else if(b.sante<65)p.push({lvl:'warn',txt:'Batterie usée : '+b.ref+' ('+b.sante+' %)'})});
+  return p;
+}
+function kpis(){
+  const ech=allEch();const year=todayISO().slice(0,4);
+  const closYear=S.incidents.filter(i=>i.statut==='clos'&&(i.cloture||'').startsWith(year));
+  const immo=closYear.reduce((a,i)=>a+(i.joursImmo||0),0)+openIncidents().filter(i=>i.gravite==='haute').reduce((a,i)=>a-daysUntil(i.date),0);
+  const traca=S.equipements.filter(e=>e.documents.some(d=>d.type==='Facture')).length;
+  return {
+    n:S.equipements.length,valeur:S.equipements.reduce((a,e)=>a+(e.prix||0),0),
+    retard:ech.filter(e=>echState(e)==='crit').length,bientot:ech.filter(e=>echState(e)==='warn').length,
+    incOuv:openIncidents().length,immo,cout:closYear.reduce((a,i)=>a+(i.cout||0),0),
+    dispo:S.equipements.filter(e=>e.statut==='service').length,traca,
+    checklists:S.checklists.length
+  };
+}
+
+/* ============ Router / Tabs ============ */
+const TABS=[['dash','Tableau de bord'],['parc','Parc matériel'],['maint','Maintenance'],['inc','Incidents'],['check','Contrôle avant départ']];
+let tab='dash';let parcFilter={q:'',cat:'',etat:''};let selectedEq=null;let checkDraft=null;
+function render(){
+  const k=kpis();
+  $('#tabs').innerHTML=TABS.map(([id,l])=>{
+    let badge='';
+    if(id==='maint')badge=`<span class="count ${k.retard?'':'warn'} ${k.retard+k.bientot?'':'zero'}">${k.retard||k.bientot}</span>`;
+    if(id==='inc')badge=`<span class="count ${k.incOuv?'':'zero'}">${k.incOuv}</span>`;
+    return `<button class="${tab===id?'on':''}" data-tab="${id}">${l}${badge}</button>`}).join('');
+  $('#tabs').querySelectorAll('button').forEach(b=>b.onclick=()=>{tab=b.dataset.tab;render();window.scrollTo(0,0)});
+  const v={dash:vDash,parc:vParc,maint:vMaint,inc:vInc,check:vCheck}[tab];
+  $('#view').innerHTML=v();
+  bind();
+}
+
+/* ============ Views ============ */
+function pill(lvl,txt){return `<span class="pill ${lvl}">${esc(txt)}</span>`}
+function echRow(e){
+  const st=echState(e);const d=daysUntil(e.prochaine);
+  const when=d<0?`En retard de ${-d} j`:d===0?'Aujourd’hui':`Dans ${d} j`;
+  return `<div class="row ${st}"><div class="stripe"></div>
+    <div><div class="t">${esc(e.type)}</div><div class="d">${esc(e.eq.nom)} · ${esc(e.eq.marque)} ${esc(e.eq.modele)}${e.obligatoire?' · <b>obligatoire</b>':''}${e.cout?' · '+fmtE(e.cout):''}</div></div>
+    <div class="r"><span class="num">${fmtD(e.prochaine)}</span>${pill(st,when)}
+      <button class="btn sm" data-sav="${e.eq.id}|${e.id}">Demande SAV</button>
+      <button class="btn sm ghost" data-done="${e.eq.id}|${e.id}">Fait</button></div></div>`;
+}
+function vDash(){
+  const k=kpis();const ech=allEch().filter(e=>echState(e)!=='ok').slice(0,6);const inc=openIncidents();
+  return `
+  <div class="band"><div><h2>De la gestion « de mémoire » à la maintenance proactive</h2><p>${esc(S.cabinet)} · ${k.n} équipements suivis · ${fmtE(k.valeur)} de parc. Chaque appareil a son carnet de vie : factures, SAV, échéances, incidents, batteries.</p></div>
+    <div class="promise"><div><span>Moins d’immobilisations.</span></div><div><span>Aucun entretien oublié.</span></div><div><span>Une traçabilité complète.</span></div></div></div>
+  <div class="tiles">
+    <div class="tile ${k.retard?'crit':'ok'}"><div class="lbl">Échéances en retard</div><div class="val num">${k.retard}</div><div class="sub">objectif : 0</div></div>
+    <div class="tile ${k.bientot?'warn':''}"><div class="lbl">À faire sous 30 j</div><div class="val num">${k.bientot}</div><div class="sub">anticipées, pas subies</div></div>
+    <div class="tile ${k.incOuv?'warn':'ok'}"><div class="lbl">Incidents ouverts</div><div class="val num">${k.incOuv}</div><div class="sub">${S.incidents.length-k.incOuv} clos et tracés</div></div>
+    <div class="tile"><div class="lbl">Immobilisation ${todayISO().slice(0,4)}</div><div class="val num grad">${k.immo} j</div><div class="sub">${fmtE(k.cout)} de réparations</div></div>
+    <div class="tile"><div class="lbl">Disponibilité</div><div class="val num">${Math.round(100*k.dispo/k.n)} %</div><div class="sub">${k.dispo}/${k.n} en service</div></div>
+    <div class="tile"><div class="lbl">Traçabilité</div><div class="val num">${Math.round(100*k.traca/k.n)} %</div><div class="sub">équipements avec facture</div></div>
+  </div>
+  <div class="grid2">
+    <div class="card"><div class="card-h"><h2>À traiter maintenant</h2><button class="btn sm" data-goto="maint">Tout voir</button></div>
+      <div class="list">${ech.length?ech.map(echRow).join(''):'<div class="empty">Aucune échéance en retard ni à venir sous 30 jours.</div>'}</div></div>
+    <div class="card"><div class="card-h"><h2>Incidents ouverts</h2><button class="btn sm" data-goto="inc">Tout voir</button></div>
+      <div class="list">${inc.length?inc.map(incRow).join(''):'<div class="empty">Aucun incident ouvert.</div>'}</div>
+      <h3 style="margin-top:18px">Derniers contrôles avant départ</h3>
+      <div class="list" style="margin-top:8px">${S.checklists.slice(0,3).map(c=>`<div class="row ${c.verdict==='GO'?'ok':'crit'}"><div class="stripe"></div><div><div class="t">${esc(c.mission)}</div><div class="d">${fmtD(c.date)} · ${esc(c.operateur)} · ${c.equipIds.length} équipements</div></div><div class="r">${pill(c.verdict==='GO'?'ok':'crit',c.verdict)}</div></div>`).join('')||'<div class="empty">Aucun contrôle enregistré.</div>'}</div></div>
+  </div>
+  <p class="foot-note">Prototype local : données enregistrées dans ce navigateur uniquement. En production, Claude lit les factures et rapports SAV déposés et remplit le carnet tout seul.</p>`;
+}
+function vParc(){
+  const cats=[...new Set(S.equipements.map(e=>e.categorie))];
+  const list=S.equipements.filter(e=>{
+    const q=parcFilter.q.toLowerCase();
+    return (!q||[e.nom,e.marque,e.modele,e.serie,e.affecte,e.lieu].join(' ').toLowerCase().includes(q))&&(!parcFilter.cat||e.categorie===parcFilter.cat)&&(!parcFilter.etat||eqState(e)===parcFilter.etat)});
+  const order={crit:0,warn:1,ok:2};list.sort((a,b)=>order[eqState(a)]-order[eqState(b)]||a.categorie.localeCompare(b.categorie));
+  return `<div class="toolbar"><input id="f-q" placeholder="Rechercher (nom, n° série, affectation…)" value="${esc(parcFilter.q)}">
+    <select id="f-cat"><option value="">Toutes catégories</option>${cats.map(c=>`<option ${parcFilter.cat===c?'selected':''}>${esc(c)}</option>`).join('')}</select>
+    <select id="f-etat"><option value="">Tous états</option><option value="crit" ${parcFilter.etat==='crit'?'selected':''}>Bloquant</option><option value="warn" ${parcFilter.etat==='warn'?'selected':''}>À surveiller</option><option value="ok" ${parcFilter.etat==='ok'?'selected':''}>OK</option></select>
+    <span class="num" style="color:var(--muted);font-size:.85rem">${list.length} / ${S.equipements.length}</span></div>
+  <div class="eqgrid">${list.map(e=>{const st=eqState(e);const p=eqProblems(e);
+    return `<div class="eq ${st}" data-eq="${e.id}" tabindex="0" role="button">
+      <div class="cat">${esc(e.categorie)}</div><h3>${esc(e.nom)}</h3>
+      <div class="meta">${esc(e.marque)} ${esc(e.modele)} · n° ${esc(e.serie)}</div>
+      <div class="meta">${esc(e.affecte)} · ${esc(e.lieu)}</div>
+      <div class="foot">${pill(STATUTS[e.statut][1],STATUTS[e.statut][0])}${p.slice(0,2).map(x=>pill(x.lvl,x.txt)).join('')}${p.length>2?pill('muted','+'+(p.length-2)):''}</div></div>`}).join('')||'<div class="empty">Aucun équipement ne correspond.</div>'}</div>`;
+}
+function vMaint(){
+  const ech=allEch();const crit=ech.filter(e=>echState(e)==='crit'),warn=ech.filter(e=>echState(e)==='warn'),ok=ech.filter(e=>echState(e)==='ok');
+  const sec=(t,l,cls)=>`<div class="card"><div class="card-h"><h2>${t}</h2>${pill(cls,l.length)}</div><div class="list">${l.map(echRow).join('')||'<div class="empty">Rien ici.</div>'}</div></div>`;
+  return `<p style="margin:0;color:var(--muted)">Chaque échéance est calculée : dernière intervention + intervalle. « Fait » enregistre la date du jour et recalcule la suivante. « Demande SAV » prépare le message prêt à envoyer.</p>
+    ${sec('En retard',crit,'crit')}${sec('Sous 30 jours',warn,'warn')}${sec('Planifié',ok,'ok')}`;
+}
+function incRow(i){
+  const eq=eqById(i.equipId);const lvl=i.statut==='clos'?'ok':i.gravite==='haute'?'crit':i.gravite==='moyenne'?'warn':'info';
+  const age=i.statut==='clos'?`clos le ${fmtD(i.cloture)}${i.joursImmo!=null?' · '+i.joursImmo+' j immo.':''}`:`ouvert depuis ${-daysUntil(i.date)} j`;
+  return `<div class="row ${lvl}"><div class="stripe"></div><div><div class="t">${esc(i.ref)} · ${esc(i.titre)}</div><div class="d">${esc(eq?eq.nom:'Équipement supprimé')} · ${esc(i.declarant)} · ${age}</div></div>
+    <div class="r">${pill(lvl,'gravité '+i.gravite)}<button class="btn sm" data-inc="${i.id}">${i.statut==='clos'?'Détail':'Traiter'}</button></div></div>`;
+}
+function vInc(){
+  const o=openIncidents(),c=S.incidents.filter(i=>i.statut==='clos');
+  return `<div class="card-h"><h2>Incidents</h2><button class="btn primary" id="btn-new-inc">+ Déclarer un incident</button></div>
+    <div class="card"><div class="card-h"><h3>Ouverts</h3>${pill(o.length?'crit':'ok',o.length)}</div><div class="list">${o.map(incRow).join('')||'<div class="empty">Aucun incident ouvert.</div>'}</div></div>
+    <div class="card"><div class="card-h"><h3>Clos (historique tracé)</h3>${pill('muted',c.length)}</div><div class="list">${c.map(incRow).join('')||'<div class="empty">Aucun incident clos.</div>'}</div></div>`;
+}
+function checkItemsFor(eq){
+  const base=['Aspect général : pas de choc, fissure, pièce manquante'];
+  const byCat={
+    'Positionnement':['Batteries chargées + batterie de rechange','Trépied, embase et prisme/canne présents','Carte SD / mémoire libre','Dernière vérification en date (voir échéances)'],
+    'Drone':['Batteries chargées (4 min.) et non gonflées','Hélices intactes, contrôle IMU/compas OK','Attestation assurance + enregistrement à bord','Zone de vol vérifiée (Géoportail drones / NOTAM)','Cartes SD formatées'],
+    'Scanner 3D':['Batteries chargées','Optique propre, capot présent','Espace stockage libre','Coffre de transport verrouillé'],
+    'Détection':['Certificat d’étalonnage en cours de validité','Piles / batteries récepteur et générateur','Pince et câbles présents'],
+    'Accessoires':['Présent et complet','Bulle / réglages contrôlés'],
+    'Informatique':['Batterie > 80 %','Licences actives, projet synchronisé','Dragonne / protection en place'],
+    'Véhicule':['Niveau carburant / recharge','Voyants éteints, pneus OK','Kit sécurité + balisage chantier à bord'],
+    'EPI':['Casques, gilets, chaussures pour chaque personne'],
+    'Logiciel':['Licence active']};
+  return base.concat(byCat[eq.categorie]||[]);
+}
+function vCheck(){
+  if(!checkDraft)checkDraft={mission:'',operateur:TEAM[0],ids:[],ticks:{},remarques:''};
+  const d=checkDraft;const sel=d.ids.map(eqById).filter(Boolean);
+  const auto=sel.map(eq=>({eq,pb:eqProblems(eq)}));
+  const blocking=auto.filter(a=>a.pb.some(p=>p.lvl==='crit'));
+  const items=sel.flatMap(eq=>checkItemsFor(eq).map((t,i)=>({key:eq.id+'|'+i,eq,t})));
+  const allTicked=items.length&&items.every(it=>d.ticks[it.key]);
+  const verdict=!sel.length?'pending':blocking.length?'nogo':allTicked?'go':'pending';
+  return `<div class="grid2">
+    <div class="card"><h2>1. Mission et matériel embarqué</h2>
+      <div class="form" style="margin-top:12px"><label>Mission<input id="c-mission" value="${esc(d.mission)}" placeholder="ex : Bornage — Talant"></label>
+        <label>Opérateur<select id="c-op">${TEAM.map(t=>`<option ${d.operateur===t?'selected':''}>${esc(t)}</option>`).join('')}</select></label></div>
+      <div class="list" style="margin-top:12px">${S.equipements.filter(e=>e.categorie!=='Logiciel').map(e=>{const st=eqState(e);const on=d.ids.includes(e.id);
+        return `<label class="chk ${st==='crit'?'auto-bad':st==='warn'?'auto-warn':''}"><input type="checkbox" data-pick="${e.id}" ${on?'checked':''}><div><b>${esc(e.nom)}</b> <small>${esc(e.marque)} ${esc(e.modele)} · ${esc(e.lieu)}${eqProblems(e).length?' · '+esc(eqProblems(e).map(p=>p.txt).join(' · ')):''}</small></div></label>`}).join('')}</div></div>
+    <div class="card"><h2>2. Vérification avant départ</h2>
+      ${!sel.length?'<div class="empty" style="margin-top:12px">Cochez le matériel embarqué pour générer la checklist.</div>':''}
+      ${blocking.length?`<div class="verdict nogo" style="margin-top:12px;display:block"><b>Blocages détectés automatiquement</b><ul style="margin:6px 0 0;padding-left:18px">${blocking.map(b=>b.pb.filter(p=>p.lvl==='crit').map(p=>`<li>${esc(b.eq.nom)} — ${esc(p.txt)}</li>`).join('')).join('')}</ul></div>`:''}
+      <div class="list" style="margin-top:12px">${sel.map(eq=>`<h3 style="margin-top:8px">${esc(eq.nom)}</h3>`+checkItemsFor(eq).map((t,i)=>{const key=eq.id+'|'+i;return `<label class="chk"><input type="checkbox" data-tick="${key}" ${d.ticks[key]?'checked':''}><div>${esc(t)}</div></label>`}).join('')).join('')}</div>
+      <div class="form" style="margin-top:12px"><label class="full">Remarques<textarea id="c-rem" placeholder="Batterie faible, pièce manquante, météo…">${esc(d.remarques)}</textarea></label></div>
+      <div class="verdict ${verdict==='go'?'go':verdict==='nogo'?'nogo':'pending'}" style="margin-top:12px">
+        <div class="big">${verdict==='go'?'GO':verdict==='nogo'?'NO-GO':'…'}</div>
+        <div>${verdict==='go'?'Matériel vérifié, mission autorisée.':verdict==='nogo'?'Un élément bloquant. Remplacez le matériel ou levez le blocage avant de partir.':'Complétez la checklist pour obtenir le verdict.'}</div>
+        <button class="btn primary" id="c-save" ${verdict==='pending'?'disabled':''}>Enregistrer le contrôle</button></div></div>
+  </div>
+  <div class="card"><div class="card-h"><h2>Historique des contrôles</h2>${pill('muted',S.checklists.length)}</div>
+    <div class="tw"><table><thead><tr><th>Date</th><th>Mission</th><th>Opérateur</th><th>Matériel</th><th>Verdict</th><th>Remarques</th></tr></thead><tbody>
+    ${S.checklists.map(c=>`<tr><td class="num">${fmtD(c.date)}</td><td>${esc(c.mission)}</td><td>${esc(c.operateur)}</td><td>${c.equipIds.map(id=>esc((eqById(id)||{nom:'?'}).nom)).join(', ')}</td><td>${pill(c.verdict==='GO'?'ok':'crit',c.verdict)}</td><td>${esc(c.remarques)}</td></tr>`).join('')||'<tr><td colspan="6" class="empty">Aucun contrôle.</td></tr>'}</tbody></table></div></div>`;
+}
+
+/* ============ Bindings ============ */
+function bind(){
+  document.querySelectorAll('[data-goto]').forEach(b=>b.onclick=()=>{tab=b.dataset.goto;render()});
+  document.querySelectorAll('[data-eq]').forEach(el=>{el.onclick=()=>openDetail(el.dataset.eq);el.onkeydown=e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();openDetail(el.dataset.eq)}}});
+  document.querySelectorAll('[data-inc]').forEach(b=>b.onclick=()=>openIncident(b.dataset.inc));
+  document.querySelectorAll('[data-done]').forEach(b=>b.onclick=()=>markDone(...b.dataset.done.split('|')));
+  document.querySelectorAll('[data-sav]').forEach(b=>b.onclick=()=>savRequest(...b.dataset.sav.split('|')));
+  const q=$('#f-q');if(q){q.oninput=()=>{parcFilter.q=q.value;const p=q.selectionStart;render();const n=$('#f-q');n.focus();n.setSelectionRange(p,p)};$('#f-cat').onchange=e=>{parcFilter.cat=e.target.value;render()};$('#f-etat').onchange=e=>{parcFilter.etat=e.target.value;render()}}
+  const ni=$('#btn-new-inc');if(ni)ni.onclick=()=>openIncident(null);
+  if(tab==='check'){
+    $('#c-mission').oninput=e=>checkDraft.mission=e.target.value;$('#c-op').onchange=e=>checkDraft.operateur=e.target.value;$('#c-rem').oninput=e=>checkDraft.remarques=e.target.value;
+    document.querySelectorAll('[data-pick]').forEach(c=>c.onchange=()=>{const id=c.dataset.pick;checkDraft.ids=c.checked?[...checkDraft.ids,id]:checkDraft.ids.filter(x=>x!==id);render()});
+    document.querySelectorAll('[data-tick]').forEach(c=>c.onchange=()=>{checkDraft.ticks[c.dataset.tick]=c.checked;render()});
+    $('#c-save').onclick=()=>{
+      const d=checkDraft;if(!d.mission.trim()){toast('Nom de mission obligatoire');$('#c-mission').focus();return}
+      const sel=d.ids.map(eqById).filter(Boolean);const nogo=sel.some(eq=>eqProblems(eq).some(p=>p.lvl==='crit'));
+      S.checklists.unshift({id:uid(),date:todayISO(),mission:d.mission.trim(),operateur:d.operateur,equipIds:d.ids,verdict:nogo?'NO-GO':'GO',remarques:d.remarques.trim()});
+      sel.forEach(eq=>eq.historique.unshift({date:todayISO(),texte:`Contrôle avant départ (${d.mission.trim()}) : ${nogo?'NO-GO':'GO'}`}));
+      checkDraft=null;commit('Contrôle enregistré');};
+  }
+}
+$('#btn-add').onclick=()=>openEdit(null);
+$('#btn-export').onclick=openExport;
+
+/* ============ Actions ============ */
+function markDone(eqId,echId){
+  const eq=eqById(eqId);const e=eq.echeances.find(x=>x.id===echId);
+  e.derniere=todayISO();e.prochaine=addMonths(e.derniere,e.intervalleMois);
+  eq.historique.unshift({date:todayISO(),texte:e.type+' : effectué'});
+  if(eq.statut==='maintenance')eq.statut='service';
+  commit('Échéance recalculée : '+fmtD(e.prochaine));
+}
+function savRequest(eqId,echId){
+  const eq=eqById(eqId);const e=eq.echeances.find(x=>x.id===echId);const d=daysUntil(e.prochaine);
+  const lastDoc=eq.documents.find(x=>x.type==='Rapport SAV'||x.type==='Certificat');
+  const txt=`Objet : Demande de ${e.type.toLowerCase()} — ${eq.marque} ${eq.modele} (n° série ${eq.serie})
+
+Bonjour,
+
+Nous souhaitons planifier l’intervention suivante sur notre matériel :
+
+• Équipement : ${eq.nom} — ${eq.marque} ${eq.modele}
+• N° de série : ${eq.serie}
+• Date d’achat : ${fmtD(eq.achat)} (fournisseur : ${eq.fournisseur})
+• Intervention : ${e.type}
+• Dernière intervention : ${fmtD(e.derniere)}
+• Échéance : ${fmtD(e.prochaine)}${d<0?' (dépassée de '+(-d)+' jours)':''}${lastDoc?`
+• Référence du dernier document : ${lastDoc.titre} (${fmtD(lastDoc.date)})`:''}
+
+Merci de nous communiquer vos disponibilités, le délai d’immobilisation prévu et un devis le cas échéant. Un appareil de prêt pendant l’intervention serait apprécié.
+
+Cordialement,
+${S.cabinet}
+${eq.affecte}`;
+  modal(`<h2>Demande de maintenance prête</h2><p style="color:var(--muted);margin:0 0 10px">Pré-remplie depuis le carnet de vie. Copiez-la dans votre messagerie.</p><pre class="gen">${esc(txt)}</pre>
+    <div class="mfoot"><button class="btn" data-close>Fermer</button><a class="btn ghost" href="mailto:?subject=${encodeURIComponent(txt.split('\n')[0].replace('Objet : ',''))}&body=${encodeURIComponent(txt)}">Ouvrir dans la messagerie</a><button class="btn primary" id="m-copy">Copier</button></div>`);
+  $('#m-copy').onclick=()=>copy(txt);
+  eq.historique.unshift({date:todayISO(),texte:'Demande de '+e.type.toLowerCase()+' préparée'});
+  if(eq.statut==='service'&&d<0)eq.statut='maintenance';
+  save();render();
+}
+
+/* ============ Detail ============ */
+function openDetail(id){
+  const eq=eqById(id);if(!eq)return;const p=eqProblems(eq);
+  modal(`<div class="card-h"><div><div class="cat" style="font-size:.72rem;text-transform:uppercase;letter-spacing:.06em;color:var(--muted);font-weight:600">${esc(eq.categorie)}</div><h2>${esc(eq.nom)}</h2></div>
+    <div class="actions"><button class="btn sm" id="d-edit">Modifier</button><button class="btn sm" id="d-doc">+ Document</button><button class="btn sm" id="d-ech">+ Échéance</button><button class="btn sm danger" id="d-del">Supprimer</button></div></div>
+    <div style="display:flex;gap:6px;flex-wrap:wrap;margin:8px 0 14px">${pill(STATUTS[eq.statut][1],STATUTS[eq.statut][0])}${p.map(x=>pill(x.lvl,x.txt)).join('')||pill('ok','Aucune alerte')}</div>
+    <div class="grid2">
+      <div class="section"><h3>Fiche</h3><dl class="kv"><dt>Marque / modèle</dt><dd>${esc(eq.marque)} ${esc(eq.modele)}</dd><dt>N° série</dt><dd>${esc(eq.serie)}</dd><dt>Achat</dt><dd class="num">${fmtD(eq.achat)} · ${fmtE(eq.prix)}</dd><dt>Fournisseur</dt><dd>${esc(eq.fournisseur)}</dd><dt>Affecté à</dt><dd>${esc(eq.affecte)}</dd><dt>Localisation</dt><dd>${esc(eq.lieu)}</dd></dl>
+        <h3 style="margin-top:12px">Batteries</h3>${eq.batteries.map(b=>`<div class="battery"><span style="min-width:120px">${esc(b.ref)}${b.hs?' '+pill('crit','HS'):''}</span><div class="bar"><i class="${b.sante<50?'crit':b.sante<70?'warn':''}" style="width:${b.sante}%"></i></div><span class="num" style="min-width:90px;text-align:right;color:var(--muted)">${b.sante} % · ${b.cycles} cycles</span></div>`).join('')||'<div class="empty">Pas de batterie.</div>'}</div>
+      <div class="section"><h3>Échéances</h3><div class="list">${eq.echeances.map(e=>{const st=echState(e);const d=daysUntil(e.prochaine);return `<div class="row ${st}"><div class="stripe"></div><div><div class="t">${esc(e.type)}</div><div class="d">Dernière : ${fmtD(e.derniere)} · tous les ${e.intervalleMois} mois</div></div><div class="r">${pill(st,d<0?'retard '+(-d)+' j':'J-'+d)}<button class="btn sm ghost" data-done="${eq.id}|${e.id}">Fait</button></div></div>`}).join('')||'<div class="empty">Aucune échéance.</div>'}</div>
+        <h3 style="margin-top:12px">Documents</h3><div class="list">${eq.documents.map(d=>`<div class="row info"><div class="stripe"></div><div><div class="t">${esc(d.titre)}</div><div class="d">${esc(d.type)} · ${fmtD(d.date)}${Object.keys(d.extrait||{}).length?' · '+esc(Object.entries(d.extrait).map(([k,v])=>k.replace(/_/g,' ')+' : '+(typeof v==='number'?fmtE(v):v)).join(' · ')):''}</div></div><div class="r"><button class="btn sm danger" data-deldoc="${d.id}">×</button></div></div>`).join('')||'<div class="empty">Aucun document. Déposez une facture ou un rapport SAV.</div>'}</div></div>
+    </div>
+    <div class="section" style="margin-top:16px"><h3>Historique</h3><div class="hist">${eq.historique.map(h=>`<div><b>${fmtD(h.date)}</b>${esc(h.texte)}</div>`).join('')||'<div class="empty">Vide.</div>'}</div></div>
+    <div class="mfoot"><button class="btn" data-close>Fermer</button></div>`);
+  $('#d-edit').onclick=()=>openEdit(eq.id);$('#d-doc').onclick=()=>openDoc(eq.id);$('#d-ech').onclick=()=>openEch(eq.id);
+  $('#d-del').onclick=()=>{if(confirm('Supprimer « '+eq.nom+' » et tout son carnet ? Irréversible.')){S.equipements=S.equipements.filter(e=>e.id!==eq.id);closeModal();commit('Équipement supprimé')}};
+  document.querySelectorAll('#modal-root [data-done]').forEach(b=>b.onclick=()=>{markDone(...b.dataset.done.split('|'));openDetail(eq.id)});
+  document.querySelectorAll('[data-deldoc]').forEach(b=>b.onclick=()=>{eq.documents=eq.documents.filter(d=>d.id!==b.dataset.deldoc);save();openDetail(eq.id)});
+}
+function openEdit(id){
+  const eq=id?eqById(id):{nom:'',categorie:'Positionnement',marque:'',modele:'',serie:'',achat:todayISO(),prix:0,fournisseur:'',affecte:TEAM[0],lieu:'',statut:'service'};
+  const f=(k,l,type='text',extra='')=>`<label>${l}<input id="e-${k}" type="${type}" value="${esc(eq[k])}" ${extra}></label>`;
+  modal(`<h2>${id?'Modifier':'Nouveau matériel'}</h2><div class="form">
+    ${f('nom','Nom *','text','required class="full"')}<label>Catégorie<select id="e-categorie">${CATS.map(c=>`<option ${eq.categorie===c?'selected':''}>${c}</option>`).join('')}</select></label>
+    ${f('marque','Marque')}${f('modele','Modèle')}${f('serie','N° de série')}${f('achat','Date d’achat','date')}${f('prix','Prix HT (€)','number','min="0"')}${f('fournisseur','Fournisseur')}
+    <label>Affecté à<input id="e-affecte" list="team" value="${esc(eq.affecte)}"><datalist id="team">${TEAM.map(t=>`<option value="${esc(t)}">`).join('')}</datalist></label>${f('lieu','Localisation')}
+    <label>Statut<select id="e-statut">${Object.entries(STATUTS).map(([k,[l]])=>`<option value="${k}" ${eq.statut===k?'selected':''}>${l}</option>`).join('')}</select></label>
+    ${id?'':'<label class="full">Première échéance (optionnel)<input id="e-ech" placeholder="ex : Vérification annuelle"></label><label>Intervalle (mois)<input id="e-int" type="number" value="12" min="1"></label>'}
+  </div><div class="mfoot"><button class="btn" data-close>Annuler</button><button class="btn primary" id="e-save">Enregistrer</button></div>`);
+  $('#e-save').onclick=()=>{
+    const g=k=>$('#e-'+k).value.trim();if(!g('nom')){toast('Le nom est obligatoire');return}
+    const vals={nom:g('nom'),categorie:g('categorie'),marque:g('marque'),modele:g('modele'),serie:g('serie')||'—',achat:g('achat')||todayISO(),prix:+g('prix')||0,fournisseur:g('fournisseur'),affecte:g('affecte'),lieu:g('lieu'),statut:g('statut')};
+    if(id){const old=eq.statut;Object.assign(eq,vals);if(old!==vals.statut)eq.historique.unshift({date:todayISO(),texte:'Statut : '+STATUTS[vals.statut][0]});closeModal();commit('Fiche mise à jour');openDetail(id)}
+    else{const n=Object.assign({id:uid(),echeances:[],batteries:[],documents:[],historique:[{date:todayISO(),texte:'Création de la fiche'}]},vals);
+      if(g('ech'))n.echeances.push({id:uid(),type:g('ech'),derniere:n.achat,intervalleMois:+g('int')||12,prochaine:addMonths(n.achat,+g('int')||12)});
+      S.equipements.unshift(n);closeModal();tab='parc';commit('Matériel ajouté');openDetail(n.id)}
+  };
+}
+function openEch(eqId){
+  modal(`<h2>Nouvelle échéance</h2><div class="form"><label class="full">Type *<input id="x-type" placeholder="ex : Étalonnage annuel, Contrôle technique…"></label><label>Dernière réalisation<input id="x-last" type="date" value="${todayISO()}"></label><label>Intervalle (mois)<input id="x-int" type="number" value="12" min="1"></label><label>Coût estimé (€)<input id="x-cout" type="number" min="0"></label><label class="chk" style="align-self:end"><input type="checkbox" id="x-obl"><div>Obligatoire (réglementaire / assurance)</div></label></div>
+    <div class="mfoot"><button class="btn" data-close>Annuler</button><button class="btn primary" id="x-save">Ajouter</button></div>`);
+  $('#x-save').onclick=()=>{const t=$('#x-type').value.trim();if(!t){toast('Type obligatoire');return}const eq=eqById(eqId);const last=$('#x-last').value||todayISO();const im=+$('#x-int').value||12;
+    eq.echeances.push({id:uid(),type:t,derniere:last,intervalleMois:im,prochaine:addMonths(last,im),cout:+$('#x-cout').value||0,obligatoire:$('#x-obl').checked});save();closeModal();render();openDetail(eqId);toast('Échéance ajoutée')};
+}
+/* Extraction locale (simulation de ce que Claude fait en production sur le PDF déposé) */
+function extractFromText(t){
+  const r={};const m=s=>t.match(s);
+  let x=m(/(?:total|montant|net à payer)[^\d]{0,30}(\d[\d\s.,]*)\s*€?/i);if(x)r.montant=parseFloat(x[1].replace(/\s/g,'').replace(',','.'))||undefined;
+  x=m(/(?:n[°o]\s*(?:de\s*)?s[ée]rie|serial|S\/N)\s*[:#]?\s*([A-Z0-9\-\/]{4,})/i);if(x)r.serie=x[1];
+  x=m(/(\d{1,2}[\/.-]\d{1,2}[\/.-]\d{4})/);if(x){const [d,mo,y]=x[1].split(/[\/.-]/);r.date=`${y}-${mo.padStart(2,'0')}-${d.padStart(2,'0')}`}
+  x=m(/garantie[^\d]{0,15}(\d+\s*(?:mois|ans?))/i);if(x)r.garantie=x[1];
+  x=m(/(?:valid(?:e|ité)|prochain(?:e)?\s*(?:étalonnage|vérification|contrôle))[^\d]{0,30}(\d{1,2}[\/.-]\d{1,2}[\/.-]\d{4}|\d+\s*mois)/i);if(x)r.validite=x[1];
+  x=m(/immobilis\w*[^\d]{0,20}(\d+)\s*(?:j|jours)/i);if(x)r.immobilisation=x[1]+' jours';
+  x=m(/(?:pi[èe]ce|remplacement)\s*(?:remplacée|de|du|:)?\s*([^\n.,;]{4,50})/i);if(x)r.piece=x[1].trim();
+  return r;
+}
+function openDoc(eqId){
+  modal(`<h2>Déposer un document</h2><p style="color:var(--muted);margin:0 0 10px">Collez le texte de la facture, du rapport SAV ou du certificat. Les champs clés sont extraits automatiquement (en production, Claude lit directement le PDF ou la photo).</p>
+    <div class="form"><label>Type<select id="o-type">${['Facture','Rapport SAV','Certificat','Attestation','Notice','Enregistrement','Autre'].map(t=>`<option>${t}</option>`).join('')}</select></label><label>Titre *<input id="o-titre" placeholder="ex : Facture Leica FA-2026-0142"></label>
+    <label class="full">Texte du document<textarea id="o-txt" placeholder="Facture n° FA-2026-0142 du 12/09/2026 — Leica TS16, n° série 3512877 — Total HT : 1 250,00 € — Garantie 12 mois — Prochaine vérification : 12/09/2027"></textarea></label>
+    <div class="full"><button class="btn sm ghost" id="o-extract">Extraire les informations</button></div>
+    <label>Date<input id="o-date" type="date" value="${todayISO()}"></label><label>Montant (€)<input id="o-montant" type="number" min="0"></label><label>N° série lu<input id="o-serie"></label><label>Garantie / validité<input id="o-val"></label>
+    <label class="full chk"><input type="checkbox" id="o-ech" checked><div>Si une validité ou une prochaine vérification est détectée, créer ou mettre à jour l’échéance correspondante</div></label></div>
+    <div class="mfoot"><button class="btn" data-close>Annuler</button><button class="btn primary" id="o-save">Enregistrer</button></div>`);
+  let ex={};
+  $('#o-extract').onclick=()=>{ex=extractFromText($('#o-txt').value);if(ex.date)$('#o-date').value=ex.date;if(ex.montant)$('#o-montant').value=ex.montant;if(ex.serie)$('#o-serie').value=ex.serie;if(ex.garantie||ex.validite)$('#o-val').value=ex.validite||ex.garantie;
+    toast(Object.keys(ex).length?Object.keys(ex).length+' champ(s) extrait(s)':'Rien de reconnu dans ce texte')};
+  $('#o-save').onclick=()=>{const eq=eqById(eqId);const titre=$('#o-titre').value.trim();if(!titre){toast('Titre obligatoire');return}
+    const type=$('#o-type').value;const extrait={...ex};const mt=+$('#o-montant').value;if(mt)extrait.montant=mt;const se=$('#o-serie').value.trim();if(se)extrait.serie=se;const va=$('#o-val').value.trim();if(va)extrait.validite=va;delete extrait.date;
+    const date=$('#o-date').value||todayISO();
+    eq.documents.unshift({id:uid(),type,titre,date,extrait});
+    let msg='Document archivé';
+    if(se&&eq.serie!==se&&eq.serie!=='—')msg+=' · attention : n° série différent de la fiche ('+eq.serie+')';
+    if($('#o-ech').checked&&(type==='Certificat'||type==='Rapport SAV'||type==='Attestation')){
+      const guess={Certificat:/étalonnage|vérification|calibration/i,'Rapport SAV':/révision|sav|réparation|constructeur/i,Attestation:/assurance/i}[type];
+      let e=eq.echeances.find(x=>guess.test(x.type));
+      const mm=va.match(/(\d+)\s*mois/);const im=mm?+mm[1]:12;
+      if(e){e.derniere=date;e.prochaine=addMonths(date,im||e.intervalleMois);msg+=' · échéance « '+e.type+' » recalculée'}
+      else if(type!=='Rapport SAV'){const t=type==='Certificat'?'Vérification / étalonnage':'Assurance (renouvellement)';eq.echeances.push({id:uid(),type:t,derniere:date,intervalleMois:im,prochaine:addMonths(date,im),obligatoire:true});msg+=' · échéance créée'}
+    }
+    if(type==='Rapport SAV'&&eq.statut==='sav')eq.statut='service';
+    eq.historique.unshift({date,texte:type+' archivé : '+titre});
+    save();closeModal();render();openDetail(eqId);toast(msg)};
+}
+
+/* ============ Incidents ============ */
+function openIncident(id){
+  const inc=id?S.incidents.find(i=>i.id===id):null;
+  const eqOpts=sel=>S.equipements.map(e=>`<option value="${e.id}" ${sel===e.id?'selected':''}>${esc(e.nom)} — ${esc(e.modele)}</option>`).join('');
+  if(!inc){
+    modal(`<h2>Déclarer un incident</h2><div class="form"><label class="full">Équipement<select id="i-eq">${eqOpts(selectedEq)}</select></label><label class="full">Titre *<input id="i-titre" placeholder="ex : Chute de la station, GNSS ne fixe plus…"></label><label class="full">Description<textarea id="i-desc" placeholder="Circonstances, symptômes, mission impactée…"></textarea></label>
+      <label>Gravité<select id="i-grav"><option value="faible">Faible — utilisable</option><option value="moyenne" selected>Moyenne — dégradé</option><option value="haute">Haute — immobilisé</option></select></label><label>Déclarant<select id="i-decl">${TEAM.map(t=>`<option>${esc(t)}</option>`).join('')}</select></label>
+      <label class="full chk"><input type="checkbox" id="i-sav"><div>Envoyer au SAV (passe le statut de l’équipement à « Au SAV »)</div></label></div>
+      <div class="mfoot"><button class="btn" data-close>Annuler</button><button class="btn primary" id="i-save">Déclarer</button></div>`);
+    $('#i-save').onclick=()=>{const titre=$('#i-titre').value.trim();if(!titre){toast('Titre obligatoire');return}
+      const eq=eqById($('#i-eq').value);const grav=$('#i-grav').value;const n=S.incidents.length+1;
+      S.incidents.unshift({id:uid(),ref:'INC-'+String(n).padStart(4,'0'),equipId:eq.id,date:todayISO(),gravite:grav,titre,description:$('#i-desc').value.trim(),declarant:$('#i-decl').value,statut:'ouvert',actions:'',cloture:null,resolution:'',cout:0,joursImmo:null});
+      if($('#i-sav').checked)eq.statut='sav';else if(grav==='haute'&&eq.statut==='service')eq.statut='maintenance';
+      eq.historique.unshift({date:todayISO(),texte:'Incident déclaré : '+titre});
+      closeModal();tab='inc';commit('Incident enregistré')};
+    return;
+  }
+  const eq=eqById(inc.equipId);const closed=inc.statut==='clos';
+  modal(`<h2>${esc(inc.ref)} · ${esc(inc.titre)}</h2>
+    <div style="display:flex;gap:6px;flex-wrap:wrap;margin:8px 0 12px">${pill(closed?'ok':inc.gravite==='haute'?'crit':'warn',closed?'Clos':'Ouvert')}${pill('muted','gravité '+inc.gravite)}${pill('info',eq?eq.nom:'?')}</div>
+    <dl class="kv"><dt>Déclaré le</dt><dd class="num">${fmtD(inc.date)} par ${esc(inc.declarant)}</dd><dt>Description</dt><dd>${esc(inc.description)||'—'}</dd>${closed?`<dt>Clôturé le</dt><dd class="num">${fmtD(inc.cloture)}</dd><dt>Résolution</dt><dd>${esc(inc.resolution)}</dd><dt>Coût</dt><dd class="num">${fmtE(inc.cout)}</dd><dt>Immobilisation</dt><dd class="num">${inc.joursImmo} jour(s)</dd>`:''}</dl>
+    ${closed?'':`<div class="form" style="margin-top:14px"><label class="full">Actions en cours<textarea id="i-act">${esc(inc.actions)}</textarea></label>
+      <h3 class="full" style="margin-top:6px">Clôturer l’incident</h3>
+      <label class="full">Résolution *<textarea id="i-res" placeholder="Ce qui a été fait, par qui, leçon retenue…"></textarea></label>
+      <label>Coût (€ HT)<input id="i-cout" type="number" min="0" value="0"></label><label>Jours d’immobilisation<input id="i-immo" type="number" min="0" value="${Math.max(0,-daysUntil(inc.date))}"></label>
+      <label>Statut équipement après clôture<select id="i-st">${Object.entries(STATUTS).map(([k,[l]])=>`<option value="${k}" ${k==='service'?'selected':''}>${l}</option>`).join('')}</select></label></div>`}
+    <div class="mfoot"><button class="btn" data-close>Fermer</button>${closed?'':'<button class="btn" id="i-upd">Enregistrer les actions</button><button class="btn primary" id="i-close">Clôturer</button>'}</div>`);
+  if(!closed){
+    $('#i-upd').onclick=()=>{inc.actions=$('#i-act').value.trim();closeModal();commit('Actions enregistrées')};
+    $('#i-close').onclick=()=>{const res=$('#i-res').value.trim();if(!res){toast('La résolution est obligatoire : c’est la traçabilité.');return}
+      inc.actions=$('#i-act').value.trim();inc.statut='clos';inc.cloture=todayISO();inc.resolution=res;inc.cout=+$('#i-cout').value||0;inc.joursImmo=+$('#i-immo').value||0;
+      if(eq){eq.statut=$('#i-st').value;eq.historique.unshift({date:todayISO(),texte:`Incident ${inc.ref} clos : ${res}${inc.cout?' ('+fmtE(inc.cout)+')':''}`})}
+      closeModal();commit('Incident clôturé et tracé')};
+  }
+}
+
+/* ============ Export / Import ============ */
+function csvInventaire(){
+  const H=['Nom','Catégorie','Marque','Modèle','N° série','Achat','Prix HT','Fournisseur','Affecté à','Localisation','Statut','Prochaine échéance','Type échéance','Incidents ouverts'];
+  const q=s=>'"'+String(s??'').replace(/"/g,'""')+'"';
+  const rows=S.equipements.map(e=>{const n=[...e.echeances].sort((a,b)=>a.prochaine.localeCompare(b.prochaine))[0];
+    return [e.nom,e.categorie,e.marque,e.modele,e.serie,e.achat,e.prix,e.fournisseur,e.affecte,e.lieu,STATUTS[e.statut][0],n?n.prochaine:'',n?n.type:'',openIncidents().filter(i=>i.equipId===e.id).length].map(q).join(';')});
+  return '﻿'+[H.map(q).join(';'),...rows].join('\n');
+}
+function download(name,content,type){try{const a=document.createElement('a');a.href=URL.createObjectURL(new Blob([content],{type}));a.download=name;document.body.appendChild(a);a.click();a.remove()}catch(e){}}
+function openExport(){
+  const json=JSON.stringify(S,null,2);const csv=csvInventaire();
+  modal(`<h2>Exporter / importer</h2><p style="color:var(--muted);margin:0 0 12px">CSV pour Excel (inventaire), JSON pour sauvegarde complète ou migration vers une vraie base.</p>
+    <div class="actions" style="margin-bottom:12px"><button class="btn primary" id="x-csv">Télécharger le CSV</button><button class="btn primary" id="x-json">Télécharger le JSON</button><button class="btn" id="x-copycsv">Copier le CSV</button><button class="btn" id="x-copyjson">Copier le JSON</button></div>
+    <details><summary style="cursor:pointer;font-weight:600">Aperçu CSV</summary><pre class="gen">${esc(csv.slice(1))}</pre></details>
+    <h3 style="margin-top:16px">Importer une sauvegarde JSON</h3><div class="form"><label class="full"><textarea id="x-imp" placeholder="Collez ici un export JSON"></textarea></label></div>
+    <div class="mfoot"><button class="btn danger" id="x-reset">Réinitialiser (données de démo)</button><button class="btn" data-close>Fermer</button><button class="btn ghost" id="x-import">Importer</button></div>`);
+  $('#x-csv').onclick=()=>{download('inventaire-materiel-'+todayISO()+'.csv',csv,'text/csv;charset=utf-8');toast('CSV généré (si le téléchargement est bloqué, utilisez « Copier »)')};
+  $('#x-json').onclick=()=>{download('carnet-de-vie-'+todayISO()+'.json',json,'application/json');toast('JSON généré')};
+  $('#x-copycsv').onclick=()=>copy(csv.slice(1));$('#x-copyjson').onclick=()=>copy(json);
+  $('#x-import').onclick=()=>{try{const d=JSON.parse($('#x-imp').value);if(!d.equipements||!d.incidents)throw 0;S=d;closeModal();commit('Données importées')}catch(e){toast('JSON invalide')}};
+  $('#x-reset').onclick=()=>{if(confirm('Remplacer toutes les données par le jeu de démonstration ?')){S=demoData();closeModal();commit('Données de démo rechargées')}};
+}
+function copy(t){(navigator.clipboard?navigator.clipboard.writeText(t):Promise.reject()).then(()=>toast('Copié'),()=>{const ta=document.createElement('textarea');ta.value=t;document.body.appendChild(ta);ta.select();try{document.execCommand('copy');toast('Copié')}catch(e){toast('Copie impossible')}ta.remove()})}
+
+/* ============ Modal / toast ============ */
+function modal(html){
+  const r=$('#modal-root');r.innerHTML=`<div class="modal" role="dialog" aria-modal="true"><div class="box">${html}</div></div>`;
+  r.querySelectorAll('[data-close]').forEach(b=>b.onclick=closeModal);
+  r.querySelector('.modal').onclick=e=>{if(e.target.classList.contains('modal'))closeModal()};
+  const first=r.querySelector('input,select,textarea,button');if(first)first.focus();
+  document.body.style.overflow='hidden';
+}
+function closeModal(){$('#modal-root').innerHTML='';document.body.style.overflow=''}
+document.addEventListener('keydown',e=>{if(e.key==='Escape'&&$('#modal-root').firstChild)closeModal()});
+let tt;function toast(m){const t=$('#toast');t.textContent=m;t.classList.add('show');clearTimeout(tt);tt=setTimeout(()=>t.classList.remove('show'),2600)}
+
+render();
+</script>
+</body>
+</html>
