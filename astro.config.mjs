@@ -24,7 +24,7 @@ export default defineConfig({
   adapter: vercel(),
   integrations: [
     sitemap({
-      filter: (page) => !page.includes('/dashboard'),
+      filter: (page) => !page.includes('/dashboard') && !page.includes('/pilotage-commercial'),
     }),
   ],
   redirects: {
