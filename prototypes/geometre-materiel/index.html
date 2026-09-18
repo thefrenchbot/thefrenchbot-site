@@ -643,13 +643,13 @@ function download(name,content,type){try{const a=document.createElement('a');a.h
 function openExport(){
   const json=JSON.stringify(S,null,2);const csv=csvInventaire();
   modal(`<h2>Exporter / importer</h2><p style="color:var(--muted);margin:0 0 12px">CSV pour Excel (inventaire), JSON pour sauvegarde complète ou migration vers une vraie base.</p>
-    <div class="actions" style="margin-bottom:12px"><button class="btn primary" id="x-csv">Télécharger le CSV</button><button class="btn primary" id="x-json">Télécharger le JSON</button><button class="btn" id="x-copyjson">Copier le JSON</button></div>
+    <div class="actions" style="margin-bottom:12px"><button class="btn primary" id="x-csv">Télécharger le CSV</button><button class="btn primary" id="x-json">Télécharger le JSON</button><button class="btn" id="x-copycsv">Copier le CSV</button><button class="btn" id="x-copyjson">Copier le JSON</button></div>
     <details><summary style="cursor:pointer;font-weight:600">Aperçu CSV</summary><pre class="gen">${esc(csv.slice(1))}</pre></details>
     <h3 style="margin-top:16px">Importer une sauvegarde JSON</h3><div class="form"><label class="full"><textarea id="x-imp" placeholder="Collez ici un export JSON"></textarea></label></div>
     <div class="mfoot"><button class="btn danger" id="x-reset">Réinitialiser (données de démo)</button><button class="btn" data-close>Fermer</button><button class="btn ghost" id="x-import">Importer</button></div>`);
   $('#x-csv').onclick=()=>{download('inventaire-materiel-'+todayISO()+'.csv',csv,'text/csv;charset=utf-8');toast('CSV généré (si le téléchargement est bloqué, utilisez « Copier »)')};
   $('#x-json').onclick=()=>{download('carnet-de-vie-'+todayISO()+'.json',json,'application/json');toast('JSON généré')};
-  $('#x-copyjson').onclick=()=>copy(json);
+  $('#x-copycsv').onclick=()=>copy(csv.slice(1));$('#x-copyjson').onclick=()=>copy(json);
   $('#x-import').onclick=()=>{try{const d=JSON.parse($('#x-imp').value);if(!d.equipements||!d.incidents)throw 0;S=d;closeModal();commit('Données importées')}catch(e){toast('JSON invalide')}};
   $('#x-reset').onclick=()=>{if(confirm('Remplacer toutes les données par le jeu de démonstration ?')){S=demoData();closeModal();commit('Données de démo rechargées')}};
 }
