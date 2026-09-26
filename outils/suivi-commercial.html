@@ -1,0 +1,426 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Suivi commercial</title>
+<style>
+  :root {
+    --bg: #ffffff;
+    --text: #1a1d23;
+    --muted: #5f6673;
+    --line: #e3e6eb;
+    --soft: #f6f7f9;
+    --accent: #2f4fd8;
+    --accent-soft: #eef1fd;
+    --danger: #c0392b;
+    --danger-soft: #fdf0ee;
+    --radius: 8px;
+  }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; background: var(--bg); color: var(--text); }
+  body {
+    font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    font-size: 15px;
+    line-height: 1.45;
+  }
+  .wrap { max-width: 1120px; margin: 0 auto; padding: 16px 24px 32px; }
+  header { display: flex; align-items: baseline; justify-content: space-between; gap: 16px; flex-wrap: wrap; margin-bottom: 14px; }
+  h1 { font-size: 22px; margin: 0; letter-spacing: -0.01em; }
+  .refdate { color: var(--muted); font-size: 14px; }
+  .refdate strong { color: var(--text); }
+
+  .kpis { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-bottom: 14px; }
+  .kpi { border: 1px solid var(--line); border-radius: var(--radius); padding: 10px 16px; }
+  .kpi .label { color: var(--muted); font-size: 13px; }
+  .kpi .value { font-size: 26px; font-weight: 650; margin-top: 2px; font-variant-numeric: tabular-nums; }
+  .kpi .sub { color: var(--muted); font-size: 12px; margin-top: 2px; }
+  .kpi.accent { border-color: var(--accent); background: var(--accent-soft); }
+  .kpi.alert .value { color: var(--danger); }
+
+  .panel { border: 1px solid var(--line); border-radius: var(--radius); padding: 14px 16px; margin-bottom: 12px; }
+  .panel h2 { font-size: 15px; margin: 0 0 12px; }
+  form.entry { display: grid; grid-template-columns: 2fr 1fr 1fr 1fr auto; gap: 10px; align-items: end; }
+  label { display: block; font-size: 12px; color: var(--muted); margin-bottom: 4px; }
+  input, select {
+    width: 100%; font: inherit; color: var(--text); background: #fff;
+    border: 1px solid #cfd4dc; border-radius: 6px; padding: 8px 10px; height: 38px;
+  }
+  input:focus, select:focus { outline: 2px solid var(--accent); outline-offset: -1px; border-color: var(--accent); }
+  .actions { display: flex; gap: 8px; }
+  button {
+    font: inherit; font-weight: 550; height: 38px; padding: 0 14px; border-radius: 6px;
+    border: 1px solid var(--line); background: #fff; color: var(--text); cursor: pointer; white-space: nowrap;
+  }
+  button:hover { background: var(--soft); }
+  button.primary { background: var(--accent); border-color: var(--accent); color: #fff; }
+  button.primary:hover { filter: brightness(0.93); }
+  button.small { height: 30px; padding: 0 10px; font-size: 13px; }
+  button.danger { color: var(--danger); }
+  button.danger:hover { background: var(--danger-soft); }
+  button.link { border: none; background: none; color: var(--muted); height: auto; padding: 0; font-weight: 400; text-decoration: underline; font-size: 13px; }
+  .error { color: var(--danger); font-size: 13px; margin-top: 8px; }
+  .error:empty { display: none; }
+  .editing-banner { display: none; font-size: 13px; color: var(--accent); margin: -4px 0 10px; }
+  .panel.editing { border-color: var(--accent); }
+  .panel.editing .editing-banner { display: block; }
+
+  .toolbar { display: flex; gap: 10px; align-items: end; margin-bottom: 12px; flex-wrap: wrap; }
+  .toolbar .grow { flex: 1 1 260px; }
+  .toolbar .status { flex: 0 0 200px; }
+  .count { color: var(--muted); font-size: 13px; margin-left: auto; align-self: center; }
+
+  table { width: 100%; border-collapse: collapse; }
+  th, td { text-align: left; padding: 7px 10px; border-bottom: 1px solid var(--line); vertical-align: middle; }
+  th { font-size: 12px; color: var(--muted); font-weight: 600; text-transform: uppercase; letter-spacing: .04em; background: var(--soft); }
+  td.num, th.num { text-align: right; font-variant-numeric: tabular-nums; }
+  td.row-actions { text-align: right; white-space: nowrap; }
+  td.row-actions button + button { margin-left: 6px; }
+  tr.is-editing td { background: var(--accent-soft); }
+  .badge { display: inline-block; font-size: 12px; font-weight: 600; padding: 2px 8px; border-radius: 999px; border: 1px solid var(--line); background: var(--soft); color: var(--text); }
+  .badge.s-contacter { background: #fff; }
+  .badge.s-devis { border-color: var(--accent); color: var(--accent); background: var(--accent-soft); }
+  .badge.s-gagne { background: var(--text); border-color: var(--text); color: #fff; }
+  .badge.s-perdu { color: var(--muted); }
+  .late { color: var(--danger); font-weight: 600; }
+  .late-tag { font-size: 11px; font-weight: 600; margin-left: 6px; color: var(--danger); }
+  .empty { text-align: center; color: var(--muted); padding: 28px 10px; }
+  footer { display: flex; justify-content: space-between; gap: 12px; flex-wrap: wrap; color: var(--muted); font-size: 12px; margin-top: 8px; }
+  .warn { color: var(--danger); }
+
+  @media (max-width: 860px) {
+    .kpis { grid-template-columns: 1fr; }
+    form.entry { grid-template-columns: 1fr 1fr; }
+    form.entry .f-company, form.entry .actions { grid-column: 1 / -1; }
+    .table-scroll { overflow-x: auto; }
+    table { min-width: 680px; }
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <h1>Suivi commercial</h1>
+    <div class="refdate">Date de référence : <strong id="refDateLabel"></strong></div>
+  </header>
+
+  <section class="kpis" aria-label="Indicateurs">
+    <div class="kpi accent">
+      <div class="label">Opportunités en cours</div>
+      <div class="value" id="kpiOpen">0 €</div>
+      <div class="sub">À contacter + Devis envoyé, HT</div>
+    </div>
+    <div class="kpi">
+      <div class="label">Opportunités gagnées</div>
+      <div class="value" id="kpiWon">0 €</div>
+      <div class="sub">Montant HT</div>
+    </div>
+    <div class="kpi" id="kpiLateBox">
+      <div class="label">Relances en retard</div>
+      <div class="value" id="kpiLate">0</div>
+      <div class="sub">Opportunités en cours, relance avant la date de référence</div>
+    </div>
+  </section>
+
+  <section class="panel" id="formPanel">
+    <h2 id="formTitle">Ajouter un prospect</h2>
+    <div class="editing-banner" id="editingBanner"></div>
+    <form class="entry" id="entryForm" novalidate>
+      <div class="f-company">
+        <label for="fCompany">Entreprise</label>
+        <input id="fCompany" type="text" maxlength="120" autocomplete="off" placeholder="Nom de l'entreprise">
+      </div>
+      <div>
+        <label for="fAmount">Montant HT (€)</label>
+        <input id="fAmount" type="number" min="0" step="0.01" inputmode="decimal" placeholder="0">
+      </div>
+      <div>
+        <label for="fStatus">Statut</label>
+        <select id="fStatus"></select>
+      </div>
+      <div>
+        <label for="fDate">Date de relance</label>
+        <input id="fDate" type="date">
+      </div>
+      <div class="actions">
+        <button type="submit" class="primary" id="submitBtn">Ajouter</button>
+        <button type="button" id="cancelBtn" hidden>Annuler</button>
+      </div>
+    </form>
+    <div class="error" id="formError" role="alert"></div>
+  </section>
+
+  <section class="panel">
+    <div class="toolbar">
+      <div class="grow">
+        <label for="search">Rechercher une entreprise</label>
+        <input id="search" type="search" placeholder="Ex. : Alpha" autocomplete="off">
+      </div>
+      <div class="status">
+        <label for="filterStatus">Filtrer par statut</label>
+        <select id="filterStatus"></select>
+      </div>
+      <div class="count" id="count"></div>
+    </div>
+    <div class="table-scroll">
+      <table>
+        <thead>
+          <tr>
+            <th>Entreprise</th>
+            <th class="num">Montant HT</th>
+            <th>Statut</th>
+            <th>Date de relance</th>
+            <th class="num">Actions</th>
+          </tr>
+        </thead>
+        <tbody id="rows"></tbody>
+      </table>
+    </div>
+  </section>
+
+  <footer>
+    <span id="storageInfo">Données enregistrées dans ce navigateur.</span>
+    <button type="button" class="link" id="resetBtn">Réinitialiser les données de démonstration</button>
+  </footer>
+</div>
+
+<script>
+(function () {
+  'use strict';
+
+  var STORAGE_KEY = 'suivi-commercial.prospects.v1';
+  var REF_DATE = '2026-09-26'; // date de référence fixe pour la démonstration
+  var STATUSES = ['À contacter', 'Devis envoyé', 'Gagné', 'Perdu'];
+  var OPEN_STATUSES = ['À contacter', 'Devis envoyé'];
+  var BADGE_CLASS = { 'À contacter': 's-contacter', 'Devis envoyé': 's-devis', 'Gagné': 's-gagne', 'Perdu': 's-perdu' };
+
+  var SEED = [
+    { company: 'Alpha Conseil',     amount: 1800, status: 'À contacter',  date: '2026-09-25' },
+    { company: 'Bêta Architecture', amount: 3600, status: 'Devis envoyé', date: '2026-09-24' },
+    { company: 'Gamma Recrutement', amount: 2400, status: 'Devis envoyé', date: '2026-09-28' },
+    { company: 'Delta Industrie',   amount: 5400, status: 'Gagné',        date: '2026-09-20' },
+    { company: 'Epsilon Commerce',  amount: 1200, status: 'Perdu',        date: '2026-09-20' },
+    { company: 'Zêta Expertise',    amount: 2900, status: 'À contacter',  date: '2026-09-26' }
+  ];
+
+  var $ = function (id) { return document.getElementById(id); };
+  var money = new Intl.NumberFormat('fr-FR', { style: 'currency', currency: 'EUR', maximumFractionDigits: 2 });
+
+  var storageOk = true;
+  var prospects = [];
+  var editingId = null;
+
+  function uid() {
+    return Date.now().toString(36) + Math.random().toString(36).slice(2, 8);
+  }
+  function seedData() {
+    return SEED.map(function (p) { return Object.assign({ id: uid() }, p); });
+  }
+
+  function load() {
+    var raw = null;
+    try { raw = localStorage.getItem(STORAGE_KEY); } catch (e) { storageOk = false; }
+    if (raw !== null) {
+      try {
+        var parsed = JSON.parse(raw);
+        if (Array.isArray(parsed)) return parsed.filter(isValid);
+      } catch (e) { /* données corrompues : on repart des données de démo */ }
+    }
+    // Premier lancement uniquement : aucune clé en stockage.
+    var data = seedData();
+    prospects = data;
+    save();
+    return data;
+  }
+  function save() {
+    try { localStorage.setItem(STORAGE_KEY, JSON.stringify(prospects)); storageOk = true; }
+    catch (e) { storageOk = false; }
+    updateStorageInfo();
+  }
+  function isValid(p) {
+    return p && typeof p.company === 'string' && typeof p.amount === 'number' && isFinite(p.amount) &&
+      STATUSES.indexOf(p.status) !== -1 && /^\d{4}-\d{2}-\d{2}$/.test(p.date) && p.id;
+  }
+  function updateStorageInfo() {
+    var el = $('storageInfo');
+    if (storageOk) {
+      el.textContent = 'Données enregistrées dans ce navigateur.';
+      el.className = '';
+    } else {
+      el.textContent = 'Stockage du navigateur indisponible : les modifications seront perdues au rechargement.';
+      el.className = 'warn';
+    }
+  }
+
+  function isOpen(p) { return OPEN_STATUSES.indexOf(p.status) !== -1; }
+  function isLate(p) { return isOpen(p) && p.date < REF_DATE; } // ISO : comparaison lexicale = chronologique
+
+  function formatDate(iso) {
+    var parts = iso.split('-');
+    return parts[2] + '/' + parts[1] + '/' + parts[0];
+  }
+  function normalize(s) {
+    return s.normalize('NFD').replace(/[̀-ͯ]/g, '').toLowerCase().trim();
+  }
+  function escapeHtml(s) {
+    return String(s).replace(/[&<>"']/g, function (c) {
+      return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c];
+    });
+  }
+
+  function renderKpis() {
+    var open = 0, won = 0, late = 0;
+    prospects.forEach(function (p) {
+      if (isOpen(p)) open += p.amount;
+      if (p.status === 'Gagné') won += p.amount;
+      if (isLate(p)) late++;
+    });
+    $('kpiOpen').textContent = money.format(open);
+    $('kpiWon').textContent = money.format(won);
+    $('kpiLate').textContent = String(late);
+    $('kpiLateBox').classList.toggle('alert', late > 0);
+  }
+
+  function renderTable() {
+    var q = normalize($('search').value);
+    var st = $('filterStatus').value;
+    var list = prospects.filter(function (p) {
+      return (!q || normalize(p.company).indexOf(q) !== -1) && (!st || p.status === st);
+    }).sort(function (a, b) {
+      return a.date < b.date ? -1 : a.date > b.date ? 1 : a.company.localeCompare(b.company, 'fr');
+    });
+
+    var tbody = $('rows');
+    if (!list.length) {
+      var msg = prospects.length ? 'Aucun prospect ne correspond à la recherche.' : 'Aucun prospect. Ajoutez-en un ci-dessus.';
+      tbody.innerHTML = '<tr><td colspan="5" class="empty">' + msg + '</td></tr>';
+    } else {
+      tbody.innerHTML = list.map(function (p) {
+        var late = isLate(p);
+        return '<tr data-id="' + escapeHtml(p.id) + '"' + (p.id === editingId ? ' class="is-editing"' : '') + '>' +
+          '<td>' + escapeHtml(p.company) + '</td>' +
+          '<td class="num">' + money.format(p.amount) + '</td>' +
+          '<td><span class="badge ' + BADGE_CLASS[p.status] + '">' + p.status + '</span></td>' +
+          '<td' + (late ? ' class="late"' : '') + '>' + formatDate(p.date) + (late ? '<span class="late-tag">En retard</span>' : '') + '</td>' +
+          '<td class="row-actions">' +
+            '<button type="button" class="small" data-action="edit">Modifier</button>' +
+            '<button type="button" class="small danger" data-action="delete">Supprimer</button>' +
+          '</td></tr>';
+      }).join('');
+    }
+    $('count').textContent = list.length + ' / ' + prospects.length + ' prospect' + (prospects.length > 1 ? 's' : '');
+  }
+
+  function render() { renderKpis(); renderTable(); }
+
+  function resetForm() {
+    editingId = null;
+    $('entryForm').reset();
+    $('fStatus').value = STATUSES[0];
+    $('fDate').value = REF_DATE;
+    $('formTitle').textContent = 'Ajouter un prospect';
+    $('submitBtn').textContent = 'Ajouter';
+    $('cancelBtn').hidden = true;
+    $('formPanel').classList.remove('editing');
+    $('formError').textContent = '';
+  }
+
+  function startEdit(id) {
+    var p = prospects.find(function (x) { return x.id === id; });
+    if (!p) return;
+    editingId = id;
+    $('fCompany').value = p.company;
+    $('fAmount').value = p.amount;
+    $('fStatus').value = p.status;
+    $('fDate').value = p.date;
+    $('formTitle').textContent = 'Modifier un prospect';
+    $('editingBanner').textContent = 'Modification de « ' + p.company + ' »';
+    $('submitBtn').textContent = 'Enregistrer';
+    $('cancelBtn').hidden = false;
+    $('formPanel').classList.add('editing');
+    $('formError').textContent = '';
+    renderTable();
+    $('formPanel').scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+    $('fCompany').focus();
+  }
+
+  function onSubmit(e) {
+    e.preventDefault();
+    var company = $('fCompany').value.trim().replace(/\s+/g, ' ');
+    var amountRaw = $('fAmount').value;
+    var amount = Number(amountRaw);
+    var status = $('fStatus').value;
+    var date = $('fDate').value;
+    var err = '';
+    if (!company) err = 'Indiquez le nom de l’entreprise.';
+    else if (amountRaw === '' || !isFinite(amount) || amount < 0) err = 'Indiquez un montant HT positif ou nul.';
+    else if (STATUSES.indexOf(status) === -1) err = 'Choisissez un statut.';
+    else if (!/^\d{4}-\d{2}-\d{2}$/.test(date)) err = 'Indiquez une date de relance valide.';
+    if (err) { $('formError').textContent = err; return; }
+
+    amount = Math.round(amount * 100) / 100;
+    if (editingId) {
+      var p = prospects.find(function (x) { return x.id === editingId; });
+      if (p) { p.company = company; p.amount = amount; p.status = status; p.date = date; }
+    } else {
+      prospects.push({ id: uid(), company: company, amount: amount, status: status, date: date });
+    }
+    save();
+    resetForm();
+    render();
+    $('fCompany').focus();
+  }
+
+  function onRowClick(e) {
+    var btn = e.target.closest('button[data-action]');
+    if (!btn) return;
+    var id = btn.closest('tr').getAttribute('data-id');
+    if (btn.getAttribute('data-action') === 'edit') {
+      startEdit(id);
+    } else {
+      var p = prospects.find(function (x) { return x.id === id; });
+      if (!p || !window.confirm('Supprimer « ' + p.company + ' » ?')) return;
+      prospects = prospects.filter(function (x) { return x.id !== id; });
+      if (editingId === id) resetForm();
+      save();
+      render();
+    }
+  }
+
+  function onReset() {
+    if (!window.confirm('Remplacer toutes les données par les données de démonstration ?')) return;
+    prospects = seedData();
+    save();
+    resetForm();
+    $('search').value = '';
+    $('filterStatus').value = '';
+    render();
+  }
+
+  function init() {
+    $('refDateLabel').textContent = formatDate(REF_DATE);
+    $('fStatus').innerHTML = STATUSES.map(function (s) { return '<option>' + s + '</option>'; }).join('');
+    $('filterStatus').innerHTML = '<option value="">Tous les statuts</option>' +
+      STATUSES.map(function (s) { return '<option>' + s + '</option>'; }).join('');
+
+    prospects = load();
+    updateStorageInfo();
+    resetForm();
+
+    $('entryForm').addEventListener('submit', onSubmit);
+    $('cancelBtn').addEventListener('click', function () { resetForm(); renderTable(); });
+    $('rows').addEventListener('click', onRowClick);
+    $('search').addEventListener('input', renderTable);
+    $('filterStatus').addEventListener('change', renderTable);
+    $('resetBtn').addEventListener('click', onReset);
+    document.addEventListener('keydown', function (e) {
+      if (e.key === 'Escape' && editingId) { resetForm(); renderTable(); }
+    });
+    render();
+  }
+
+  init();
+})();
+</script>
+</body>
+</html>
