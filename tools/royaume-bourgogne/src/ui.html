@@ -1,0 +1,219 @@
+<div class="rb" id="rb" lang="fr" data-tod="day">
+  <div class="rb-page" id="rb-page">
+
+    <div class="rb-ribbon" id="rb-ribbon" hidden>
+      <span class="ico" data-icon="scroll" style="--s:24px" aria-hidden="true"></span>
+      <p id="rb-ribbon-text">Démo — ouvrez cette page dans claude.ai avec HubSpot connecté pour jouer avec vos vraies données.</p>
+    </div>
+
+    <!-- Mobile HUD strip (hidden on desktop) -->
+    <div class="rb-strip pbox" id="rb-strip">
+      <div class="rb-strip-when">
+        <span class="rb-strip-date" id="rb-strip-date">&nbsp;</span>
+        <span class="num rb-strip-time" id="rb-strip-time">--:--</span>
+      </div>
+      <div class="rb-strip-gold">
+        <span class="ico" data-icon="coin" style="--s:20px" aria-hidden="true"></span>
+        <span class="num" id="rb-strip-gold">—</span>
+      </div>
+      <div class="rb-strip-tools">
+        <button type="button" class="ibtn ibtn--sm" id="rb-strip-sound" aria-pressed="true" aria-label="Effets sonores">
+          <span class="ico" data-icon="sound_on" style="--s:20px" aria-hidden="true"></span>
+        </button>
+        <button type="button" class="ibtn ibtn--sm" id="rb-strip-refresh" aria-label="Rafraîchir les nouvelles">
+          <span class="ico" data-icon="refresh" style="--s:20px" aria-hidden="true"></span>
+        </button>
+      </div>
+      <div class="rb-strip-season">
+        <span class="rb-strip-season-name" id="rb-strip-season">Saison</span>
+        <span class="bar bar--mini" aria-hidden="true"><span class="bar-fill" id="rb-strip-bar"></span></span>
+        <span class="num rb-strip-left" id="rb-strip-left"></span>
+      </div>
+    </div>
+
+    <main class="rb-main">
+      <section class="rb-scene-col" aria-label="Le village">
+        <div class="rb-scene-card" id="rb-scene-card">
+          <h1 class="rb-plate" translate="no"><span>Royaume de Bourgogne</span></h1>
+          <div class="rb-stage" id="rb-stage">
+            <canvas id="rb-canvas" width="480" height="288" role="img" aria-label="Le village de Bourgogne vu du ciel."></canvas>
+          </div>
+          <div class="rb-loading" id="rb-loading" role="status">
+            <div class="rb-loading-plate pbox">
+              <span class="ico rb-hourglass" data-icon="hourglass" style="--s:32px" aria-hidden="true"></span>
+              <span id="rb-loading-text">Le héraut apporte les nouvelles…</span>
+            </div>
+          </div>
+          <div class="rb-caption pbox" id="rb-caption" aria-hidden="true" hidden></div>
+        </div>
+
+        <div class="rb-siege pbox" id="rb-siege" role="region" aria-labelledby="rb-siege-text" hidden>
+          <span class="ico" data-icon="goblin3" style="--s:40px" aria-hidden="true"></span>
+          <p class="rb-siege-text" id="rb-siege-text"></p>
+          <div class="rb-siege-actions">
+            <button type="button" class="wbtn wbtn--gold" id="rb-siege-go">
+              <span class="ico" data-icon="sword" style="--s:20px" aria-hidden="true"></span><span>Défendre le village</span>
+            </button>
+            <button type="button" class="wbtn wbtn--parch" id="rb-siege-later">Plus tard</button>
+          </div>
+        </div>
+
+        <nav class="rb-toolbar" aria-label="Lieux du royaume">
+          <button type="button" class="wbtn tb" data-open="board" aria-keyshortcuts="T">
+            <span class="ico" data-icon="scroll" style="--s:24px" aria-hidden="true"></span>
+            <span class="tb-label">Tableau</span>
+            <span class="tb-count num" data-count="board"></span>
+            <kbd class="kbd" aria-hidden="true">T</kbd>
+          </button>
+          <button type="button" class="wbtn tb" data-open="quests" aria-keyshortcuts="Q">
+            <span class="ico" data-icon="banner4" style="--s:24px" aria-hidden="true"></span>
+            <span class="tb-label">Quêtes</span>
+            <span class="tb-count num" data-count="quests"></span>
+            <kbd class="kbd" aria-hidden="true">Q</kbd>
+          </button>
+          <button type="button" class="wbtn tb" data-open="treasure">
+            <span class="ico" data-icon="chest" style="--s:24px" aria-hidden="true"></span>
+            <span class="tb-label">Trésor</span>
+          </button>
+          <button type="button" class="wbtn tb" data-open="chronicle">
+            <span class="ico" data-icon="book" style="--s:24px" aria-hidden="true"></span>
+            <span class="tb-label">Chronique</span>
+            <span class="badge num" data-badge="chronicle" hidden></span>
+          </button>
+          <button type="button" class="wbtn tb" data-open="hero" aria-keyshortcuts="H">
+            <span class="ico" data-icon="hero" style="--s:24px" aria-hidden="true"></span>
+            <span class="tb-label">Héros</span>
+            <kbd class="kbd" aria-hidden="true">H</kbd>
+          </button>
+          <span class="tb-spacer" aria-hidden="true"></span>
+          <button type="button" class="ibtn" id="rb-sound" aria-pressed="true" aria-label="Effets sonores">
+            <span class="ico" data-icon="sound_on" style="--s:24px" aria-hidden="true"></span>
+          </button>
+          <button type="button" class="ibtn" id="rb-refresh" aria-label="Rafraîchir les nouvelles">
+            <span class="ico" data-icon="refresh" style="--s:24px" aria-hidden="true"></span>
+          </button>
+        </nav>
+
+        <div class="rb-alert-slot" id="rb-hubspot-error" aria-live="polite"></div>
+      </section>
+
+      <aside class="rb-hud" aria-label="Tableau de bord">
+        <div class="rb-hud-row">
+          <div class="pbox hud-date">
+            <div class="hud-k"><span id="rb-tod">Jour</span> · Paris</div>
+            <div class="hud-date-v" id="rb-date">&nbsp;</div>
+            <div class="hud-time num" id="rb-time">--:--</div>
+          </div>
+          <button type="button" class="pbox hud-gold" data-open="treasure" aria-describedby="rb-gold-k">
+            <span class="hud-k" id="rb-gold-k">Or de la saison</span>
+            <span class="hud-gold-v">
+              <span class="ico" data-icon="coin" style="--s:28px" aria-hidden="true"></span>
+              <span class="num" id="rb-gold">—</span>
+            </span>
+          </button>
+        </div>
+
+        <div class="pbox hud-season">
+          <div class="hud-season-head">
+            <span class="hud-k" id="rb-season-month">Saison</span>
+            <span class="num hud-season-left" id="rb-season-left"></span>
+          </div>
+          <div class="hud-season-name" id="rb-season-name">&nbsp;</div>
+          <div class="bar" role="progressbar" id="rb-season-bar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" aria-label="Objectif de saison">
+            <span class="bar-fill" id="rb-season-fill"></span>
+          </div>
+          <div class="hud-season-foot num" id="rb-season-foot">&nbsp;</div>
+        </div>
+
+        <section class="pbox hud-hero" aria-labelledby="rb-hero-name">
+          <button type="button" class="hud-hero-top" data-open="hero">
+            <span class="hud-portrait"><span class="ico" data-icon="hero" style="--s:48px" aria-hidden="true"></span></span>
+            <span class="hud-hero-id">
+              <span class="hud-hero-name" id="rb-hero-name">Sire Julian de Bourgogne</span>
+              <span class="hud-hero-title" id="rb-hero-title">&nbsp;</span>
+            </span>
+            <span class="hud-level" id="rb-hero-level" aria-label="Niveau">–</span>
+          </button>
+          <ul class="skills" id="rb-skills"></ul>
+          <div class="hud-hero-foot">
+            <span class="hud-streak" id="rb-streak">
+              <span class="ico" data-icon="flame" style="--s:20px" aria-hidden="true"></span>
+              <span class="num" id="rb-streak-n">0</span>
+              <span id="rb-streak-label">jour parfait</span>
+            </span>
+            <span class="hud-perfect" id="rb-perfect">
+              <span class="ico" data-icon="star" style="--s:20px" aria-hidden="true"></span>
+              <span id="rb-perfect-label">Pas encore parfaite</span>
+            </span>
+          </div>
+        </section>
+
+        <section class="pbox hud-orders" aria-labelledby="rb-orders-title">
+          <div class="hud-orders-head">
+            <h2 class="box-title" id="rb-orders-title" tabindex="-1">Ordres du jour</h2>
+            <span class="num hud-orders-count" id="rb-orders-count"></span>
+          </div>
+          <p class="hud-orders-line" id="rb-orders-line"></p>
+          <ul class="orders" id="rb-orders">
+            <li class="order order--ghost" aria-hidden="true"></li>
+            <li class="order order--ghost" aria-hidden="true"></li>
+            <li class="order order--ghost" aria-hidden="true"></li>
+          </ul>
+          <div class="hud-orders-foot" id="rb-orders-foot"></div>
+        </section>
+      </aside>
+    </main>
+
+    <nav class="rb-bottomnav" aria-label="Lieux du royaume">
+      <button type="button" class="bn" data-open="board">
+        <span class="ico" data-icon="scroll" style="--s:24px" aria-hidden="true"></span>
+        <span class="bn-label">Tableau</span>
+        <span class="badge num" data-badge="board" hidden></span>
+      </button>
+      <button type="button" class="bn" data-open="quests">
+        <span class="ico" data-icon="banner4" style="--s:24px" aria-hidden="true"></span>
+        <span class="bn-label">Quêtes</span>
+        <span class="badge badge--soft num" data-badge="quests" hidden></span>
+      </button>
+      <button type="button" class="bn" data-open="treasure">
+        <span class="ico" data-icon="chest" style="--s:24px" aria-hidden="true"></span>
+        <span class="bn-label">Trésor</span>
+      </button>
+      <button type="button" class="bn" data-open="chronicle">
+        <span class="ico" data-icon="book" style="--s:24px" aria-hidden="true"></span>
+        <span class="bn-label">Chronique</span>
+        <span class="badge num" data-badge="chronicle-m" hidden></span>
+      </button>
+      <button type="button" class="bn" data-open="hero">
+        <span class="ico" data-icon="hero" style="--s:24px" aria-hidden="true"></span>
+        <span class="bn-label">Héros</span>
+      </button>
+    </nav>
+  </div>
+
+  <div class="rb-toasts" id="rb-toasts" role="status" aria-live="polite"></div>
+
+  <div class="rb-modal" id="rb-modal" hidden>
+    <div class="rb-backdrop" data-dismiss="modal"></div>
+    <div class="rb-dialog pbox" id="rb-dialog" role="dialog" aria-modal="true" aria-labelledby="rb-modal-title" tabindex="-1">
+      <header class="rb-dialog-head">
+        <button type="button" class="ibtn ibtn--sm" id="rb-back" aria-label="Retour" hidden><span class="glyph" aria-hidden="true">‹</span></button>
+        <span class="ico" id="rb-modal-icon" style="--s:32px" aria-hidden="true"></span>
+        <h2 class="rb-dialog-title" id="rb-modal-title" tabindex="-1">&nbsp;</h2>
+        <button type="button" class="ibtn ibtn--sm" id="rb-close" aria-label="Fermer"><span class="glyph" aria-hidden="true">×</span></button>
+      </header>
+      <div class="rb-dialog-body" id="rb-modal-body"></div>
+    </div>
+  </div>
+
+  <div class="rb-celebrate" id="rb-celebrate" hidden>
+    <div class="rb-backdrop rb-backdrop--deep"></div>
+    <div class="rb-cel pbox" id="rb-cel" role="dialog" aria-modal="true" aria-labelledby="rb-cel-title" aria-describedby="rb-cel-text" tabindex="-1">
+      <div class="rb-cel-burst" aria-hidden="true"><span class="ico" id="rb-cel-icon" style="--s:64px"></span></div>
+      <h2 class="rb-cel-title" id="rb-cel-title">&nbsp;</h2>
+      <p class="rb-cel-big num" id="rb-cel-big" hidden></p>
+      <div class="rb-cel-text" id="rb-cel-text"></div>
+      <button type="button" class="wbtn wbtn--gold" id="rb-cel-ok">Continuer</button>
+    </div>
+  </div>
+</div>
