@@ -1,0 +1,1959 @@
+{
+  "meta": {
+    "societe": "Les Délices de Bourgogne SAS",
+    "exercice": 2026,
+    "date_arrete": "30/09/2026",
+    "mois": [
+      "Janv",
+      "Févr",
+      "Mars",
+      "Avr",
+      "Mai",
+      "Juin",
+      "Juil",
+      "Août",
+      "Sept"
+    ],
+    "source": "CFO_Cockpit_Delices_de_Bourgogne_2026.xlsx",
+    "genere_le": "10/10/2026 14:30",
+    "seuil_conforme_pct": 2.0
+  },
+  "kpis": {
+    "ca": {
+      "label": "Chiffre d'affaires",
+      "unit": "eur",
+      "mensuel": {
+        "reel": [
+          568380.39,
+          555396.69,
+          571723.95,
+          624229.0,
+          606092.68,
+          665406.13,
+          704393.32,
+          684728.83,
+          640387.83
+        ],
+        "budget": [
+          597400.0,
+          571650.0,
+          620317.5,
+          629330.0,
+          668212.5,
+          714820.0,
+          747522.5,
+          692675.0,
+          650445.0
+        ],
+        "ecart": [
+          -29019.61,
+          -16253.31,
+          -48593.55,
+          -5101.0,
+          -62119.82,
+          -49413.87,
+          -43129.18,
+          -7946.17,
+          -10057.17
+        ],
+        "ecart_pct": [
+          -4.86,
+          -2.84,
+          -7.83,
+          -0.81,
+          -9.3,
+          -6.91,
+          -5.77,
+          -1.15,
+          -1.55
+        ]
+      },
+      "ytd": {
+        "reel": 5620738.82,
+        "budget": 5892372.5,
+        "ecart": -271633.68,
+        "ecart_pct": -4.61
+      }
+    },
+    "marge_brute": {
+      "label": "Marge brute",
+      "unit": "eur",
+      "mensuel": {
+        "reel": [
+          313536.86,
+          306151.29,
+          318719.71,
+          347206.28,
+          334332.24,
+          368925.17,
+          383218.89,
+          377644.23,
+          355079.81
+        ],
+        "budget": [
+          328570.0,
+          314407.5,
+          341174.62,
+          346131.5,
+          367516.88,
+          393151.0,
+          411137.38,
+          380971.25,
+          357744.75
+        ],
+        "ecart": [
+          -15033.14,
+          -8256.21,
+          -22454.91,
+          1074.78,
+          -33184.64,
+          -24225.83,
+          -27918.49,
+          -3327.02,
+          -2664.94
+        ],
+        "ecart_pct": [
+          -4.58,
+          -2.63,
+          -6.58,
+          0.31,
+          -9.03,
+          -6.16,
+          -6.79,
+          -0.87,
+          -0.74
+        ]
+      },
+      "ytd": {
+        "reel": 3104814.48,
+        "budget": 3240804.88,
+        "ecart": -135990.4,
+        "ecart_pct": -4.2
+      }
+    },
+    "taux_marge": {
+      "label": "Taux de marge brute",
+      "unit": "pct",
+      "mensuel": {
+        "reel": [
+          55.16,
+          55.12,
+          55.75,
+          55.62,
+          55.16,
+          55.44,
+          54.4,
+          55.15,
+          55.45
+        ],
+        "budget": [
+          55.0,
+          55.0,
+          55.0,
+          55.0,
+          55.0,
+          55.0,
+          55.0,
+          55.0,
+          55.0
+        ],
+        "ecart": [
+          0.16,
+          0.12,
+          0.75,
+          0.62,
+          0.16,
+          0.44,
+          -0.6,
+          0.15,
+          0.45
+        ],
+        "ecart_pct": null
+      },
+      "ytd": {
+        "reel": 55.24,
+        "budget": 55.0,
+        "ecart": 0.24,
+        "ecart_pct": null
+      }
+    },
+    "ebitda": {
+      "label": "EBITDA",
+      "unit": "eur",
+      "mensuel": {
+        "reel": [
+          80030.13,
+          70893.49,
+          88707.44,
+          110189.56,
+          97863.13,
+          135977.51,
+          140474.14,
+          139596.16,
+          119201.48
+        ],
+        "budget": [
+          98352.0,
+          85991.5,
+          109351.62,
+          113678.5,
+          132342.88,
+          154713.0,
+          170410.38,
+          144084.25,
+          123813.75
+        ],
+        "ecart": [
+          -18321.87,
+          -15098.01,
+          -20644.18,
+          -3488.94,
+          -34479.75,
+          -18735.49,
+          -29936.24,
+          -4488.09,
+          -4612.27
+        ],
+        "ecart_pct": [
+          -18.63,
+          -17.56,
+          -18.88,
+          -3.07,
+          -26.05,
+          -12.11,
+          -17.57,
+          -3.11,
+          -3.73
+        ]
+      },
+      "ytd": {
+        "reel": 982933.04,
+        "budget": 1132737.88,
+        "ecart": -149804.84,
+        "ecart_pct": -13.23
+      }
+    },
+    "taux_ebitda": {
+      "label": "Taux d'EBITDA",
+      "unit": "pct",
+      "mensuel": {
+        "reel": [
+          14.08,
+          12.76,
+          15.52,
+          17.65,
+          16.15,
+          20.44,
+          19.94,
+          20.39,
+          18.61
+        ],
+        "budget": [
+          16.46,
+          15.04,
+          17.63,
+          18.06,
+          19.81,
+          21.64,
+          22.8,
+          20.8,
+          19.04
+        ],
+        "ecart": [
+          -2.38,
+          -2.28,
+          -2.11,
+          -0.41,
+          -3.66,
+          -1.2,
+          -2.86,
+          -0.41,
+          -0.43
+        ],
+        "ecart_pct": null
+      },
+      "ytd": {
+        "reel": 17.49,
+        "budget": 19.22,
+        "ecart": -1.73,
+        "ecart_pct": null
+      }
+    },
+    "ca_Moutardes": {
+      "label": "CA Moutardes",
+      "gamme": "Moutardes",
+      "unit": "eur",
+      "mensuel": {
+        "reel": [
+          300381.02,
+          295355.52,
+          283086.64,
+          331042.94,
+          312477.52,
+          322837.64,
+          315817.9,
+          354467.54,
+          318815.1
+        ],
+        "budget": [
+          319300.0,
+          303335.0,
+          319300.0,
+          319300.0,
+          335265.0,
+          351230.0,
+          367195.0,
+          335265.0,
+          319300.0
+        ],
+        "ecart": [
+          -18918.98,
+          -7979.48,
+          -36213.36,
+          11742.94,
+          -22787.48,
+          -28392.36,
+          -51377.1,
+          19202.54,
+          -484.9
+        ],
+        "ecart_pct": [
+          -5.93,
+          -2.63,
+          -11.34,
+          3.68,
+          -6.8,
+          -8.08,
+          -13.99,
+          5.73,
+          -0.15
+        ]
+      },
+      "ytd": {
+        "reel": 2834281.82,
+        "budget": 2969490.0,
+        "ecart": -135208.18,
+        "ecart_pct": -4.55
+      }
+    },
+    "ca_Pain d'épices": {
+      "label": "CA Pain d'épices",
+      "gamme": "Pain d'épices",
+      "unit": "eur",
+      "mensuel": {
+        "reel": [
+          56018.43,
+          45164.4,
+          55054.1,
+          45742.9,
+          40016.26,
+          39335.54,
+          31574.04,
+          38039.11,
+          60354.17
+        ],
+        "budget": [
+          58710.0,
+          48925.0,
+          53817.5,
+          48925.0,
+          44032.5,
+          39140.0,
+          34247.5,
+          39140.0,
+          68495.0
+        ],
+        "ecart": [
+          -2691.57,
+          -3760.6,
+          1236.6,
+          -3182.1,
+          -4016.24,
+          195.54,
+          -2673.46,
+          -1100.89,
+          -8140.83
+        ],
+        "ecart_pct": [
+          -4.58,
+          -7.69,
+          2.3,
+          -6.5,
+          -9.12,
+          0.5,
+          -7.81,
+          -2.81,
+          -11.89
+        ]
+      },
+      "ytd": {
+        "reel": 411298.95,
+        "budget": 435432.5,
+        "ecart": -24133.55,
+        "ecart_pct": -5.54
+      }
+    },
+    "ca_Crèmes de cassis": {
+      "label": "CA Crèmes de cassis",
+      "gamme": "Crèmes de cassis",
+      "unit": "eur",
+      "mensuel": {
+        "reel": [
+          100691.07,
+          110925.88,
+          116751.74,
+          119731.86,
+          129264.29,
+          147818.4,
+          188019.72,
+          154705.98,
+          140705.73
+        ],
+        "budget": [
+          108150.0,
+          108150.0,
+          123600.0,
+          131325.0,
+          146775.0,
+          169950.0,
+          185400.0,
+          169950.0,
+          139050.0
+        ],
+        "ecart": [
+          -7458.93,
+          2775.88,
+          -6848.26,
+          -11593.14,
+          -17510.71,
+          -22131.6,
+          2619.72,
+          -15244.02,
+          1655.73
+        ],
+        "ecart_pct": [
+          -6.9,
+          2.57,
+          -5.54,
+          -8.83,
+          -11.93,
+          -13.02,
+          1.41,
+          -8.97,
+          1.19
+        ]
+      },
+      "ytd": {
+        "reel": 1208614.67,
+        "budget": 1282350.0,
+        "ecart": -73735.33,
+        "ecart_pct": -5.75
+      }
+    },
+    "ca_Condiments": {
+      "label": "CA Condiments",
+      "gamme": "Condiments",
+      "unit": "eur",
+      "mensuel": {
+        "reel": [
+          111289.87,
+          103950.89,
+          116831.47,
+          127711.3,
+          124334.61,
+          155414.55,
+          168981.66,
+          137516.2,
+          120512.83
+        ],
+        "budget": [
+          111240.0,
+          111240.0,
+          123600.0,
+          129780.0,
+          142140.0,
+          154500.0,
+          160680.0,
+          148320.0,
+          123600.0
+        ],
+        "ecart": [
+          49.87,
+          -7289.11,
+          -6768.53,
+          -2068.7,
+          -17805.39,
+          914.55,
+          8301.66,
+          -10803.8,
+          -3087.17
+        ],
+        "ecart_pct": [
+          0.04,
+          -6.55,
+          -5.48,
+          -1.59,
+          -12.53,
+          0.59,
+          5.17,
+          -7.28,
+          -2.5
+        ]
+      },
+      "ytd": {
+        "reel": 1166543.38,
+        "budget": 1205100.0,
+        "ecart": -38556.62,
+        "ecart_pct": -3.2
+      }
+    }
+  },
+  "gammes": [
+    {
+      "gamme": "Moutardes",
+      "reel": 2834281.82,
+      "budget": 2969490.0,
+      "ecart": -135208.18,
+      "ecart_pct": -4.55,
+      "part_reel": 50.43
+    },
+    {
+      "gamme": "Pain d'épices",
+      "reel": 411298.95,
+      "budget": 435432.5,
+      "ecart": -24133.55,
+      "ecart_pct": -5.54,
+      "part_reel": 7.32
+    },
+    {
+      "gamme": "Crèmes de cassis",
+      "reel": 1208614.67,
+      "budget": 1282350.0,
+      "ecart": -73735.33,
+      "ecart_pct": -5.75,
+      "part_reel": 21.5
+    },
+    {
+      "gamme": "Condiments",
+      "reel": 1166543.38,
+      "budget": 1205100.0,
+      "ecart": -38556.62,
+      "ecart_pct": -3.2,
+      "part_reel": 20.75
+    }
+  ],
+  "charges": [
+    {
+      "poste": "Frais de personnel",
+      "ytd_reel": 1294781.66,
+      "ytd_budget": 1305000.0,
+      "ecart": -10218.34,
+      "ecart_pct": -0.78
+    },
+    {
+      "poste": "Loyers & charges locatives",
+      "ytd_reel": 165600.0,
+      "ytd_budget": 165600.0,
+      "ecart": 0.0,
+      "ecart_pct": 0.0
+    },
+    {
+      "poste": "Transport & logistique",
+      "ytd_reel": 236071.04,
+      "ytd_budget": 235695.0,
+      "ecart": 376.04,
+      "ecart_pct": 0.16
+    },
+    {
+      "poste": "Marketing & commercial",
+      "ytd_reel": 187747.0,
+      "ytd_budget": 176772.0,
+      "ecart": 10975.0,
+      "ecart_pct": 6.21
+    },
+    {
+      "poste": "Autres charges externes",
+      "ytd_reel": 237681.74,
+      "ytd_budget": 225000.0,
+      "ecart": 12681.74,
+      "ecart_pct": 5.64
+    }
+  ],
+  "pont_ebitda": {
+    "etapes": [
+      {
+        "label": "EBITDA budget YTD",
+        "valeur": 1132737.88,
+        "type": "total"
+      },
+      {
+        "label": "Effet volume CA",
+        "valeur": -149398.52,
+        "type": "delta",
+        "detail": "(5 620 739 € − 5 892 372 €) × taux de marge budget 55,0 %"
+      },
+      {
+        "label": "Effet taux de marge",
+        "valeur": 13408.12,
+        "type": "delta",
+        "detail": "(55,2 % − 55,0 %) × CA réel 5 620 739 €"
+      },
+      {
+        "label": "Frais de personnel",
+        "valeur": 10218.34,
+        "type": "delta",
+        "detail": "budget 1 305 000 € − réel 1 294 782 €"
+      },
+      {
+        "label": "Loyers & charges locatives",
+        "valeur": 0.0,
+        "type": "delta",
+        "detail": "budget 165 600 € − réel 165 600 €"
+      },
+      {
+        "label": "Transport & logistique",
+        "valeur": -376.04,
+        "type": "delta",
+        "detail": "budget 235 695 € − réel 236 071 €"
+      },
+      {
+        "label": "Marketing & commercial",
+        "valeur": -10975.0,
+        "type": "delta",
+        "detail": "budget 176 772 € − réel 187 747 €"
+      },
+      {
+        "label": "Autres charges externes",
+        "valeur": -12681.74,
+        "type": "delta",
+        "detail": "budget 225 000 € − réel 237 682 €"
+      },
+      {
+        "label": "EBITDA réel YTD",
+        "valeur": 982933.04,
+        "type": "total"
+      }
+    ],
+    "ecart_total": -149804.84,
+    "methode": "Volume = ΔCA × taux de marge budget ; Taux = Δtaux de marge × CA réel ; charges = budget − réel (positif = favorable)."
+  },
+  "clients": {
+    "lignes": [
+      {
+        "client": "Carrefour",
+        "mensuel": [
+          97805.2,
+          88116.3,
+          91389.9,
+          93556.6,
+          97822.1,
+          104712.75,
+          134984.3,
+          120228.3,
+          102416.1
+        ],
+        "total": 931031.55,
+        "part": 16.44,
+        "taux_marge": 55.59,
+        "dont_doublon": 0.0,
+        "doublon_mensuel": [
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ]
+      },
+      {
+        "client": "E.Leclerc",
+        "mensuel": [
+          84407.8,
+          91676.35,
+          91640.0,
+          104849.0,
+          96271.35,
+          109532.8,
+          104487.0,
+          152070.2,
+          95443.25
+        ],
+        "total": 930377.75,
+        "part": 16.43,
+        "taux_marge": 56.43,
+        "dont_doublon": 30940.0,
+        "doublon_mensuel": [
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          30940.0,
+          0.0
+        ]
+      },
+      {
+        "client": "Costco France",
+        "mensuel": [
+          79320.64,
+          74932.55,
+          79112.24,
+          81926.29,
+          77417.31,
+          90398.88,
+          85035.85,
+          90343.64,
+          91377.88
+        ],
+        "total": 749865.28,
+        "part": 13.24,
+        "taux_marge": 53.76,
+        "dont_doublon": 0.0,
+        "doublon_mensuel": [
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ]
+      },
+      {
+        "client": "Metro Cash & Carry",
+        "mensuel": [
+          61931.4,
+          57112.94,
+          54688.36,
+          61666.26,
+          59138.52,
+          67602.2,
+          68709.12,
+          68148.24,
+          67966.05
+        ],
+        "total": 566963.09,
+        "part": 10.01,
+        "taux_marge": 53.71,
+        "dont_doublon": 0.0,
+        "doublon_mensuel": [
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ]
+      },
+      {
+        "client": "Fine Food Export UK",
+        "mensuel": [
+          63153.15,
+          59753.2,
+          56915.75,
+          61250.3,
+          59888.6,
+          71552.0,
+          70977.3,
+          55596.9,
+          64499.6
+        ],
+        "total": 563586.8,
+        "part": 9.95,
+        "taux_marge": 55.94,
+        "dont_doublon": 0.0,
+        "doublon_mensuel": [
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ]
+      },
+      {
+        "client": "Auchan",
+        "mensuel": [
+          44370.4,
+          50931.95,
+          54026.6,
+          59363.55,
+          52153.4,
+          64012.2,
+          69525.2,
+          60585.7,
+          60554.8
+        ],
+        "total": 515523.8,
+        "part": 9.1,
+        "taux_marge": 55.24,
+        "dont_doublon": 0.0,
+        "doublon_mensuel": [
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ]
+      },
+      {
+        "client": "Intermarché",
+        "mensuel": [
+          42987.2,
+          52345.4,
+          51378.0,
+          61437.7,
+          58774.0,
+          53291.3,
+          64794.6,
+          62102.05,
+          57950.5
+        ],
+        "total": 505060.75,
+        "part": 8.92,
+        "taux_marge": 55.63,
+        "dont_doublon": 0.0,
+        "doublon_mensuel": [
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ]
+      },
+      {
+        "client": "Monoprix",
+        "mensuel": [
+          41914.5,
+          35258.6,
+          42633.7,
+          42694.2,
+          49166.2,
+          43526.35,
+          47817.0,
+          47256.5,
+          42059.35
+        ],
+        "total": 392326.4,
+        "part": 6.93,
+        "taux_marge": 55.89,
+        "dont_doublon": 0.0,
+        "doublon_mensuel": [
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ]
+      },
+      {
+        "client": "Grande Épicerie de Paris",
+        "mensuel": [
+          28386.5,
+          26689.0,
+          26299.2,
+          33649.1,
+          34240.8,
+          33987.95,
+          39412.55,
+          31681.8,
+          31370.1
+        ],
+        "total": 285717.0,
+        "part": 5.04,
+        "taux_marge": 55.89,
+        "dont_doublon": 0.0,
+        "doublon_mensuel": [
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ]
+      },
+      {
+        "client": "Galeries Lafayette Gourmet",
+        "mensuel": [
+          24103.6,
+          18580.4,
+          23640.2,
+          23836.0,
+          21220.4,
+          26789.7,
+          31050.4,
+          27655.5,
+          26750.2
+        ],
+        "total": 223626.4,
+        "part": 3.95,
+        "taux_marge": 55.82,
+        "dont_doublon": 0.0,
+        "doublon_mensuel": [
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ]
+      }
+    ],
+    "top5": [
+      "Carrefour",
+      "E.Leclerc",
+      "Costco France",
+      "Metro Cash & Carry",
+      "Fine Food Export UK"
+    ],
+    "part_top5": 66.06,
+    "total_detail": 5664078.82,
+    "classement_top5_stable_hors_doublon": true,
+    "source": "Ventes_Detail (CA HT facturé, doublons non retirés)"
+  },
+  "creances": {
+    "total": 1492467.46,
+    "nb_factures": 250,
+    "tranches": [
+      {
+        "tranche": "Non échu",
+        "montant": 1014620.5,
+        "nb": 162,
+        "part": 67.98
+      },
+      {
+        "tranche": "1-30 j",
+        "montant": 145114.85,
+        "nb": 26,
+        "part": 9.72
+      },
+      {
+        "tranche": "31-60 j",
+        "montant": 119005.63,
+        "nb": 25,
+        "part": 7.97
+      },
+      {
+        "tranche": "61-90 j",
+        "montant": 168044.9,
+        "nb": 27,
+        "part": 11.26
+      },
+      {
+        "tranche": "> 90 j",
+        "montant": 45681.58,
+        "nb": 10,
+        "part": 3.06
+      }
+    ],
+    "par_client": [
+      {
+        "client": "Carrefour",
+        "tranches": {
+          "Non échu": 178357.54,
+          "1-30 j": 0.0,
+          "31-60 j": 9758.4,
+          "61-90 j": 38479.01,
+          "> 90 j": 26913.89
+        },
+        "total": 253508.84,
+        "plus_60": 65392.9,
+        "part_plus_60": 25.8,
+        "nb_plus_60": 4,
+        "retard_max": 102
+      },
+      {
+        "client": "Monoprix",
+        "tranches": {
+          "Non échu": 92572.02,
+          "1-30 j": 34039.81,
+          "31-60 j": 28031.46,
+          "61-90 j": 48114.29,
+          "> 90 j": 0.0
+        },
+        "total": 202757.58,
+        "plus_60": 48114.29,
+        "part_plus_60": 23.73,
+        "nb_plus_60": 10,
+        "retard_max": 90
+      },
+      {
+        "client": "Fine Food Export UK",
+        "tranches": {
+          "Non échu": 129359.42,
+          "1-30 j": 65658.82,
+          "31-60 j": 63908.38,
+          "61-90 j": 35945.9,
+          "> 90 j": 0.0
+        },
+        "total": 294872.52,
+        "plus_60": 35945.9,
+        "part_plus_60": 12.19,
+        "nb_plus_60": 8,
+        "retard_max": 85
+      },
+      {
+        "client": "Metro Cash & Carry",
+        "tranches": {
+          "Non échu": 61225.4,
+          "1-30 j": 23156.66,
+          "31-60 j": 13075.78,
+          "61-90 j": 16644.98,
+          "> 90 j": 901.35
+        },
+        "total": 115004.17,
+        "plus_60": 17546.33,
+        "part_plus_60": 15.26,
+        "nb_plus_60": 3,
+        "retard_max": 116
+      },
+      {
+        "client": "E.Leclerc",
+        "tranches": {
+          "Non échu": 177191.19,
+          "1-30 j": 6585.52,
+          "31-60 j": 2614.29,
+          "61-90 j": 17314.45,
+          "> 90 j": 0.0
+        },
+        "total": 203705.45,
+        "plus_60": 17314.45,
+        "part_plus_60": 8.5,
+        "nb_plus_60": 1,
+        "retard_max": 89
+      },
+      {
+        "client": "Auchan",
+        "tranches": {
+          "Non échu": 90768.9,
+          "1-30 j": 0.0,
+          "31-60 j": 886.2,
+          "61-90 j": 4919.36,
+          "> 90 j": 4731.42
+        },
+        "total": 101305.88,
+        "plus_60": 9650.78,
+        "part_plus_60": 9.53,
+        "nb_plus_60": 3,
+        "retard_max": 103
+      },
+      {
+        "client": "Costco France",
+        "tranches": {
+          "Non échu": 99346.96,
+          "1-30 j": 4690.42,
+          "31-60 j": 0.0,
+          "61-90 j": 5526.44,
+          "> 90 j": 3915.6
+        },
+        "total": 113479.42,
+        "plus_60": 9442.04,
+        "part_plus_60": 8.32,
+        "nb_plus_60": 2,
+        "retard_max": 110
+      },
+      {
+        "client": "Grande Épicerie de Paris",
+        "tranches": {
+          "Non échu": 33284.77,
+          "1-30 j": 3835.03,
+          "31-60 j": 0.0,
+          "61-90 j": 1100.47,
+          "> 90 j": 4733.78
+        },
+        "total": 42954.05,
+        "plus_60": 5834.25,
+        "part_plus_60": 13.58,
+        "nb_plus_60": 3,
+        "retard_max": 121
+      },
+      {
+        "client": "Galeries Lafayette Gourmet",
+        "tranches": {
+          "Non échu": 27263.9,
+          "1-30 j": 7148.59,
+          "31-60 j": 731.12,
+          "61-90 j": 0.0,
+          "> 90 j": 4485.54
+        },
+        "total": 39629.15,
+        "plus_60": 4485.54,
+        "part_plus_60": 11.32,
+        "nb_plus_60": 3,
+        "retard_max": 117
+      },
+      {
+        "client": "Intermarché",
+        "tranches": {
+          "Non échu": 125250.4,
+          "1-30 j": 0.0,
+          "31-60 j": 0.0,
+          "61-90 j": 0.0,
+          "> 90 j": 0.0
+        },
+        "total": 125250.4,
+        "plus_60": 0.0,
+        "part_plus_60": 0.0,
+        "nb_plus_60": 0,
+        "retard_max": 0
+      }
+    ],
+    "plus_60": {
+      "montant": 213726.48,
+      "part": 14.32,
+      "nb": 37,
+      "nb_clients": 9
+    },
+    "echu": 477846.96,
+    "factures_plus_60": [
+      {
+        "facture": "FA-26571",
+        "client": "Grande Épicerie de Paris",
+        "date": "02/05/2026",
+        "echeance": "01/06/2026",
+        "montant": 4153.32,
+        "retard": 121
+      },
+      {
+        "facture": "FA-26541",
+        "client": "Galeries Lafayette Gourmet",
+        "date": "06/05/2026",
+        "echeance": "05/06/2026",
+        "montant": 353.95,
+        "retard": 117
+      },
+      {
+        "facture": "FA-26524",
+        "client": "Metro Cash & Carry",
+        "date": "07/05/2026",
+        "echeance": "06/06/2026",
+        "montant": 901.35,
+        "retard": 116
+      },
+      {
+        "facture": "FA-26581",
+        "client": "Costco France",
+        "date": "13/05/2026",
+        "echeance": "12/06/2026",
+        "montant": 3915.6,
+        "retard": 110
+      },
+      {
+        "facture": "FA-26538",
+        "client": "Grande Épicerie de Paris",
+        "date": "18/05/2026",
+        "echeance": "17/06/2026",
+        "montant": 580.46,
+        "retard": 105
+      },
+      {
+        "facture": "FA-26526",
+        "client": "Auchan",
+        "date": "05/05/2026",
+        "echeance": "19/06/2026",
+        "montant": 1564.14,
+        "retard": 103
+      },
+      {
+        "facture": "FA-26484",
+        "client": "Carrefour",
+        "date": "06/05/2026",
+        "echeance": "20/06/2026",
+        "montant": 26913.89,
+        "retard": 102
+      },
+      {
+        "facture": "FA-26505",
+        "client": "Galeries Lafayette Gourmet",
+        "date": "26/05/2026",
+        "echeance": "25/06/2026",
+        "montant": 3777.11,
+        "retard": 97
+      },
+      {
+        "facture": "FA-26540",
+        "client": "Galeries Lafayette Gourmet",
+        "date": "26/05/2026",
+        "echeance": "25/06/2026",
+        "montant": 354.48,
+        "retard": 97
+      },
+      {
+        "facture": "FA-26563",
+        "client": "Auchan",
+        "date": "16/05/2026",
+        "echeance": "30/06/2026",
+        "montant": 3167.28,
+        "retard": 92
+      },
+      {
+        "facture": "FA-26597",
+        "client": "Monoprix",
+        "date": "03/05/2026",
+        "echeance": "02/07/2026",
+        "montant": 2635.81,
+        "retard": 90
+      },
+      {
+        "facture": "FA-26486",
+        "client": "E.Leclerc",
+        "date": "19/05/2026",
+        "echeance": "03/07/2026",
+        "montant": 17314.45,
+        "retard": 89
+      },
+      {
+        "facture": "FA-26616",
+        "client": "Metro Cash & Carry",
+        "date": "05/06/2026",
+        "echeance": "05/07/2026",
+        "montant": 9905.18,
+        "retard": 87
+      },
+      {
+        "facture": "FA-26569",
+        "client": "Monoprix",
+        "date": "07/05/2026",
+        "echeance": "06/07/2026",
+        "montant": 3450.0,
+        "retard": 86
+      },
+      {
+        "facture": "FA-26533",
+        "client": "Monoprix",
+        "date": "08/05/2026",
+        "echeance": "07/07/2026",
+        "montant": 1184.13,
+        "retard": 85
+      },
+      {
+        "facture": "FA-26546",
+        "client": "Fine Food Export UK",
+        "date": "08/05/2026",
+        "echeance": "07/07/2026",
+        "montant": 1073.57,
+        "retard": 85
+      },
+      {
+        "facture": "FA-26500",
+        "client": "Monoprix",
+        "date": "09/05/2026",
+        "echeance": "08/07/2026",
+        "montant": 9559.88,
+        "retard": 84
+      },
+      {
+        "facture": "FA-26591",
+        "client": "Auchan",
+        "date": "24/05/2026",
+        "echeance": "08/07/2026",
+        "montant": 4919.36,
+        "retard": 84
+      },
+      {
+        "facture": "FA-26570",
+        "client": "Monoprix",
+        "date": "10/05/2026",
+        "echeance": "09/07/2026",
+        "montant": 3447.36,
+        "retard": 83
+      },
+      {
+        "facture": "FA-26603",
+        "client": "Fine Food Export UK",
+        "date": "10/05/2026",
+        "echeance": "09/07/2026",
+        "montant": 4799.09,
+        "retard": 83
+      },
+      {
+        "facture": "FA-26568",
+        "client": "Monoprix",
+        "date": "11/05/2026",
+        "echeance": "10/07/2026",
+        "montant": 3447.36,
+        "retard": 82
+      },
+      {
+        "facture": "FA-26605",
+        "client": "Fine Food Export UK",
+        "date": "12/05/2026",
+        "echeance": "11/07/2026",
+        "montant": 4799.72,
+        "retard": 81
+      },
+      {
+        "facture": "FA-26508",
+        "client": "Fine Food Export UK",
+        "date": "13/05/2026",
+        "echeance": "12/07/2026",
+        "montant": 7854.58,
+        "retard": 80
+      },
+      {
+        "facture": "FA-26595",
+        "client": "Monoprix",
+        "date": "14/05/2026",
+        "echeance": "13/07/2026",
+        "montant": 2636.08,
+        "retard": 79
+      },
+      {
+        "facture": "FA-26509",
+        "client": "Fine Food Export UK",
+        "date": "16/05/2026",
+        "echeance": "15/07/2026",
+        "montant": 7831.79,
+        "retard": 77
+      },
+      {
+        "facture": "FA-26609",
+        "client": "Carrefour",
+        "date": "01/06/2026",
+        "echeance": "16/07/2026",
+        "montant": 17943.33,
+        "retard": 76
+      },
+      {
+        "facture": "FA-26498",
+        "client": "Monoprix",
+        "date": "19/05/2026",
+        "echeance": "18/07/2026",
+        "montant": 9559.88,
+        "retard": 74
+      },
+      {
+        "facture": "FA-26698",
+        "client": "Costco France",
+        "date": "20/06/2026",
+        "echeance": "20/07/2026",
+        "montant": 5526.44,
+        "retard": 72
+      },
+      {
+        "facture": "FA-26545",
+        "client": "Fine Food Export UK",
+        "date": "22/05/2026",
+        "echeance": "21/07/2026",
+        "montant": 1074.73,
+        "retard": 71
+      },
+      {
+        "facture": "FA-26639",
+        "client": "Carrefour",
+        "date": "07/06/2026",
+        "echeance": "22/07/2026",
+        "montant": 2593.51,
+        "retard": 70
+      },
+      {
+        "facture": "FA-26578",
+        "client": "Fine Food Export UK",
+        "date": "24/05/2026",
+        "echeance": "23/07/2026",
+        "montant": 7440.12,
+        "retard": 69
+      },
+      {
+        "facture": "FA-26596",
+        "client": "Monoprix",
+        "date": "24/05/2026",
+        "echeance": "23/07/2026",
+        "montant": 2635.81,
+        "retard": 69
+      },
+      {
+        "facture": "FA-26675",
+        "client": "Metro Cash & Carry",
+        "date": "24/06/2026",
+        "echeance": "24/07/2026",
+        "montant": 6739.8,
+        "retard": 68
+      },
+      {
+        "facture": "FA-26499",
+        "client": "Monoprix",
+        "date": "27/05/2026",
+        "echeance": "26/07/2026",
+        "montant": 9557.98,
+        "retard": 66
+      },
+      {
+        "facture": "FA-26543",
+        "client": "Fine Food Export UK",
+        "date": "27/05/2026",
+        "echeance": "26/07/2026",
+        "montant": 1072.3,
+        "retard": 66
+      },
+      {
+        "facture": "FA-26610",
+        "client": "Carrefour",
+        "date": "11/06/2026",
+        "echeance": "26/07/2026",
+        "montant": 17942.17,
+        "retard": 66
+      },
+      {
+        "facture": "FA-26658",
+        "client": "Grande Épicerie de Paris",
+        "date": "26/06/2026",
+        "echeance": "26/07/2026",
+        "montant": 1100.47,
+        "retard": 66
+      }
+    ],
+    "dso": {
+      "jours": 63.08,
+      "objectif": 45.0,
+      "ecart": 18.08,
+      "jours_simple_3m": 62.1,
+      "methode": "Épuisement : créances TTC imputées sur le CA TTC comptable des mois les plus récents (TVA 5,5 % alimentaire, 20 % crèmes de cassis)."
+    },
+    "ca_ttc_mensuel": [
+      614241.52,
+      602027.76,
+      620097.77,
+      675922.71,
+      658171.1,
+      723437.14,
+      770397.81,
+      744821.28,
+      696011.49
+    ]
+  },
+  "simulation": {
+    "modele": {
+      "mois": [
+        "Oct",
+        "Nov",
+        "Déc"
+      ],
+      "ca_gamme": {
+        "Moutardes": [
+          305805.13,
+          293676.99,
+          330040.42
+        ],
+        "Pain d'épices": [
+          110963.87,
+          179943.39,
+          245167.78
+        ],
+        "Crèmes de cassis": [
+          143182.4,
+          213882.84,
+          327331.01
+        ],
+        "Condiments": [
+          112835.36,
+          112156.18,
+          110015.79
+        ]
+      },
+      "budget_ca_gamme": {
+        "Moutardes": [
+          319300.0,
+          319300.0,
+          335265.0
+        ],
+        "Pain d'épices": [
+          117420.0,
+          195700.0,
+          254410.0
+        ],
+        "Crèmes de cassis": [
+          154500.0,
+          231750.0,
+          339900.0
+        ],
+        "Condiments": [
+          117420.0,
+          111240.0,
+          117420.0
+        ]
+      },
+      "ca": [
+        672786.77,
+        799659.39,
+        1012555.0
+      ],
+      "coef_ttc": [
+        1.085859,
+        1.093783,
+        1.101874
+      ],
+      "taux_marge": [
+        0.552385,
+        0.552385,
+        0.552385
+      ],
+      "charges": {
+        "Frais de personnel": [
+          143864.63,
+          143864.63,
+          143864.63
+        ],
+        "Loyers & charges locatives": [
+          18400.0,
+          18400.0,
+          18400.0
+        ],
+        "Transport & logistique": [
+          28391.22,
+          34374.76,
+          41946.82
+        ],
+        "Marketing & commercial": [
+          22578.88,
+          27338.08,
+          33360.11
+        ],
+        "Autres charges externes": [
+          26409.08,
+          26409.08,
+          26409.08
+        ]
+      },
+      "charges_variables": [
+        "Transport & logistique",
+        "Marketing & commercial"
+      ],
+      "dotations": [
+        22500.0,
+        22500.0,
+        22500.0
+      ],
+      "ytd": {
+        "ca": 5620738.82,
+        "ebitda": 982933.04,
+        "ebit": 780433.04
+      },
+      "budget": {
+        "ca_annuel": 8505997.5,
+        "ebitda_annuel": 1822076.63,
+        "ca_mensuel": [
+          597400.0,
+          571650.0,
+          620317.5,
+          629330.0,
+          668212.5,
+          714820.0,
+          747522.5,
+          692675.0,
+          650445.0,
+          708640.0,
+          857990.0,
+          1046995.0
+        ],
+        "ebitda_mensuel": [
+          98352.0,
+          85991.5,
+          109351.62,
+          113678.5,
+          132342.88,
+          154713.0,
+          170410.38,
+          144084.25,
+          123813.75,
+          151747.0,
+          223434.5,
+          314157.25
+        ]
+      },
+      "reel": {
+        "ca_mensuel": [
+          568380.39,
+          555396.69,
+          571723.95,
+          624229.0,
+          606092.68,
+          665406.13,
+          704393.32,
+          684728.83,
+          640387.83
+        ],
+        "ebitda_mensuel": [
+          80030.13,
+          70893.49,
+          88707.44,
+          110189.56,
+          97863.13,
+          135977.51,
+          140474.14,
+          139596.16,
+          119201.48
+        ]
+      },
+      "is": {
+        "taux_reduit": 0.15,
+        "seuil": 42500.0,
+        "taux_normal": 0.25,
+        "acomptes_verses": 204000.0,
+        "acompte_unitaire": 68000.0
+      },
+      "treso": {
+        "debut": 1661069.48,
+        "creances_30_09": 1492467.46,
+        "jours_t4": 92,
+        "ratio_fournisseurs": 0.838835,
+        "ratio_tva": 0.021723,
+        "ratio_personnel": 1.007892,
+        "loyers_mois": 22080.0,
+        "emprunt_mois": 14200.0,
+        "investissements_t4": 0.0
+      }
+    },
+    "scenarios": {
+      "prudent": {
+        "label": "Prudent",
+        "d_ca": -10,
+        "d_marge": -2,
+        "d_perso": 3,
+        "dso": 75,
+        "resultat": {
+          "ca_annuel": 7857239.86,
+          "ebitda_annuel": 1425452.82,
+          "ecart_ca": -648757.64,
+          "ecart_ebitda": -396623.81,
+          "ebit": 1155452.82,
+          "is": 284613.2,
+          "acompte_dec": 68000.0,
+          "solde_is": 12613.2,
+          "creances_31_12": 1996322.36,
+          "encaissements": 1944967.2,
+          "decaissements": 1759126.98,
+          "treso_fin": 1846909.69,
+          "ca_t4": [
+            605508.09,
+            719693.45,
+            911299.5
+          ],
+          "ebitda_t4": [
+            83500.69,
+            134622.79,
+            224396.3
+          ]
+        }
+      },
+      "central": {
+        "label": "Central",
+        "d_ca": 0,
+        "d_marge": 0,
+        "d_perso": 0,
+        "dso": 63,
+        "resultat": {
+          "ca_annuel": 8105739.98,
+          "ebitda_annuel": 1601599.41,
+          "ecart_ca": -400257.52,
+          "ecart_ebitda": -220477.22,
+          "ebit": 1331599.41,
+          "is": 328649.85,
+          "acompte_dec": 68000.0,
+          "solde_is": 56649.85,
+          "creances_31_12": 1863234.21,
+          "encaissements": 2350146.7,
+          "decaissements": 1823028.9,
+          "treso_fin": 2188187.27,
+          "ca_t4": [
+            672786.77,
+            799659.39,
+            1012555.0
+          ],
+          "ebitda_t4": [
+            131993.51,
+            191333.3,
+            295339.55
+          ]
+        }
+      },
+      "ambitieux": {
+        "label": "Ambitieux",
+        "d_ca": 10,
+        "d_marge": 1.5,
+        "d_perso": 0,
+        "dso": 45,
+        "resultat": {
+          "ca_annuel": 8354240.1,
+          "ebitda_annuel": 1761070.67,
+          "ecart_ca": -151757.4,
+          "ecart_ebitda": -61005.96,
+          "ebit": 1491070.67,
+          "is": 368517.67,
+          "acompte_dec": 68000.0,
+          "solde_is": 96517.67,
+          "creances_31_12": 1463969.73,
+          "encaissements": 3021502.51,
+          "decaissements": 1903107.58,
+          "treso_fin": 2779464.41,
+          "ca_t4": [
+            740065.45,
+            879625.33,
+            1113810.5
+          ],
+          "ebitda_t4": [
+            175161.21,
+            242528.38,
+            360448.04
+          ]
+        }
+      }
+    },
+    "curseurs": {
+      "d_ca": {
+        "min": -20,
+        "max": 20,
+        "pas": 1,
+        "label": "Variation du CA T4",
+        "unite": "%"
+      },
+      "d_marge": {
+        "min": -5,
+        "max": 5,
+        "pas": 0.5,
+        "label": "Taux de marge brute T4",
+        "unite": "pts"
+      },
+      "d_perso": {
+        "min": -10,
+        "max": 10,
+        "pas": 1,
+        "label": "Frais de personnel T4",
+        "unite": "%"
+      },
+      "dso": {
+        "min": 30,
+        "max": 90,
+        "pas": 1,
+        "label": "DSO au 31/12",
+        "unite": "j"
+      }
+    },
+    "parametres": {
+      "ratio_ca_gamme": {
+        "Moutardes": 0.9545,
+        "Pain d'épices": 0.9446,
+        "Crèmes de cassis": 0.9425,
+        "Condiments": 0.968
+      },
+      "saisonnalite_2025": {
+        "Moutardes": [
+          0.329,
+          0.3159,
+          0.3551
+        ],
+        "Pain d'épices": [
+          0.207,
+          0.3357,
+          0.4573
+        ],
+        "Crèmes de cassis": [
+          0.2092,
+          0.3125,
+          0.4783
+        ],
+        "Condiments": [
+          0.3368,
+          0.3348,
+          0.3284
+        ]
+      },
+      "ecart_taux_marge_pts": 0.24,
+      "ratio_charges": {
+        "Frais de personnel": 0.9922,
+        "Loyers & charges locatives": 1.0,
+        "Transport & logistique": 1.0016,
+        "Marketing & commercial": 1.0621,
+        "Autres charges externes": 1.0564
+      }
+    },
+    "methode": [
+      "CA T4 par gamme = budget T4 de la gamme × ratio réel/budget janv.–sept. de la gamme ; répartition oct./nov./déc. selon la saisonnalité 2025 de la gamme.",
+      "Taux de marge brute T4 = taux budget du mois + écart constaté sur janv.–sept. (+0,2 pt).",
+      "Charges T4 = budget du mois × ratio réel/budget janv.–sept. du poste. Transport et marketing suivent le curseur CA ; personnel suit son curseur ; loyers et autres charges sont fixes.",
+      "IS : résultat fiscal assimilé à l'EBIT (aucune charge financière ni retraitement fiscal dans le fichier). 15 % jusqu'à 42 500 €, 25 % au-delà. Acomptes versés : 204 000 € ; l'acompte de décembre (68 000 €) est limité à l'IS restant dû. Solde = IS − acomptes (payé en 2027).",
+      "Trésorerie au 31/12 = trésorerie au 30/09 (1 661 069 €) + encaissements − décaissements oct.–déc. Encaissements = créances au 30/09 + CA TTC T4 − créances au 31/12 (CA TTC T4 × DSO / 92 j). Fournisseurs, TVA et personnel : ratios cash/P&L observés sur janv.–sept. Loyers et emprunt au montant de septembre. Aucun investissement au T4 (aucune donnée).",
+      "Limite : le taux de marge 2025 (44 %) est sans rapport avec 2026 (55 %) ; seule la saisonnalité du CA 2025 est utilisée, jamais sa marge."
+    ]
+  },
+  "reconciliation": {
+    "anomalies": [
+      {
+        "gravite": "haute",
+        "titre": "Facture FA-26840 saisie 2 fois dans Ventes_Detail",
+        "description": "E.Leclerc, Moutarde à l'ancienne 350g, 18/08/2026 : lignes strictement identiques. Le détail surestime le CA de 30 940 € (marge 17 745 €). Non corrigé dans le cockpit : les ventes par client l'incluent.",
+        "impact_eur": 30940.0,
+        "client": "E.Leclerc"
+      },
+      {
+        "gravite": "haute",
+        "titre": "CA Moutardes Juil : détail ≠ comptabilité",
+        "description": "Juil : le détail des factures dépasse le CA comptable de +12 400 €. Reste +12 400 € sans explication dans le fichier (avoir non détaillé ? facture hors période ?). À justifier par la comptabilité.",
+        "impact_eur": 12400.0
+      },
+      {
+        "gravite": "moyenne",
+        "titre": "CA Moutardes Août : détail ≠ comptabilité",
+        "description": "Août : détail +30 940 € vs P&L, entièrement expliqué par le doublon de facture.",
+        "impact_eur": 30940.0
+      },
+      {
+        "gravite": "moyenne",
+        "titre": "Coût des ventes Août : détail ≠ comptabilité",
+        "description": "Août : coût de revient du détail +13 195 € vs coût des ventes comptable. Cohérent avec le doublon de facture ci-dessus.",
+        "impact_eur": 13195.0
+      }
+    ],
+    "controles": [
+      {
+        "controle": "Réel 2026 renseigné jusqu'à septembre",
+        "ok": true,
+        "detail": "9 mois renseignés dans Reel_2026"
+      },
+      {
+        "controle": "Budget_2026 — Chiffre d'affaires total : recalcul = valeur Excel",
+        "ok": true,
+        "detail": "écart max 0 €"
+      },
+      {
+        "controle": "Budget_2026 — Marge brute : recalcul = valeur Excel",
+        "ok": true,
+        "detail": "écart max 0 €"
+      },
+      {
+        "controle": "Budget_2026 — EBITDA : recalcul = valeur Excel",
+        "ok": true,
+        "detail": "écart max 0 €"
+      },
+      {
+        "controle": "Reel_2026 — Chiffre d'affaires total : recalcul = valeur Excel",
+        "ok": true,
+        "detail": "écart max 0 €"
+      },
+      {
+        "controle": "Reel_2026 — Marge brute : recalcul = valeur Excel",
+        "ok": true,
+        "detail": "écart max 0 €"
+      },
+      {
+        "controle": "Reel_2026 — EBITDA : recalcul = valeur Excel",
+        "ok": true,
+        "detail": "écart max 0 €"
+      },
+      {
+        "controle": "Unicité des n° de facture (Ventes_Detail)",
+        "ok": false,
+        "detail": "1 numéro(s) en doublon"
+      },
+      {
+        "controle": "CA Ventes_Detail = CA comptable (YTD)",
+        "ok": false,
+        "detail": "détail 5 664 079 € vs P&L 5 620 739 € (écart +43 340 €)"
+      },
+      {
+        "controle": "Pont EBITDA bouclé (budget + effets = réel)",
+        "ok": true,
+        "detail": "écart de bouclage −0 €"
+      },
+      {
+        "controle": "Tranches de la balance âgée recalculées = Excel",
+        "ok": true,
+        "detail": "0 facture(s) en écart"
+      },
+      {
+        "controle": "Factures en créance présentes dans Ventes_Detail",
+        "ok": true,
+        "detail": "0 facture(s) introuvable(s)"
+      },
+      {
+        "controle": "Créance ≤ montant TTC facturé",
+        "ok": true,
+        "detail": "0 créance(s) supérieure(s) à la facture d'origine"
+      },
+      {
+        "controle": "Trésorerie au 30/09 recalculée = Excel",
+        "ok": true,
+        "detail": "recalcul 1 661 069 € vs Excel 1 661 069 €"
+      }
+    ],
+    "observations": [
+      {
+        "titre": "Rupture de taux de marge brute entre 2025 et 2026",
+        "description": "Taux de marge brute 2025 réalisé : 44,0 % ; budget 2026 : 55,0 % (+11,0 pts). Un tel saut doit être expliqué (prix, achats, ou changement de périmètre du coût des ventes) avant toute comparaison N/N-1 ou tout forecast T4 basé sur 2025."
+      }
+    ]
+  },
+  "commentaires": {
+    "kpis": [
+      "À fin septembre, le chiffre d'affaires cumulé atteint 5 620 739 €, en retrait sur le budget (−271 634 €, −4,6 %).",
+      "Le taux de marge brute ressort à 55,2 % contre 55,0 % budgété (+0,2 pt), et l'EBITDA à 982 933 €, soit −149 805 € (−13,2 %) vs budget.",
+      "Principal frein sur l'EBITDA : effet volume CA (−149 399 €) ; principal soutien : effet taux de marge (+13 408 €)."
+    ],
+    "tendance": [
+      "Le CA est sous le budget chaque mois depuis janvier : écart le plus faible en avril (−5 101 €), le plus marqué en mai (−62 120 €). Le retard est structurel, pas accidentel.",
+      "L'EBITDA mensuel n'a battu le budget aucun mois. Sur le T3 (juil.–sept.), l'écart de CA cumulé est de −61 133 €, contre −210 501 € sur le S1.",
+      "Attention : le détail des ventes ne réconcilie pas avec la comptabilité sur certains mois (voir bloc Réconciliation)."
+    ],
+    "gammes": [
+      "Toutes les gammes sont sous le budget. Meilleure gamme vs budget : Condiments (−3,2 %, −38 557 €) ; la plus en retrait : Crèmes de cassis (−5,8 %, −73 735 €).",
+      "Moutardes pèse 50,4 % du CA cumulé.",
+      "Le T4 est saisonnièrement décisif pour le pain d'épices et les crèmes de cassis : le budget y concentre 43 % de leur CA annuel."
+    ],
+    "clients": [
+      "Les 5 premiers clients (Carrefour, E.Leclerc, Costco France, Metro Cash & Carry, Fine Food Export UK) concentrent 66,1 % du CA facturé ; Carrefour est le premier avec 16,4 %.",
+      "Concentration élevée : la perte ou la renégociation d'un seul compte majeur pèserait directement sur l'EBITDA.",
+      "Taux de marge par client : de 53,7 % (Metro Cash & Carry) à 56,4 % (E.Leclerc).",
+      "Les montants incluent 30 940 € de doublon chez E.Leclerc ; le classement du top 5 reste inchangé hors doublon."
+    ],
+    "pont": [
+      "L'EBITDA réel YTD (982 933 €) s'écarte du budget (1 132 738 €) de −149 805 €.",
+      "L'effet volume CA vaut −149 399 € et l'effet taux de marge +13 408 €.",
+      "Postes de charges en dépassement : autres charges externes (+12 682 €, +5,6 %), marketing & commercial (+10 975 €, +6,2 %), transport & logistique (+376 €, +0,2 %).",
+      "Économies : frais de personnel (+10 218 €)."
+    ],
+    "creances": [
+      "Encours clients au 30/09 : 1 492 467 € TTC sur 250 factures, dont 477 847 € échus (32,0 %).",
+      "ALERTE : 213 726 € (14,3 % de l'encours, 37 factures, 9 clients) ont plus de 60 jours de retard ; premiers concernés : Carrefour (65 393 €), Monoprix (48 114 €).",
+      "DSO de 63 jours pour un objectif de 45 jours : 18 jours de trop, soit environ 434 555 € de trésorerie immobilisée."
+    ],
+    "reconciliation": [
+      "4 anomalie(s) de réconciliation détectée(s), dont 2 de gravité haute. Aucune n'a été corrigée : les chiffres du P&L proviennent de la comptabilité (Reel_2026), les ventes par client du détail des factures."
+    ],
+    "simulation": [
+      "Scénario central (tendance janv.–sept. prolongée) : atterrissage CA 2026 à 8 105 740 € (−400 258 € vs budget) et EBITDA à 1 601 599 € (−220 477 €).",
+      "IS estimé 328 650 €, solde à payer après acomptes 56 650 € ; trésorerie fin décembre 2 188 187 €.",
+      "Fourchette d'EBITDA 2026 : 1 425 453 € (prudent) à 1 761 071 € (ambitieux) : même le scénario ambitieux ne rattrape pas le budget annuel."
+    ]
+  }
+}

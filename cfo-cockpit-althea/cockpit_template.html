@@ -1,0 +1,815 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>CFO Cockpit Althéa</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Exo+2:wght@500;600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+<!-- Gabarit : build_metrics.py remplace le marqueur ci-dessous par le contenu de metrics.json. Aucun chiffre en dur ici. -->
+<script>const M = /*__METRICS_JSON__*/null;
+const PROOF = /*__PROOF_JSON__*/null;</script>
+<style>
+:root{
+  --bg:#FFFFFF; --ink:#12203F; --ink2:#4A5672; --muted:#6B7690; --line:#E2E8F0; --grid:#EEF2F7;
+  --a1:#0B1D59; --a2:#3B8CDB; --grad:linear-gradient(90deg,#0B1D59,#3B8CDB);
+  --reel:#0B1D59; --budget:#8A93A6;
+  --good:#0F8A5F; --good-bg:#E8F6EF; --bad:#C4213B; --bad-bg:#FCECEF; --warn:#B26A00; --warn-bg:#FFF5E5;
+  --shadow:0 1px 2px rgba(18,32,63,.04),0 6px 20px rgba(11,29,89,.06);
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.5 Inter,system-ui,sans-serif}
+.wrap{max-width:1240px;margin:0 auto;padding:28px 16px 64px}
+h1,h2,h3{font-family:"Exo 2",system-ui,sans-serif;font-weight:800;margin:0}
+h1{font-size:30px;background:var(--grad);-webkit-background-clip:text;background-clip:text;color:transparent;display:inline-block}
+h2{font-size:20px;margin-bottom:4px}
+h2 .g{background:var(--grad);-webkit-background-clip:text;background-clip:text;color:transparent}
+.sub{color:var(--muted);font-size:13px}
+header{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:flex-end;gap:12px;margin-bottom:22px}
+.card{background:#fff;border:1px solid var(--line);border-radius:16px;box-shadow:var(--shadow);padding:20px;margin-bottom:20px}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:20px}
+@media(max-width:900px){.grid2{grid-template-columns:1fr}}
+.kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px;margin-bottom:14px}
+.kpi{all:unset;cursor:pointer;background:#fff;border:1px solid var(--line);border-radius:14px;box-shadow:var(--shadow);padding:14px 16px;position:relative;transition:transform .12s,border-color .12s}
+.kpi:hover{transform:translateY(-2px)}
+.kpi:focus-visible{outline:2px solid var(--a1);outline-offset:2px}
+.kpi.on{border-color:transparent;background:linear-gradient(#fff,#fff) padding-box,var(--grad) border-box;border:2px solid transparent}
+.kpi .l{font-size:12px;color:var(--muted);text-transform:uppercase;letter-spacing:.04em;font-weight:600}
+.kpi .v{font-family:"Exo 2",sans-serif;font-weight:800;font-size:24px;margin:4px 0 2px;background:var(--grad);-webkit-background-clip:text;background-clip:text;color:transparent}
+.kpi .b{font-size:12px;color:var(--ink2)}
+.kpi.alert{border-color:var(--bad)}
+.pill{display:inline-block;white-space:nowrap;font-size:12px;font-weight:600;padding:1px 8px;border-radius:99px;margin-top:6px}
+.pos{color:var(--good);background:var(--good-bg)} .neg{color:var(--bad);background:var(--bad-bg)} .neu{color:var(--ink2);background:var(--grid)}
+.board{margin-top:14px;padding:12px 14px;border-left:3px solid;border-image:var(--grad) 1;background:#F7F9FC;font-size:14px;color:var(--ink2)}
+.board b{color:var(--ink);font-family:"Exo 2",sans-serif;font-size:12px;letter-spacing:.04em;text-transform:uppercase;display:block;margin-bottom:2px}
+.chart{position:relative;height:300px}
+.chart.tall{height:380px}
+table{width:100%;border-collapse:collapse;font-size:13px;font-variant-numeric:tabular-nums}
+th,td{padding:7px 8px;border-bottom:1px solid var(--line);text-align:right;white-space:nowrap}
+th:first-child,td:first-child{text-align:left}
+th{color:var(--muted);font-weight:600;font-size:12px}
+tr.tot td{font-weight:600;border-top:2px solid var(--line)}
+.scroll{overflow-x:auto}
+.alertbox{border:1px solid var(--bad);background:var(--bad-bg);color:#7A0F22;border-radius:12px;padding:12px 14px;margin:10px 0 14px;font-size:14px}
+.alertbox strong{color:var(--bad)}
+.rec li{margin-bottom:8px}
+.tag{font-size:11px;font-weight:700;padding:1px 7px;border-radius:99px;text-transform:uppercase;margin-right:6px}
+.tag.haute{background:var(--bad);color:#fff} .tag.moyenne{background:var(--warn-bg);color:var(--warn)}
+.ok{color:var(--good);font-weight:700} .ko{color:var(--bad);font-weight:700}
+details summary{cursor:pointer;color:var(--a1);font-weight:600;font-size:13px;margin-top:6px}
+.btn{all:unset;cursor:pointer;font-size:13px;font-weight:600;color:#fff;background:var(--grad);padding:6px 12px;border-radius:99px}
+.btn.ghost{background:none;color:var(--a1);border:1px solid var(--line)}
+.btn.ghost.on{color:#fff;background:var(--grad);border-color:transparent}
+.row{display:flex;flex-wrap:wrap;gap:8px;align-items:center;justify-content:space-between;margin-bottom:10px}
+.chips{display:flex;flex-wrap:wrap;gap:6px}
+.heat td.c{min-width:72px}
+.top5 td:first-child{font-weight:600}
+.hint{font-size:12px;color:var(--muted)}
+.legend{display:flex;flex-wrap:wrap;gap:14px;font-size:12px;color:var(--ink2);margin:4px 0 8px}
+.legend i{display:inline-block;width:14px;height:3px;border-radius:2px;vertical-align:middle;margin-right:6px}
+.legend i.sq{height:10px;width:10px;border-radius:3px}
+.legend i.dash{background:repeating-linear-gradient(90deg,var(--budget) 0 4px,transparent 4px 7px)!important}
+.tabs{display:flex;gap:6px;margin:0 0 20px;border-bottom:1px solid var(--line)}
+.tab{all:unset;cursor:pointer;font-family:"Exo 2",sans-serif;font-weight:700;font-size:15px;padding:10px 16px;color:var(--muted);border-bottom:3px solid transparent;margin-bottom:-1px}
+.tab.on{color:var(--ink);border-image:var(--grad) 1;border-bottom:3px solid}
+.tab:focus-visible{outline:2px solid var(--a1)}
+.sim{display:grid;grid-template-columns:300px 1fr;gap:24px}
+@media(max-width:900px){.sim{grid-template-columns:1fr}}
+.sliders{display:flex;flex-direction:column;gap:18px;background:#F7F9FC;border:1px solid var(--line);border-radius:14px;padding:16px}
+.sl label{display:flex;justify-content:space-between;font-size:13px;font-weight:600}
+.sl output{font-family:"Exo 2",sans-serif;background:var(--grad);-webkit-background-clip:text;background-clip:text;color:transparent;font-weight:800}
+.sl input{width:100%;accent-color:#0B1D59;margin:6px 0 0}
+.sl .mm{display:flex;justify-content:space-between;font-size:11px;color:var(--muted)}
+.legend i.dot2{background:repeating-linear-gradient(90deg,#3B8CDB 0 2px,transparent 2px 4px)!important;height:3px}
+.kpi.static{cursor:default}.kpi.static:hover{transform:none}
+.fab{all:unset;position:fixed;right:20px;bottom:20px;z-index:50;cursor:pointer;background:var(--grad);color:#fff;font-weight:700;font-family:"Exo 2",sans-serif;padding:13px 20px;border-radius:99px;box-shadow:0 8px 24px rgba(11,29,89,.35)}
+.fab:focus-visible{outline:3px solid #12203F;outline-offset:2px}
+.ask{position:fixed;right:20px;bottom:76px;z-index:50;width:min(440px,calc(100vw - 32px));height:min(680px,calc(100vh - 110px));background:#fff;border:1px solid var(--line);border-radius:18px;box-shadow:0 20px 60px rgba(18,32,63,.18);display:flex;flex-direction:column;overflow:hidden}
+.ask[hidden]{display:none}
+.askh{padding:14px 16px;border-bottom:1px solid var(--line);display:flex;justify-content:space-between;align-items:center}
+.askh h3{font-size:16px;background:var(--grad);-webkit-background-clip:text;background-clip:text;color:transparent}
+.x{all:unset;cursor:pointer;font-size:20px;color:var(--muted);padding:0 6px}
+#askLog{flex:1;overflow-y:auto;padding:14px;display:flex;flex-direction:column;gap:10px;background:#F7F9FC}
+.msg{max-width:92%;border-radius:14px;padding:10px 12px;font-size:13.5px}
+.msg p{margin:4px 0}
+.msg.me{align-self:flex-end;background:var(--grad);color:#fff}
+.msg.bot{align-self:flex-start;background:#fff;border:1px solid var(--line)}
+.msg.st-nodata{border-color:var(--bad);background:var(--bad-bg)}
+.msg.st-ambigu{border-color:var(--warn);background:var(--warn-bg)}
+.at{font-weight:600;font-size:12.5px;color:var(--ink2)}
+.av{font-family:"Exo 2",sans-serif;font-weight:800;font-size:24px;background:var(--grad);-webkit-background-clip:text;background-clip:text;color:transparent}
+.tags{display:flex;gap:4px;margin-bottom:4px}
+.tg{font-size:10.5px;font-weight:700;padding:1px 7px;border-radius:99px;text-transform:uppercase;letter-spacing:.03em}
+.tg-r{background:#E3EEFA;color:#0B1D59}.tg-b{background:#EDF0F5;color:#55607A}.tg-f{background:#E0EEFB;color:#1F4F99}
+.mini{height:150px;margin:8px 0 4px}
+.srcLink{all:unset;cursor:pointer;color:var(--a1);font-weight:600;font-size:12.5px}
+.srcLink:hover{text-decoration:underline}
+.compris{font-size:11px;color:var(--muted);margin-top:6px}
+.sugg{display:flex;flex-direction:column;gap:4px;margin-top:6px;font-size:12px;color:var(--ink2)}
+.sg{all:unset;cursor:pointer;color:var(--a1);background:#fff;border:1px solid var(--line);border-radius:8px;padding:4px 8px;font-size:12.5px}
+.sg:hover{border-color:var(--a1)}
+#askForm{display:flex;gap:8px;padding:12px;border-top:1px solid var(--line)}
+#askIn{flex:1;border:1px solid var(--line);border-radius:99px;padding:9px 14px;font:inherit;font-size:14px}
+#askIn:focus{outline:2px solid var(--a1)}
+.modal{position:fixed;inset:0;background:rgba(18,32,63,.45);z-index:60;display:flex;align-items:center;justify-content:center;padding:16px}
+.modal[hidden]{display:none}
+.modal .box{background:#fff;border-radius:16px;max-width:760px;width:100%;max-height:80vh;overflow:auto;padding:20px}
+tr.hi td{background:#E8F1FB;font-weight:600}
+.matrix td,.matrix th{text-align:center;padding:6px 5px}
+.matrix td:first-child,.matrix th:first-child{text-align:left;white-space:normal;min-width:240px}
+.matrix td.cat{background:#F7F9FC;font-family:"Exo 2",sans-serif;font-weight:700;font-size:12px;color:var(--muted);text-transform:uppercase;letter-spacing:.04em}
+.cv,.cr,.cn{display:inline-block;min-width:64px;border-radius:6px;padding:3px 6px;font-size:12px;font-weight:600}
+.cv{background:var(--good-bg);color:var(--good)}.cr{background:var(--bad);color:#fff;cursor:pointer}.cn{background:#EEF2F7;color:#A3ABBC}
+.cause{border:1px solid var(--line);border-left:4px solid var(--bad);border-radius:12px;padding:12px 14px;margin:10px 0}
+.cause .h{display:flex;flex-wrap:wrap;gap:8px;align-items:center;font-weight:600}
+.cert{font-size:11px;font-weight:700;padding:1px 8px;border-radius:99px;text-transform:uppercase}
+.cert.etablie{background:var(--good-bg);color:var(--good)}.cert.probable{background:var(--warn-bg);color:var(--warn)}.cert.inconnue{background:var(--bad-bg);color:var(--bad)}
+.cause ul{margin:8px 0 0;padding-left:18px;font-size:13px;color:var(--ink2)}
+.brand{display:flex;align-items:center;gap:18px}.brand img{height:42px;width:auto;padding-right:18px;border-right:1px solid var(--line)}
+h1,h2,h3{letter-spacing:-.01em}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <div class="brand">
+      <img src="data:image/png;base64,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" alt="Althéa" width="137" height="42">
+      <div><h1>CFO Cockpit</h1>
+      <div class="sub" id="hdr"></div></div>
+    </div>
+    <div class="sub" id="gen"></div>
+  </header>
+  <nav class="tabs" role="tablist">
+    <button class="tab on" role="tab" aria-selected="true" data-tab="cockpit">Cockpit</button>
+    <button class="tab" role="tab" aria-selected="false" data-tab="sim">Simulation T4</button>
+    <button class="tab" role="tab" aria-selected="false" data-tab="proof">Proof Center</button>
+  </nav>
+  <div id="tab-cockpit">
+
+  <section class="card" id="recCard">
+    <h2><span class="g">Réconciliation</span> des sources</h2>
+    <div class="sub">Contrôles automatiques entre le P&amp;L comptable, le détail des ventes et la balance âgée. Rien n'est corrigé en silence.</div>
+    <ul class="rec" id="recList"></ul>
+    <div id="obsList"></div>
+    <details><summary>Voir les contrôles effectués</summary><div class="scroll"><table id="ctlTable"></table></div></details>
+    <div class="board" id="cm-reconciliation"></div>
+  </section>
+
+  <section>
+    <div class="row"><h2><span class="g">Indicateurs clés</span> — cumul à fin septembre</h2><span class="hint">Cliquez un indicateur pour le détail mois par mois</span></div>
+    <div class="kpis" id="kpis"></div>
+    <div class="board" id="cm-kpis" style="margin-bottom:20px"></div>
+  </section>
+
+  <section class="card">
+    <div class="row">
+      <div><h2 id="detTitle"></h2><div class="sub">Réel vs budget, mois par mois</div></div>
+      <div class="chips" id="gamChips"></div>
+    </div>
+    <div class="legend"><span><i style="background:var(--reel)"></i>Réel</span><span><i class="dash"></i>Budget</span></div>
+    <div class="grid2">
+      <div class="chart"><canvas id="cLine" role="img" aria-label="Courbe réel versus budget"></canvas></div>
+      <div class="scroll"><table id="detTable"></table></div>
+    </div>
+    <div class="board" id="cm-tendance"></div>
+  </section>
+
+  <div class="grid2">
+    <section class="card">
+      <h2><span class="g">CA par gamme</span></h2><div class="sub">Cumul janv.–sept., réel vs budget (source : P&amp;L comptable). Cliquez une gamme pour son détail mensuel.</div>
+      <div class="legend"><span><i class="sq" style="background:var(--reel)"></i>Réel</span><span><i class="sq" style="background:var(--budget)"></i>Budget</span></div>
+      <div class="chart"><canvas id="cGam" role="img" aria-label="Histogramme du CA par gamme"></canvas></div>
+      <div class="scroll"><table id="gamTable"></table></div>
+      <div class="board" id="cm-gammes"></div>
+    </section>
+    <section class="card">
+      <h2><span class="g">Top clients</span></h2><div class="sub" id="cliSrc"></div>
+      <div class="chart"><canvas id="cCli" role="img" aria-label="CA par client"></canvas></div>
+      <div class="board" id="cm-clients"></div>
+    </section>
+  </div>
+
+  <section class="card">
+    <h2><span class="g">Ventes par client et par mois</span></h2><div class="sub">CA HT facturé (Ventes_Detail). Le top 5 est en gras.</div>
+    <div class="scroll"><table class="heat top5" id="cliTable"></table></div>
+  </section>
+
+  <section class="card">
+    <h2><span class="g">Pont EBITDA</span> budget → réel (YTD)</h2><div class="sub" id="pontMeth"></div>
+    <div class="legend"><span><i class="sq" style="background:var(--a1)"></i>Total</span><span><i class="sq" style="background:var(--good)"></i>Effet favorable</span><span><i class="sq" style="background:var(--bad)"></i>Effet défavorable</span></div>
+    <div class="chart tall"><canvas id="cPont" role="img" aria-label="Pont EBITDA en cascade"></canvas></div>
+    <details><summary>Voir le détail du calcul</summary><div class="scroll"><table id="pontTable"></table></div></details>
+    <div class="board" id="cm-pont"></div>
+  </section>
+
+  <section class="card" id="creances">
+    <h2><span class="g">Créances clients</span> au <span id="crDate"></span></h2><div class="sub">Balance âgée TTC, retard calculé à partir de l'échéance.</div>
+    <div class="alertbox" id="crAlert"></div>
+    <div class="grid2">
+      <div>
+        <div class="legend" id="crLegend"></div>
+        <div class="chart tall"><canvas id="cCr" role="img" aria-label="Balance âgée par client"></canvas></div>
+      </div>
+      <div>
+        <div class="scroll"><table id="trTable"></table></div>
+        <h3 style="font-size:15px;margin:16px 0 6px">Factures à plus de 60 jours</h3>
+        <div class="scroll" style="max-height:260px;overflow-y:auto"><table id="f60Table"></table></div>
+      </div>
+    </div>
+    <div class="board" id="cm-creances"></div>
+  </section>
+  </div>
+  <div id="tab-proof" hidden>
+    <section class="card">
+      <h2><span class="g">Proof Center</span> — contre-calcul indépendant</h2>
+      <div class="sub" id="pfMeta"></div>
+      <div id="pfStale"></div>
+      <div class="board" id="pfSynth"></div>
+    </section>
+    <section class="card">
+      <div class="row"><h2>Matrice de contrôle</h2><div class="legend" style="margin:0"><span><i class="sq" style="background:var(--good)"></i>Écart &lt; 1 €</span><span><i class="sq" style="background:var(--bad)"></i>Écart ≥ 1 € (montant affiché)</span><span><i class="sq" style="background:#D5DBE5"></i>Non applicable</span></div></div>
+      <div class="sub">Survolez une cellule pour voir les deux montants comparés ; cliquez une cellule rouge pour aller à sa cause.</div>
+      <div class="scroll"><table class="matrix" id="pfMatrix"></table></div>
+    </section>
+    <section class="card">
+      <h2>Écarts rouges : cause probable</h2>
+      <div id="pfCauses"></div>
+    </section>
+    <section class="card">
+      <h2>Contrôles ponctuels</h2>
+      <div class="scroll"><table id="pfPonct"></table></div>
+    </section>
+  </div>
+  <div id="tab-sim" hidden>
+    <section class="card">
+      <div class="row">
+        <div><h2><span class="g">Simulation T4</span> — atterrissage 2026</h2><div class="sub">Forecast oct.–déc. calculé par build_metrics.py. Les curseurs s'appliquent par-dessus le scénario central.</div></div>
+        <div class="chips" id="scBtns"></div>
+      </div>
+      <div class="sim">
+        <div class="sliders" id="sliders"></div>
+        <div>
+          <div class="kpis" id="simKpis" style="grid-template-columns:repeat(auto-fit,minmax(190px,1fr))"></div>
+          <div class="row" style="margin-top:6px"><div class="legend" style="margin:0"><span><i class="dash"></i>Budget</span><span><i style="background:var(--reel)"></i>Réel</span><span><i class="dot2"></i>Atterrissage simulé</span></div>
+            <div class="chips" id="simMetric"></div></div>
+          <div class="chart"><canvas id="cSim" role="img" aria-label="Budget, réel et atterrissage simulé par mois"></canvas></div>
+        </div>
+      </div>
+      <div class="grid2" style="margin-top:16px">
+        <div class="scroll"><table id="simT4"></table></div>
+        <div class="scroll"><table id="simTreso"></table></div>
+      </div>
+      <div class="sub" id="simCheck" style="margin-top:8px"></div>
+      <details><summary>Méthode de calcul (définie dans build_metrics.py)</summary><ul id="simMeth" class="sub"></ul></details>
+      <div class="board" id="cm-simulation"></div>
+    </section>
+  </div>
+</div>
+
+<button class="fab" id="askFab" aria-expanded="false" aria-controls="askPanel">Ask the CFO</button>
+<div class="ask" id="askPanel" hidden role="dialog" aria-label="Ask the CFO">
+  <div class="askh"><h3>Ask the CFO</h3><button class="x" id="askClose" aria-label="Fermer">×</button></div>
+  <div id="askLog" aria-live="polite"></div>
+  <form id="askForm"><input id="askIn" autocomplete="off" placeholder="Ex. : CA de juillet vs budget ?" aria-label="Votre question"><button class="btn" type="submit">Envoyer</button></form>
+</div>
+<div class="modal" id="srcModal" hidden role="dialog" aria-modal="true" aria-labelledby="srcTitle">
+  <div class="box"><div class="row"><div><h2 id="srcTitle"></h2><div class="sub" id="srcPath"></div></div><button class="x" id="srcClose" aria-label="Fermer">×</button></div>
+  <div class="scroll"><table id="srcTable"></table></div></div>
+</div>
+
+<script>
+(function(){
+if(!M){document.body.innerHTML='<p style="padding:40px">metrics.json non injecté : lancez <code>python3 build_metrics.py</code>.</p>';return;}
+const $=id=>document.getElementById(id);
+const nf0=new Intl.NumberFormat('fr-FR',{maximumFractionDigits:0});
+const nf1=new Intl.NumberFormat('fr-FR',{minimumFractionDigits:1,maximumFractionDigits:1});
+const eur=(x,s)=>(s&&x>=0?'+':x<0?'−':'')+nf0.format(Math.abs(x))+' €';
+const keur=x=>(x<0?'−':'')+nf0.format(Math.abs(x)/1000)+' k€';
+const pc=(x,s)=>x==null?'—':(s&&x>=0?'+':x<0?'−':'')+nf1.format(Math.abs(x))+' %';
+const pt=x=>(x>=0?'+':'−')+nf1.format(Math.abs(x))+' pt';
+const fmt=(u,x,s)=>u==='pct'?pc(x,s):eur(x,s);
+const cls=(x,inv)=>Math.abs(x)<1e-9?'neu':((x>0)!==!!inv?'pos':'neg');
+const esc=s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const board=(id,title)=>{$(id).innerHTML='<b>'+title+'</b>'+M.commentaires[id.slice(3)].map(esc).join(' ');};
+
+Chart.defaults.font.family='Inter, system-ui, sans-serif';Chart.defaults.font.size=12;Chart.defaults.color='#4A5672';
+Chart.defaults.plugins.legend.display=false;
+const grid={color:'#EEF2F7'},noGrid={display:false};
+const css=v=>getComputedStyle(document.documentElement).getPropertyValue(v).trim();
+const C={reel:css('--reel'),bud:css('--budget'),good:css('--good'),bad:css('--bad'),a1:css('--a1')};
+const tip={backgroundColor:'#12203F',padding:10,cornerRadius:8,titleFont:{weight:'600'}};
+
+// ---- en-tête
+$('hdr').textContent=M.meta.societe+' · Exercice '+M.meta.exercice+' · Situation au '+M.meta.date_arrete;
+$('gen').textContent='Généré le '+M.meta.genere_le+' depuis '+M.meta.source;
+
+// ---- réconciliation
+const R=M.reconciliation;
+$('recList').innerHTML=R.anomalies.length?R.anomalies.map(a=>'<li><span class="tag '+a.gravite+'">'+a.gravite+'</span><strong>'+esc(a.titre)+'</strong>'+(a.impact_eur!=null?' — '+eur(a.impact_eur,true):'')+'<br><span class="sub">'+esc(a.description)+'</span></li>').join(''):'<li class="ok">Aucune anomalie.</li>';
+$('obsList').innerHTML=R.observations.map(o=>'<div class="alertbox" style="border-color:var(--warn);background:var(--warn-bg);color:#5C3800"><strong style="color:var(--warn)">Point d\'attention — '+esc(o.titre)+'</strong><br>'+esc(o.description)+'</div>').join('');
+$('ctlTable').innerHTML='<tr><th>Contrôle</th><th>Statut</th><th>Détail</th></tr>'+R.controles.map(c=>'<tr><td>'+esc(c.controle)+'</td><td class="'+(c.ok?'ok':'ko')+'">'+(c.ok?'OK':'KO')+'</td><td>'+esc(c.detail)+'</td></tr>').join('');
+board('cm-reconciliation','Commentaire au conseil');
+
+// ---- KPI
+const K=M.kpis, CR=M.creances;
+const tiles=[
+  {k:'ca'},{k:'marge_brute'},{k:'taux_marge'},{k:'ebitda'},{k:'taux_ebitda'},
+  {id:'dso',label:'DSO',v:nf1.format(CR.dso.jours)+' j',b:'Objectif '+nf0.format(CR.dso.objectif)+' j',p:'+'+nf1.format(CR.dso.ecart)+' j',pc:CR.dso.ecart>0?'neg':'pos',scroll:true},
+  {id:'p60',label:'Créances > 60 j',v:keur(CR.plus_60.montant),b:pc(CR.plus_60.part)+' de l\'encours',p:CR.plus_60.nb+' factures',pc:'neg',alert:CR.plus_60.part>=10,scroll:true},
+];
+let sel='ca';
+function tileHTML(t){
+  if(t.k){const x=K[t.k],y=x.ytd,u=x.unit;
+    const p=u==='pct'?pt(y.ecart):(y.ecart>=0?'+':'')+keur(y.ecart)+' · '+pc(y.ecart_pct,true);
+    return '<button class="kpi" data-k="'+t.k+'" aria-pressed="false"><div class="l">'+esc(x.label)+'</div><div class="v">'+(u==='pct'?pc(y.reel):keur(y.reel))+'</div><div class="b">Budget '+(u==='pct'?pc(y.budget):keur(y.budget))+'</div><span class="pill '+cls(y.ecart)+'">'+p+'</span></button>';}
+  return '<button class="kpi'+(t.alert?' alert':'')+'" data-s="'+t.id+'"><div class="l">'+t.label+(t.alert?' ⚠':'')+'</div><div class="v">'+t.v+'</div><div class="b">'+t.b+'</div><span class="pill '+t.pc+'">'+t.p+'</span></button>';
+}
+$('kpis').innerHTML=tiles.map(tileHTML).join('');
+$('kpis').addEventListener('click',e=>{const b=e.target.closest('.kpi');if(!b)return;
+  if(b.dataset.k){select(b.dataset.k);document.querySelector('#detTitle').scrollIntoView({behavior:'smooth',block:'center'});}
+  else $('creances').scrollIntoView({behavior:'smooth'});});
+board('cm-kpis','Commentaire au conseil');
+
+// chips gammes
+const gk=Object.keys(K).filter(k=>K[k].gamme);
+$('gamChips').innerHTML=['ca',...gk].map(k=>'<button class="btn ghost" data-k="'+k+'">'+esc(k==='ca'?'Total':K[k].gamme)+'</button>').join('');
+$('gamChips').addEventListener('click',e=>{const b=e.target.closest('[data-k]');if(b)select(b.dataset.k);});
+
+// ---- détail mensuel
+const lineChart=new Chart($('cLine'),{type:'line',data:{labels:M.meta.mois,datasets:[
+  {label:'Réel',data:[],borderColor:C.reel,backgroundColor:C.reel,borderWidth:2,pointRadius:4,pointHoverRadius:6,tension:.25},
+  {label:'Budget',data:[],borderColor:C.bud,backgroundColor:C.bud,borderWidth:2,borderDash:[5,4],pointRadius:4,pointHoverRadius:6,pointStyle:'rectRot',tension:.25}]},
+  options:{maintainAspectRatio:false,interaction:{mode:'index',intersect:false},scales:{x:{grid:noGrid},y:{grid,ticks:{}}},plugins:{tooltip:{...tip,callbacks:{}}}}});
+function select(k){
+  sel=k;const x=K[k],u=x.unit,m=x.mensuel;
+  document.querySelectorAll('.kpi[data-k]').forEach(b=>{b.classList.toggle('on',b.dataset.k===k);b.setAttribute('aria-pressed',b.dataset.k===k);});
+  document.querySelectorAll('#gamChips [data-k]').forEach(b=>b.classList.toggle('on',b.dataset.k===k));
+  $('detTitle').innerHTML='<span class="g">'+esc(x.label)+'</span>';
+  lineChart.data.datasets[0].data=m.reel;lineChart.data.datasets[1].data=m.budget;
+  lineChart.options.scales.y.ticks.callback=v=>u==='pct'?nf0.format(v)+' %':keur(v);
+  lineChart.options.plugins.tooltip.callbacks.label=c=>' '+c.dataset.label+' : '+fmt(u,c.raw);
+  lineChart.options.plugins.tooltip.callbacks.afterBody=it=>{const i=it[0].dataIndex;return 'Écart : '+(u==='pct'?pt(m.ecart[i]):eur(m.ecart[i],true)+' ('+pc(m.ecart_pct[i],true)+')');};
+  lineChart.update();
+  let h='<tr><th>Mois</th><th>Réel</th><th>Budget</th><th>Écart'+(u==='pct'?' (pts)':' €')+'</th>'+(u==='pct'?'':'<th>Écart %</th>')+'</tr>';
+  M.meta.mois.forEach((mo,i)=>{h+='<tr><td>'+mo+'</td><td>'+fmt(u,m.reel[i])+'</td><td>'+fmt(u,m.budget[i])+'</td><td><span class="pill '+cls(m.ecart[i])+'">'+(u==='pct'?pt(m.ecart[i]):eur(m.ecart[i],true))+'</span></td>'+(u==='pct'?'':'<td>'+pc(m.ecart_pct[i],true)+'</td>')+'</tr>';});
+  const y=x.ytd;h+='<tr class="tot"><td>Cumul</td><td>'+fmt(u,y.reel)+'</td><td>'+fmt(u,y.budget)+'</td><td>'+(u==='pct'?pt(y.ecart):eur(y.ecart,true))+'</td>'+(u==='pct'?'':'<td>'+pc(y.ecart_pct,true)+'</td>')+'</tr>';
+  $('detTable').innerHTML=h;
+}
+select('ca');
+board('cm-tendance','Commentaire au conseil');
+
+// ---- gammes
+const G=M.gammes;
+new Chart($('cGam'),{type:'bar',data:{labels:G.map(g=>g.gamme),datasets:[
+  {label:'Réel',data:G.map(g=>g.reel),backgroundColor:C.reel,borderRadius:4,borderSkipped:'start',maxBarThickness:34},
+  {label:'Budget',data:G.map(g=>g.budget),backgroundColor:C.bud,borderRadius:4,borderSkipped:'start',maxBarThickness:34}]},
+  options:{maintainAspectRatio:false,datasets:{bar:{categoryPercentage:.7,barPercentage:.9}},scales:{x:{grid:noGrid},y:{grid,ticks:{callback:keur}}},
+  onClick:(e,els)=>{if(els.length){select('ca_'+G[els[0].index].gamme);$('detTitle').scrollIntoView({behavior:'smooth',block:'center'});}},
+  onHover:(e,els)=>{e.native.target.style.cursor=els.length?'pointer':'default';},
+  plugins:{tooltip:{...tip,callbacks:{label:c=>' '+c.dataset.label+' : '+eur(c.raw),afterBody:it=>{const g=G[it[0].dataIndex];return 'Écart : '+eur(g.ecart,true)+' ('+pc(g.ecart_pct,true)+')';}}}}}});
+$('gamTable').innerHTML='<tr><th>Gamme</th><th>Réel</th><th>Budget</th><th>Écart</th><th>%</th><th>Poids</th></tr>'+G.map(g=>'<tr><td>'+esc(g.gamme)+'</td><td>'+eur(g.reel)+'</td><td>'+eur(g.budget)+'</td><td><span class="pill '+cls(g.ecart)+'">'+eur(g.ecart,true)+'</span></td><td>'+pc(g.ecart_pct,true)+'</td><td>'+pc(g.part_reel)+'</td></tr>').join('');
+board('cm-gammes','Commentaire au conseil');
+
+// ---- clients
+const CL=M.clients, top=new Set(CL.top5);
+$('cliSrc').textContent='CA HT cumulé par client — source : '+CL.source+'. Top 5 = '+pc(CL.part_top5)+' du total.';
+new Chart($('cCli'),{type:'bar',data:{labels:CL.lignes.map(l=>l.client),datasets:[{label:'CA HT',data:CL.lignes.map(l=>l.total),
+  backgroundColor:CL.lignes.map(l=>top.has(l.client)?C.reel:'#C3D7EF'),borderRadius:4,borderSkipped:'start',maxBarThickness:22}]},
+  options:{indexAxis:'y',maintainAspectRatio:false,scales:{x:{grid,ticks:{callback:keur}},y:{grid:noGrid}},
+  plugins:{tooltip:{...tip,callbacks:{label:c=>{const l=CL.lignes[c.dataIndex];return [' CA : '+eur(l.total)+' ('+pc(l.part)+')',' Taux de marge : '+pc(l.taux_marge)].concat(l.dont_doublon?[' dont doublon : '+eur(l.dont_doublon)]:[]);}}}}}});
+const maxM=Math.max(...CL.lignes.flatMap(l=>l.mensuel));
+let ht='<tr><th>Client</th>'+M.meta.mois.map(m=>'<th>'+m+'</th>').join('')+'<th>Total</th><th>Part</th></tr>';
+CL.lignes.forEach(l=>{ht+='<tr><td'+(top.has(l.client)?'':' style="font-weight:400"')+'>'+esc(l.client)+(l.dont_doublon?' <span class="tag haute" title="Contient un doublon de facture">doublon</span>':'')+'</td>'+l.mensuel.map(v=>'<td class="c" style="background:rgba(11,29,89,'+(0.04+0.28*v/maxM).toFixed(3)+')">'+keur(v)+'</td>').join('')+'<td><b>'+eur(l.total)+'</b></td><td>'+pc(l.part)+'</td></tr>';});
+const colTot=M.meta.mois.map((_,i)=>CL.lignes.reduce((s,l)=>s+l.mensuel[i],0));
+ht+='<tr class="tot"><td>Total détail</td>'+colTot.map(v=>'<td>'+keur(v)+'</td>').join('')+'<td>'+eur(CL.total_detail)+'</td><td>'+pc(100)+'</td></tr>';
+$('cliTable').innerHTML=ht;
+board('cm-clients','Commentaire au conseil');
+
+// ---- pont EBITDA (cascade)
+const P=M.pont_ebitda.etapes;let run=0;const bars=[],cols=[];
+P.forEach(e=>{if(e.type==='total'){bars.push([0,e.valeur]);cols.push(C.a1);run=e.valeur;}else{bars.push([run,run+e.valeur]);cols.push(e.valeur>=0?C.good:C.bad);run+=e.valeur;}});
+$('pontMeth').textContent=M.pont_ebitda.methode;
+new Chart($('cPont'),{type:'bar',data:{labels:P.map(e=>e.label),datasets:[{data:bars,backgroundColor:cols,borderRadius:4,borderSkipped:false,maxBarThickness:56}]},
+  options:{maintainAspectRatio:false,scales:{x:{grid:noGrid,ticks:{autoSkip:false,maxRotation:30,minRotation:0}},y:{grid,ticks:{callback:keur},
+    min:Math.floor(Math.min(...bars.filter((_,i)=>P[i].type!=='total').flat())*0.9/50000)*50000}},
+  plugins:{tooltip:{...tip,callbacks:{label:c=>{const e=P[c.dataIndex];return ' '+(e.type==='total'?eur(e.valeur):eur(e.valeur,true));},afterLabel:c=>P[c.dataIndex].detail||''}}}},
+  plugins:[{id:'lbl',afterDatasetsDraw(ch){const {ctx}=ch;ctx.save();ctx.font='600 12px Inter';ctx.fillStyle='#12203F';ctx.textAlign='center';
+    ch.getDatasetMeta(0).data.forEach((b,i)=>{const e=P[i];const y=Math.min(b.y,b.base)-6;const r=Math.round(e.valeur/1000);ctx.fillText(e.type==='total'?keur(e.valeur):(r>0?'+':r<0?'−':'')+nf0.format(Math.abs(r))+' k€',b.x,y);});ctx.restore();}}]});
+$('pontTable').innerHTML='<tr><th>Étape</th><th>Montant</th><th>Calcul</th></tr>'+P.map(e=>'<tr><td>'+esc(e.label)+'</td><td>'+(e.type==='total'?'<b>'+eur(e.valeur)+'</b>':'<span class="pill '+cls(e.valeur)+'">'+eur(e.valeur,true)+'</span>')+'</td><td style="text-align:left">'+esc(e.detail||'')+'</td></tr>').join('');
+board('cm-pont','Commentaire au conseil');
+
+// ---- créances
+$('crDate').textContent=M.meta.date_arrete;
+const TR=CR.tranches, trCol={'Non échu':'#D3E3F6','1-30 j':'#8DB8E8','31-60 j':'#2F6FB5','61-90 j':'#E0526A','> 90 j':'#A3122C'};
+$('crAlert').innerHTML=CR.plus_60.part>=10
+  ?'<strong>⚠ Alerte retard &gt; 60 jours :</strong> '+eur(CR.plus_60.montant)+' TTC, soit '+pc(CR.plus_60.part)+' de l\'encours ('+CR.plus_60.nb+' factures, '+CR.plus_60.nb_clients+' clients). DSO '+nf1.format(CR.dso.jours)+' j pour un objectif de '+nf0.format(CR.dso.objectif)+' j.'
+  :'<strong>Retard &gt; 60 jours :</strong> '+eur(CR.plus_60.montant)+' ('+pc(CR.plus_60.part)+' de l\'encours).';
+$('crLegend').innerHTML=TR.map(t=>'<span><i class="sq" style="background:'+trCol[t.tranche]+'"></i>'+t.tranche+'</span>').join('');
+const PC=CR.par_client;
+new Chart($('cCr'),{type:'bar',data:{labels:PC.map(c=>c.client),datasets:TR.map(t=>({label:t.tranche,data:PC.map(c=>c.tranches[t.tranche]),backgroundColor:trCol[t.tranche],borderColor:'#fff',borderWidth:{right:2},borderSkipped:false,maxBarThickness:22}))},
+  options:{indexAxis:'y',maintainAspectRatio:false,scales:{x:{stacked:true,grid,ticks:{callback:keur}},y:{stacked:true,grid:noGrid,ticks:{callback:function(v){const c=PC[v];return (c.plus_60>0?'⚠ ':'')+c.client;}}}},
+  plugins:{tooltip:{...tip,mode:'index',intersect:false,callbacks:{label:c=>c.raw?' '+c.dataset.label+' : '+eur(c.raw):null,footer:it=>{const c=PC[it[0].dataIndex];return 'Total '+eur(c.total)+' · > 60 j : '+eur(c.plus_60)+' ('+pc(c.part_plus_60)+')';}}}}}});
+$('trTable').innerHTML='<tr><th>Tranche</th><th>Factures</th><th>Montant TTC</th><th>Part</th></tr>'+TR.map(t=>'<tr><td><i style="display:inline-block;width:10px;height:10px;border-radius:3px;margin-right:6px;background:'+trCol[t.tranche]+'"></i>'+t.tranche+'</td><td>'+t.nb+'</td><td>'+eur(t.montant)+'</td><td>'+pc(t.part)+'</td></tr>').join('')
+  +'<tr class="tot"><td>Total</td><td>'+CR.nb_factures+'</td><td>'+eur(CR.total)+'</td><td>'+pc(100)+'</td></tr>'
+  +'<tr><td>DSO (épuisement)</td><td colspan="3">'+nf1.format(CR.dso.jours)+' j · méthode simple 3 mois : '+nf1.format(CR.dso.jours_simple_3m)+' j</td></tr>';
+$('f60Table').innerHTML='<tr><th>Facture</th><th>Client</th><th>Échéance</th><th>Retard</th><th>TTC</th></tr>'+CR.factures_plus_60.map(f=>'<tr><td>'+f.facture+'</td><td style="text-align:left">'+esc(f.client)+'</td><td>'+f.echeance+'</td><td><span class="pill neg">'+f.retard+' j</span></td><td>'+eur(f.montant)+'</td></tr>').join('');
+board('cm-creances','Commentaire au conseil');
+
+// ---- onglets
+document.querySelectorAll('.tab').forEach(t=>t.addEventListener('click',()=>{
+  document.querySelectorAll('.tab').forEach(x=>{x.classList.toggle('on',x===t);x.setAttribute('aria-selected',x===t);});
+  ['cockpit','sim','proof'].forEach(k=>$('tab-'+k).hidden=t.dataset.tab!==k);
+  if(t.dataset.tab==='sim')initSim();}));
+
+// ---- simulation T4 : réplique exacte de simuler() de build_metrics.py (aucune hypothèse ici)
+const S=M.simulation, SM=S.modele;
+function simuler(dCa,dMargePts,dPerso,dso){
+  const ca=SM.ca.map(x=>x*(1+dCa));
+  const mb=ca.map((c,i)=>c*(SM.taux_marge[i]+dMargePts/100));
+  const k=p=>SM.charges_variables.includes(p)?1+dCa:p==='Frais de personnel'?1+dPerso:1;
+  const ch=[0,1,2].map(i=>Object.keys(SM.charges).reduce((t,p)=>t+SM.charges[p][i]*k(p),0));
+  const eb=mb.map((x,i)=>x-ch[i]);const sum=a=>a.reduce((x,y)=>x+y,0);
+  const caAn=SM.ytd.ca+sum(ca), ebAn=SM.ytd.ebitda+sum(eb);
+  const ebit=SM.ytd.ebit+sum(eb)-sum(SM.dotations);const I=SM.is;
+  const impot=ebit<=0?0:I.taux_reduit*Math.min(ebit,I.seuil)+I.taux_normal*Math.max(ebit-I.seuil,0);
+  const acDec=Math.min(I.acompte_unitaire,Math.max(0,impot-I.acomptes_verses));
+  const T=SM.treso, ttc=ca.map((c,i)=>c*SM.coef_ttc[i]);
+  const crFin=sum(ttc)*dso/T.jours_t4, enc=T.creances_30_09+sum(ttc)-crFin;
+  const achats=sum([0,1,2].map(i=>ca[i]-mb[i]+['Transport & logistique','Marketing & commercial','Autres charges externes'].reduce((t,p)=>t+SM.charges[p][i]*(SM.charges_variables.includes(p)?1+dCa:1),0)));
+  const perso=sum(SM.charges['Frais de personnel'])*(1+dPerso);
+  const dec=achats*T.ratio_fournisseurs+sum(ca)*T.ratio_tva+perso*T.ratio_personnel+3*(T.loyers_mois+T.emprunt_mois)+T.investissements_t4+acDec;
+  return {ca_annuel:caAn,ebitda_annuel:ebAn,ecart_ca:caAn-SM.budget.ca_annuel,ecart_ebitda:ebAn-SM.budget.ebitda_annuel,ebit,is:impot,
+    acompte_dec:acDec,solde_is:impot-I.acomptes_verses-acDec,creances_31_12:crFin,encaissements:enc,decaissements:dec,treso_fin:T.debut+enc-dec,
+    ca_t4:ca,ebitda_t4:eb,achats,perso};
+}
+let simInit=false,simChart,simMetric='ca';
+const P0={...S.scenarios.central};const cur={d_ca:P0.d_ca,d_marge:P0.d_marge,d_perso:P0.d_perso,dso:P0.dso};
+function initSim(){
+  if(simInit)return;simInit=true;
+  const fu=(k,v)=>{const u=S.curseurs[k].unite;return u==='j'?nf0.format(v)+' j':(v>0?'+':v<0?'−':'')+nf1.format(Math.abs(v)).replace(',0','')+(u==='pts'?' pts':' %');};
+  $('sliders').innerHTML=Object.entries(S.curseurs).map(([k,c])=>'<div class="sl"><label for="sl-'+k+'">'+esc(c.label)+'<output id="o-'+k+'"></output></label><input type="range" id="sl-'+k+'" min="'+c.min+'" max="'+c.max+'" step="'+c.pas+'"><div class="mm"><span>'+fu(k,c.min)+'</span><span>'+fu(k,c.max)+'</span></div></div>').join('');
+  Object.keys(S.curseurs).forEach(k=>$('sl-'+k).addEventListener('input',e=>{cur[k]=+e.target.value;markSc();render();}));
+  $('scBtns').innerHTML=Object.entries(S.scenarios).map(([k,sc])=>'<button class="btn ghost" data-sc="'+k+'">'+esc(sc.label)+'</button>').join('');
+  $('scBtns').addEventListener('click',e=>{const b=e.target.closest('[data-sc]');if(!b)return;const sc=S.scenarios[b.dataset.sc];Object.assign(cur,{d_ca:sc.d_ca,d_marge:sc.d_marge,d_perso:sc.d_perso,dso:sc.dso});render();markSc();});
+  $('simMetric').innerHTML='<button class="btn ghost on" data-m="ca">CA</button><button class="btn ghost" data-m="ebitda">EBITDA</button>';
+  $('simMetric').addEventListener('click',e=>{const b=e.target.closest('[data-m]');if(!b)return;simMetric=b.dataset.m;document.querySelectorAll('#simMetric [data-m]').forEach(x=>x.classList.toggle('on',x===b));render();});
+  $('simMeth').innerHTML=S.methode.map(t=>'<li>'+esc(t)+'</li>').join('');
+  board('cm-simulation','Commentaire au conseil — scénario central');
+  // contrôle de cohérence navigateur / Python sur les trois scénarios
+  const keys=['ca_annuel','ebitda_annuel','is','solde_is','treso_fin'];
+  const ecartMax=Math.max(...Object.values(S.scenarios).flatMap(sc=>{const r=simuler(sc.d_ca/100,sc.d_marge,sc.d_perso/100,sc.dso);return keys.map(k=>Math.abs(r[k]-sc.resultat[k]));}));
+  $('simCheck').innerHTML=ecartMax<=1?'<span class="ok">✓</span> Calcul du navigateur identique à build_metrics.py sur les 3 scénarios (écart max '+eur(ecartMax)+').':'<span class="ko">✗ Écart de '+eur(ecartMax)+' entre le navigateur et build_metrics.py : ne pas utiliser ces chiffres.</span>';
+  const labels=SM.budget.ca_mensuel.map((_,i)=>i<9?M.meta.mois[i]:SM.mois[i-9]);
+  simChart=new Chart($('cSim'),{type:'line',data:{labels,datasets:[
+    {label:'Budget',data:[],borderColor:C.bud,backgroundColor:C.bud,borderWidth:2,borderDash:[5,4],pointRadius:3,pointStyle:'rectRot',tension:.25},
+    {label:'Réel',data:[],borderColor:C.reel,backgroundColor:C.reel,borderWidth:2,pointRadius:4,tension:.25},
+    {label:'Atterrissage simulé',data:[],borderColor:'#3B8CDB',backgroundColor:'#3B8CDB',borderWidth:2,borderDash:[2,3],pointRadius:5,pointStyle:'triangle',tension:.25}]},
+    options:{maintainAspectRatio:false,interaction:{mode:'index',intersect:false},scales:{x:{grid:noGrid},y:{grid,ticks:{callback:keur}}},
+      plugins:{tooltip:{...tip,callbacks:{label:c=>c.raw==null?null:' '+c.dataset.label+' : '+eur(c.raw)}}}}});
+  markSc();render();
+}
+function markSc(){document.querySelectorAll('#scBtns [data-sc]').forEach(b=>{const sc=S.scenarios[b.dataset.sc];b.classList.toggle('on',sc.d_ca===cur.d_ca&&sc.d_marge===cur.d_marge&&sc.d_perso===cur.d_perso&&sc.dso===cur.dso);});}
+function render(){
+  Object.keys(S.curseurs).forEach(k=>{const c=S.curseurs[k],v=cur[k];$('sl-'+k).value=v;
+    $('o-'+k).textContent=c.unite==='j'?nf0.format(v)+' j':(v>0?'+':v<0?'−':'')+nf1.format(Math.abs(v)).replace(',0','')+(c.unite==='pts'?' pts':' %');});
+  const r=simuler(cur.d_ca/100,cur.d_marge,cur.d_perso/100,cur.dso),B=SM.budget;
+  const t=(l,v,b,p,pc2)=>'<div class="kpi static"><div class="l">'+l+'</div><div class="v">'+v+'</div><div class="b">'+b+'</div><span class="pill '+pc2+'">'+p+'</span></div>';
+  $('simKpis').innerHTML=
+    t('Atterrissage CA 2026',keur(r.ca_annuel),'Budget '+keur(B.ca_annuel),(r.ecart_ca>=0?'+':'')+keur(r.ecart_ca)+' · '+pc(r.ecart_ca/B.ca_annuel*100,true),cls(r.ecart_ca))+
+    t('Atterrissage EBITDA 2026',keur(r.ebitda_annuel),'Budget '+keur(B.ebitda_annuel)+' · taux '+pc(r.ebitda_annuel/r.ca_annuel*100),(r.ecart_ebitda>=0?'+':'')+keur(r.ecart_ebitda)+' · '+pc(r.ecart_ebitda/B.ebitda_annuel*100,true),cls(r.ecart_ebitda))+
+    t('IS 2026 estimé',keur(r.is),'Acomptes '+keur(SM.is.acomptes_verses)+' + déc. '+keur(r.acompte_dec),(r.solde_is>=0?'Solde à payer ':'Excédent ')+keur(Math.abs(r.solde_is)),r.solde_is>0?'neg':'pos')+
+    t('Trésorerie au 31/12',keur(r.treso_fin),'Au 30/09 : '+keur(SM.treso.debut),'Créances 31/12 '+keur(r.creances_31_12),'neu');
+  const reelM=SM.reel[simMetric+'_mensuel'], budM=SM.budget[simMetric+'_mensuel'], simM=simMetric==='ca'?r.ca_t4:r.ebitda_t4;
+  simChart.data.datasets[0].data=budM;simChart.data.datasets[1].data=reelM.concat([null,null,null]);
+  simChart.data.datasets[2].data=Array(8).fill(null).concat([reelM[8]],simM);simChart.update('none');
+  let h='<tr><th>T4</th>'+SM.mois.map(m=>'<th>'+m+'</th>').join('')+'<th>Total T4</th><th>Budget T4</th></tr>';
+  const bT4=k=>B[k+'_mensuel'].slice(9);const s3=a=>a.reduce((x,y)=>x+y,0);
+  h+='<tr><td>CA simulé</td>'+r.ca_t4.map(v=>'<td>'+eur(v)+'</td>').join('')+'<td><b>'+eur(s3(r.ca_t4))+'</b></td><td>'+eur(s3(bT4('ca')))+'</td></tr>';
+  h+='<tr><td>EBITDA simulé</td>'+r.ebitda_t4.map(v=>'<td>'+eur(v)+'</td>').join('')+'<td><b>'+eur(s3(r.ebitda_t4))+'</b></td><td>'+eur(s3(bT4('ebitda')))+'</td></tr>';
+  h+='<tr><td>Taux d\'EBITDA</td>'+r.ebitda_t4.map((v,i)=>'<td>'+pc(v/r.ca_t4[i]*100)+'</td>').join('')+'<td>'+pc(s3(r.ebitda_t4)/s3(r.ca_t4)*100)+'</td><td>'+pc(s3(bT4('ebitda'))/s3(bT4('ca'))*100)+'</td></tr>';
+  $('simT4').innerHTML=h;
+  $('simTreso').innerHTML='<tr><th>Trésorerie oct.–déc.</th><th>Montant</th></tr>'+
+    [['Trésorerie au 30/09',SM.treso.debut],['+ Encaissements clients',r.encaissements],['− Décaissements',-r.decaissements],['dont acompte d\'IS de décembre',-r.acompte_dec],['= Trésorerie au 31/12',r.treso_fin]]
+    .map((x,i)=>'<tr'+(i===4?' class="tot"':'')+'><td>'+x[0]+'</td><td>'+eur(x[1])+'</td></tr>').join('')+
+    '<tr><td>Résultat fiscal estimé (EBIT)</td><td>'+eur(r.ebit)+'</td></tr><tr><td>Solde d\'IS payable en 2027</td><td>'+eur(r.solde_is)+'</td></tr>';
+}
+
+// ==================== Ask the CFO ====================
+// Moteur à règles : comprend la question, puis lit UNIQUEMENT M (= metrics.json). Aucun chiffre ni hypothèse ici.
+const ASK=(()=>{
+const norm=s=>' '+String(s).toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g,'').replace(/[’`]/g,"'").replace(/\s+/g,' ').trim()+' ';
+const flat=s=>norm(s).replace(/[^a-z0-9%>' ]/g,' ').replace(/\s+/g,' ');
+const ML=['janvier','février','mars','avril','mai','juin','juillet','août','septembre','octobre','novembre','décembre'];
+const M12=M.meta.mois.concat(SM.mois);
+const LAST=M.meta.mois.length-1; // dernier mois réel (sept.)
+const RX_MOIS=[/\bjanv(ier)?\b/,/\bfev(r|rier)?\b/,/\bmars\b/,/\bavr(il)?\b/,/\bmai\b/,/\bjuin\b/,/\bjuil(let)?\b/,/\baout\b/,/\bsept(embre)?\b/,/\boct(obre)?\b/,/\bnov(embre)?\b/,/\bdec(embre)?\b/];
+const IND=[
+ ['anomalies',/anomalie|doublon|reconcili|incoheren/],
+ ['top',/\btop ?\d*\b|meilleurs? clients?|principaux clients|plus gros clients|premiers clients|classement/],
+ ['taux_ebitda',/taux d'?ebitda|marge d'?ebitda|ebitda en %|% d'?ebitda/],
+ ['ebitda',/ebitda|\bebe\b|excedent brut/],
+ ['taux_marge',/taux de marge( brute)?|% de marge|pourcentage de marge|marge en %/],
+ ['marge_brute',/marges?\b/],
+ ['dso',/\bdso\b|delai (moyen )?de (paiement|reglement)|jours de credit/],
+ ['is',/\bis\b|impots?\b|impot sur les societes/],
+ ['tresorerie',/tresorerie|\bcash\b|liquidites?|en banque/],
+ ['creances',/creances?|encours|impayes?|retards? de paiement|jours de retard|nous doi|doi(ven)?t|balance agee|en souffrance|plus de (30|60|90)|> ?(30|60|90)|non echu/],
+ ['charges',/frais de personnel|personnel|salaires?|masse salariale|loyers?|transport|logistique|marketing|commercial|charges?/],
+ ['ca',/\bca\b(?! va)|chiffre d'?affaires?|ventes?\b|vendu|achete|factur|revenus?/],
+];
+const NOM_IND={ca:"chiffre d'affaires",marge_brute:'marge brute',taux_marge:'taux de marge brute',ebitda:'EBITDA',taux_ebitda:"taux d'EBITDA",dso:'DSO',is:'impôt sur les sociétés',tresorerie:'trésorerie',creances:'créances clients',charges:"charges d'exploitation",top:'classement clients',anomalies:'anomalies de réconciliation'};
+const GAM=[[/moutarde/,"Moutardes"],[/pain d'?epice/,"Pain d'épices"],[/cassis|cremes? de/,"Crèmes de cassis"],[/condiment|cornichon|vinaigre|mayonnaise/,"Condiments"]];
+const POSTE=[[/personnel|salaire|masse salariale/,'Frais de personnel'],[/loyer/,'Loyers & charges locatives'],[/transport|logistique/,'Transport & logistique'],[/marketing|commercial/,'Marketing & commercial'],[/autres charges|charges externes/,'Autres charges externes']];
+const STOP=new Set(['france','paris','export','gourmet','grande','cash','carry','fine','food']);
+const CLI=CL.lignes.map(l=>{const n=flat(l.client).trim();const t=n.split(' ');
+  return {nom:l.client,keys:[n,...t.filter(x=>x.length>=5&&!STOP.has(x)),...t.slice(1).map((x,i)=>[t[i],x]).filter(p=>p[0].length>=3&&p[1].length>=3).map(p=>p.join(' '))]};});
+const sum=a=>a.reduce((x,y)=>x+y,0);
+const de=m=>(/^[aeiouo]/.test(norm(m).trim())?"d'":'de ')+m;
+const NAMED={'0-2':'T1','3-5':'T2','6-8':'T3','9-11':'T4','0-5':'S1','6-11':'S2'};
+const plab=(a,b)=>a===b?ML[a]:a===0&&b===LAST?'cumul janv.–sept.':a===0&&b===11?'année 2026':NAMED[a+'-'+b]||de(ML[a])+' à '+ML[b];
+
+function parse(raw){
+  const q=norm(raw),qf=' '+flat(raw)+' ';let w=q;const inds=[];
+  for(const [k,rx] of IND){const g=new RegExp(rx.source,'g');if(g.test(w)){inds.push(k);w=w.replace(new RegExp(rx.source,'g'),' ');}}
+  const clients=CLI.filter(c=>c.keys.some(k=>qf.includes(' '+k+' '))).map(c=>c.nom);
+  const gammes=GAM.filter(([rx])=>rx.test(q)).map(x=>x[1]);
+  const postes=POSTE.filter(([rx])=>rx.test(q)).map(x=>x[1]);
+  let per=null;const ms=RX_MOIS.map((r,i)=>r.test(q)?i:-1).filter(i=>i>=0);const tq=q.match(/\b[tq]([1-4])\b|\b([1-4])(er|e|eme)? trimestre|(premier|deuxieme|second|troisieme|quatrieme|dernier) trimestre/);
+  if(/(1er|premier) semestre|\bs1\b/.test(q))per=[0,5];
+  else if(/(2e|second|deuxieme) semestre|\bs2\b/.test(q))per=[6,11];
+  else if(tq){const n=tq[1]||tq[2]||{premier:1,deuxieme:2,second:2,troisieme:3,quatrieme:4,dernier:4}[tq[4]];per=[3*(n-1),3*n-1];}
+  else if(ms.length)per=[Math.min(...ms),Math.max(...ms)];
+  else if(/31\/12|fin d'?annee|sur l'?annee|annuel|l'?exercice|atterri|2026|cette annee/.test(q))per=[0,11];
+  else if(/cumul|\bytd\b|depuis (le debut|janvier)|a fin septembre|a date|jusqu'?ici|30\/09|a ce jour/.test(q))per=[0,LAST];
+  const v={budget:/budget|objectif/.test(q),forecast:/previs|prevoi|prevu|forecast|atterri|projection|attendu|estim|anticip|fin d'?annee|va faire|finir|31\/12/.test(q),
+           reel:/\breel|realise|effecti|constate/.test(q),ecart:/ecart|\bvs\b|versus|par rapport|compar|au.?dessus|en dessous|sous le budget|depass|retard sur/.test(q)};
+  return {q,inds,clients,gammes,postes,per,v,mois:ms};
+}
+
+const R=(o)=>Object.assign({status:'ok',tags:[],contexte:[],chart:null,source:null,suggestions:[]},o);
+const NODATA=(msg,sugg,extra)=>R(Object.assign({status:'nodata',titre:'Donnée non disponible',message:msg,suggestions:sugg||[]},extra||{}));
+const AMBIGU=(msg,sugg)=>R({status:'ambigu',titre:'Question ambiguë',message:msg,suggestions:sugg});
+const lineChart=(s,a,b)=>({type:'line',labels:M12,highlight:[a,b],datasets:[
+  {label:'Réel',data:s.reel,kind:'reel'},{label:'Budget',data:s.budget,kind:'budget'},{label:'Forecast (central)',data:s.forecast.map((x,i)=>i===LAST&&s.forecast[LAST+1]!=null?s.reel[LAST]:x),kind:'forecast'}],unit:s.unit});
+
+function serie(ind,g){
+  const x=K[g?'ca_'+g:ind],pad=Array(11-LAST).fill(null),f=Array(12).fill(null);
+  let b=x.mensuel.budget.concat(pad);const C0=S.scenarios.central.resultat;
+  if(!g&&ind==='ca'){b=SM.budget.ca_mensuel.slice();C0.ca_t4.forEach((v,i)=>f[LAST+1+i]=v);}
+  if(!g&&ind==='ebitda'){b=SM.budget.ebitda_mensuel.slice();C0.ebitda_t4.forEach((v,i)=>f[LAST+1+i]=v);}
+  if(g){b=x.mensuel.budget.concat(SM.budget_ca_gamme[g]);SM.ca_gamme[g].forEach((v,i)=>f[LAST+1+i]=v);}
+  return {unit:x.unit,label:x.label,reel:x.mensuel.reel.concat(pad),budget:b,forecast:f,
+          path:'kpis.'+(g?'ca_'+g:ind)+'.mensuel',pathF:f.some(v=>v!=null)?(g?'simulation.modele.ca_gamme / budget_ca_gamme':'simulation.scenarios.central.resultat + simulation.modele.budget'):''};
+}
+function srcTable(s,a,b,titre){
+  const rows=[];for(let i=a;i<=b;i++){const val=i<=LAST?s.reel[i]:s.forecast[i];
+    rows.push([M12[i],s.reel[i],s.budget[i],s.forecast[i],val!=null&&s.budget[i]!=null?(s.unit==='pct'?val-s.budget[i]:val-s.budget[i]):null]);}
+  return {titre,chemin:'metrics.json › '+s.path+(b>LAST&&s.pathF?' + '+s.pathF:''),unit:s.unit,colonnes:['Mois','Réel','Budget','Forecast (central)','Écart vs budget'],lignes:rows};
+}
+
+function kpi(p,ind){
+  const g=p.gammes[0]||null;
+  if(g&&ind!=='ca')return NODATA(`metrics.json ne ventile pas le ${NOM_IND[ind]} par gamme : seul le CA l'est (le P&L ne donne pas le coût des ventes par gamme).`,
+    [`Quel est le CA ${g} à fin septembre ?`,`Quel est le ${NOM_IND[ind]} cumulé à fin septembre ?`]);
+  const [a,b]=p.per||(p.v.forecast?[0,11]:[0,LAST]);const s=serie(ind,g);const lib=(g?'CA '+g:s.label);
+  if(s.unit==='pct'){
+    if(b>LAST)return NODATA(`Le ${NOM_IND[ind]} n'existe dans metrics.json que pour janv.–sept. (réel et budget). Aucun forecast de taux n'est calculé pour oct.–déc.`,
+      [`Quel est le ${NOM_IND[ind]} à fin septembre ?`,`Quel EBITDA est prévu pour 2026 ?`]);
+    const [nk,dk]=ind==='taux_marge'?['marge_brute','ca']:['ebitda','ca'];
+    const rr=sum(K[nk].mensuel.reel.slice(a,b+1))/sum(K[dk].mensuel.reel.slice(a,b+1))*100,bb=sum(K[nk].mensuel.budget.slice(a,b+1))/sum(K[dk].mensuel.budget.slice(a,b+1))*100;
+    return R({titre:`${lib} — ${plab(a,b)}`,valeur:pc(rr),tags:['reel'],
+      contexte:[`Réel ${plab(a,b)} : ${pc(rr)}, contre ${pc(bb)} au budget, soit ${pt(rr-bb)}.`].concat(p.v.forecast?[`Période close : c'est un réel, pas une prévision.`]:[]),
+      chart:lineChart(s,a,b),source:srcTable(s,a,b,lib)});
+  }
+  const need=[];for(let i=a;i<=b;i++)need.push(i);
+  if(need.some(i=>i>LAST&&s.forecast[i]==null))return NODATA(`Pas de réel après le 30/09 et aucun forecast de ${NOM_IND[ind]} pour oct.–déc. dans metrics.json (le forecast ne couvre que le CA, le CA par gamme et l'EBITDA).`,
+    [`Quel est le ${NOM_IND[ind]} cumulé à fin septembre ?`,`Quel est le CA prévu en ${ML[Math.max(a,LAST+1)]} ?`]);
+  const reel=sum(need.filter(i=>i<=LAST).map(i=>s.reel[i])),fc=sum(need.filter(i=>i>LAST).map(i=>s.forecast[i])),bud=sum(need.map(i=>s.budget[i]));
+  const hasR=a<=LAST,hasF=b>LAST,val=reel+fc,e=val-bud;const tags=[];if(hasR)tags.push('reel');if(hasF)tags.push('forecast');
+  const ctx=[];
+  if(p.v.budget&&!p.v.reel&&!p.v.ecart&&!p.v.forecast){
+    ctx.push(`Budget ${plab(a,b)} : ${eur(bud)}.`);ctx.push((hasF?(hasR?'Atterrissage (réel + forecast)':'Forecast (scénario central)'):'Réel')+` : ${eur(val)}, soit ${eur(e,true)} (${pc(e/Math.abs(bud)*100,true)}) vs budget.`);
+    return R({titre:`${lib} — budget ${plab(a,b)}`,valeur:eur(bud),tags:['budget'].concat(tags),contexte:ctx,chart:lineChart(s,a,b),source:srcTable(s,a,b,lib)});
+  }
+  if(hasR&&!hasF){ctx.push(`Réel ${plab(a,b)} : ${eur(val)}, contre ${eur(bud)} au budget, soit ${eur(e,true)} (${pc(e/Math.abs(bud)*100,true)}).`);
+    if(p.v.forecast)ctx.push(`Période close au 30/09 : c'est un réel, pas une prévision.`);}
+  else if(!hasR){if(p.v.reel)ctx.push(`Aucun réel pour ${plab(a,b)} : la situation est arrêtée au ${M.meta.date_arrete}.`);
+    ctx.push(`Forecast ${plab(a,b)} (scénario central, tendance janv.–sept. prolongée) : ${eur(val)}, contre ${eur(bud)} au budget, soit ${eur(e,true)} (${pc(e/Math.abs(bud)*100,true)}).`);}
+  else ctx.push(`Atterrissage ${plab(a,b)} = réel ${plab(a,LAST)} (${eur(reel)}) + forecast ${plab(LAST+1,b)} (${eur(fc)}, scénario central). Budget : ${eur(bud)}, soit ${eur(e,true)} (${pc(e/Math.abs(bud)*100,true)}).`);
+  if(ind==='marge_brute'&&b<=LAST){const tr=sum(K.marge_brute.mensuel.reel.slice(a,b+1))/sum(K.ca.mensuel.reel.slice(a,b+1))*100,tb=sum(K.marge_brute.mensuel.budget.slice(a,b+1))/sum(K.ca.mensuel.budget.slice(a,b+1))*100;ctx.push(`Taux de marge brute correspondant : ${pc(tr)} réel contre ${pc(tb)} au budget (${pt(tr-tb)}).`);}
+  if(g==="Moutardes"||(!g&&ind==='ca')){const an=M.reconciliation.anomalies.filter(x=>/^CA /.test(x.titre)&&need.some(i=>x.titre.includes(' '+M12[i]+' ')));
+    if(an.length)ctx.push(`⚠ Réconciliation : ${an.map(x=>x.titre).join(' ; ')}. Le chiffre ci-dessus est celui de la comptabilité.`);}
+  return R({titre:`${lib} — ${plab(a,b)}`,valeur:eur(val),tags,contexte:ctx,chart:lineChart(s,a,b),source:srcTable(s,a,b,lib)});
+}
+
+function client(p,ind){
+  const c=p.clients[0],l=CL.lignes.find(x=>x.client===c);const [a,b]=p.per||[0,LAST];
+  if(ind==='marge_brute'||ind==='taux_marge'){
+    if(p.per&&!(a===0&&b===LAST))return NODATA(`Le taux de marge de ${c} n'existe dans metrics.json qu'en cumul janv.–sept. (pas de détail mensuel).`,[`Quel est le taux de marge de ${c} ?`]);
+    return R({titre:`Taux de marge — ${c}`,valeur:pc(l.taux_marge),tags:['reel'],contexte:[`Réel cumul janv.–sept., calculé sur le détail des factures (CA HT − coût de revient). Aucun budget par client.`],
+      chart:{type:'bar',labels:CL.lignes.map(x=>x.client),datasets:[{label:'Taux de marge',data:CL.lignes.map(x=>x.taux_marge),kind:'reel'}],hiIdx:CL.lignes.indexOf(l),unit:'pct',horiz:true},
+      source:{titre:'Taux de marge par client',chemin:'metrics.json › clients.lignes[].taux_marge',colonnes:['Client','Taux de marge','CA HT'],lignes:CL.lignes.map(x=>[x.client,{pct:x.taux_marge},x.total]),hi:CL.lignes.indexOf(l)}});
+  }
+  if(ind!=='ca')return NODATA(`metrics.json ne contient pas de ${NOM_IND[ind]} par client.`,[`Combien ${c} a-t-il acheté depuis janvier ?`,`Combien ${c} nous doit-il ?`,`Quel est le taux de marge de ${c} ?`]);
+  if(b>LAST)return NODATA(`Aucune prévision par client dans metrics.json : seul le réel facturé janv.–sept. existe pour ${c}.`,[`Combien ${c} a-t-il acheté depuis janvier ?`,`Quel est le CA prévu en ${ML[Math.max(a,LAST+1)]} ?`]);
+  const v=sum(l.mensuel.slice(a,b+1)),d=sum(l.doublon_mensuel.slice(a,b+1));
+  const tot=sum(CL.lignes.map(x=>sum(x.mensuel.slice(a,b+1))));const rang=[...CL.lignes].sort((x,y)=>sum(y.mensuel.slice(a,b+1))-sum(x.mensuel.slice(a,b+1))).findIndex(x=>x.client===c)+1;
+  const ctx=[`Réel facturé ${plab(a,b)} : ${eur(v)} HT, soit ${pc(v/tot*100)} des ventes de la période (rang ${rang}/${CL.lignes.length}).`,`Source : détail des factures (Ventes_Detail), pas la comptabilité.`];
+  if(p.v.budget)ctx.push(`Aucun budget par client dans metrics.json : pas de comparaison possible.`);
+  if(d)ctx.push(`⚠ Ce montant inclut ${eur(d)} de doublon (facture saisie deux fois, signalée en réconciliation). Hors doublon : ${eur(v-d)}.`);
+  const hl=[];return R({titre:`CA ${c} — ${plab(a,b)}`,valeur:eur(v),tags:['reel'],contexte:ctx,
+    chart:{type:'bar',labels:M.meta.mois,datasets:[{label:'CA HT',data:l.mensuel,kind:'reel'}],highlight:[a,b],unit:'eur'},
+    source:{titre:`Ventes mensuelles — ${c}`,chemin:'metrics.json › clients.lignes[client="'+c+'"]',colonnes:['Mois','CA HT','dont doublon'],lignes:l.mensuel.map((x,i)=>[M12[i],x,l.doublon_mensuel[i]||null]),hiRange:[a,b]}});
+}
+
+function creances(p){
+  const q=p.q;let tr=null;
+  if(/non echu/.test(q))tr='Non échu';else if(/61.{0,4}90|entre 60 et 90/.test(q))tr='61-90 j';else if(/plus de 90|> ?90|au.?dela de 90/.test(q))tr='> 90 j';
+  else if(/31.{0,4}60|entre 30 et 60/.test(q))tr='31-60 j';else if(/\b1.{0,4}30|moins de 30/.test(q))tr='1-30 j';else if(/plus de 60|> ?60|au.?dela de 60|60 ?j/.test(q))tr='p60';else if(/echu|en retard|retard/.test(q))tr='echu';
+  if(p.mois.length&&!(p.mois.length===1&&p.mois[0]===LAST))return NODATA(`La balance âgée n'existe dans metrics.json qu'au ${M.meta.date_arrete}. Pas d'encours pour ${p.mois.map(i=>ML[i]).join(', ')}.`,[`Quel est l'encours clients au 30/09 ?`]);
+  if(p.v.forecast)return NODATA(`Aucune prévision de créances par tranche dans metrics.json. Seul l'encours total au 31/12 est simulé, selon le DSO choisi (onglet Simulation T4).`,[`Quel est l'encours clients au 30/09 ?`,`Quelle trésorerie fin décembre ?`]);
+  const c=p.clients[0],pc_=c?CR.par_client.find(x=>x.client===c):null;
+  if(c&&!pc_)return R({titre:`Créances — ${c}`,valeur:eur(0),tags:['reel'],contexte:[`Aucune facture ouverte au ${M.meta.date_arrete} pour ${c} dans la balance âgée.`]});
+  const TRS=CR.tranches.map(t=>t.tranche),parT=c?TRS.map(t=>pc_.tranches[t]):CR.tranches.map(t=>t.montant),tot=c?pc_.total:CR.total;
+  let val,lib,hi=[];
+  if(tr==='p60'){val=c?pc_.plus_60:CR.plus_60.montant;lib='à plus de 60 jours';hi=[3,4];}
+  else if(tr==='echu'){val=tot-parT[0];lib='échues';hi=[1,2,3,4];}
+  else if(tr){val=parT[TRS.indexOf(tr)];lib='tranche '+tr;hi=[TRS.indexOf(tr)];}
+  else{val=tot;lib='encours total';hi=[0,1,2,3,4];}
+  const ctx=[!tr?`Réel au ${M.meta.date_arrete} (balance âgée TTC) : encours de ${eur(val)}${c?` pour ${c}, soit ${pc(val/CR.total*100)} de l'encours clients total (${eur(CR.total)})`:` sur ${CR.nb_factures} factures`}.`
+    :`Réel au ${M.meta.date_arrete} (balance âgée TTC) : ${eur(val)} ${lib}${c?' pour '+c:''}, sur un encours de ${eur(tot)} (${pc(val/tot*100)}).`];
+  if(tr==='p60'){const n=c?pc_.nb_plus_60:CR.plus_60.nb;ctx.push(`${n} facture(s) concernée(s)${c?`, retard maximal ${pc_.retard_max} jours`:`, ${CR.plus_60.nb_clients} clients`}.${val/tot>=.1?' Seuil d\'alerte (10 % de l\'encours) dépassé.':''}`);}
+  if(c&&!tr)ctx.push(`Dont ${eur(pc_.plus_60)} à plus de 60 jours.`);
+  const f60=CR.factures_plus_60.filter(f=>!c||f.client===c);
+  const source=(tr==='p60'||tr==='61-90 j'||tr==='> 90 j')?{titre:`Factures à plus de 60 jours${c?' — '+c:''}`,chemin:'metrics.json › creances.factures_plus_60'+(c?'[client="'+c+'"]':''),colonnes:['Facture','Client','Échéance','Retard (j)','Montant TTC'],
+      lignes:f60.filter(f=>tr==='p60'||(tr==='> 90 j'?f.retard>90:f.retard<=90)).map(f=>[f.facture,f.client,f.echeance,{txt:f.retard+' j'},f.montant])}
+    :{titre:`Balance âgée${c?' — '+c:''}`,chemin:'metrics.json › creances.'+(c?'par_client[client="'+c+'"]':'tranches'),colonnes:['Tranche','Montant TTC','Part'],lignes:TRS.map((t,i)=>[t,parT[i],{pct:parT[i]/tot*100}]),hiSet:hi};
+  return R({titre:(tr?`Créances ${lib}`:'Encours clients')+(c?' — '+c:''),valeur:eur(val),tags:['reel'],contexte:ctx,
+    chart:{type:'bar',labels:TRS,datasets:[{label:'TTC',data:parT,kind:'reel'}],hiSet:hi,unit:'eur',aging:true},source});
+}
+
+function dso(p){
+  if(p.clients.length)return NODATA(`metrics.json ne calcule pas de DSO par client.`,[`Combien ${p.clients[0]} nous doit-il à plus de 60 jours ?`,`Quel est le DSO ?`]);
+  if(p.mois.length&&!(p.mois.length===1&&p.mois[0]===LAST)||p.v.forecast)return NODATA(`Le DSO n'est calculé qu'au ${M.meta.date_arrete}. Pour le 31/12, le DSO est un curseur de l'onglet Simulation T4, pas une donnée.`,[`Quel est le DSO ?`]);
+  const d=CR.dso;return R({titre:'DSO au '+M.meta.date_arrete,valeur:nf1.format(d.jours)+' jours',tags:['reel'],
+    contexte:[`Objectif : ${nf0.format(d.objectif)} jours (onglet Hypotheses), soit ${nf1.format(d.ecart)} jours ${d.ecart>0?'de trop':"d'avance"}.`,`Méthode : ${d.methode} Méthode simple sur 3 mois : ${nf1.format(d.jours_simple_3m)} jours.`],
+    chart:{type:'bar',labels:['DSO réel','Objectif'],datasets:[{label:'Jours',data:[d.jours,d.objectif],kind:'mix'}],unit:'j'},
+    source:{titre:'DSO',chemin:'metrics.json › creances.dso',colonnes:['Mesure','Valeur'],lignes:[['DSO (épuisement)',{txt:nf1.format(d.jours)+' j'}],['DSO simple 3 mois',{txt:nf1.format(d.jours_simple_3m)+' j'}],['Objectif',{txt:nf0.format(d.objectif)+' j'}]]}});
+}
+
+const scTable=(keys,titre)=>({titre,chemin:'metrics.json › simulation.scenarios[].resultat',colonnes:['Scénario'].concat(keys.map(k=>k[1])),lignes:Object.values(S.scenarios).map(s=>[s.label].concat(keys.map(k=>s.resultat[k[0]]))),hi:1});
+function impot(p){
+  const r=S.scenarios.central.resultat,I=SM.is;const ctx=[];
+  if(p.v.reel)ctx.push(`L'IS 2026 réel n'existe pas encore : il sera liquidé à la clôture. Seuls les acomptes versés (${eur(I.acomptes_verses)}) sont réels.`);
+  ctx.push(`Forecast (scénario central) : IS ${eur(r.is)} sur un résultat fiscal estimé de ${eur(r.ebit)} (assimilé à l'EBIT). Acomptes versés ${eur(I.acomptes_verses)} + acompte de décembre ${eur(r.acompte_dec)} : solde à payer en 2027 ${eur(r.solde_is)}.`);
+  ctx.push(`Fourchette : ${eur(S.scenarios.prudent.resultat.is)} (prudent) à ${eur(S.scenarios.ambitieux.resultat.is)} (ambitieux).`);
+  return R({titre:'IS 2026 — estimation',valeur:eur(r.is),tags:['forecast'],contexte:ctx,
+    chart:{type:'bar',labels:Object.values(S.scenarios).map(s=>s.label),datasets:[{label:'IS',data:Object.values(S.scenarios).map(s=>s.resultat.is),kind:'forecast'}],hiSet:[1],unit:'eur'},
+    source:scTable([['ebit','Résultat fiscal'],['is','IS'],['acompte_dec','Acompte déc.'],['solde_is','Solde 2027']],'IS par scénario')});
+}
+function treso(p){
+  const r=S.scenarios.central.resultat,deb=SM.treso.debut;
+  const fin=(p.per&&p.per[1]>LAST)||p.v.forecast, now=p.mois.length===1&&p.mois[0]===LAST||/30\/09|actuel|aujourd|a ce jour/.test(p.q);
+  if(p.mois.length&&!p.mois.every(i=>i>=LAST))return NODATA(`metrics.json ne contient pas la trésorerie mensuelle : seulement le solde au ${M.meta.date_arrete} (réel) et au 31/12 (simulé).`,[`Quelle est la trésorerie au 30/09 ?`,`Quelle trésorerie fin décembre ?`]);
+  const chart={type:'bar',labels:['30/09 réel','31/12 prudent','31/12 central','31/12 ambitieux'],datasets:[{label:'Trésorerie',data:[deb].concat(Object.values(S.scenarios).map(s=>s.resultat.treso_fin)),kind:'mix4'}],unit:'eur'};
+  const source={titre:'Trésorerie',chemin:'metrics.json › simulation.modele.treso.debut + simulation.scenarios[].resultat',colonnes:['Point','Trésorerie','Encaissements T4','Décaissements T4'],
+    lignes:[['30/09 (réel)',deb,null,null]].concat(Object.values(S.scenarios).map(s=>['31/12 '+s.label.toLowerCase()+' (forecast)',s.resultat.treso_fin,s.resultat.encaissements,s.resultat.decaissements]))};
+  if(now&&!fin)return R({titre:'Trésorerie au '+M.meta.date_arrete,valeur:eur(deb),tags:['reel'],contexte:[`Réel, recalculé depuis l'onglet Tresorerie (contrôlé égal à l'Excel).`],chart:Object.assign(chart,{hiSet:[0]}),source});
+  return R({titre:'Trésorerie au 31/12/2026 — forecast',valeur:eur(r.treso_fin),tags:['forecast'].concat(now?[]:['reel']),
+    contexte:[`Forecast (scénario central, DSO ${S.scenarios.central.dso} j) : ${eur(r.treso_fin)}, contre ${eur(deb)} réels au ${M.meta.date_arrete}.`,`Fourchette : ${eur(S.scenarios.prudent.resultat.treso_fin)} (prudent) à ${eur(S.scenarios.ambitieux.resultat.treso_fin)} (ambitieux). Pas de budget de trésorerie dans le fichier.`],
+    chart:Object.assign(chart,{hiSet:[2]}),source});
+}
+function charges(p){
+  if(p.per&&!(p.per[0]===0&&p.per[1]===LAST))return NODATA(`Les charges par poste ne sont dans metrics.json qu'en cumul janv.–sept. (réel vs budget), sans détail mensuel ni forecast.`,[`Quels sont les frais de personnel cumulés à fin septembre ?`,`Quelles charges dépassent le budget ?`]);
+  const list=p.postes.length?M.charges.filter(c=>p.postes.includes(c.poste)):M.charges;
+  const r=sum(list.map(c=>c.ytd_reel)),b=sum(list.map(c=>c.ytd_budget)),e=r-b;const one=list.length===1;
+  const ctx=[`Réel cumul janv.–sept. : ${eur(r)}, contre ${eur(b)} au budget, soit ${eur(e,true)} (${pc(e/b*100,true)}) ${e>0?'de dépassement':"d'économie"}.`];
+  if(!one){const dep=list.filter(c=>c.ecart>0).sort((x,y)=>y.ecart-x.ecart);if(dep.length)ctx.push('Dépassements : '+dep.map(c=>`${c.poste.toLowerCase()} ${eur(c.ecart,true)}`).join(', ')+'.');}
+  return R({titre:(one?list[0].poste:"Charges d'exploitation")+' — cumul janv.–sept.',valeur:eur(r),tags:['reel'],contexte:ctx,
+    chart:{type:'bar',labels:list.map(c=>c.poste),datasets:[{label:'Réel',data:list.map(c=>c.ytd_reel),kind:'reel'},{label:'Budget',data:list.map(c=>c.ytd_budget),kind:'budget'}],unit:'eur',horiz:!one},
+    source:{titre:'Charges par poste',chemin:'metrics.json › charges',colonnes:['Poste','Réel','Budget','Écart','Écart %'],lignes:list.map(c=>[c.poste,c.ytd_reel,c.ytd_budget,c.ecart,{pct:c.ecart_pct}])}});
+}
+function top(p){
+  const [a,b]=p.per||[0,LAST];if(b>LAST)return NODATA(`Aucune prévision par client : le classement n'existe que sur le réel janv.–sept.`,[`Quels sont les 5 premiers clients ?`]);
+  const n=+(p.q.match(/top ?(\d+)|(\d+) (premiers|meilleurs|plus gros)/)||[])[1]||+(p.q.match(/(\d+) (premiers|meilleurs|plus gros)/)||[])[1]||5;
+  const rows=CL.lignes.map(l=>({c:l.client,v:sum(l.mensuel.slice(a,b+1)),d:sum(l.doublon_mensuel.slice(a,b+1))})).sort((x,y)=>y.v-x.v);const tot=sum(rows.map(x=>x.v)),t=rows.slice(0,Math.min(n,rows.length));
+  const ctx=[`Réel facturé ${plab(a,b)} (détail des factures) : ${t.map((x,i)=>`${i+1}. ${x.c} ${eur(x.v)}`).join(' · ')}.`,`Ensemble : ${pc(sum(t.map(x=>x.v))/tot*100)} des ventes de la période.`];
+  const dd=t.filter(x=>x.d);if(dd.length)ctx.push(`⚠ ${dd.map(x=>`${x.c} inclut ${eur(x.d)} de doublon`).join(' ; ')}.`);
+  return R({titre:`Top ${t.length} clients — ${plab(a,b)}`,valeur:t[0].c,tags:['reel'],contexte:ctx,
+    chart:{type:'bar',labels:t.map(x=>x.c),datasets:[{label:'CA HT',data:t.map(x=>x.v),kind:'reel'}],unit:'eur',horiz:true},
+    source:{titre:'Classement clients',chemin:'metrics.json › clients.lignes',colonnes:['Rang','Client','CA HT','Part'],lignes:rows.map((x,i)=>[{txt:String(i+1)},x.c,x.v,{pct:x.v/tot*100}]),hiTop:t.length}});
+}
+function anomalies(){
+  const A=M.reconciliation.anomalies;
+  return R({titre:'Anomalies de réconciliation',valeur:A.length+' anomalie(s)',tags:['reel'],contexte:A.map(a=>`[${a.gravite}] ${a.titre}${a.impact_eur!=null?' ('+eur(a.impact_eur,true)+')':''}.`).concat(['Aucune n\'est corrigée dans les chiffres.']),
+    source:{titre:'Anomalies',chemin:'metrics.json › reconciliation.anomalies',colonnes:['Gravité','Anomalie','Impact'],lignes:A.map(a=>[a.gravite,a.titre,a.impact_eur])}});
+}
+
+const EX=["Quel est le CA de juillet par rapport au budget ?","Combien Carrefour nous doit à plus de 60 jours ?","Quel EBITDA prévoit-on pour 2026 ?","Quels sont les 5 premiers clients ?","Quelle trésorerie fin décembre ?"];
+function ask(raw){
+  if(!raw||!raw.trim())return AMBIGU('Posez une question sur un indicateur, une période ou un client.',EX);
+  const p=parse(raw);let inds=p.inds.slice();
+  if(inds.includes('top'))inds=['top'];
+  if(inds.includes('creances')&&inds.includes('dso'))inds=['dso'];
+  if(inds.includes('ca')&&inds.includes('creances')&&p.clients.length&&/doi|creance|encours|retard/.test(p.q))inds=['creances'];
+  if(inds.length===0&&p.gammes.length)inds=['ca'];
+  if(p.clients.length>1)return AMBIGU(`La question vise plusieurs clients (${p.clients.join(', ')}). Je réponds client par client :`,p.clients.slice(0,3).map(c=>`Combien ${c} a-t-il acheté depuis janvier ?`));
+  if(p.gammes.length>1)return AMBIGU(`Plusieurs gammes détectées (${p.gammes.join(', ')}). Précisez-en une :`,p.gammes.map(g=>`Quel est le CA ${g} à fin septembre ?`));
+  if(inds.length===0){
+    if(p.clients.length){const c=p.clients[0];return AMBIGU(`Que voulez-vous savoir sur ${c} ?`,[`Combien ${c} a-t-il acheté depuis janvier ?`,`Combien ${c} nous doit-il ?`,`Quel est le taux de marge de ${c} ?`]);}
+    return AMBIGU("Je n'identifie aucun indicateur de metrics.json dans la question (CA, marge, EBITDA, charges, créances, DSO, IS, trésorerie, clients).",EX);}
+  const PER=p.per?plab(p.per[0],p.per[1]):'cumul à fin septembre';
+  if(inds.length>1)return AMBIGU(`La question mélange plusieurs indicateurs (${inds.map(i=>NOM_IND[i]).join(', ')}). Une question à la fois :`,inds.slice(0,3).map(i=>({ca:`Quel est le CA — ${PER} ?`,marge_brute:`Quelle est la marge brute — ${PER} ?`,taux_marge:`Quel est le taux de marge brute — ${PER} ?`,ebitda:`Quel est l'EBITDA — ${PER} ?`,taux_ebitda:`Quel est le taux d'EBITDA — ${PER} ?`,dso:'Quel est le DSO ?',is:"Combien d'IS reste-t-il à payer ?",tresorerie:'Quelle trésorerie fin décembre ?',creances:"Quel est l'encours clients au 30/09 ?",charges:'Quelles charges dépassent le budget ?',top:'Quels sont les 5 premiers clients ?',anomalies:'Quelles anomalies de réconciliation ?'}[i])));
+  const ind=inds[0];let out;
+  if(ind==='creances')out=creances(p);
+  else if(p.clients.length&&['ca','marge_brute','taux_marge','ebitda','taux_ebitda'].includes(ind))out=client(p,ind);
+  else if(['ca','marge_brute','taux_marge','ebitda','taux_ebitda'].includes(ind))out=kpi(p,ind);
+  else if(ind==='dso')out=dso(p);else if(ind==='is')out=impot(p);else if(ind==='tresorerie')out=treso(p);
+  else if(ind==='charges')out=charges(p);else if(ind==='top')out=top(p);else out=anomalies();
+  out.compris={indicateur:NOM_IND[ind]+(p.gammes[0]&&ind==='ca'?' · '+p.gammes[0]:'')+(p.postes.length&&ind==='charges'?' · '+p.postes.join(', '):''),periode:p.per?plab(p.per[0],p.per[1]):'(défaut)',client:p.clients[0]||null};
+  return out;
+}
+
+// ---- interface
+const TAG={reel:['Réel','tg-r'],budget:['Budget','tg-b'],forecast:['Forecast · central','tg-f']};
+let nChart=0;
+function cell(v,unit){if(v==null)return '—';if(typeof v==='object')return v.pct!=null?pc(v.pct):v.txt;if(typeof v==='number')return unit==='pct'?pc(v):eur(v);return esc(v);}
+function openSource(s){
+  $('srcTitle').textContent=s.titre;$('srcPath').textContent=s.chemin;
+  $('srcTable').innerHTML='<tr>'+s.colonnes.map(c=>'<th>'+esc(c)+'</th>').join('')+'</tr>'+s.lignes.map((r,i)=>{
+    const hi=(s.hi===i)||(s.hiRange&&i>=s.hiRange[0]&&i<=s.hiRange[1])||(s.hiSet&&s.hiSet.includes(i))||(s.hiTop&&i<s.hiTop);
+    return '<tr'+(hi?' class="hi"':'')+'>'+r.map(v=>'<td>'+cell(v,s.unit)+'</td>').join('')+'</tr>';}).join('');
+  $('srcModal').hidden=false;$('srcClose').focus();
+}
+function drawMini(cv,ch){
+  const col={reel:C.reel,budget:C.bud,forecast:'#3B8CDB'};const inR=i=>ch.highlight?i>=ch.highlight[0]&&i<=ch.highlight[1]:ch.hiSet?ch.hiSet.includes(i):ch.hiIdx===i;
+  const fmtV=v=>ch.unit==='pct'?pc(v):ch.unit==='j'?nf1.format(v)+' j':eur(v);
+  const ds=ch.datasets.map(d=>{const base={label:d.label,data:d.data};
+    if(ch.type==='line')return Object.assign(base,{borderColor:col[d.kind],backgroundColor:col[d.kind],borderWidth:2,borderDash:d.kind==='budget'?[5,4]:d.kind==='forecast'?[2,3]:[],
+      pointRadius:d.data.map((v,i)=>inR(i)&&v!=null?5:0),pointStyle:d.kind==='forecast'?'triangle':d.kind==='budget'?'rectRot':'circle',tension:.25,spanGaps:false});
+    let bg;if(d.kind==='mix')bg=[C.reel,C.bud];else if(d.kind==='mix4')bg=[C.reel,'#A9CCF0','#3B8CDB','#1F4F99'];
+    else if(ch.aging)bg=d.data.map((_,i)=>['#D3E3F6','#8DB8E8','#2F6FB5','#E0526A','#A3122C'][i]);else bg=d.data.map((_,i)=>col[d.kind]);
+    const hasHi=ch.highlight||ch.hiSet||ch.hiIdx!=null;
+    if(hasHi&&!ch.aging&&d.kind!=='mix4')bg=d.data.map((_,i)=>inR(i)?col[d.kind]:(d.kind==='budget'?'#D5DBE5':'#C3D7EF'));
+    if(ch.aging&&hasHi)bg=bg.map((c,i)=>inR(i)?c:c+'55');
+    return Object.assign(base,{backgroundColor:bg,borderRadius:3,maxBarThickness:28});});
+  new Chart(cv,{type:ch.type,data:{labels:ch.labels,datasets:ds},options:{maintainAspectRatio:false,indexAxis:ch.horiz?'y':'x',animation:false,
+    scales:{x:{grid:ch.horiz?grid:noGrid,ticks:Object.assign({font:{size:10}},ch.horiz?{callback:v=>ch.unit==='pct'?nf0.format(v)+' %':keur(v)}:{})},y:{grid:ch.horiz?noGrid:grid,ticks:{font:{size:10},callback:ch.horiz?function(v){const l=this.getLabelForValue(v);return l.length>18?l.slice(0,17)+'…':l;}:(v=>ch.unit==='pct'?nf0.format(v)+' %':ch.unit==='j'?v+' j':keur(v))}}},
+    plugins:{legend:{display:ds.length>1,labels:{boxWidth:10,font:{size:10}}},tooltip:{...tip,callbacks:{label:c=>c.raw==null?null:' '+c.dataset.label+' : '+fmtV(c.raw)}}}}});
+}
+function render(q){
+  const log=$('askLog');log.insertAdjacentHTML('beforeend','<div class="msg me">'+esc(q)+'</div>');
+  const a=ask(q);const id='ans'+(++nChart);let h='<div class="msg bot st-'+a.status+'" id="'+id+'">';
+  if(a.status==='ok'){
+    h+='<div class="tags">'+a.tags.map(t=>'<span class="tg '+TAG[t][1]+'">'+TAG[t][0]+'</span>').join('')+'</div><div class="at">'+esc(a.titre)+'</div><div class="av">'+esc(a.valeur)+'</div>'+a.contexte.map(c=>'<p>'+esc(c)+'</p>').join('');
+    if(a.chart)h+='<div class="mini"><canvas aria-label="Mini-graphique"></canvas></div>';
+    if(a.source)h+='<button class="srcLink">Voir la source ›</button>';
+    if(a.compris)h+='<div class="compris">Compris : '+esc(a.compris.indicateur)+' · '+esc(a.compris.periode)+(a.compris.client?' · '+esc(a.compris.client):'')+'</div>';
+  }else{
+    h+='<div class="at">'+(a.status==='ambigu'?'❓ ':'⛔ ')+esc(a.titre)+'</div><p>'+esc(a.message)+'</p>';
+    if(a.suggestions.length)h+='<div class="sugg">Essayez :'+a.suggestions.map(s=>'<button class="sg">'+esc(s)+'</button>').join('')+'</div>';
+  }
+  log.insertAdjacentHTML('beforeend',h+'</div>');const el=$(id);
+  if(a.chart)drawMini(el.querySelector('canvas'),a.chart);
+  if(a.source)el.querySelector('.srcLink').addEventListener('click',()=>openSource(a.source));
+  el.querySelectorAll('.sg').forEach(b=>b.addEventListener('click',()=>render(b.textContent)));
+  log.scrollTop=log.scrollHeight;return a;
+}
+$('askFab').addEventListener('click',()=>{const o=$('askPanel').hidden;$('askPanel').hidden=!o;$('askFab').setAttribute('aria-expanded',o);if(o){$('askIn').focus();
+  if(!$('askLog').children.length)$('askLog').innerHTML='<div class="msg bot"><p>Je réponds uniquement à partir de metrics.json (situation au '+esc(M.meta.date_arrete)+'). Exemples :</p><div class="sugg">'+EX.map(s=>'<button class="sg">'+esc(s)+'</button>').join('')+'</div></div>',
+    $('askLog').querySelectorAll('.sg').forEach(b=>b.addEventListener('click',()=>render(b.textContent)));}});
+$('askClose').addEventListener('click',()=>{$('askPanel').hidden=true;$('askFab').setAttribute('aria-expanded',false);$('askFab').focus();});
+$('askForm').addEventListener('submit',e=>{e.preventDefault();const v=$('askIn').value.trim();if(v){render(v);$('askIn').value='';}});
+$('srcClose').addEventListener('click',()=>{$('srcModal').hidden=true;});
+$('srcModal').addEventListener('click',e=>{if(e.target.id==='srcModal')$('srcModal').hidden=true;});
+document.addEventListener('keydown',e=>{if(e.key==='Escape'){if(!$('srcModal').hidden)$('srcModal').hidden=true;else if(!$('askPanel').hidden)$('askClose').click();}});
+return {ask,render};
+})();
+window.askCFO=ASK.ask;
+
+// ---- Proof Center (données : proof.json injecté par verify.py)
+(function(){
+  if(!PROOF){$('pfMeta').textContent='';$('pfSynth').innerHTML='<b>Proof Center vide</b>Lancez python3 verify.py après build_metrics.py.';return;}
+  const P=PROOF;
+  $('pfMeta').textContent=P.methode+' Exécuté le '+P.genere_le+' sur '+P.source+'.';
+  if(P.metrics_genere_le!==M.meta.genere_le)$('pfStale').innerHTML='<div class="alertbox"><strong>Preuve périmée :</strong> metrics.json a été régénéré ('+M.meta.genere_le+') après la vérification ('+P.metrics_genere_le+'). Relancez verify.py.</div>';
+  $('pfSynth').innerHTML='<b>Ce que trouve verify.py</b>'+P.synthese.map(t=>'<div>'+esc(t)+'</div>').join('');
+  const f2=x=>new Intl.NumberFormat('fr-FR',{minimumFractionDigits:2,maximumFractionDigits:2}).format(x)+' €';
+  let h='<tr><th>Contrôle</th>'+P.mois.map(m=>'<th>'+m+'</th>').join('')+'<th>Total</th></tr>',cat=null;
+  const cellH=(c,L,mo)=>{if(!c||c.ok==null)return '<span class="cn" title="Non applicable">n/a</span>';
+    const t=esc(L.a_label)+' : '+f2(c.a)+'\n'+esc(L.b_label)+' : '+f2(c.b)+'\nÉcart : '+f2(c.ecart);
+    return c.ok?'<span class="cv" title="'+t+'">✓</span>':'<span class="cr" data-go="'+L.id+'|'+mo+'" title="'+t+'">'+(c.ecart>0?'+':'')+nf0.format(c.ecart)+' €</span>';};
+  P.lignes.forEach(L=>{if(L.categorie!==cat){cat=L.categorie;h+='<tr><td class="cat" colspan="'+(P.mois.length+2)+'">'+esc(cat)+'</td></tr>';}
+    h+='<tr><td>'+esc(L.controle)+'<div class="hint">'+esc(L.a_label)+' vs '+esc(L.b_label)+(L.note?' · '+esc(L.note):'')+'</div></td>'+L.cellules.map((c,i)=>'<td>'+cellH(c,L,P.mois[i])+'</td>').join('')+'<td>'+cellH(L.total,L,'Total')+'</td></tr>';});
+  $('pfMatrix').innerHTML=h;
+  $('pfCauses').innerHTML=P.causes.length?P.causes.map((c,i)=>'<div class="cause" id="cause-'+i+'" data-k="'+c.controle+'|'+c.mois+'"><div class="h"><span class="pill neg">'+(c.ecart>0?'+':'')+f2(c.ecart)+'</span>'+esc(c.mois+' — '+(c.controle==='cogs'?'Coût des ventes':'CA '+c.perimetre))+'<span class="cert '+(c.certitude==='établie'?'etablie':c.certitude)+'">'+esc(c.certitude)+'</span></div><p style="margin:8px 0 0">'+esc(c.cause)+'</p>'+(c.preuves.length?'<ul>'+c.preuves.map(p=>'<li>'+esc(p.texte)+'</li>').join('')+'</ul>':'')+'</div>').join(''):'<p class="ok">Aucun écart rouge.</p>';
+  $('pfMatrix').addEventListener('click',e=>{const s=e.target.closest('[data-go]');if(!s)return;const [id,mo]=s.dataset.go.split('|');
+    const key=(id.startsWith('ca_')&&id!=='ca_aff'?'ca':id)+'|'+mo;const el=[...document.querySelectorAll('.cause')].find(x=>x.dataset.k===key)||document.querySelector('.cause');
+    if(el){el.scrollIntoView({behavior:'smooth',block:'center'});el.animate([{background:'#FCECEF'},{background:'#fff'}],{duration:1400});}});
+  $('pfPonct').innerHTML='<tr><th>Contrôle</th><th>Statut</th><th>Détail</th></tr>'+P.ponctuels.map(p=>'<tr><td style="white-space:normal">'+esc(p.controle)+'</td><td class="'+(p.ok?'ok':'ko')+'">'+(p.ok?'OK':'KO')+'</td><td style="text-align:left;white-space:normal">'+esc(p.detail)+'</td></tr>').join('');
+})();
+})();
+</script>
+</body>
+</html>

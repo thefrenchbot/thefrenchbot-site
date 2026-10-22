@@ -1,0 +1,812 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>CFO Cockpit</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Roboto+Slab:wght@600;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+<!-- Gabarit : build_metrics.py remplace le marqueur ci-dessous par le contenu de metrics.json. Aucun chiffre en dur ici. -->
+<script>const M = {"meta": {"societe": "Les Délices de Bourgogne SAS", "exercice": 2026, "date_arrete": "30/09/2026", "mois": ["Janv", "Févr", "Mars", "Avr", "Mai", "Juin", "Juil", "Août", "Sept"], "source": "CFO_Cockpit_Delices_de_Bourgogne_2026.xlsx", "genere_le": "10/10/2026 14:30", "seuil_conforme_pct": 2.0}, "kpis": {"ca": {"label": "Chiffre d'affaires", "unit": "eur", "mensuel": {"reel": [568380.39, 555396.69, 571723.95, 624229.0, 606092.68, 665406.13, 704393.32, 684728.83, 640387.83], "budget": [597400.0, 571650.0, 620317.5, 629330.0, 668212.5, 714820.0, 747522.5, 692675.0, 650445.0], "ecart": [-29019.61, -16253.31, -48593.55, -5101.0, -62119.82, -49413.87, -43129.18, -7946.17, -10057.17], "ecart_pct": [-4.86, -2.84, -7.83, -0.81, -9.3, -6.91, -5.77, -1.15, -1.55]}, "ytd": {"reel": 5620738.82, "budget": 5892372.5, "ecart": -271633.68, "ecart_pct": -4.61}}, "marge_brute": {"label": "Marge brute", "unit": "eur", "mensuel": {"reel": [313536.86, 306151.29, 318719.71, 347206.28, 334332.24, 368925.17, 383218.89, 377644.23, 355079.81], "budget": [328570.0, 314407.5, 341174.62, 346131.5, 367516.88, 393151.0, 411137.38, 380971.25, 357744.75], "ecart": [-15033.14, -8256.21, -22454.91, 1074.78, -33184.64, -24225.83, -27918.49, -3327.02, -2664.94], "ecart_pct": [-4.58, -2.63, -6.58, 0.31, -9.03, -6.16, -6.79, -0.87, -0.74]}, "ytd": {"reel": 3104814.48, "budget": 3240804.88, "ecart": -135990.4, "ecart_pct": -4.2}}, "taux_marge": {"label": "Taux de marge brute", "unit": "pct", "mensuel": {"reel": [55.16, 55.12, 55.75, 55.62, 55.16, 55.44, 54.4, 55.15, 55.45], "budget": [55.0, 55.0, 55.0, 55.0, 55.0, 55.0, 55.0, 55.0, 55.0], "ecart": [0.16, 0.12, 0.75, 0.62, 0.16, 0.44, -0.6, 0.15, 0.45], "ecart_pct": null}, "ytd": {"reel": 55.24, "budget": 55.0, "ecart": 0.24, "ecart_pct": null}}, "ebitda": {"label": "EBITDA", "unit": "eur", "mensuel": {"reel": [80030.13, 70893.49, 88707.44, 110189.56, 97863.13, 135977.51, 140474.14, 139596.16, 119201.48], "budget": [98352.0, 85991.5, 109351.62, 113678.5, 132342.88, 154713.0, 170410.38, 144084.25, 123813.75], "ecart": [-18321.87, -15098.01, -20644.18, -3488.94, -34479.75, -18735.49, -29936.24, -4488.09, -4612.27], "ecart_pct": [-18.63, -17.56, -18.88, -3.07, -26.05, -12.11, -17.57, -3.11, -3.73]}, "ytd": {"reel": 982933.04, "budget": 1132737.88, "ecart": -149804.84, "ecart_pct": -13.23}}, "taux_ebitda": {"label": "Taux d'EBITDA", "unit": "pct", "mensuel": {"reel": [14.08, 12.76, 15.52, 17.65, 16.15, 20.44, 19.94, 20.39, 18.61], "budget": [16.46, 15.04, 17.63, 18.06, 19.81, 21.64, 22.8, 20.8, 19.04], "ecart": [-2.38, -2.28, -2.11, -0.41, -3.66, -1.2, -2.86, -0.41, -0.43], "ecart_pct": null}, "ytd": {"reel": 17.49, "budget": 19.22, "ecart": -1.73, "ecart_pct": null}}, "ca_Moutardes": {"label": "CA Moutardes", "gamme": "Moutardes", "unit": "eur", "mensuel": {"reel": [300381.02, 295355.52, 283086.64, 331042.94, 312477.52, 322837.64, 315817.9, 354467.54, 318815.1], "budget": [319300.0, 303335.0, 319300.0, 319300.0, 335265.0, 351230.0, 367195.0, 335265.0, 319300.0], "ecart": [-18918.98, -7979.48, -36213.36, 11742.94, -22787.48, -28392.36, -51377.1, 19202.54, -484.9], "ecart_pct": [-5.93, -2.63, -11.34, 3.68, -6.8, -8.08, -13.99, 5.73, -0.15]}, "ytd": {"reel": 2834281.82, "budget": 2969490.0, "ecart": -135208.18, "ecart_pct": -4.55}}, "ca_Pain d'épices": {"label": "CA Pain d'épices", "gamme": "Pain d'épices", "unit": "eur", "mensuel": {"reel": [56018.43, 45164.4, 55054.1, 45742.9, 40016.26, 39335.54, 31574.04, 38039.11, 60354.17], "budget": [58710.0, 48925.0, 53817.5, 48925.0, 44032.5, 39140.0, 34247.5, 39140.0, 68495.0], "ecart": [-2691.57, -3760.6, 1236.6, -3182.1, -4016.24, 195.54, -2673.46, -1100.89, -8140.83], "ecart_pct": [-4.58, -7.69, 2.3, -6.5, -9.12, 0.5, -7.81, -2.81, -11.89]}, "ytd": {"reel": 411298.95, "budget": 435432.5, "ecart": -24133.55, "ecart_pct": -5.54}}, "ca_Crèmes de cassis": {"label": "CA Crèmes de cassis", "gamme": "Crèmes de cassis", "unit": "eur", "mensuel": {"reel": [100691.07, 110925.88, 116751.74, 119731.86, 129264.29, 147818.4, 188019.72, 154705.98, 140705.73], "budget": [108150.0, 108150.0, 123600.0, 131325.0, 146775.0, 169950.0, 185400.0, 169950.0, 139050.0], "ecart": [-7458.93, 2775.88, -6848.26, -11593.14, -17510.71, -22131.6, 2619.72, -15244.02, 1655.73], "ecart_pct": [-6.9, 2.57, -5.54, -8.83, -11.93, -13.02, 1.41, -8.97, 1.19]}, "ytd": {"reel": 1208614.67, "budget": 1282350.0, "ecart": -73735.33, "ecart_pct": -5.75}}, "ca_Condiments": {"label": "CA Condiments", "gamme": "Condiments", "unit": "eur", "mensuel": {"reel": [111289.87, 103950.89, 116831.47, 127711.3, 124334.61, 155414.55, 168981.66, 137516.2, 120512.83], "budget": [111240.0, 111240.0, 123600.0, 129780.0, 142140.0, 154500.0, 160680.0, 148320.0, 123600.0], "ecart": [49.87, -7289.11, -6768.53, -2068.7, -17805.39, 914.55, 8301.66, -10803.8, -3087.17], "ecart_pct": [0.04, -6.55, -5.48, -1.59, -12.53, 0.59, 5.17, -7.28, -2.5]}, "ytd": {"reel": 1166543.38, "budget": 1205100.0, "ecart": -38556.62, "ecart_pct": -3.2}}}, "gammes": [{"gamme": "Moutardes", "reel": 2834281.82, "budget": 2969490.0, "ecart": -135208.18, "ecart_pct": -4.55, "part_reel": 50.43}, {"gamme": "Pain d'épices", "reel": 411298.95, "budget": 435432.5, "ecart": -24133.55, "ecart_pct": -5.54, "part_reel": 7.32}, {"gamme": "Crèmes de cassis", "reel": 1208614.67, "budget": 1282350.0, "ecart": -73735.33, "ecart_pct": -5.75, "part_reel": 21.5}, {"gamme": "Condiments", "reel": 1166543.38, "budget": 1205100.0, "ecart": -38556.62, "ecart_pct": -3.2, "part_reel": 20.75}], "charges": [{"poste": "Frais de personnel", "ytd_reel": 1294781.66, "ytd_budget": 1305000.0, "ecart": -10218.34, "ecart_pct": -0.78}, {"poste": "Loyers & charges locatives", "ytd_reel": 165600.0, "ytd_budget": 165600.0, "ecart": 0.0, "ecart_pct": 0.0}, {"poste": "Transport & logistique", "ytd_reel": 236071.04, "ytd_budget": 235695.0, "ecart": 376.04, "ecart_pct": 0.16}, {"poste": "Marketing & commercial", "ytd_reel": 187747.0, "ytd_budget": 176772.0, "ecart": 10975.0, "ecart_pct": 6.21}, {"poste": "Autres charges externes", "ytd_reel": 237681.74, "ytd_budget": 225000.0, "ecart": 12681.74, "ecart_pct": 5.64}], "pont_ebitda": {"etapes": [{"label": "EBITDA budget YTD", "valeur": 1132737.88, "type": "total"}, {"label": "Effet volume CA", "valeur": -149398.52, "type": "delta", "detail": "(5 620 739 € − 5 892 372 €) × taux de marge budget 55,0 %"}, {"label": "Effet taux de marge", "valeur": 13408.12, "type": "delta", "detail": "(55,2 % − 55,0 %) × CA réel 5 620 739 €"}, {"label": "Frais de personnel", "valeur": 10218.34, "type": "delta", "detail": "budget 1 305 000 € − réel 1 294 782 €"}, {"label": "Loyers & charges locatives", "valeur": 0.0, "type": "delta", "detail": "budget 165 600 € − réel 165 600 €"}, {"label": "Transport & logistique", "valeur": -376.04, "type": "delta", "detail": "budget 235 695 € − réel 236 071 €"}, {"label": "Marketing & commercial", "valeur": -10975.0, "type": "delta", "detail": "budget 176 772 € − réel 187 747 €"}, {"label": "Autres charges externes", "valeur": -12681.74, "type": "delta", "detail": "budget 225 000 € − réel 237 682 €"}, {"label": "EBITDA réel YTD", "valeur": 982933.04, "type": "total"}], "ecart_total": -149804.84, "methode": "Volume = ΔCA × taux de marge budget ; Taux = Δtaux de marge × CA réel ; charges = budget − réel (positif = favorable)."}, "clients": {"lignes": [{"client": "Carrefour", "mensuel": [97805.2, 88116.3, 91389.9, 93556.6, 97822.1, 104712.75, 134984.3, 120228.3, 102416.1], "total": 931031.55, "part": 16.44, "taux_marge": 55.59, "dont_doublon": 0.0, "doublon_mensuel": [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]}, {"client": "E.Leclerc", "mensuel": [84407.8, 91676.35, 91640.0, 104849.0, 96271.35, 109532.8, 104487.0, 152070.2, 95443.25], "total": 930377.75, "part": 16.43, "taux_marge": 56.43, "dont_doublon": 30940.0, "doublon_mensuel": [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 30940.0, 0.0]}, {"client": "Costco France", "mensuel": [79320.64, 74932.55, 79112.24, 81926.29, 77417.31, 90398.88, 85035.85, 90343.64, 91377.88], "total": 749865.28, "part": 13.24, "taux_marge": 53.76, "dont_doublon": 0.0, "doublon_mensuel": [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]}, {"client": "Metro Cash & Carry", "mensuel": [61931.4, 57112.94, 54688.36, 61666.26, 59138.52, 67602.2, 68709.12, 68148.24, 67966.05], "total": 566963.09, "part": 10.01, "taux_marge": 53.71, "dont_doublon": 0.0, "doublon_mensuel": [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]}, {"client": "Fine Food Export UK", "mensuel": [63153.15, 59753.2, 56915.75, 61250.3, 59888.6, 71552.0, 70977.3, 55596.9, 64499.6], "total": 563586.8, "part": 9.95, "taux_marge": 55.94, "dont_doublon": 0.0, "doublon_mensuel": [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]}, {"client": "Auchan", "mensuel": [44370.4, 50931.95, 54026.6, 59363.55, 52153.4, 64012.2, 69525.2, 60585.7, 60554.8], "total": 515523.8, "part": 9.1, "taux_marge": 55.24, "dont_doublon": 0.0, "doublon_mensuel": [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]}, {"client": "Intermarché", "mensuel": [42987.2, 52345.4, 51378.0, 61437.7, 58774.0, 53291.3, 64794.6, 62102.05, 57950.5], "total": 505060.75, "part": 8.92, "taux_marge": 55.63, "dont_doublon": 0.0, "doublon_mensuel": [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]}, {"client": "Monoprix", "mensuel": [41914.5, 35258.6, 42633.7, 42694.2, 49166.2, 43526.35, 47817.0, 47256.5, 42059.35], "total": 392326.4, "part": 6.93, "taux_marge": 55.89, "dont_doublon": 0.0, "doublon_mensuel": [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]}, {"client": "Grande Épicerie de Paris", "mensuel": [28386.5, 26689.0, 26299.2, 33649.1, 34240.8, 33987.95, 39412.55, 31681.8, 31370.1], "total": 285717.0, "part": 5.04, "taux_marge": 55.89, "dont_doublon": 0.0, "doublon_mensuel": [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]}, {"client": "Galeries Lafayette Gourmet", "mensuel": [24103.6, 18580.4, 23640.2, 23836.0, 21220.4, 26789.7, 31050.4, 27655.5, 26750.2], "total": 223626.4, "part": 3.95, "taux_marge": 55.82, "dont_doublon": 0.0, "doublon_mensuel": [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]}], "top5": ["Carrefour", "E.Leclerc", "Costco France", "Metro Cash & Carry", "Fine Food Export UK"], "part_top5": 66.06, "total_detail": 5664078.82, "classement_top5_stable_hors_doublon": true, "source": "Ventes_Detail (CA HT facturé, doublons non retirés)"}, "creances": {"total": 1492467.46, "nb_factures": 250, "tranches": [{"tranche": "Non échu", "montant": 1014620.5, "nb": 162, "part": 67.98}, {"tranche": "1-30 j", "montant": 145114.85, "nb": 26, "part": 9.72}, {"tranche": "31-60 j", "montant": 119005.63, "nb": 25, "part": 7.97}, {"tranche": "61-90 j", "montant": 168044.9, "nb": 27, "part": 11.26}, {"tranche": "> 90 j", "montant": 45681.58, "nb": 10, "part": 3.06}], "par_client": [{"client": "Carrefour", "tranches": {"Non échu": 178357.54, "1-30 j": 0.0, "31-60 j": 9758.4, "61-90 j": 38479.01, "> 90 j": 26913.89}, "total": 253508.84, "plus_60": 65392.9, "part_plus_60": 25.8, "nb_plus_60": 4, "retard_max": 102}, {"client": "Monoprix", "tranches": {"Non échu": 92572.02, "1-30 j": 34039.81, "31-60 j": 28031.46, "61-90 j": 48114.29, "> 90 j": 0.0}, "total": 202757.58, "plus_60": 48114.29, "part_plus_60": 23.73, "nb_plus_60": 10, "retard_max": 90}, {"client": "Fine Food Export UK", "tranches": {"Non échu": 129359.42, "1-30 j": 65658.82, "31-60 j": 63908.38, "61-90 j": 35945.9, "> 90 j": 0.0}, "total": 294872.52, "plus_60": 35945.9, "part_plus_60": 12.19, "nb_plus_60": 8, "retard_max": 85}, {"client": "Metro Cash & Carry", "tranches": {"Non échu": 61225.4, "1-30 j": 23156.66, "31-60 j": 13075.78, "61-90 j": 16644.98, "> 90 j": 901.35}, "total": 115004.17, "plus_60": 17546.33, "part_plus_60": 15.26, "nb_plus_60": 3, "retard_max": 116}, {"client": "E.Leclerc", "tranches": {"Non échu": 177191.19, "1-30 j": 6585.52, "31-60 j": 2614.29, "61-90 j": 17314.45, "> 90 j": 0.0}, "total": 203705.45, "plus_60": 17314.45, "part_plus_60": 8.5, "nb_plus_60": 1, "retard_max": 89}, {"client": "Auchan", "tranches": {"Non échu": 90768.9, "1-30 j": 0.0, "31-60 j": 886.2, "61-90 j": 4919.36, "> 90 j": 4731.42}, "total": 101305.88, "plus_60": 9650.78, "part_plus_60": 9.53, "nb_plus_60": 3, "retard_max": 103}, {"client": "Costco France", "tranches": {"Non échu": 99346.96, "1-30 j": 4690.42, "31-60 j": 0.0, "61-90 j": 5526.44, "> 90 j": 3915.6}, "total": 113479.42, "plus_60": 9442.04, "part_plus_60": 8.32, "nb_plus_60": 2, "retard_max": 110}, {"client": "Grande Épicerie de Paris", "tranches": {"Non échu": 33284.77, "1-30 j": 3835.03, "31-60 j": 0.0, "61-90 j": 1100.47, "> 90 j": 4733.78}, "total": 42954.05, "plus_60": 5834.25, "part_plus_60": 13.58, "nb_plus_60": 3, "retard_max": 121}, {"client": "Galeries Lafayette Gourmet", "tranches": {"Non échu": 27263.9, "1-30 j": 7148.59, "31-60 j": 731.12, "61-90 j": 0.0, "> 90 j": 4485.54}, "total": 39629.15, "plus_60": 4485.54, "part_plus_60": 11.32, "nb_plus_60": 3, "retard_max": 117}, {"client": "Intermarché", "tranches": {"Non échu": 125250.4, "1-30 j": 0.0, "31-60 j": 0.0, "61-90 j": 0.0, "> 90 j": 0.0}, "total": 125250.4, "plus_60": 0.0, "part_plus_60": 0.0, "nb_plus_60": 0, "retard_max": 0}], "plus_60": {"montant": 213726.48, "part": 14.32, "nb": 37, "nb_clients": 9}, "echu": 477846.96, "factures_plus_60": [{"facture": "FA-26571", "client": "Grande Épicerie de Paris", "date": "02/05/2026", "echeance": "01/06/2026", "montant": 4153.32, "retard": 121}, {"facture": "FA-26541", "client": "Galeries Lafayette Gourmet", "date": "06/05/2026", "echeance": "05/06/2026", "montant": 353.95, "retard": 117}, {"facture": "FA-26524", "client": "Metro Cash & Carry", "date": "07/05/2026", "echeance": "06/06/2026", "montant": 901.35, "retard": 116}, {"facture": "FA-26581", "client": "Costco France", "date": "13/05/2026", "echeance": "12/06/2026", "montant": 3915.6, "retard": 110}, {"facture": "FA-26538", "client": "Grande Épicerie de Paris", "date": "18/05/2026", "echeance": "17/06/2026", "montant": 580.46, "retard": 105}, {"facture": "FA-26526", "client": "Auchan", "date": "05/05/2026", "echeance": "19/06/2026", "montant": 1564.14, "retard": 103}, {"facture": "FA-26484", "client": "Carrefour", "date": "06/05/2026", "echeance": "20/06/2026", "montant": 26913.89, "retard": 102}, {"facture": "FA-26505", "client": "Galeries Lafayette Gourmet", "date": "26/05/2026", "echeance": "25/06/2026", "montant": 3777.11, "retard": 97}, {"facture": "FA-26540", "client": "Galeries Lafayette Gourmet", "date": "26/05/2026", "echeance": "25/06/2026", "montant": 354.48, "retard": 97}, {"facture": "FA-26563", "client": "Auchan", "date": "16/05/2026", "echeance": "30/06/2026", "montant": 3167.28, "retard": 92}, {"facture": "FA-26597", "client": "Monoprix", "date": "03/05/2026", "echeance": "02/07/2026", "montant": 2635.81, "retard": 90}, {"facture": "FA-26486", "client": "E.Leclerc", "date": "19/05/2026", "echeance": "03/07/2026", "montant": 17314.45, "retard": 89}, {"facture": "FA-26616", "client": "Metro Cash & Carry", "date": "05/06/2026", "echeance": "05/07/2026", "montant": 9905.18, "retard": 87}, {"facture": "FA-26569", "client": "Monoprix", "date": "07/05/2026", "echeance": "06/07/2026", "montant": 3450.0, "retard": 86}, {"facture": "FA-26533", "client": "Monoprix", "date": "08/05/2026", "echeance": "07/07/2026", "montant": 1184.13, "retard": 85}, {"facture": "FA-26546", "client": "Fine Food Export UK", "date": "08/05/2026", "echeance": "07/07/2026", "montant": 1073.57, "retard": 85}, {"facture": "FA-26500", "client": "Monoprix", "date": "09/05/2026", "echeance": "08/07/2026", "montant": 9559.88, "retard": 84}, {"facture": "FA-26591", "client": "Auchan", "date": "24/05/2026", "echeance": "08/07/2026", "montant": 4919.36, "retard": 84}, {"facture": "FA-26570", "client": "Monoprix", "date": "10/05/2026", "echeance": "09/07/2026", "montant": 3447.36, "retard": 83}, {"facture": "FA-26603", "client": "Fine Food Export UK", "date": "10/05/2026", "echeance": "09/07/2026", "montant": 4799.09, "retard": 83}, {"facture": "FA-26568", "client": "Monoprix", "date": "11/05/2026", "echeance": "10/07/2026", "montant": 3447.36, "retard": 82}, {"facture": "FA-26605", "client": "Fine Food Export UK", "date": "12/05/2026", "echeance": "11/07/2026", "montant": 4799.72, "retard": 81}, {"facture": "FA-26508", "client": "Fine Food Export UK", "date": "13/05/2026", "echeance": "12/07/2026", "montant": 7854.58, "retard": 80}, {"facture": "FA-26595", "client": "Monoprix", "date": "14/05/2026", "echeance": "13/07/2026", "montant": 2636.08, "retard": 79}, {"facture": "FA-26509", "client": "Fine Food Export UK", "date": "16/05/2026", "echeance": "15/07/2026", "montant": 7831.79, "retard": 77}, {"facture": "FA-26609", "client": "Carrefour", "date": "01/06/2026", "echeance": "16/07/2026", "montant": 17943.33, "retard": 76}, {"facture": "FA-26498", "client": "Monoprix", "date": "19/05/2026", "echeance": "18/07/2026", "montant": 9559.88, "retard": 74}, {"facture": "FA-26698", "client": "Costco France", "date": "20/06/2026", "echeance": "20/07/2026", "montant": 5526.44, "retard": 72}, {"facture": "FA-26545", "client": "Fine Food Export UK", "date": "22/05/2026", "echeance": "21/07/2026", "montant": 1074.73, "retard": 71}, {"facture": "FA-26639", "client": "Carrefour", "date": "07/06/2026", "echeance": "22/07/2026", "montant": 2593.51, "retard": 70}, {"facture": "FA-26578", "client": "Fine Food Export UK", "date": "24/05/2026", "echeance": "23/07/2026", "montant": 7440.12, "retard": 69}, {"facture": "FA-26596", "client": "Monoprix", "date": "24/05/2026", "echeance": "23/07/2026", "montant": 2635.81, "retard": 69}, {"facture": "FA-26675", "client": "Metro Cash & Carry", "date": "24/06/2026", "echeance": "24/07/2026", "montant": 6739.8, "retard": 68}, {"facture": "FA-26499", "client": "Monoprix", "date": "27/05/2026", "echeance": "26/07/2026", "montant": 9557.98, "retard": 66}, {"facture": "FA-26543", "client": "Fine Food Export UK", "date": "27/05/2026", "echeance": "26/07/2026", "montant": 1072.3, "retard": 66}, {"facture": "FA-26610", "client": "Carrefour", "date": "11/06/2026", "echeance": "26/07/2026", "montant": 17942.17, "retard": 66}, {"facture": "FA-26658", "client": "Grande Épicerie de Paris", "date": "26/06/2026", "echeance": "26/07/2026", "montant": 1100.47, "retard": 66}], "dso": {"jours": 63.08, "objectif": 45.0, "ecart": 18.08, "jours_simple_3m": 62.1, "methode": "Épuisement : créances TTC imputées sur le CA TTC comptable des mois les plus récents (TVA 5,5 % alimentaire, 20 % crèmes de cassis)."}, "ca_ttc_mensuel": [614241.52, 602027.76, 620097.77, 675922.71, 658171.1, 723437.14, 770397.81, 744821.28, 696011.49]}, "simulation": {"modele": {"mois": ["Oct", "Nov", "Déc"], "ca_gamme": {"Moutardes": [305805.13, 293676.99, 330040.42], "Pain d'épices": [110963.87, 179943.39, 245167.78], "Crèmes de cassis": [143182.4, 213882.84, 327331.01], "Condiments": [112835.36, 112156.18, 110015.79]}, "budget_ca_gamme": {"Moutardes": [319300.0, 319300.0, 335265.0], "Pain d'épices": [117420.0, 195700.0, 254410.0], "Crèmes de cassis": [154500.0, 231750.0, 339900.0], "Condiments": [117420.0, 111240.0, 117420.0]}, "ca": [672786.77, 799659.39, 1012555.0], "coef_ttc": [1.085859, 1.093783, 1.101874], "taux_marge": [0.552385, 0.552385, 0.552385], "charges": {"Frais de personnel": [143864.63, 143864.63, 143864.63], "Loyers & charges locatives": [18400.0, 18400.0, 18400.0], "Transport & logistique": [28391.22, 34374.76, 41946.82], "Marketing & commercial": [22578.88, 27338.08, 33360.11], "Autres charges externes": [26409.08, 26409.08, 26409.08]}, "charges_variables": ["Transport & logistique", "Marketing & commercial"], "dotations": [22500.0, 22500.0, 22500.0], "ytd": {"ca": 5620738.82, "ebitda": 982933.04, "ebit": 780433.04}, "budget": {"ca_annuel": 8505997.5, "ebitda_annuel": 1822076.63, "ca_mensuel": [597400.0, 571650.0, 620317.5, 629330.0, 668212.5, 714820.0, 747522.5, 692675.0, 650445.0, 708640.0, 857990.0, 1046995.0], "ebitda_mensuel": [98352.0, 85991.5, 109351.62, 113678.5, 132342.88, 154713.0, 170410.38, 144084.25, 123813.75, 151747.0, 223434.5, 314157.25]}, "reel": {"ca_mensuel": [568380.39, 555396.69, 571723.95, 624229.0, 606092.68, 665406.13, 704393.32, 684728.83, 640387.83], "ebitda_mensuel": [80030.13, 70893.49, 88707.44, 110189.56, 97863.13, 135977.51, 140474.14, 139596.16, 119201.48]}, "is": {"taux_reduit": 0.15, "seuil": 42500.0, "taux_normal": 0.25, "acomptes_verses": 204000.0, "acompte_unitaire": 68000.0}, "treso": {"debut": 1661069.48, "creances_30_09": 1492467.46, "jours_t4": 92, "ratio_fournisseurs": 0.838835, "ratio_tva": 0.021723, "ratio_personnel": 1.007892, "loyers_mois": 22080.0, "emprunt_mois": 14200.0, "investissements_t4": 0.0}}, "scenarios": {"prudent": {"label": "Prudent", "d_ca": -10, "d_marge": -2, "d_perso": 3, "dso": 75, "resultat": {"ca_annuel": 7857239.86, "ebitda_annuel": 1425452.82, "ecart_ca": -648757.64, "ecart_ebitda": -396623.81, "ebit": 1155452.82, "is": 284613.2, "acompte_dec": 68000.0, "solde_is": 12613.2, "creances_31_12": 1996322.36, "encaissements": 1944967.2, "decaissements": 1759126.98, "treso_fin": 1846909.69, "ca_t4": [605508.09, 719693.45, 911299.5], "ebitda_t4": [83500.69, 134622.79, 224396.3]}}, "central": {"label": "Central", "d_ca": 0, "d_marge": 0, "d_perso": 0, "dso": 63, "resultat": {"ca_annuel": 8105739.98, "ebitda_annuel": 1601599.41, "ecart_ca": -400257.52, "ecart_ebitda": -220477.22, "ebit": 1331599.41, "is": 328649.85, "acompte_dec": 68000.0, "solde_is": 56649.85, "creances_31_12": 1863234.21, "encaissements": 2350146.7, "decaissements": 1823028.9, "treso_fin": 2188187.27, "ca_t4": [672786.77, 799659.39, 1012555.0], "ebitda_t4": [131993.51, 191333.3, 295339.55]}}, "ambitieux": {"label": "Ambitieux", "d_ca": 10, "d_marge": 1.5, "d_perso": 0, "dso": 45, "resultat": {"ca_annuel": 8354240.1, "ebitda_annuel": 1761070.67, "ecart_ca": -151757.4, "ecart_ebitda": -61005.96, "ebit": 1491070.67, "is": 368517.67, "acompte_dec": 68000.0, "solde_is": 96517.67, "creances_31_12": 1463969.73, "encaissements": 3021502.51, "decaissements": 1903107.58, "treso_fin": 2779464.41, "ca_t4": [740065.45, 879625.33, 1113810.5], "ebitda_t4": [175161.21, 242528.38, 360448.04]}}}, "curseurs": {"d_ca": {"min": -20, "max": 20, "pas": 1, "label": "Variation du CA T4", "unite": "%"}, "d_marge": {"min": -5, "max": 5, "pas": 0.5, "label": "Taux de marge brute T4", "unite": "pts"}, "d_perso": {"min": -10, "max": 10, "pas": 1, "label": "Frais de personnel T4", "unite": "%"}, "dso": {"min": 30, "max": 90, "pas": 1, "label": "DSO au 31/12", "unite": "j"}}, "parametres": {"ratio_ca_gamme": {"Moutardes": 0.9545, "Pain d'épices": 0.9446, "Crèmes de cassis": 0.9425, "Condiments": 0.968}, "saisonnalite_2025": {"Moutardes": [0.329, 0.3159, 0.3551], "Pain d'épices": [0.207, 0.3357, 0.4573], "Crèmes de cassis": [0.2092, 0.3125, 0.4783], "Condiments": [0.3368, 0.3348, 0.3284]}, "ecart_taux_marge_pts": 0.24, "ratio_charges": {"Frais de personnel": 0.9922, "Loyers & charges locatives": 1.0, "Transport & logistique": 1.0016, "Marketing & commercial": 1.0621, "Autres charges externes": 1.0564}}, "methode": ["CA T4 par gamme = budget T4 de la gamme × ratio réel/budget janv.–sept. de la gamme ; répartition oct./nov./déc. selon la saisonnalité 2025 de la gamme.", "Taux de marge brute T4 = taux budget du mois + écart constaté sur janv.–sept. (+0,2 pt).", "Charges T4 = budget du mois × ratio réel/budget janv.–sept. du poste. Transport et marketing suivent le curseur CA ; personnel suit son curseur ; loyers et autres charges sont fixes.", "IS : résultat fiscal assimilé à l'EBIT (aucune charge financière ni retraitement fiscal dans le fichier). 15 % jusqu'à 42 500 €, 25 % au-delà. Acomptes versés : 204 000 € ; l'acompte de décembre (68 000 €) est limité à l'IS restant dû. Solde = IS − acomptes (payé en 2027).", "Trésorerie au 31/12 = trésorerie au 30/09 (1 661 069 €) + encaissements − décaissements oct.–déc. Encaissements = créances au 30/09 + CA TTC T4 − créances au 31/12 (CA TTC T4 × DSO / 92 j). Fournisseurs, TVA et personnel : ratios cash/P&L observés sur janv.–sept. Loyers et emprunt au montant de septembre. Aucun investissement au T4 (aucune donnée).", "Limite : le taux de marge 2025 (44 %) est sans rapport avec 2026 (55 %) ; seule la saisonnalité du CA 2025 est utilisée, jamais sa marge."]}, "reconciliation": {"anomalies": [{"gravite": "haute", "titre": "Facture FA-26840 saisie 2 fois dans Ventes_Detail", "description": "E.Leclerc, Moutarde à l'ancienne 350g, 18/08/2026 : lignes strictement identiques. Le détail surestime le CA de 30 940 € (marge 17 745 €). Non corrigé dans le cockpit : les ventes par client l'incluent.", "impact_eur": 30940.0, "client": "E.Leclerc"}, {"gravite": "haute", "titre": "CA Moutardes Juil : détail ≠ comptabilité", "description": "Juil : le détail des factures dépasse le CA comptable de +12 400 €. Reste +12 400 € sans explication dans le fichier (avoir non détaillé ? facture hors période ?). À justifier par la comptabilité.", "impact_eur": 12400.0}, {"gravite": "moyenne", "titre": "CA Moutardes Août : détail ≠ comptabilité", "description": "Août : détail +30 940 € vs P&L, entièrement expliqué par le doublon de facture.", "impact_eur": 30940.0}, {"gravite": "moyenne", "titre": "Coût des ventes Août : détail ≠ comptabilité", "description": "Août : coût de revient du détail +13 195 € vs coût des ventes comptable. Cohérent avec le doublon de facture ci-dessus.", "impact_eur": 13195.0}], "controles": [{"controle": "Réel 2026 renseigné jusqu'à septembre", "ok": true, "detail": "9 mois renseignés dans Reel_2026"}, {"controle": "Budget_2026 — Chiffre d'affaires total : recalcul = valeur Excel", "ok": true, "detail": "écart max 0 €"}, {"controle": "Budget_2026 — Marge brute : recalcul = valeur Excel", "ok": true, "detail": "écart max 0 €"}, {"controle": "Budget_2026 — EBITDA : recalcul = valeur Excel", "ok": true, "detail": "écart max 0 €"}, {"controle": "Reel_2026 — Chiffre d'affaires total : recalcul = valeur Excel", "ok": true, "detail": "écart max 0 €"}, {"controle": "Reel_2026 — Marge brute : recalcul = valeur Excel", "ok": true, "detail": "écart max 0 €"}, {"controle": "Reel_2026 — EBITDA : recalcul = valeur Excel", "ok": true, "detail": "écart max 0 €"}, {"controle": "Unicité des n° de facture (Ventes_Detail)", "ok": false, "detail": "1 numéro(s) en doublon"}, {"controle": "CA Ventes_Detail = CA comptable (YTD)", "ok": false, "detail": "détail 5 664 079 € vs P&L 5 620 739 € (écart +43 340 €)"}, {"controle": "Pont EBITDA bouclé (budget + effets = réel)", "ok": true, "detail": "écart de bouclage −0 €"}, {"controle": "Tranches de la balance âgée recalculées = Excel", "ok": true, "detail": "0 facture(s) en écart"}, {"controle": "Factures en créance présentes dans Ventes_Detail", "ok": true, "detail": "0 facture(s) introuvable(s)"}, {"controle": "Créance ≤ montant TTC facturé", "ok": true, "detail": "0 créance(s) supérieure(s) à la facture d'origine"}, {"controle": "Trésorerie au 30/09 recalculée = Excel", "ok": true, "detail": "recalcul 1 661 069 € vs Excel 1 661 069 €"}], "observations": [{"titre": "Rupture de taux de marge brute entre 2025 et 2026", "description": "Taux de marge brute 2025 réalisé : 44,0 % ; budget 2026 : 55,0 % (+11,0 pts). Un tel saut doit être expliqué (prix, achats, ou changement de périmètre du coût des ventes) avant toute comparaison N/N-1 ou tout forecast T4 basé sur 2025."}]}, "commentaires": {"kpis": ["À fin septembre, le chiffre d'affaires cumulé atteint 5 620 739 €, en retrait sur le budget (−271 634 €, −4,6 %).", "Le taux de marge brute ressort à 55,2 % contre 55,0 % budgété (+0,2 pt), et l'EBITDA à 982 933 €, soit −149 805 € (−13,2 %) vs budget.", "Principal frein sur l'EBITDA : effet volume CA (−149 399 €) ; principal soutien : effet taux de marge (+13 408 €)."], "tendance": ["Le CA est sous le budget chaque mois depuis janvier : écart le plus faible en avril (−5 101 €), le plus marqué en mai (−62 120 €). Le retard est structurel, pas accidentel.", "L'EBITDA mensuel n'a battu le budget aucun mois. Sur le T3 (juil.–sept.), l'écart de CA cumulé est de −61 133 €, contre −210 501 € sur le S1.", "Attention : le détail des ventes ne réconcilie pas avec la comptabilité sur certains mois (voir bloc Réconciliation)."], "gammes": ["Toutes les gammes sont sous le budget. Meilleure gamme vs budget : Condiments (−3,2 %, −38 557 €) ; la plus en retrait : Crèmes de cassis (−5,8 %, −73 735 €).", "Moutardes pèse 50,4 % du CA cumulé.", "Le T4 est saisonnièrement décisif pour le pain d'épices et les crèmes de cassis : le budget y concentre 43 % de leur CA annuel."], "clients": ["Les 5 premiers clients (Carrefour, E.Leclerc, Costco France, Metro Cash & Carry, Fine Food Export UK) concentrent 66,1 % du CA facturé ; Carrefour est le premier avec 16,4 %.", "Concentration élevée : la perte ou la renégociation d'un seul compte majeur pèserait directement sur l'EBITDA.", "Taux de marge par client : de 53,7 % (Metro Cash & Carry) à 56,4 % (E.Leclerc).", "Les montants incluent 30 940 € de doublon chez E.Leclerc ; le classement du top 5 reste inchangé hors doublon."], "pont": ["L'EBITDA réel YTD (982 933 €) s'écarte du budget (1 132 738 €) de −149 805 €.", "L'effet volume CA vaut −149 399 € et l'effet taux de marge +13 408 €.", "Postes de charges en dépassement : autres charges externes (+12 682 €, +5,6 %), marketing & commercial (+10 975 €, +6,2 %), transport & logistique (+376 €, +0,2 %).", "Économies : frais de personnel (+10 218 €)."], "creances": ["Encours clients au 30/09 : 1 492 467 € TTC sur 250 factures, dont 477 847 € échus (32,0 %).", "ALERTE : 213 726 € (14,3 % de l'encours, 37 factures, 9 clients) ont plus de 60 jours de retard ; premiers concernés : Carrefour (65 393 €), Monoprix (48 114 €).", "DSO de 63 jours pour un objectif de 45 jours : 18 jours de trop, soit environ 434 555 € de trésorerie immobilisée."], "reconciliation": ["4 anomalie(s) de réconciliation détectée(s), dont 2 de gravité haute. Aucune n'a été corrigée : les chiffres du P&L proviennent de la comptabilité (Reel_2026), les ventes par client du détail des factures."], "simulation": ["Scénario central (tendance janv.–sept. prolongée) : atterrissage CA 2026 à 8 105 740 € (−400 258 € vs budget) et EBITDA à 1 601 599 € (−220 477 €).", "IS estimé 328 650 €, solde à payer après acomptes 56 650 € ; trésorerie fin décembre 2 188 187 €.", "Fourchette d'EBITDA 2026 : 1 425 453 € (prudent) à 1 761 071 € (ambitieux) : même le scénario ambitieux ne rattrape pas le budget annuel."]}};
+const PROOF = {"genere_le": "10/10/2026 14:30", "source": "CFO_Cockpit_Delices_de_Bourgogne_2026.xlsx", "metrics_genere_le": "10/10/2026 14:30", "seuil": 1.0, "mois": ["Janv", "Févr", "Mars", "Avr", "Mai", "Juin", "Juil", "Août", "Sept"], "lignes": [{"id": "ca", "controle": "CA détail des ventes vs CA compte de résultat", "categorie": "Chiffre d'affaires", "a_label": "Ventes_Detail (Σ CA HT)", "b_label": "Reel_2026 (Σ CA gammes)", "cellules": [{"a": 568380.39, "b": 568380.39, "ecart": 0.0, "ok": true}, {"a": 555396.69, "b": 555396.69, "ecart": 0.0, "ok": true}, {"a": 571723.95, "b": 571723.95, "ecart": -0.0, "ok": true}, {"a": 624229.0, "b": 624229.0, "ecart": 0.0, "ok": true}, {"a": 606092.68, "b": 606092.68, "ecart": 0.0, "ok": true}, {"a": 665406.13, "b": 665406.13, "ecart": -0.0, "ok": true}, {"a": 716793.32, "b": 704393.32, "ecart": 12400.0, "ok": false}, {"a": 715668.83, "b": 684728.83, "ecart": 30940.0, "ok": false}, {"a": 640387.83, "b": 640387.83, "ecart": -0.0, "ok": true}], "total": {"a": 5664078.82, "b": 5620738.82, "ecart": 43340.0, "ok": false}, "note": null}, {"id": "ca_Moutardes", "controle": "↳ Moutardes", "categorie": "Chiffre d'affaires", "a_label": "Ventes_Detail", "b_label": "Reel_2026", "cellules": [{"a": 300381.02, "b": 300381.02, "ecart": 0.0, "ok": true}, {"a": 295355.52, "b": 295355.52, "ecart": 0.0, "ok": true}, {"a": 283086.64, "b": 283086.64, "ecart": -0.0, "ok": true}, {"a": 331042.94, "b": 331042.94, "ecart": 0.0, "ok": true}, {"a": 312477.52, "b": 312477.52, "ecart": 0.0, "ok": true}, {"a": 322837.64, "b": 322837.64, "ecart": 0.0, "ok": true}, {"a": 328217.9, "b": 315817.9, "ecart": 12400.0, "ok": false}, {"a": 385407.54, "b": 354467.54, "ecart": 30940.0, "ok": false}, {"a": 318815.1, "b": 318815.1, "ecart": 0.0, "ok": true}], "total": {"a": 2877621.82, "b": 2834281.82, "ecart": 43340.0, "ok": false}, "note": null}, {"id": "ca_Pain d'épices", "controle": "↳ Pain d'épices", "categorie": "Chiffre d'affaires", "a_label": "Ventes_Detail", "b_label": "Reel_2026", "cellules": [{"a": 56018.43, "b": 56018.43, "ecart": -0.0, "ok": true}, {"a": 45164.4, "b": 45164.4, "ecart": 0.0, "ok": true}, {"a": 55054.1, "b": 55054.1, "ecart": -0.0, "ok": true}, {"a": 45742.9, "b": 45742.9, "ecart": 0.0, "ok": true}, {"a": 40016.26, "b": 40016.26, "ecart": 0.0, "ok": true}, {"a": 39335.54, "b": 39335.54, "ecart": -0.0, "ok": true}, {"a": 31574.04, "b": 31574.04, "ecart": 0.0, "ok": true}, {"a": 38039.11, "b": 38039.11, "ecart": 0.0, "ok": true}, {"a": 60354.17, "b": 60354.17, "ecart": -0.0, "ok": true}], "total": {"a": 411298.95, "b": 411298.95, "ecart": -0.0, "ok": true}, "note": null}, {"id": "ca_Crèmes de cassis", "controle": "↳ Crèmes de cassis", "categorie": "Chiffre d'affaires", "a_label": "Ventes_Detail", "b_label": "Reel_2026", "cellules": [{"a": 100691.07, "b": 100691.07, "ecart": -0.0, "ok": true}, {"a": 110925.88, "b": 110925.88, "ecart": -0.0, "ok": true}, {"a": 116751.74, "b": 116751.74, "ecart": 0.0, "ok": true}, {"a": 119731.86, "b": 119731.86, "ecart": -0.0, "ok": true}, {"a": 129264.29, "b": 129264.29, "ecart": 0.0, "ok": true}, {"a": 147818.4, "b": 147818.4, "ecart": 0.0, "ok": true}, {"a": 188019.72, "b": 188019.72, "ecart": 0.0, "ok": true}, {"a": 154705.98, "b": 154705.98, "ecart": 0.0, "ok": true}, {"a": 140705.73, "b": 140705.73, "ecart": 0.0, "ok": true}], "total": {"a": 1208614.67, "b": 1208614.67, "ecart": 0.0, "ok": true}, "note": null}, {"id": "ca_Condiments", "controle": "↳ Condiments", "categorie": "Chiffre d'affaires", "a_label": "Ventes_Detail", "b_label": "Reel_2026", "cellules": [{"a": 111289.87, "b": 111289.87, "ecart": 0.0, "ok": true}, {"a": 103950.89, "b": 103950.89, "ecart": 0.0, "ok": true}, {"a": 116831.47, "b": 116831.47, "ecart": 0.0, "ok": true}, {"a": 127711.3, "b": 127711.3, "ecart": 0.0, "ok": true}, {"a": 124334.61, "b": 124334.61, "ecart": 0.0, "ok": true}, {"a": 155414.55, "b": 155414.55, "ecart": 0.0, "ok": true}, {"a": 168981.66, "b": 168981.66, "ecart": 0.0, "ok": true}, {"a": 137516.2, "b": 137516.2, "ecart": -0.0, "ok": true}, {"a": 120512.83, "b": 120512.83, "ecart": 0.0, "ok": true}], "total": {"a": 1166543.38, "b": 1166543.38, "ecart": 0.0, "ok": true}, "note": null}, {"id": "cogs", "controle": "Coût de revient détail vs coût des ventes", "categorie": "Chiffre d'affaires", "a_label": "Ventes_Detail (Σ coût)", "b_label": "Reel_2026 (coût des ventes)", "cellules": [{"a": 254843.53, "b": 254843.53, "ecart": 0.0, "ok": true}, {"a": 249245.4, "b": 249245.4, "ecart": 0.0, "ok": true}, {"a": 253004.24, "b": 253004.24, "ecart": -0.0, "ok": true}, {"a": 277022.72, "b": 277022.72, "ecart": 0.0, "ok": true}, {"a": 271760.44, "b": 271760.44, "ecart": 0.0, "ok": true}, {"a": 296480.96, "b": 296480.96, "ecart": -0.0, "ok": true}, {"a": 321174.43, "b": 321174.43, "ecart": -0.0, "ok": true}, {"a": 320279.6, "b": 307084.6, "ecart": 13195.0, "ok": false}, {"a": 285308.02, "b": 285308.02, "ecart": 0.0, "ok": true}], "total": {"a": 2529119.34, "b": 2515924.34, "ecart": 13195.0, "ok": false}, "note": null}, {"id": "ca_aff", "controle": "CA recalculé vs CA affiché", "categorie": "Cockpit", "a_label": "Recalcul Excel brut", "b_label": "metrics.json", "cellules": [{"a": 568380.39, "b": 568380.39, "ecart": 0.0, "ok": true}, {"a": 555396.69, "b": 555396.69, "ecart": 0.0, "ok": true}, {"a": 571723.95, "b": 571723.95, "ecart": 0.0, "ok": true}, {"a": 624229.0, "b": 624229.0, "ecart": 0.0, "ok": true}, {"a": 606092.68, "b": 606092.68, "ecart": 0.0, "ok": true}, {"a": 665406.13, "b": 665406.13, "ecart": 0.0, "ok": true}, {"a": 704393.32, "b": 704393.32, "ecart": 0.0, "ok": true}, {"a": 684728.83, "b": 684728.83, "ecart": 0.0, "ok": true}, {"a": 640387.83, "b": 640387.83, "ecart": 0.0, "ok": true}], "total": {"a": 5620738.82, "b": 5620738.82, "ecart": 0.0, "ok": true}, "note": null}, {"id": "ebitda_aff", "controle": "EBITDA recalculé vs EBITDA affiché", "categorie": "Cockpit", "a_label": "Recalcul Excel brut", "b_label": "metrics.json", "cellules": [{"a": 80030.13, "b": 80030.13, "ecart": -0.0, "ok": true}, {"a": 70893.49, "b": 70893.49, "ecart": 0.0, "ok": true}, {"a": 88707.44, "b": 88707.44, "ecart": 0.0, "ok": true}, {"a": 110189.56, "b": 110189.56, "ecart": 0.0, "ok": true}, {"a": 97863.13, "b": 97863.13, "ecart": 0.0, "ok": true}, {"a": 135977.51, "b": 135977.51, "ecart": -0.0, "ok": true}, {"a": 140474.14, "b": 140474.14, "ecart": 0.0, "ok": true}, {"a": 139596.16, "b": 139596.16, "ecart": -0.0, "ok": true}, {"a": 119201.48, "b": 119201.48, "ecart": -0.0, "ok": true}], "total": {"a": 982933.04, "b": 982933.04, "ecart": 0.0, "ok": true}, "note": null}, {"id": "ebitda_bud_aff", "controle": "EBITDA budget recalculé vs affiché", "categorie": "Cockpit", "a_label": "Recalcul Excel brut", "b_label": "metrics.json", "cellules": [{"a": 98352.0, "b": 98352.0, "ecart": 0.0, "ok": true}, {"a": 85991.5, "b": 85991.5, "ecart": 0.0, "ok": true}, {"a": 109351.62, "b": 109351.62, "ecart": 0.0, "ok": true}, {"a": 113678.5, "b": 113678.5, "ecart": 0.0, "ok": true}, {"a": 132342.88, "b": 132342.88, "ecart": 0.0, "ok": true}, {"a": 154713.0, "b": 154713.0, "ecart": 0.0, "ok": true}, {"a": 170410.38, "b": 170410.38, "ecart": 0.0, "ok": true}, {"a": 144084.25, "b": 144084.25, "ecart": 0.0, "ok": true}, {"a": 123813.75, "b": 123813.75, "ecart": 0.0, "ok": true}], "total": {"a": 1132737.88, "b": 1132737.88, "ecart": 0.0, "ok": true}, "note": null}, {"id": "ebitda_xl", "controle": "EBITDA recalculé vs formule Excel", "categorie": "Excel", "a_label": "Recalcul Excel brut", "b_label": "Reel_2026 (cache formule)", "cellules": [{"a": 80030.13, "b": 80030.13, "ecart": -0.0, "ok": true}, {"a": 70893.49, "b": 70893.49, "ecart": 0.0, "ok": true}, {"a": 88707.44, "b": 88707.44, "ecart": -0.0, "ok": true}, {"a": 110189.56, "b": 110189.56, "ecart": 0.0, "ok": true}, {"a": 97863.13, "b": 97863.13, "ecart": -0.0, "ok": true}, {"a": 135977.51, "b": 135977.51, "ecart": -0.0, "ok": true}, {"a": 140474.14, "b": 140474.14, "ecart": 0.0, "ok": true}, {"a": 139596.16, "b": 139596.16, "ecart": -0.0, "ok": true}, {"a": 119201.48, "b": 119201.48, "ecart": -0.0, "ok": true}], "total": {"a": 982933.04, "b": 982933.04, "ecart": -0.0, "ok": true}, "note": null}, {"id": "treso_xl", "controle": "Trésorerie fin de mois recalculée vs Excel", "categorie": "Trésorerie", "a_label": "Recalcul (début + flux)", "b_label": "Tresorerie (cache formule)", "cellules": [{"a": 564697.68, "b": 564697.68, "ecart": -0.0, "ok": true}, {"a": 675293.56, "b": 675293.56, "ecart": 0.0, "ok": true}, {"a": 788620.18, "b": 788620.18, "ecart": 0.0, "ok": true}, {"a": 882625.39, "b": 882625.39, "ecart": -0.0, "ok": true}, {"a": 1054347.95, "b": 1054347.95, "ecart": -0.0, "ok": true}, {"a": 1195140.0, "b": 1195140.0, "ecart": -0.0, "ok": true}, {"a": 1354988.22, "b": 1354988.22, "ecart": -0.0, "ok": true}, {"a": 1549404.69, "b": 1549404.69, "ecart": -0.0, "ok": true}, {"a": 1661069.48, "b": 1661069.48, "ecart": -0.0, "ok": true}], "total": {"a": 9726187.15, "b": 9726187.15, "ecart": -0.0, "ok": true}, "note": null}, {"id": "treso_aff", "controle": "Trésorerie fin de mois recalculée vs affichée", "categorie": "Trésorerie", "a_label": "Recalcul (début + flux)", "b_label": "metrics.json", "cellules": [{"a": 564697.6799999999, "b": null, "ecart": null, "ok": null}, {"a": 675293.56, "b": null, "ecart": null, "ok": null}, {"a": 788620.18, "b": null, "ecart": null, "ok": null}, {"a": 882625.3899999999, "b": null, "ecart": null, "ok": null}, {"a": 1054347.9499999997, "b": null, "ecart": null, "ok": null}, {"a": 1195139.9999999998, "b": null, "ecart": null, "ok": null}, {"a": 1354988.2199999997, "b": null, "ecart": null, "ok": null}, {"a": 1549404.6899999995, "b": null, "ecart": null, "ok": null}, {"a": 1661069.48, "b": 1661069.48, "ecart": -0.0, "ok": true}], "total": null, "note": "Le cockpit n'affiche que la trésorerie au 30/09."}, {"id": "cr_emis", "controle": "Créances ouvertes ≤ TTC facturé, par mois d'émission", "categorie": "Créances", "a_label": "Creances_Clients (TTC ouvert)", "b_label": "Ventes_Detail (TTC facturé)", "cellules": [{"a": 0.0, "b": 614241.52, "ecart": 0.0, "ok": true}, {"a": 0.0, "b": 602027.76, "ecart": 0.0, "ok": true}, {"a": 0.0, "b": 620097.77, "ecart": 0.0, "ok": true}, {"a": 0.0, "b": 675922.71, "ecart": 0.0, "ok": true}, {"a": 151975.58, "b": 658171.1, "ecart": 0.0, "ok": true}, {"a": 150099.09, "b": 723437.14, "ecart": 0.0, "ok": true}, {"a": 130356.07, "b": 783479.81, "ecart": 0.0, "ok": true}, {"a": 392020.13, "b": 777462.98, "ecart": 0.0, "ok": true}, {"a": 668016.59, "b": 696011.49, "ecart": 0.0, "ok": true}], "total": {"a": 1492467.46, "b": 6150852.28, "ecart": 0.0, "ok": true}, "note": "Écart = excédent du reste dû sur le facturé du mois (impossible s'il est > 0)."}, {"id": "cr_total", "controle": "Total créances recalculé vs affiché", "categorie": "Créances", "a_label": "Creances_Clients (Σ TTC)", "b_label": "metrics.json", "cellules": [{"a": null, "b": null, "ecart": null, "ok": null}, {"a": null, "b": null, "ecart": null, "ok": null}, {"a": null, "b": null, "ecart": null, "ok": null}, {"a": null, "b": null, "ecart": null, "ok": null}, {"a": null, "b": null, "ecart": null, "ok": null}, {"a": null, "b": null, "ecart": null, "ok": null}, {"a": null, "b": null, "ecart": null, "ok": null}, {"a": null, "b": null, "ecart": null, "ok": null}, {"a": 1492467.46, "b": 1492467.46, "ecart": 0.0, "ok": true}], "total": null, "note": "Balance âgée disponible au 30/09 uniquement."}], "ponctuels": [{"controle": "CA HT = quantité × prix unitaire (chaque ligne)", "ok": true, "detail": "0 ligne(s) incohérente(s) sur 1079"}, {"controle": "Aucun avoir ni ligne négative dans Ventes_Detail", "ok": true, "detail": "0 ligne(s) ≤ 0"}, {"controle": "Numérotation des factures continue (pas de ligne manquante)", "ok": true, "detail": "FA-26001 à FA-27078 : 1078 numéros distincts, 0 trou(s)"}, {"controle": "Numéros de facture chronologiques (pas de facture glissée d'un mois à l'autre)", "ok": true, "detail": "plages mensuelles disjointes"}, {"controle": "Toutes les factures datées de janv.–sept. 2026", "ok": true, "detail": "0 hors période"}, {"controle": "Coût de revient unitaire constant par produit", "ok": true, "detail": "0 produit(s) à coût variable"}, {"controle": "Chaque créance correspond à une facture du détail", "ok": true, "detail": "0 créance(s) sans facture"}, {"controle": "Reste dû ≤ montant TTC de la facture d'origine", "ok": true, "detail": "0 créance(s) supérieure(s) à leur facture"}, {"controle": "Créances = factures entières (pas de règlement partiel)", "ok": true, "detail": "0 règlement(s) partiel(s) — information, pas une erreur"}, {"controle": "Client de la créance = client de la facture", "ok": true, "detail": "0 incohérence(s)"}, {"controle": "Délai de paiement unique par client", "ok": true, "detail": "conditions : Auchan 45 j, Carrefour 45 j, Costco France 30 j, E.Leclerc 45 j, Fine Food Export UK 60 j, Galeries Lafayette Gourmet 30 j, Grande Épicerie de Paris 30 j, Intermarché 45 j, Metro Cash & Carry 30 j, Monoprix 60 j"}, {"controle": "Jours de retard et tranches (formules Excel) = recalcul", "ok": true, "detail": "0 ligne(s) divergente(s)"}, {"controle": "Créances > 60 j recalculées = affichées", "ok": true, "detail": "recalcul 213 726,48 € vs affiché 213 726,48 €"}, {"controle": "Acomptes d'IS (Tresorerie) = Hypotheses", "ok": true, "detail": "204 000,00 € vs 204 000,00 €"}, {"controle": "Loyers décaissés = loyers P&L × 1,2 (TVA 20 %)", "ok": true, "detail": "contrôlé mois par mois"}, {"controle": "Créances implicites au 01/01 (balance 30/09 − TTC facturé + encaissements) positives", "ok": true, "detail": "1 330 639,65 € — cohérent si l'encours d'ouverture 2026 avait cet ordre de grandeur (non vérifiable : pas de balance d'ouverture)"}], "causes": [{"mois": "Juil", "perimetre": "Moutardes", "ecart": 12400.0, "cause": "Avoir ou remise de 12 400,00 € comptabilisé dans le CA mais absent du détail des factures. La signature le désigne : effet prix pur (coût inchangé, donc pas de retour de marchandise), montant rond typique d'une écriture manuelle (RFA, coopération commerciale, ristourne). Écart concentré sur la gamme Moutardes.", "certitude": "probable", "preuves": [{"type": "signature", "texte": "Reste 12 400,00 € après doublons. Coût des ventes du mois : identique entre détail et compta (écart de coût nul hors doublon) → l'écart porte uniquement sur le prix, pas sur des volumes.", "montant": 12400.0}, {"type": "recherche", "texte": "Ligne unique de 12 400,00 € dans le détail : 0 ; paire de lignes : 0 ; montant présent ailleurs dans le classeur : nulle part ; montant rond : oui."}, {"type": "recherche", "texte": "Aucun avoir (ligne négative) dans le détail, numérotation continue, aucune facture hors période : ce n'est ni une ligne manquante ni un décalage de mois."}], "controle": "ca"}, {"mois": "Août", "perimetre": "Moutardes", "ecart": 30940.0, "cause": "Doublon de facture dans le détail des ventes : il explique 100 % de l'écart.", "certitude": "établie", "preuves": [{"type": "doublon", "texte": "FA-26840 figure 2 fois (lignes 908, 909 de Ventes_Detail) : lignes strictement identiques, E.Leclerc, Moutarde à l'ancienne 350g, 30 940,00 €.", "montant": 30940.0}], "controle": "ca"}, {"controle": "cogs", "mois": "Août", "perimetre": "Total", "ecart": 13195.0, "certitude": "établie", "cause": "Coût de revient de la facture en doublon compté deux fois dans le détail : explique 100 % de l'écart.", "preuves": [{"type": "doublon", "texte": "Coût des lignes en double : 13 195,00 € ; écart constaté : 13 195,00 €.", "montant": 13195.0}]}], "synthese": ["105 cellules vertes, 5 rouges sur 110 contrôles mensuels ; 16/16 contrôles ponctuels OK.", "Les chiffres affichés par le cockpit (CA, EBITDA réel et budget) sont identiques au recalcul indépendant.", "Juil — Moutardes (12 400,00 €) : Avoir ou remise de 12 400,00 € comptabilisé dans le CA mais absent du détail des factures. La signature le désigne : effet prix pur (coût inchangé, donc pas de retour de marchandise), montant rond typique d'une écriture manuelle (RFA, coopération commerciale, ristourne). Écart concentré sur la gamme Moutardes. [probable]", "Août — Moutardes (30 940,00 €) : Doublon de facture dans le détail des ventes : il explique 100 % de l'écart. [établie]", "Août — Total (13 195,00 €) : Coût de revient de la facture en doublon compté deux fois dans le détail : explique 100 % de l'écart. [établie]"], "methode": "verify.py relit l'Excel cellule par cellule (openpyxl), sans pandas et sans importer build_metrics.py. Il ne prend que les cellules saisies, pas les formules, puis compare à l'Excel (valeurs de formules en cache) et à metrics.json (ce qu'affiche le cockpit)."};</script>
+<style>
+:root{
+  --bg:#FFFFFF; --ink:#0B0A14; --ink2:#4A4760; --muted:#7C7993; --line:#ECEAF5; --grid:#F0EFF6;
+  --a1:#3524E8; --a2:#E93BF3; --grad:linear-gradient(90deg,#3524E8,#E93BF3);
+  --reel:#3524E8; --budget:#8A87A0;
+  --good:#0F8A5F; --good-bg:#E8F6EF; --bad:#C4213B; --bad-bg:#FCECEF; --warn:#B26A00; --warn-bg:#FFF5E5;
+  --shadow:0 1px 2px rgba(11,10,20,.04),0 6px 20px rgba(53,36,232,.06);
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.5 Inter,system-ui,sans-serif}
+.wrap{max-width:1240px;margin:0 auto;padding:28px 16px 64px}
+h1,h2,h3{font-family:"Roboto Slab",Georgia,serif;font-weight:800;margin:0}
+h1{font-size:30px;background:var(--grad);-webkit-background-clip:text;background-clip:text;color:transparent;display:inline-block}
+h2{font-size:20px;margin-bottom:4px}
+h2 .g{background:var(--grad);-webkit-background-clip:text;background-clip:text;color:transparent}
+.sub{color:var(--muted);font-size:13px}
+header{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:flex-end;gap:12px;margin-bottom:22px}
+.card{background:#fff;border:1px solid var(--line);border-radius:16px;box-shadow:var(--shadow);padding:20px;margin-bottom:20px}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:20px}
+@media(max-width:900px){.grid2{grid-template-columns:1fr}}
+.kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px;margin-bottom:14px}
+.kpi{all:unset;cursor:pointer;background:#fff;border:1px solid var(--line);border-radius:14px;box-shadow:var(--shadow);padding:14px 16px;position:relative;transition:transform .12s,border-color .12s}
+.kpi:hover{transform:translateY(-2px)}
+.kpi:focus-visible{outline:2px solid var(--a1);outline-offset:2px}
+.kpi.on{border-color:transparent;background:linear-gradient(#fff,#fff) padding-box,var(--grad) border-box;border:2px solid transparent}
+.kpi .l{font-size:12px;color:var(--muted);text-transform:uppercase;letter-spacing:.04em;font-weight:600}
+.kpi .v{font-family:"Roboto Slab",serif;font-weight:800;font-size:24px;margin:4px 0 2px;background:var(--grad);-webkit-background-clip:text;background-clip:text;color:transparent}
+.kpi .b{font-size:12px;color:var(--ink2)}
+.kpi.alert{border-color:var(--bad)}
+.pill{display:inline-block;white-space:nowrap;font-size:12px;font-weight:600;padding:1px 8px;border-radius:99px;margin-top:6px}
+.pos{color:var(--good);background:var(--good-bg)} .neg{color:var(--bad);background:var(--bad-bg)} .neu{color:var(--ink2);background:var(--grid)}
+.board{margin-top:14px;padding:12px 14px;border-left:3px solid;border-image:var(--grad) 1;background:#FAFAFE;font-size:14px;color:var(--ink2)}
+.board b{color:var(--ink);font-family:"Roboto Slab",serif;font-size:12px;letter-spacing:.04em;text-transform:uppercase;display:block;margin-bottom:2px}
+.chart{position:relative;height:300px}
+.chart.tall{height:380px}
+table{width:100%;border-collapse:collapse;font-size:13px;font-variant-numeric:tabular-nums}
+th,td{padding:7px 8px;border-bottom:1px solid var(--line);text-align:right;white-space:nowrap}
+th:first-child,td:first-child{text-align:left}
+th{color:var(--muted);font-weight:600;font-size:12px}
+tr.tot td{font-weight:600;border-top:2px solid var(--line)}
+.scroll{overflow-x:auto}
+.alertbox{border:1px solid var(--bad);background:var(--bad-bg);color:#7A0F22;border-radius:12px;padding:12px 14px;margin:10px 0 14px;font-size:14px}
+.alertbox strong{color:var(--bad)}
+.rec li{margin-bottom:8px}
+.tag{font-size:11px;font-weight:700;padding:1px 7px;border-radius:99px;text-transform:uppercase;margin-right:6px}
+.tag.haute{background:var(--bad);color:#fff} .tag.moyenne{background:var(--warn-bg);color:var(--warn)}
+.ok{color:var(--good);font-weight:700} .ko{color:var(--bad);font-weight:700}
+details summary{cursor:pointer;color:var(--a1);font-weight:600;font-size:13px;margin-top:6px}
+.btn{all:unset;cursor:pointer;font-size:13px;font-weight:600;color:#fff;background:var(--grad);padding:6px 12px;border-radius:99px}
+.btn.ghost{background:none;color:var(--a1);border:1px solid var(--line)}
+.btn.ghost.on{color:#fff;background:var(--grad);border-color:transparent}
+.row{display:flex;flex-wrap:wrap;gap:8px;align-items:center;justify-content:space-between;margin-bottom:10px}
+.chips{display:flex;flex-wrap:wrap;gap:6px}
+.heat td.c{min-width:72px}
+.top5 td:first-child{font-weight:600}
+.hint{font-size:12px;color:var(--muted)}
+.legend{display:flex;flex-wrap:wrap;gap:14px;font-size:12px;color:var(--ink2);margin:4px 0 8px}
+.legend i{display:inline-block;width:14px;height:3px;border-radius:2px;vertical-align:middle;margin-right:6px}
+.legend i.sq{height:10px;width:10px;border-radius:3px}
+.legend i.dash{background:repeating-linear-gradient(90deg,var(--budget) 0 4px,transparent 4px 7px)!important}
+.tabs{display:flex;gap:6px;margin:0 0 20px;border-bottom:1px solid var(--line)}
+.tab{all:unset;cursor:pointer;font-family:"Roboto Slab",serif;font-weight:700;font-size:15px;padding:10px 16px;color:var(--muted);border-bottom:3px solid transparent;margin-bottom:-1px}
+.tab.on{color:var(--ink);border-image:var(--grad) 1;border-bottom:3px solid}
+.tab:focus-visible{outline:2px solid var(--a1)}
+.sim{display:grid;grid-template-columns:300px 1fr;gap:24px}
+@media(max-width:900px){.sim{grid-template-columns:1fr}}
+.sliders{display:flex;flex-direction:column;gap:18px;background:#FAFAFE;border:1px solid var(--line);border-radius:14px;padding:16px}
+.sl label{display:flex;justify-content:space-between;font-size:13px;font-weight:600}
+.sl output{font-family:"Roboto Slab",serif;background:var(--grad);-webkit-background-clip:text;background-clip:text;color:transparent;font-weight:800}
+.sl input{width:100%;accent-color:#3524E8;margin:6px 0 0}
+.sl .mm{display:flex;justify-content:space-between;font-size:11px;color:var(--muted)}
+.legend i.dot2{background:repeating-linear-gradient(90deg,#E93BF3 0 2px,transparent 2px 4px)!important;height:3px}
+.kpi.static{cursor:default}.kpi.static:hover{transform:none}
+.fab{all:unset;position:fixed;right:20px;bottom:20px;z-index:50;cursor:pointer;background:var(--grad);color:#fff;font-weight:700;font-family:"Roboto Slab",serif;padding:13px 20px;border-radius:99px;box-shadow:0 8px 24px rgba(53,36,232,.35)}
+.fab:focus-visible{outline:3px solid #0B0A14;outline-offset:2px}
+.ask{position:fixed;right:20px;bottom:76px;z-index:50;width:min(440px,calc(100vw - 32px));height:min(680px,calc(100vh - 110px));background:#fff;border:1px solid var(--line);border-radius:18px;box-shadow:0 20px 60px rgba(11,10,20,.18);display:flex;flex-direction:column;overflow:hidden}
+.ask[hidden]{display:none}
+.askh{padding:14px 16px;border-bottom:1px solid var(--line);display:flex;justify-content:space-between;align-items:center}
+.askh h3{font-size:16px;background:var(--grad);-webkit-background-clip:text;background-clip:text;color:transparent}
+.x{all:unset;cursor:pointer;font-size:20px;color:var(--muted);padding:0 6px}
+#askLog{flex:1;overflow-y:auto;padding:14px;display:flex;flex-direction:column;gap:10px;background:#FAFAFE}
+.msg{max-width:92%;border-radius:14px;padding:10px 12px;font-size:13.5px}
+.msg p{margin:4px 0}
+.msg.me{align-self:flex-end;background:var(--grad);color:#fff}
+.msg.bot{align-self:flex-start;background:#fff;border:1px solid var(--line)}
+.msg.st-nodata{border-color:var(--bad);background:var(--bad-bg)}
+.msg.st-ambigu{border-color:var(--warn);background:var(--warn-bg)}
+.at{font-weight:600;font-size:12.5px;color:var(--ink2)}
+.av{font-family:"Roboto Slab",serif;font-weight:800;font-size:24px;background:var(--grad);-webkit-background-clip:text;background-clip:text;color:transparent}
+.tags{display:flex;gap:4px;margin-bottom:4px}
+.tg{font-size:10.5px;font-weight:700;padding:1px 7px;border-radius:99px;text-transform:uppercase;letter-spacing:.03em}
+.tg-r{background:#E9E7FD;color:#3524E8}.tg-b{background:#EEEDF3;color:#5D5A73}.tg-f{background:#FCE7FE;color:#A01AAB}
+.mini{height:150px;margin:8px 0 4px}
+.srcLink{all:unset;cursor:pointer;color:var(--a1);font-weight:600;font-size:12.5px}
+.srcLink:hover{text-decoration:underline}
+.compris{font-size:11px;color:var(--muted);margin-top:6px}
+.sugg{display:flex;flex-direction:column;gap:4px;margin-top:6px;font-size:12px;color:var(--ink2)}
+.sg{all:unset;cursor:pointer;color:var(--a1);background:#fff;border:1px solid var(--line);border-radius:8px;padding:4px 8px;font-size:12.5px}
+.sg:hover{border-color:var(--a1)}
+#askForm{display:flex;gap:8px;padding:12px;border-top:1px solid var(--line)}
+#askIn{flex:1;border:1px solid var(--line);border-radius:99px;padding:9px 14px;font:inherit;font-size:14px}
+#askIn:focus{outline:2px solid var(--a1)}
+.modal{position:fixed;inset:0;background:rgba(11,10,20,.45);z-index:60;display:flex;align-items:center;justify-content:center;padding:16px}
+.modal[hidden]{display:none}
+.modal .box{background:#fff;border-radius:16px;max-width:760px;width:100%;max-height:80vh;overflow:auto;padding:20px}
+tr.hi td{background:#EFEDFD;font-weight:600}
+.matrix td,.matrix th{text-align:center;padding:6px 5px}
+.matrix td:first-child,.matrix th:first-child{text-align:left;white-space:normal;min-width:240px}
+.matrix td.cat{background:#FAFAFE;font-family:"Roboto Slab",serif;font-weight:700;font-size:12px;color:var(--muted);text-transform:uppercase;letter-spacing:.04em}
+.cv,.cr,.cn{display:inline-block;min-width:64px;border-radius:6px;padding:3px 6px;font-size:12px;font-weight:600}
+.cv{background:var(--good-bg);color:var(--good)}.cr{background:var(--bad);color:#fff;cursor:pointer}.cn{background:#F0EFF6;color:#A8A6B8}
+.cause{border:1px solid var(--line);border-left:4px solid var(--bad);border-radius:12px;padding:12px 14px;margin:10px 0}
+.cause .h{display:flex;flex-wrap:wrap;gap:8px;align-items:center;font-weight:600}
+.cert{font-size:11px;font-weight:700;padding:1px 8px;border-radius:99px;text-transform:uppercase}
+.cert.etablie{background:var(--good-bg);color:var(--good)}.cert.probable{background:var(--warn-bg);color:var(--warn)}.cert.inconnue{background:var(--bad-bg);color:var(--bad)}
+.cause ul{margin:8px 0 0;padding-left:18px;font-size:13px;color:var(--ink2)}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <div>
+      <h1>CFO Cockpit</h1>
+      <div class="sub" id="hdr"></div>
+    </div>
+    <div class="sub" id="gen"></div>
+  </header>
+  <nav class="tabs" role="tablist">
+    <button class="tab on" role="tab" aria-selected="true" data-tab="cockpit">Cockpit</button>
+    <button class="tab" role="tab" aria-selected="false" data-tab="sim">Simulation T4</button>
+    <button class="tab" role="tab" aria-selected="false" data-tab="proof">Proof Center</button>
+  </nav>
+  <div id="tab-cockpit">
+
+  <section class="card" id="recCard">
+    <h2><span class="g">Réconciliation</span> des sources</h2>
+    <div class="sub">Contrôles automatiques entre le P&amp;L comptable, le détail des ventes et la balance âgée. Rien n'est corrigé en silence.</div>
+    <ul class="rec" id="recList"></ul>
+    <div id="obsList"></div>
+    <details><summary>Voir les contrôles effectués</summary><div class="scroll"><table id="ctlTable"></table></div></details>
+    <div class="board" id="cm-reconciliation"></div>
+  </section>
+
+  <section>
+    <div class="row"><h2><span class="g">Indicateurs clés</span> — cumul à fin septembre</h2><span class="hint">Cliquez un indicateur pour le détail mois par mois</span></div>
+    <div class="kpis" id="kpis"></div>
+    <div class="board" id="cm-kpis" style="margin-bottom:20px"></div>
+  </section>
+
+  <section class="card">
+    <div class="row">
+      <div><h2 id="detTitle"></h2><div class="sub">Réel vs budget, mois par mois</div></div>
+      <div class="chips" id="gamChips"></div>
+    </div>
+    <div class="legend"><span><i style="background:var(--reel)"></i>Réel</span><span><i class="dash"></i>Budget</span></div>
+    <div class="grid2">
+      <div class="chart"><canvas id="cLine" role="img" aria-label="Courbe réel versus budget"></canvas></div>
+      <div class="scroll"><table id="detTable"></table></div>
+    </div>
+    <div class="board" id="cm-tendance"></div>
+  </section>
+
+  <div class="grid2">
+    <section class="card">
+      <h2><span class="g">CA par gamme</span></h2><div class="sub">Cumul janv.–sept., réel vs budget (source : P&amp;L comptable). Cliquez une gamme pour son détail mensuel.</div>
+      <div class="legend"><span><i class="sq" style="background:var(--reel)"></i>Réel</span><span><i class="sq" style="background:var(--budget)"></i>Budget</span></div>
+      <div class="chart"><canvas id="cGam" role="img" aria-label="Histogramme du CA par gamme"></canvas></div>
+      <div class="scroll"><table id="gamTable"></table></div>
+      <div class="board" id="cm-gammes"></div>
+    </section>
+    <section class="card">
+      <h2><span class="g">Top clients</span></h2><div class="sub" id="cliSrc"></div>
+      <div class="chart"><canvas id="cCli" role="img" aria-label="CA par client"></canvas></div>
+      <div class="board" id="cm-clients"></div>
+    </section>
+  </div>
+
+  <section class="card">
+    <h2><span class="g">Ventes par client et par mois</span></h2><div class="sub">CA HT facturé (Ventes_Detail). Le top 5 est en gras.</div>
+    <div class="scroll"><table class="heat top5" id="cliTable"></table></div>
+  </section>
+
+  <section class="card">
+    <h2><span class="g">Pont EBITDA</span> budget → réel (YTD)</h2><div class="sub" id="pontMeth"></div>
+    <div class="legend"><span><i class="sq" style="background:var(--a1)"></i>Total</span><span><i class="sq" style="background:var(--good)"></i>Effet favorable</span><span><i class="sq" style="background:var(--bad)"></i>Effet défavorable</span></div>
+    <div class="chart tall"><canvas id="cPont" role="img" aria-label="Pont EBITDA en cascade"></canvas></div>
+    <details><summary>Voir le détail du calcul</summary><div class="scroll"><table id="pontTable"></table></div></details>
+    <div class="board" id="cm-pont"></div>
+  </section>
+
+  <section class="card" id="creances">
+    <h2><span class="g">Créances clients</span> au <span id="crDate"></span></h2><div class="sub">Balance âgée TTC, retard calculé à partir de l'échéance.</div>
+    <div class="alertbox" id="crAlert"></div>
+    <div class="grid2">
+      <div>
+        <div class="legend" id="crLegend"></div>
+        <div class="chart tall"><canvas id="cCr" role="img" aria-label="Balance âgée par client"></canvas></div>
+      </div>
+      <div>
+        <div class="scroll"><table id="trTable"></table></div>
+        <h3 style="font-size:15px;margin:16px 0 6px">Factures à plus de 60 jours</h3>
+        <div class="scroll" style="max-height:260px;overflow-y:auto"><table id="f60Table"></table></div>
+      </div>
+    </div>
+    <div class="board" id="cm-creances"></div>
+  </section>
+  </div>
+  <div id="tab-proof" hidden>
+    <section class="card">
+      <h2><span class="g">Proof Center</span> — contre-calcul indépendant</h2>
+      <div class="sub" id="pfMeta"></div>
+      <div id="pfStale"></div>
+      <div class="board" id="pfSynth"></div>
+    </section>
+    <section class="card">
+      <div class="row"><h2>Matrice de contrôle</h2><div class="legend" style="margin:0"><span><i class="sq" style="background:var(--good)"></i>Écart &lt; 1 €</span><span><i class="sq" style="background:var(--bad)"></i>Écart ≥ 1 € (montant affiché)</span><span><i class="sq" style="background:#D9D7E3"></i>Non applicable</span></div></div>
+      <div class="sub">Survolez une cellule pour voir les deux montants comparés ; cliquez une cellule rouge pour aller à sa cause.</div>
+      <div class="scroll"><table class="matrix" id="pfMatrix"></table></div>
+    </section>
+    <section class="card">
+      <h2>Écarts rouges : cause probable</h2>
+      <div id="pfCauses"></div>
+    </section>
+    <section class="card">
+      <h2>Contrôles ponctuels</h2>
+      <div class="scroll"><table id="pfPonct"></table></div>
+    </section>
+  </div>
+  <div id="tab-sim" hidden>
+    <section class="card">
+      <div class="row">
+        <div><h2><span class="g">Simulation T4</span> — atterrissage 2026</h2><div class="sub">Forecast oct.–déc. calculé par build_metrics.py. Les curseurs s'appliquent par-dessus le scénario central.</div></div>
+        <div class="chips" id="scBtns"></div>
+      </div>
+      <div class="sim">
+        <div class="sliders" id="sliders"></div>
+        <div>
+          <div class="kpis" id="simKpis" style="grid-template-columns:repeat(auto-fit,minmax(190px,1fr))"></div>
+          <div class="row" style="margin-top:6px"><div class="legend" style="margin:0"><span><i class="dash"></i>Budget</span><span><i style="background:var(--reel)"></i>Réel</span><span><i class="dot2"></i>Atterrissage simulé</span></div>
+            <div class="chips" id="simMetric"></div></div>
+          <div class="chart"><canvas id="cSim" role="img" aria-label="Budget, réel et atterrissage simulé par mois"></canvas></div>
+        </div>
+      </div>
+      <div class="grid2" style="margin-top:16px">
+        <div class="scroll"><table id="simT4"></table></div>
+        <div class="scroll"><table id="simTreso"></table></div>
+      </div>
+      <div class="sub" id="simCheck" style="margin-top:8px"></div>
+      <details><summary>Méthode de calcul (définie dans build_metrics.py)</summary><ul id="simMeth" class="sub"></ul></details>
+      <div class="board" id="cm-simulation"></div>
+    </section>
+  </div>
+</div>
+
+<button class="fab" id="askFab" aria-expanded="false" aria-controls="askPanel">Ask the CFO</button>
+<div class="ask" id="askPanel" hidden role="dialog" aria-label="Ask the CFO">
+  <div class="askh"><h3>Ask the CFO</h3><button class="x" id="askClose" aria-label="Fermer">×</button></div>
+  <div id="askLog" aria-live="polite"></div>
+  <form id="askForm"><input id="askIn" autocomplete="off" placeholder="Ex. : CA de juillet vs budget ?" aria-label="Votre question"><button class="btn" type="submit">Envoyer</button></form>
+</div>
+<div class="modal" id="srcModal" hidden role="dialog" aria-modal="true" aria-labelledby="srcTitle">
+  <div class="box"><div class="row"><div><h2 id="srcTitle"></h2><div class="sub" id="srcPath"></div></div><button class="x" id="srcClose" aria-label="Fermer">×</button></div>
+  <div class="scroll"><table id="srcTable"></table></div></div>
+</div>
+
+<script>
+(function(){
+if(!M){document.body.innerHTML='<p style="padding:40px">metrics.json non injecté : lancez <code>python3 build_metrics.py</code>.</p>';return;}
+const $=id=>document.getElementById(id);
+const nf0=new Intl.NumberFormat('fr-FR',{maximumFractionDigits:0});
+const nf1=new Intl.NumberFormat('fr-FR',{minimumFractionDigits:1,maximumFractionDigits:1});
+const eur=(x,s)=>(s&&x>=0?'+':x<0?'−':'')+nf0.format(Math.abs(x))+' €';
+const keur=x=>(x<0?'−':'')+nf0.format(Math.abs(x)/1000)+' k€';
+const pc=(x,s)=>x==null?'—':(s&&x>=0?'+':x<0?'−':'')+nf1.format(Math.abs(x))+' %';
+const pt=x=>(x>=0?'+':'−')+nf1.format(Math.abs(x))+' pt';
+const fmt=(u,x,s)=>u==='pct'?pc(x,s):eur(x,s);
+const cls=(x,inv)=>Math.abs(x)<1e-9?'neu':((x>0)!==!!inv?'pos':'neg');
+const esc=s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const board=(id,title)=>{$(id).innerHTML='<b>'+title+'</b>'+M.commentaires[id.slice(3)].map(esc).join(' ');};
+
+Chart.defaults.font.family='Inter, system-ui, sans-serif';Chart.defaults.font.size=12;Chart.defaults.color='#4A4760';
+Chart.defaults.plugins.legend.display=false;
+const grid={color:'#F0EFF6'},noGrid={display:false};
+const css=v=>getComputedStyle(document.documentElement).getPropertyValue(v).trim();
+const C={reel:css('--reel'),bud:css('--budget'),good:css('--good'),bad:css('--bad'),a1:css('--a1')};
+const tip={backgroundColor:'#0B0A14',padding:10,cornerRadius:8,titleFont:{weight:'600'}};
+
+// ---- en-tête
+$('hdr').textContent=M.meta.societe+' · Exercice '+M.meta.exercice+' · Situation au '+M.meta.date_arrete;
+$('gen').textContent='Généré le '+M.meta.genere_le+' depuis '+M.meta.source;
+
+// ---- réconciliation
+const R=M.reconciliation;
+$('recList').innerHTML=R.anomalies.length?R.anomalies.map(a=>'<li><span class="tag '+a.gravite+'">'+a.gravite+'</span><strong>'+esc(a.titre)+'</strong>'+(a.impact_eur!=null?' — '+eur(a.impact_eur,true):'')+'<br><span class="sub">'+esc(a.description)+'</span></li>').join(''):'<li class="ok">Aucune anomalie.</li>';
+$('obsList').innerHTML=R.observations.map(o=>'<div class="alertbox" style="border-color:var(--warn);background:var(--warn-bg);color:#5C3800"><strong style="color:var(--warn)">Point d\'attention — '+esc(o.titre)+'</strong><br>'+esc(o.description)+'</div>').join('');
+$('ctlTable').innerHTML='<tr><th>Contrôle</th><th>Statut</th><th>Détail</th></tr>'+R.controles.map(c=>'<tr><td>'+esc(c.controle)+'</td><td class="'+(c.ok?'ok':'ko')+'">'+(c.ok?'OK':'KO')+'</td><td>'+esc(c.detail)+'</td></tr>').join('');
+board('cm-reconciliation','Commentaire au conseil');
+
+// ---- KPI
+const K=M.kpis, CR=M.creances;
+const tiles=[
+  {k:'ca'},{k:'marge_brute'},{k:'taux_marge'},{k:'ebitda'},{k:'taux_ebitda'},
+  {id:'dso',label:'DSO',v:nf1.format(CR.dso.jours)+' j',b:'Objectif '+nf0.format(CR.dso.objectif)+' j',p:'+'+nf1.format(CR.dso.ecart)+' j',pc:CR.dso.ecart>0?'neg':'pos',scroll:true},
+  {id:'p60',label:'Créances > 60 j',v:keur(CR.plus_60.montant),b:pc(CR.plus_60.part)+' de l\'encours',p:CR.plus_60.nb+' factures',pc:'neg',alert:CR.plus_60.part>=10,scroll:true},
+];
+let sel='ca';
+function tileHTML(t){
+  if(t.k){const x=K[t.k],y=x.ytd,u=x.unit;
+    const p=u==='pct'?pt(y.ecart):(y.ecart>=0?'+':'')+keur(y.ecart)+' · '+pc(y.ecart_pct,true);
+    return '<button class="kpi" data-k="'+t.k+'" aria-pressed="false"><div class="l">'+esc(x.label)+'</div><div class="v">'+(u==='pct'?pc(y.reel):keur(y.reel))+'</div><div class="b">Budget '+(u==='pct'?pc(y.budget):keur(y.budget))+'</div><span class="pill '+cls(y.ecart)+'">'+p+'</span></button>';}
+  return '<button class="kpi'+(t.alert?' alert':'')+'" data-s="'+t.id+'"><div class="l">'+t.label+(t.alert?' ⚠':'')+'</div><div class="v">'+t.v+'</div><div class="b">'+t.b+'</div><span class="pill '+t.pc+'">'+t.p+'</span></button>';
+}
+$('kpis').innerHTML=tiles.map(tileHTML).join('');
+$('kpis').addEventListener('click',e=>{const b=e.target.closest('.kpi');if(!b)return;
+  if(b.dataset.k){select(b.dataset.k);document.querySelector('#detTitle').scrollIntoView({behavior:'smooth',block:'center'});}
+  else $('creances').scrollIntoView({behavior:'smooth'});});
+board('cm-kpis','Commentaire au conseil');
+
+// chips gammes
+const gk=Object.keys(K).filter(k=>K[k].gamme);
+$('gamChips').innerHTML=['ca',...gk].map(k=>'<button class="btn ghost" data-k="'+k+'">'+esc(k==='ca'?'Total':K[k].gamme)+'</button>').join('');
+$('gamChips').addEventListener('click',e=>{const b=e.target.closest('[data-k]');if(b)select(b.dataset.k);});
+
+// ---- détail mensuel
+const lineChart=new Chart($('cLine'),{type:'line',data:{labels:M.meta.mois,datasets:[
+  {label:'Réel',data:[],borderColor:C.reel,backgroundColor:C.reel,borderWidth:2,pointRadius:4,pointHoverRadius:6,tension:.25},
+  {label:'Budget',data:[],borderColor:C.bud,backgroundColor:C.bud,borderWidth:2,borderDash:[5,4],pointRadius:4,pointHoverRadius:6,pointStyle:'rectRot',tension:.25}]},
+  options:{maintainAspectRatio:false,interaction:{mode:'index',intersect:false},scales:{x:{grid:noGrid},y:{grid,ticks:{}}},plugins:{tooltip:{...tip,callbacks:{}}}}});
+function select(k){
+  sel=k;const x=K[k],u=x.unit,m=x.mensuel;
+  document.querySelectorAll('.kpi[data-k]').forEach(b=>{b.classList.toggle('on',b.dataset.k===k);b.setAttribute('aria-pressed',b.dataset.k===k);});
+  document.querySelectorAll('#gamChips [data-k]').forEach(b=>b.classList.toggle('on',b.dataset.k===k));
+  $('detTitle').innerHTML='<span class="g">'+esc(x.label)+'</span>';
+  lineChart.data.datasets[0].data=m.reel;lineChart.data.datasets[1].data=m.budget;
+  lineChart.options.scales.y.ticks.callback=v=>u==='pct'?nf0.format(v)+' %':keur(v);
+  lineChart.options.plugins.tooltip.callbacks.label=c=>' '+c.dataset.label+' : '+fmt(u,c.raw);
+  lineChart.options.plugins.tooltip.callbacks.afterBody=it=>{const i=it[0].dataIndex;return 'Écart : '+(u==='pct'?pt(m.ecart[i]):eur(m.ecart[i],true)+' ('+pc(m.ecart_pct[i],true)+')');};
+  lineChart.update();
+  let h='<tr><th>Mois</th><th>Réel</th><th>Budget</th><th>Écart'+(u==='pct'?' (pts)':' €')+'</th>'+(u==='pct'?'':'<th>Écart %</th>')+'</tr>';
+  M.meta.mois.forEach((mo,i)=>{h+='<tr><td>'+mo+'</td><td>'+fmt(u,m.reel[i])+'</td><td>'+fmt(u,m.budget[i])+'</td><td><span class="pill '+cls(m.ecart[i])+'">'+(u==='pct'?pt(m.ecart[i]):eur(m.ecart[i],true))+'</span></td>'+(u==='pct'?'':'<td>'+pc(m.ecart_pct[i],true)+'</td>')+'</tr>';});
+  const y=x.ytd;h+='<tr class="tot"><td>Cumul</td><td>'+fmt(u,y.reel)+'</td><td>'+fmt(u,y.budget)+'</td><td>'+(u==='pct'?pt(y.ecart):eur(y.ecart,true))+'</td>'+(u==='pct'?'':'<td>'+pc(y.ecart_pct,true)+'</td>')+'</tr>';
+  $('detTable').innerHTML=h;
+}
+select('ca');
+board('cm-tendance','Commentaire au conseil');
+
+// ---- gammes
+const G=M.gammes;
+new Chart($('cGam'),{type:'bar',data:{labels:G.map(g=>g.gamme),datasets:[
+  {label:'Réel',data:G.map(g=>g.reel),backgroundColor:C.reel,borderRadius:4,borderSkipped:'start',maxBarThickness:34},
+  {label:'Budget',data:G.map(g=>g.budget),backgroundColor:C.bud,borderRadius:4,borderSkipped:'start',maxBarThickness:34}]},
+  options:{maintainAspectRatio:false,datasets:{bar:{categoryPercentage:.7,barPercentage:.9}},scales:{x:{grid:noGrid},y:{grid,ticks:{callback:keur}}},
+  onClick:(e,els)=>{if(els.length){select('ca_'+G[els[0].index].gamme);$('detTitle').scrollIntoView({behavior:'smooth',block:'center'});}},
+  onHover:(e,els)=>{e.native.target.style.cursor=els.length?'pointer':'default';},
+  plugins:{tooltip:{...tip,callbacks:{label:c=>' '+c.dataset.label+' : '+eur(c.raw),afterBody:it=>{const g=G[it[0].dataIndex];return 'Écart : '+eur(g.ecart,true)+' ('+pc(g.ecart_pct,true)+')';}}}}}});
+$('gamTable').innerHTML='<tr><th>Gamme</th><th>Réel</th><th>Budget</th><th>Écart</th><th>%</th><th>Poids</th></tr>'+G.map(g=>'<tr><td>'+esc(g.gamme)+'</td><td>'+eur(g.reel)+'</td><td>'+eur(g.budget)+'</td><td><span class="pill '+cls(g.ecart)+'">'+eur(g.ecart,true)+'</span></td><td>'+pc(g.ecart_pct,true)+'</td><td>'+pc(g.part_reel)+'</td></tr>').join('');
+board('cm-gammes','Commentaire au conseil');
+
+// ---- clients
+const CL=M.clients, top=new Set(CL.top5);
+$('cliSrc').textContent='CA HT cumulé par client — source : '+CL.source+'. Top 5 = '+pc(CL.part_top5)+' du total.';
+new Chart($('cCli'),{type:'bar',data:{labels:CL.lignes.map(l=>l.client),datasets:[{label:'CA HT',data:CL.lignes.map(l=>l.total),
+  backgroundColor:CL.lignes.map(l=>top.has(l.client)?C.reel:'#C9C5F7'),borderRadius:4,borderSkipped:'start',maxBarThickness:22}]},
+  options:{indexAxis:'y',maintainAspectRatio:false,scales:{x:{grid,ticks:{callback:keur}},y:{grid:noGrid}},
+  plugins:{tooltip:{...tip,callbacks:{label:c=>{const l=CL.lignes[c.dataIndex];return [' CA : '+eur(l.total)+' ('+pc(l.part)+')',' Taux de marge : '+pc(l.taux_marge)].concat(l.dont_doublon?[' dont doublon : '+eur(l.dont_doublon)]:[]);}}}}}});
+const maxM=Math.max(...CL.lignes.flatMap(l=>l.mensuel));
+let ht='<tr><th>Client</th>'+M.meta.mois.map(m=>'<th>'+m+'</th>').join('')+'<th>Total</th><th>Part</th></tr>';
+CL.lignes.forEach(l=>{ht+='<tr><td'+(top.has(l.client)?'':' style="font-weight:400"')+'>'+esc(l.client)+(l.dont_doublon?' <span class="tag haute" title="Contient un doublon de facture">doublon</span>':'')+'</td>'+l.mensuel.map(v=>'<td class="c" style="background:rgba(53,36,232,'+(0.04+0.28*v/maxM).toFixed(3)+')">'+keur(v)+'</td>').join('')+'<td><b>'+eur(l.total)+'</b></td><td>'+pc(l.part)+'</td></tr>';});
+const colTot=M.meta.mois.map((_,i)=>CL.lignes.reduce((s,l)=>s+l.mensuel[i],0));
+ht+='<tr class="tot"><td>Total détail</td>'+colTot.map(v=>'<td>'+keur(v)+'</td>').join('')+'<td>'+eur(CL.total_detail)+'</td><td>'+pc(100)+'</td></tr>';
+$('cliTable').innerHTML=ht;
+board('cm-clients','Commentaire au conseil');
+
+// ---- pont EBITDA (cascade)
+const P=M.pont_ebitda.etapes;let run=0;const bars=[],cols=[];
+P.forEach(e=>{if(e.type==='total'){bars.push([0,e.valeur]);cols.push(C.a1);run=e.valeur;}else{bars.push([run,run+e.valeur]);cols.push(e.valeur>=0?C.good:C.bad);run+=e.valeur;}});
+$('pontMeth').textContent=M.pont_ebitda.methode;
+new Chart($('cPont'),{type:'bar',data:{labels:P.map(e=>e.label),datasets:[{data:bars,backgroundColor:cols,borderRadius:4,borderSkipped:false,maxBarThickness:56}]},
+  options:{maintainAspectRatio:false,scales:{x:{grid:noGrid,ticks:{autoSkip:false,maxRotation:30,minRotation:0}},y:{grid,ticks:{callback:keur},
+    min:Math.floor(Math.min(...bars.filter((_,i)=>P[i].type!=='total').flat())*0.9/50000)*50000}},
+  plugins:{tooltip:{...tip,callbacks:{label:c=>{const e=P[c.dataIndex];return ' '+(e.type==='total'?eur(e.valeur):eur(e.valeur,true));},afterLabel:c=>P[c.dataIndex].detail||''}}}},
+  plugins:[{id:'lbl',afterDatasetsDraw(ch){const {ctx}=ch;ctx.save();ctx.font='600 12px Inter';ctx.fillStyle='#0B0A14';ctx.textAlign='center';
+    ch.getDatasetMeta(0).data.forEach((b,i)=>{const e=P[i];const y=Math.min(b.y,b.base)-6;const r=Math.round(e.valeur/1000);ctx.fillText(e.type==='total'?keur(e.valeur):(r>0?'+':r<0?'−':'')+nf0.format(Math.abs(r))+' k€',b.x,y);});ctx.restore();}}]});
+$('pontTable').innerHTML='<tr><th>Étape</th><th>Montant</th><th>Calcul</th></tr>'+P.map(e=>'<tr><td>'+esc(e.label)+'</td><td>'+(e.type==='total'?'<b>'+eur(e.valeur)+'</b>':'<span class="pill '+cls(e.valeur)+'">'+eur(e.valeur,true)+'</span>')+'</td><td style="text-align:left">'+esc(e.detail||'')+'</td></tr>').join('');
+board('cm-pont','Commentaire au conseil');
+
+// ---- créances
+$('crDate').textContent=M.meta.date_arrete;
+const TR=CR.tranches, trCol={'Non échu':'#CFCBF3','1-30 j':'#9C90EE','31-60 j':'#5B43E0','61-90 j':'#E0526A','> 90 j':'#A3122C'};
+$('crAlert').innerHTML=CR.plus_60.part>=10
+  ?'<strong>⚠ Alerte retard &gt; 60 jours :</strong> '+eur(CR.plus_60.montant)+' TTC, soit '+pc(CR.plus_60.part)+' de l\'encours ('+CR.plus_60.nb+' factures, '+CR.plus_60.nb_clients+' clients). DSO '+nf1.format(CR.dso.jours)+' j pour un objectif de '+nf0.format(CR.dso.objectif)+' j.'
+  :'<strong>Retard &gt; 60 jours :</strong> '+eur(CR.plus_60.montant)+' ('+pc(CR.plus_60.part)+' de l\'encours).';
+$('crLegend').innerHTML=TR.map(t=>'<span><i class="sq" style="background:'+trCol[t.tranche]+'"></i>'+t.tranche+'</span>').join('');
+const PC=CR.par_client;
+new Chart($('cCr'),{type:'bar',data:{labels:PC.map(c=>c.client),datasets:TR.map(t=>({label:t.tranche,data:PC.map(c=>c.tranches[t.tranche]),backgroundColor:trCol[t.tranche],borderColor:'#fff',borderWidth:{right:2},borderSkipped:false,maxBarThickness:22}))},
+  options:{indexAxis:'y',maintainAspectRatio:false,scales:{x:{stacked:true,grid,ticks:{callback:keur}},y:{stacked:true,grid:noGrid,ticks:{callback:function(v){const c=PC[v];return (c.plus_60>0?'⚠ ':'')+c.client;}}}},
+  plugins:{tooltip:{...tip,mode:'index',intersect:false,callbacks:{label:c=>c.raw?' '+c.dataset.label+' : '+eur(c.raw):null,footer:it=>{const c=PC[it[0].dataIndex];return 'Total '+eur(c.total)+' · > 60 j : '+eur(c.plus_60)+' ('+pc(c.part_plus_60)+')';}}}}}});
+$('trTable').innerHTML='<tr><th>Tranche</th><th>Factures</th><th>Montant TTC</th><th>Part</th></tr>'+TR.map(t=>'<tr><td><i style="display:inline-block;width:10px;height:10px;border-radius:3px;margin-right:6px;background:'+trCol[t.tranche]+'"></i>'+t.tranche+'</td><td>'+t.nb+'</td><td>'+eur(t.montant)+'</td><td>'+pc(t.part)+'</td></tr>').join('')
+  +'<tr class="tot"><td>Total</td><td>'+CR.nb_factures+'</td><td>'+eur(CR.total)+'</td><td>'+pc(100)+'</td></tr>'
+  +'<tr><td>DSO (épuisement)</td><td colspan="3">'+nf1.format(CR.dso.jours)+' j · méthode simple 3 mois : '+nf1.format(CR.dso.jours_simple_3m)+' j</td></tr>';
+$('f60Table').innerHTML='<tr><th>Facture</th><th>Client</th><th>Échéance</th><th>Retard</th><th>TTC</th></tr>'+CR.factures_plus_60.map(f=>'<tr><td>'+f.facture+'</td><td style="text-align:left">'+esc(f.client)+'</td><td>'+f.echeance+'</td><td><span class="pill neg">'+f.retard+' j</span></td><td>'+eur(f.montant)+'</td></tr>').join('');
+board('cm-creances','Commentaire au conseil');
+
+// ---- onglets
+document.querySelectorAll('.tab').forEach(t=>t.addEventListener('click',()=>{
+  document.querySelectorAll('.tab').forEach(x=>{x.classList.toggle('on',x===t);x.setAttribute('aria-selected',x===t);});
+  ['cockpit','sim','proof'].forEach(k=>$('tab-'+k).hidden=t.dataset.tab!==k);
+  if(t.dataset.tab==='sim')initSim();}));
+
+// ---- simulation T4 : réplique exacte de simuler() de build_metrics.py (aucune hypothèse ici)
+const S=M.simulation, SM=S.modele;
+function simuler(dCa,dMargePts,dPerso,dso){
+  const ca=SM.ca.map(x=>x*(1+dCa));
+  const mb=ca.map((c,i)=>c*(SM.taux_marge[i]+dMargePts/100));
+  const k=p=>SM.charges_variables.includes(p)?1+dCa:p==='Frais de personnel'?1+dPerso:1;
+  const ch=[0,1,2].map(i=>Object.keys(SM.charges).reduce((t,p)=>t+SM.charges[p][i]*k(p),0));
+  const eb=mb.map((x,i)=>x-ch[i]);const sum=a=>a.reduce((x,y)=>x+y,0);
+  const caAn=SM.ytd.ca+sum(ca), ebAn=SM.ytd.ebitda+sum(eb);
+  const ebit=SM.ytd.ebit+sum(eb)-sum(SM.dotations);const I=SM.is;
+  const impot=ebit<=0?0:I.taux_reduit*Math.min(ebit,I.seuil)+I.taux_normal*Math.max(ebit-I.seuil,0);
+  const acDec=Math.min(I.acompte_unitaire,Math.max(0,impot-I.acomptes_verses));
+  const T=SM.treso, ttc=ca.map((c,i)=>c*SM.coef_ttc[i]);
+  const crFin=sum(ttc)*dso/T.jours_t4, enc=T.creances_30_09+sum(ttc)-crFin;
+  const achats=sum([0,1,2].map(i=>ca[i]-mb[i]+['Transport & logistique','Marketing & commercial','Autres charges externes'].reduce((t,p)=>t+SM.charges[p][i]*(SM.charges_variables.includes(p)?1+dCa:1),0)));
+  const perso=sum(SM.charges['Frais de personnel'])*(1+dPerso);
+  const dec=achats*T.ratio_fournisseurs+sum(ca)*T.ratio_tva+perso*T.ratio_personnel+3*(T.loyers_mois+T.emprunt_mois)+T.investissements_t4+acDec;
+  return {ca_annuel:caAn,ebitda_annuel:ebAn,ecart_ca:caAn-SM.budget.ca_annuel,ecart_ebitda:ebAn-SM.budget.ebitda_annuel,ebit,is:impot,
+    acompte_dec:acDec,solde_is:impot-I.acomptes_verses-acDec,creances_31_12:crFin,encaissements:enc,decaissements:dec,treso_fin:T.debut+enc-dec,
+    ca_t4:ca,ebitda_t4:eb,achats,perso};
+}
+let simInit=false,simChart,simMetric='ca';
+const P0={...S.scenarios.central};const cur={d_ca:P0.d_ca,d_marge:P0.d_marge,d_perso:P0.d_perso,dso:P0.dso};
+function initSim(){
+  if(simInit)return;simInit=true;
+  const fu=(k,v)=>{const u=S.curseurs[k].unite;return u==='j'?nf0.format(v)+' j':(v>0?'+':v<0?'−':'')+nf1.format(Math.abs(v)).replace(',0','')+(u==='pts'?' pts':' %');};
+  $('sliders').innerHTML=Object.entries(S.curseurs).map(([k,c])=>'<div class="sl"><label for="sl-'+k+'">'+esc(c.label)+'<output id="o-'+k+'"></output></label><input type="range" id="sl-'+k+'" min="'+c.min+'" max="'+c.max+'" step="'+c.pas+'"><div class="mm"><span>'+fu(k,c.min)+'</span><span>'+fu(k,c.max)+'</span></div></div>').join('');
+  Object.keys(S.curseurs).forEach(k=>$('sl-'+k).addEventListener('input',e=>{cur[k]=+e.target.value;markSc();render();}));
+  $('scBtns').innerHTML=Object.entries(S.scenarios).map(([k,sc])=>'<button class="btn ghost" data-sc="'+k+'">'+esc(sc.label)+'</button>').join('');
+  $('scBtns').addEventListener('click',e=>{const b=e.target.closest('[data-sc]');if(!b)return;const sc=S.scenarios[b.dataset.sc];Object.assign(cur,{d_ca:sc.d_ca,d_marge:sc.d_marge,d_perso:sc.d_perso,dso:sc.dso});render();markSc();});
+  $('simMetric').innerHTML='<button class="btn ghost on" data-m="ca">CA</button><button class="btn ghost" data-m="ebitda">EBITDA</button>';
+  $('simMetric').addEventListener('click',e=>{const b=e.target.closest('[data-m]');if(!b)return;simMetric=b.dataset.m;document.querySelectorAll('#simMetric [data-m]').forEach(x=>x.classList.toggle('on',x===b));render();});
+  $('simMeth').innerHTML=S.methode.map(t=>'<li>'+esc(t)+'</li>').join('');
+  board('cm-simulation','Commentaire au conseil — scénario central');
+  // contrôle de cohérence navigateur / Python sur les trois scénarios
+  const keys=['ca_annuel','ebitda_annuel','is','solde_is','treso_fin'];
+  const ecartMax=Math.max(...Object.values(S.scenarios).flatMap(sc=>{const r=simuler(sc.d_ca/100,sc.d_marge,sc.d_perso/100,sc.dso);return keys.map(k=>Math.abs(r[k]-sc.resultat[k]));}));
+  $('simCheck').innerHTML=ecartMax<=1?'<span class="ok">✓</span> Calcul du navigateur identique à build_metrics.py sur les 3 scénarios (écart max '+eur(ecartMax)+').':'<span class="ko">✗ Écart de '+eur(ecartMax)+' entre le navigateur et build_metrics.py : ne pas utiliser ces chiffres.</span>';
+  const labels=SM.budget.ca_mensuel.map((_,i)=>i<9?M.meta.mois[i]:SM.mois[i-9]);
+  simChart=new Chart($('cSim'),{type:'line',data:{labels,datasets:[
+    {label:'Budget',data:[],borderColor:C.bud,backgroundColor:C.bud,borderWidth:2,borderDash:[5,4],pointRadius:3,pointStyle:'rectRot',tension:.25},
+    {label:'Réel',data:[],borderColor:C.reel,backgroundColor:C.reel,borderWidth:2,pointRadius:4,tension:.25},
+    {label:'Atterrissage simulé',data:[],borderColor:'#E93BF3',backgroundColor:'#E93BF3',borderWidth:2,borderDash:[2,3],pointRadius:5,pointStyle:'triangle',tension:.25}]},
+    options:{maintainAspectRatio:false,interaction:{mode:'index',intersect:false},scales:{x:{grid:noGrid},y:{grid,ticks:{callback:keur}}},
+      plugins:{tooltip:{...tip,callbacks:{label:c=>c.raw==null?null:' '+c.dataset.label+' : '+eur(c.raw)}}}}});
+  markSc();render();
+}
+function markSc(){document.querySelectorAll('#scBtns [data-sc]').forEach(b=>{const sc=S.scenarios[b.dataset.sc];b.classList.toggle('on',sc.d_ca===cur.d_ca&&sc.d_marge===cur.d_marge&&sc.d_perso===cur.d_perso&&sc.dso===cur.dso);});}
+function render(){
+  Object.keys(S.curseurs).forEach(k=>{const c=S.curseurs[k],v=cur[k];$('sl-'+k).value=v;
+    $('o-'+k).textContent=c.unite==='j'?nf0.format(v)+' j':(v>0?'+':v<0?'−':'')+nf1.format(Math.abs(v)).replace(',0','')+(c.unite==='pts'?' pts':' %');});
+  const r=simuler(cur.d_ca/100,cur.d_marge,cur.d_perso/100,cur.dso),B=SM.budget;
+  const t=(l,v,b,p,pc2)=>'<div class="kpi static"><div class="l">'+l+'</div><div class="v">'+v+'</div><div class="b">'+b+'</div><span class="pill '+pc2+'">'+p+'</span></div>';
+  $('simKpis').innerHTML=
+    t('Atterrissage CA 2026',keur(r.ca_annuel),'Budget '+keur(B.ca_annuel),(r.ecart_ca>=0?'+':'')+keur(r.ecart_ca)+' · '+pc(r.ecart_ca/B.ca_annuel*100,true),cls(r.ecart_ca))+
+    t('Atterrissage EBITDA 2026',keur(r.ebitda_annuel),'Budget '+keur(B.ebitda_annuel)+' · taux '+pc(r.ebitda_annuel/r.ca_annuel*100),(r.ecart_ebitda>=0?'+':'')+keur(r.ecart_ebitda)+' · '+pc(r.ecart_ebitda/B.ebitda_annuel*100,true),cls(r.ecart_ebitda))+
+    t('IS 2026 estimé',keur(r.is),'Acomptes '+keur(SM.is.acomptes_verses)+' + déc. '+keur(r.acompte_dec),(r.solde_is>=0?'Solde à payer ':'Excédent ')+keur(Math.abs(r.solde_is)),r.solde_is>0?'neg':'pos')+
+    t('Trésorerie au 31/12',keur(r.treso_fin),'Au 30/09 : '+keur(SM.treso.debut),'Créances 31/12 '+keur(r.creances_31_12),'neu');
+  const reelM=SM.reel[simMetric+'_mensuel'], budM=SM.budget[simMetric+'_mensuel'], simM=simMetric==='ca'?r.ca_t4:r.ebitda_t4;
+  simChart.data.datasets[0].data=budM;simChart.data.datasets[1].data=reelM.concat([null,null,null]);
+  simChart.data.datasets[2].data=Array(8).fill(null).concat([reelM[8]],simM);simChart.update('none');
+  let h='<tr><th>T4</th>'+SM.mois.map(m=>'<th>'+m+'</th>').join('')+'<th>Total T4</th><th>Budget T4</th></tr>';
+  const bT4=k=>B[k+'_mensuel'].slice(9);const s3=a=>a.reduce((x,y)=>x+y,0);
+  h+='<tr><td>CA simulé</td>'+r.ca_t4.map(v=>'<td>'+eur(v)+'</td>').join('')+'<td><b>'+eur(s3(r.ca_t4))+'</b></td><td>'+eur(s3(bT4('ca')))+'</td></tr>';
+  h+='<tr><td>EBITDA simulé</td>'+r.ebitda_t4.map(v=>'<td>'+eur(v)+'</td>').join('')+'<td><b>'+eur(s3(r.ebitda_t4))+'</b></td><td>'+eur(s3(bT4('ebitda')))+'</td></tr>';
+  h+='<tr><td>Taux d\'EBITDA</td>'+r.ebitda_t4.map((v,i)=>'<td>'+pc(v/r.ca_t4[i]*100)+'</td>').join('')+'<td>'+pc(s3(r.ebitda_t4)/s3(r.ca_t4)*100)+'</td><td>'+pc(s3(bT4('ebitda'))/s3(bT4('ca'))*100)+'</td></tr>';
+  $('simT4').innerHTML=h;
+  $('simTreso').innerHTML='<tr><th>Trésorerie oct.–déc.</th><th>Montant</th></tr>'+
+    [['Trésorerie au 30/09',SM.treso.debut],['+ Encaissements clients',r.encaissements],['− Décaissements',-r.decaissements],['dont acompte d\'IS de décembre',-r.acompte_dec],['= Trésorerie au 31/12',r.treso_fin]]
+    .map((x,i)=>'<tr'+(i===4?' class="tot"':'')+'><td>'+x[0]+'</td><td>'+eur(x[1])+'</td></tr>').join('')+
+    '<tr><td>Résultat fiscal estimé (EBIT)</td><td>'+eur(r.ebit)+'</td></tr><tr><td>Solde d\'IS payable en 2027</td><td>'+eur(r.solde_is)+'</td></tr>';
+}
+
+// ==================== Ask the CFO ====================
+// Moteur à règles : comprend la question, puis lit UNIQUEMENT M (= metrics.json). Aucun chiffre ni hypothèse ici.
+const ASK=(()=>{
+const norm=s=>' '+String(s).toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g,'').replace(/[’`]/g,"'").replace(/\s+/g,' ').trim()+' ';
+const flat=s=>norm(s).replace(/[^a-z0-9%>' ]/g,' ').replace(/\s+/g,' ');
+const ML=['janvier','février','mars','avril','mai','juin','juillet','août','septembre','octobre','novembre','décembre'];
+const M12=M.meta.mois.concat(SM.mois);
+const LAST=M.meta.mois.length-1; // dernier mois réel (sept.)
+const RX_MOIS=[/\bjanv(ier)?\b/,/\bfev(r|rier)?\b/,/\bmars\b/,/\bavr(il)?\b/,/\bmai\b/,/\bjuin\b/,/\bjuil(let)?\b/,/\baout\b/,/\bsept(embre)?\b/,/\boct(obre)?\b/,/\bnov(embre)?\b/,/\bdec(embre)?\b/];
+const IND=[
+ ['anomalies',/anomalie|doublon|reconcili|incoheren/],
+ ['top',/\btop ?\d*\b|meilleurs? clients?|principaux clients|plus gros clients|premiers clients|classement/],
+ ['taux_ebitda',/taux d'?ebitda|marge d'?ebitda|ebitda en %|% d'?ebitda/],
+ ['ebitda',/ebitda|\bebe\b|excedent brut/],
+ ['taux_marge',/taux de marge( brute)?|% de marge|pourcentage de marge|marge en %/],
+ ['marge_brute',/marges?\b/],
+ ['dso',/\bdso\b|delai (moyen )?de (paiement|reglement)|jours de credit/],
+ ['is',/\bis\b|impots?\b|impot sur les societes/],
+ ['tresorerie',/tresorerie|\bcash\b|liquidites?|en banque/],
+ ['creances',/creances?|encours|impayes?|retards? de paiement|jours de retard|nous doi|doi(ven)?t|balance agee|en souffrance|plus de (30|60|90)|> ?(30|60|90)|non echu/],
+ ['charges',/frais de personnel|personnel|salaires?|masse salariale|loyers?|transport|logistique|marketing|commercial|charges?/],
+ ['ca',/\bca\b(?! va)|chiffre d'?affaires?|ventes?\b|vendu|achete|factur|revenus?/],
+];
+const NOM_IND={ca:"chiffre d'affaires",marge_brute:'marge brute',taux_marge:'taux de marge brute',ebitda:'EBITDA',taux_ebitda:"taux d'EBITDA",dso:'DSO',is:'impôt sur les sociétés',tresorerie:'trésorerie',creances:'créances clients',charges:"charges d'exploitation",top:'classement clients',anomalies:'anomalies de réconciliation'};
+const GAM=[[/moutarde/,"Moutardes"],[/pain d'?epice/,"Pain d'épices"],[/cassis|cremes? de/,"Crèmes de cassis"],[/condiment|cornichon|vinaigre|mayonnaise/,"Condiments"]];
+const POSTE=[[/personnel|salaire|masse salariale/,'Frais de personnel'],[/loyer/,'Loyers & charges locatives'],[/transport|logistique/,'Transport & logistique'],[/marketing|commercial/,'Marketing & commercial'],[/autres charges|charges externes/,'Autres charges externes']];
+const STOP=new Set(['france','paris','export','gourmet','grande','cash','carry','fine','food']);
+const CLI=CL.lignes.map(l=>{const n=flat(l.client).trim();const t=n.split(' ');
+  return {nom:l.client,keys:[n,...t.filter(x=>x.length>=5&&!STOP.has(x)),...t.slice(1).map((x,i)=>[t[i],x]).filter(p=>p[0].length>=3&&p[1].length>=3).map(p=>p.join(' '))]};});
+const sum=a=>a.reduce((x,y)=>x+y,0);
+const de=m=>(/^[aeiouo]/.test(norm(m).trim())?"d'":'de ')+m;
+const NAMED={'0-2':'T1','3-5':'T2','6-8':'T3','9-11':'T4','0-5':'S1','6-11':'S2'};
+const plab=(a,b)=>a===b?ML[a]:a===0&&b===LAST?'cumul janv.–sept.':a===0&&b===11?'année 2026':NAMED[a+'-'+b]||de(ML[a])+' à '+ML[b];
+
+function parse(raw){
+  const q=norm(raw),qf=' '+flat(raw)+' ';let w=q;const inds=[];
+  for(const [k,rx] of IND){const g=new RegExp(rx.source,'g');if(g.test(w)){inds.push(k);w=w.replace(new RegExp(rx.source,'g'),' ');}}
+  const clients=CLI.filter(c=>c.keys.some(k=>qf.includes(' '+k+' '))).map(c=>c.nom);
+  const gammes=GAM.filter(([rx])=>rx.test(q)).map(x=>x[1]);
+  const postes=POSTE.filter(([rx])=>rx.test(q)).map(x=>x[1]);
+  let per=null;const ms=RX_MOIS.map((r,i)=>r.test(q)?i:-1).filter(i=>i>=0);const tq=q.match(/\b[tq]([1-4])\b|\b([1-4])(er|e|eme)? trimestre|(premier|deuxieme|second|troisieme|quatrieme|dernier) trimestre/);
+  if(/(1er|premier) semestre|\bs1\b/.test(q))per=[0,5];
+  else if(/(2e|second|deuxieme) semestre|\bs2\b/.test(q))per=[6,11];
+  else if(tq){const n=tq[1]||tq[2]||{premier:1,deuxieme:2,second:2,troisieme:3,quatrieme:4,dernier:4}[tq[4]];per=[3*(n-1),3*n-1];}
+  else if(ms.length)per=[Math.min(...ms),Math.max(...ms)];
+  else if(/31\/12|fin d'?annee|sur l'?annee|annuel|l'?exercice|atterri|2026|cette annee/.test(q))per=[0,11];
+  else if(/cumul|\bytd\b|depuis (le debut|janvier)|a fin septembre|a date|jusqu'?ici|30\/09|a ce jour/.test(q))per=[0,LAST];
+  const v={budget:/budget|objectif/.test(q),forecast:/previs|prevoi|prevu|forecast|atterri|projection|attendu|estim|anticip|fin d'?annee|va faire|finir|31\/12/.test(q),
+           reel:/\breel|realise|effecti|constate/.test(q),ecart:/ecart|\bvs\b|versus|par rapport|compar|au.?dessus|en dessous|sous le budget|depass|retard sur/.test(q)};
+  return {q,inds,clients,gammes,postes,per,v,mois:ms};
+}
+
+const R=(o)=>Object.assign({status:'ok',tags:[],contexte:[],chart:null,source:null,suggestions:[]},o);
+const NODATA=(msg,sugg,extra)=>R(Object.assign({status:'nodata',titre:'Donnée non disponible',message:msg,suggestions:sugg||[]},extra||{}));
+const AMBIGU=(msg,sugg)=>R({status:'ambigu',titre:'Question ambiguë',message:msg,suggestions:sugg});
+const lineChart=(s,a,b)=>({type:'line',labels:M12,highlight:[a,b],datasets:[
+  {label:'Réel',data:s.reel,kind:'reel'},{label:'Budget',data:s.budget,kind:'budget'},{label:'Forecast (central)',data:s.forecast.map((x,i)=>i===LAST&&s.forecast[LAST+1]!=null?s.reel[LAST]:x),kind:'forecast'}],unit:s.unit});
+
+function serie(ind,g){
+  const x=K[g?'ca_'+g:ind],pad=Array(11-LAST).fill(null),f=Array(12).fill(null);
+  let b=x.mensuel.budget.concat(pad);const C0=S.scenarios.central.resultat;
+  if(!g&&ind==='ca'){b=SM.budget.ca_mensuel.slice();C0.ca_t4.forEach((v,i)=>f[LAST+1+i]=v);}
+  if(!g&&ind==='ebitda'){b=SM.budget.ebitda_mensuel.slice();C0.ebitda_t4.forEach((v,i)=>f[LAST+1+i]=v);}
+  if(g){b=x.mensuel.budget.concat(SM.budget_ca_gamme[g]);SM.ca_gamme[g].forEach((v,i)=>f[LAST+1+i]=v);}
+  return {unit:x.unit,label:x.label,reel:x.mensuel.reel.concat(pad),budget:b,forecast:f,
+          path:'kpis.'+(g?'ca_'+g:ind)+'.mensuel',pathF:f.some(v=>v!=null)?(g?'simulation.modele.ca_gamme / budget_ca_gamme':'simulation.scenarios.central.resultat + simulation.modele.budget'):''};
+}
+function srcTable(s,a,b,titre){
+  const rows=[];for(let i=a;i<=b;i++){const val=i<=LAST?s.reel[i]:s.forecast[i];
+    rows.push([M12[i],s.reel[i],s.budget[i],s.forecast[i],val!=null&&s.budget[i]!=null?(s.unit==='pct'?val-s.budget[i]:val-s.budget[i]):null]);}
+  return {titre,chemin:'metrics.json › '+s.path+(b>LAST&&s.pathF?' + '+s.pathF:''),unit:s.unit,colonnes:['Mois','Réel','Budget','Forecast (central)','Écart vs budget'],lignes:rows};
+}
+
+function kpi(p,ind){
+  const g=p.gammes[0]||null;
+  if(g&&ind!=='ca')return NODATA(`metrics.json ne ventile pas le ${NOM_IND[ind]} par gamme : seul le CA l'est (le P&L ne donne pas le coût des ventes par gamme).`,
+    [`Quel est le CA ${g} à fin septembre ?`,`Quel est le ${NOM_IND[ind]} cumulé à fin septembre ?`]);
+  const [a,b]=p.per||(p.v.forecast?[0,11]:[0,LAST]);const s=serie(ind,g);const lib=(g?'CA '+g:s.label);
+  if(s.unit==='pct'){
+    if(b>LAST)return NODATA(`Le ${NOM_IND[ind]} n'existe dans metrics.json que pour janv.–sept. (réel et budget). Aucun forecast de taux n'est calculé pour oct.–déc.`,
+      [`Quel est le ${NOM_IND[ind]} à fin septembre ?`,`Quel EBITDA est prévu pour 2026 ?`]);
+    const [nk,dk]=ind==='taux_marge'?['marge_brute','ca']:['ebitda','ca'];
+    const rr=sum(K[nk].mensuel.reel.slice(a,b+1))/sum(K[dk].mensuel.reel.slice(a,b+1))*100,bb=sum(K[nk].mensuel.budget.slice(a,b+1))/sum(K[dk].mensuel.budget.slice(a,b+1))*100;
+    return R({titre:`${lib} — ${plab(a,b)}`,valeur:pc(rr),tags:['reel'],
+      contexte:[`Réel ${plab(a,b)} : ${pc(rr)}, contre ${pc(bb)} au budget, soit ${pt(rr-bb)}.`].concat(p.v.forecast?[`Période close : c'est un réel, pas une prévision.`]:[]),
+      chart:lineChart(s,a,b),source:srcTable(s,a,b,lib)});
+  }
+  const need=[];for(let i=a;i<=b;i++)need.push(i);
+  if(need.some(i=>i>LAST&&s.forecast[i]==null))return NODATA(`Pas de réel après le 30/09 et aucun forecast de ${NOM_IND[ind]} pour oct.–déc. dans metrics.json (le forecast ne couvre que le CA, le CA par gamme et l'EBITDA).`,
+    [`Quel est le ${NOM_IND[ind]} cumulé à fin septembre ?`,`Quel est le CA prévu en ${ML[Math.max(a,LAST+1)]} ?`]);
+  const reel=sum(need.filter(i=>i<=LAST).map(i=>s.reel[i])),fc=sum(need.filter(i=>i>LAST).map(i=>s.forecast[i])),bud=sum(need.map(i=>s.budget[i]));
+  const hasR=a<=LAST,hasF=b>LAST,val=reel+fc,e=val-bud;const tags=[];if(hasR)tags.push('reel');if(hasF)tags.push('forecast');
+  const ctx=[];
+  if(p.v.budget&&!p.v.reel&&!p.v.ecart&&!p.v.forecast){
+    ctx.push(`Budget ${plab(a,b)} : ${eur(bud)}.`);ctx.push((hasF?(hasR?'Atterrissage (réel + forecast)':'Forecast (scénario central)'):'Réel')+` : ${eur(val)}, soit ${eur(e,true)} (${pc(e/Math.abs(bud)*100,true)}) vs budget.`);
+    return R({titre:`${lib} — budget ${plab(a,b)}`,valeur:eur(bud),tags:['budget'].concat(tags),contexte:ctx,chart:lineChart(s,a,b),source:srcTable(s,a,b,lib)});
+  }
+  if(hasR&&!hasF){ctx.push(`Réel ${plab(a,b)} : ${eur(val)}, contre ${eur(bud)} au budget, soit ${eur(e,true)} (${pc(e/Math.abs(bud)*100,true)}).`);
+    if(p.v.forecast)ctx.push(`Période close au 30/09 : c'est un réel, pas une prévision.`);}
+  else if(!hasR){if(p.v.reel)ctx.push(`Aucun réel pour ${plab(a,b)} : la situation est arrêtée au ${M.meta.date_arrete}.`);
+    ctx.push(`Forecast ${plab(a,b)} (scénario central, tendance janv.–sept. prolongée) : ${eur(val)}, contre ${eur(bud)} au budget, soit ${eur(e,true)} (${pc(e/Math.abs(bud)*100,true)}).`);}
+  else ctx.push(`Atterrissage ${plab(a,b)} = réel ${plab(a,LAST)} (${eur(reel)}) + forecast ${plab(LAST+1,b)} (${eur(fc)}, scénario central). Budget : ${eur(bud)}, soit ${eur(e,true)} (${pc(e/Math.abs(bud)*100,true)}).`);
+  if(ind==='marge_brute'&&b<=LAST){const tr=sum(K.marge_brute.mensuel.reel.slice(a,b+1))/sum(K.ca.mensuel.reel.slice(a,b+1))*100,tb=sum(K.marge_brute.mensuel.budget.slice(a,b+1))/sum(K.ca.mensuel.budget.slice(a,b+1))*100;ctx.push(`Taux de marge brute correspondant : ${pc(tr)} réel contre ${pc(tb)} au budget (${pt(tr-tb)}).`);}
+  if(g==="Moutardes"||(!g&&ind==='ca')){const an=M.reconciliation.anomalies.filter(x=>/^CA /.test(x.titre)&&need.some(i=>x.titre.includes(' '+M12[i]+' ')));
+    if(an.length)ctx.push(`⚠ Réconciliation : ${an.map(x=>x.titre).join(' ; ')}. Le chiffre ci-dessus est celui de la comptabilité.`);}
+  return R({titre:`${lib} — ${plab(a,b)}`,valeur:eur(val),tags,contexte:ctx,chart:lineChart(s,a,b),source:srcTable(s,a,b,lib)});
+}
+
+function client(p,ind){
+  const c=p.clients[0],l=CL.lignes.find(x=>x.client===c);const [a,b]=p.per||[0,LAST];
+  if(ind==='marge_brute'||ind==='taux_marge'){
+    if(p.per&&!(a===0&&b===LAST))return NODATA(`Le taux de marge de ${c} n'existe dans metrics.json qu'en cumul janv.–sept. (pas de détail mensuel).`,[`Quel est le taux de marge de ${c} ?`]);
+    return R({titre:`Taux de marge — ${c}`,valeur:pc(l.taux_marge),tags:['reel'],contexte:[`Réel cumul janv.–sept., calculé sur le détail des factures (CA HT − coût de revient). Aucun budget par client.`],
+      chart:{type:'bar',labels:CL.lignes.map(x=>x.client),datasets:[{label:'Taux de marge',data:CL.lignes.map(x=>x.taux_marge),kind:'reel'}],hiIdx:CL.lignes.indexOf(l),unit:'pct',horiz:true},
+      source:{titre:'Taux de marge par client',chemin:'metrics.json › clients.lignes[].taux_marge',colonnes:['Client','Taux de marge','CA HT'],lignes:CL.lignes.map(x=>[x.client,{pct:x.taux_marge},x.total]),hi:CL.lignes.indexOf(l)}});
+  }
+  if(ind!=='ca')return NODATA(`metrics.json ne contient pas de ${NOM_IND[ind]} par client.`,[`Combien ${c} a-t-il acheté depuis janvier ?`,`Combien ${c} nous doit-il ?`,`Quel est le taux de marge de ${c} ?`]);
+  if(b>LAST)return NODATA(`Aucune prévision par client dans metrics.json : seul le réel facturé janv.–sept. existe pour ${c}.`,[`Combien ${c} a-t-il acheté depuis janvier ?`,`Quel est le CA prévu en ${ML[Math.max(a,LAST+1)]} ?`]);
+  const v=sum(l.mensuel.slice(a,b+1)),d=sum(l.doublon_mensuel.slice(a,b+1));
+  const tot=sum(CL.lignes.map(x=>sum(x.mensuel.slice(a,b+1))));const rang=[...CL.lignes].sort((x,y)=>sum(y.mensuel.slice(a,b+1))-sum(x.mensuel.slice(a,b+1))).findIndex(x=>x.client===c)+1;
+  const ctx=[`Réel facturé ${plab(a,b)} : ${eur(v)} HT, soit ${pc(v/tot*100)} des ventes de la période (rang ${rang}/${CL.lignes.length}).`,`Source : détail des factures (Ventes_Detail), pas la comptabilité.`];
+  if(p.v.budget)ctx.push(`Aucun budget par client dans metrics.json : pas de comparaison possible.`);
+  if(d)ctx.push(`⚠ Ce montant inclut ${eur(d)} de doublon (facture saisie deux fois, signalée en réconciliation). Hors doublon : ${eur(v-d)}.`);
+  const hl=[];return R({titre:`CA ${c} — ${plab(a,b)}`,valeur:eur(v),tags:['reel'],contexte:ctx,
+    chart:{type:'bar',labels:M.meta.mois,datasets:[{label:'CA HT',data:l.mensuel,kind:'reel'}],highlight:[a,b],unit:'eur'},
+    source:{titre:`Ventes mensuelles — ${c}`,chemin:'metrics.json › clients.lignes[client="'+c+'"]',colonnes:['Mois','CA HT','dont doublon'],lignes:l.mensuel.map((x,i)=>[M12[i],x,l.doublon_mensuel[i]||null]),hiRange:[a,b]}});
+}
+
+function creances(p){
+  const q=p.q;let tr=null;
+  if(/non echu/.test(q))tr='Non échu';else if(/61.{0,4}90|entre 60 et 90/.test(q))tr='61-90 j';else if(/plus de 90|> ?90|au.?dela de 90/.test(q))tr='> 90 j';
+  else if(/31.{0,4}60|entre 30 et 60/.test(q))tr='31-60 j';else if(/\b1.{0,4}30|moins de 30/.test(q))tr='1-30 j';else if(/plus de 60|> ?60|au.?dela de 60|60 ?j/.test(q))tr='p60';else if(/echu|en retard|retard/.test(q))tr='echu';
+  if(p.mois.length&&!(p.mois.length===1&&p.mois[0]===LAST))return NODATA(`La balance âgée n'existe dans metrics.json qu'au ${M.meta.date_arrete}. Pas d'encours pour ${p.mois.map(i=>ML[i]).join(', ')}.`,[`Quel est l'encours clients au 30/09 ?`]);
+  if(p.v.forecast)return NODATA(`Aucune prévision de créances par tranche dans metrics.json. Seul l'encours total au 31/12 est simulé, selon le DSO choisi (onglet Simulation T4).`,[`Quel est l'encours clients au 30/09 ?`,`Quelle trésorerie fin décembre ?`]);
+  const c=p.clients[0],pc_=c?CR.par_client.find(x=>x.client===c):null;
+  if(c&&!pc_)return R({titre:`Créances — ${c}`,valeur:eur(0),tags:['reel'],contexte:[`Aucune facture ouverte au ${M.meta.date_arrete} pour ${c} dans la balance âgée.`]});
+  const TRS=CR.tranches.map(t=>t.tranche),parT=c?TRS.map(t=>pc_.tranches[t]):CR.tranches.map(t=>t.montant),tot=c?pc_.total:CR.total;
+  let val,lib,hi=[];
+  if(tr==='p60'){val=c?pc_.plus_60:CR.plus_60.montant;lib='à plus de 60 jours';hi=[3,4];}
+  else if(tr==='echu'){val=tot-parT[0];lib='échues';hi=[1,2,3,4];}
+  else if(tr){val=parT[TRS.indexOf(tr)];lib='tranche '+tr;hi=[TRS.indexOf(tr)];}
+  else{val=tot;lib='encours total';hi=[0,1,2,3,4];}
+  const ctx=[!tr?`Réel au ${M.meta.date_arrete} (balance âgée TTC) : encours de ${eur(val)}${c?` pour ${c}, soit ${pc(val/CR.total*100)} de l'encours clients total (${eur(CR.total)})`:` sur ${CR.nb_factures} factures`}.`
+    :`Réel au ${M.meta.date_arrete} (balance âgée TTC) : ${eur(val)} ${lib}${c?' pour '+c:''}, sur un encours de ${eur(tot)} (${pc(val/tot*100)}).`];
+  if(tr==='p60'){const n=c?pc_.nb_plus_60:CR.plus_60.nb;ctx.push(`${n} facture(s) concernée(s)${c?`, retard maximal ${pc_.retard_max} jours`:`, ${CR.plus_60.nb_clients} clients`}.${val/tot>=.1?' Seuil d\'alerte (10 % de l\'encours) dépassé.':''}`);}
+  if(c&&!tr)ctx.push(`Dont ${eur(pc_.plus_60)} à plus de 60 jours.`);
+  const f60=CR.factures_plus_60.filter(f=>!c||f.client===c);
+  const source=(tr==='p60'||tr==='61-90 j'||tr==='> 90 j')?{titre:`Factures à plus de 60 jours${c?' — '+c:''}`,chemin:'metrics.json › creances.factures_plus_60'+(c?'[client="'+c+'"]':''),colonnes:['Facture','Client','Échéance','Retard (j)','Montant TTC'],
+      lignes:f60.filter(f=>tr==='p60'||(tr==='> 90 j'?f.retard>90:f.retard<=90)).map(f=>[f.facture,f.client,f.echeance,{txt:f.retard+' j'},f.montant])}
+    :{titre:`Balance âgée${c?' — '+c:''}`,chemin:'metrics.json › creances.'+(c?'par_client[client="'+c+'"]':'tranches'),colonnes:['Tranche','Montant TTC','Part'],lignes:TRS.map((t,i)=>[t,parT[i],{pct:parT[i]/tot*100}]),hiSet:hi};
+  return R({titre:(tr?`Créances ${lib}`:'Encours clients')+(c?' — '+c:''),valeur:eur(val),tags:['reel'],contexte:ctx,
+    chart:{type:'bar',labels:TRS,datasets:[{label:'TTC',data:parT,kind:'reel'}],hiSet:hi,unit:'eur',aging:true},source});
+}
+
+function dso(p){
+  if(p.clients.length)return NODATA(`metrics.json ne calcule pas de DSO par client.`,[`Combien ${p.clients[0]} nous doit-il à plus de 60 jours ?`,`Quel est le DSO ?`]);
+  if(p.mois.length&&!(p.mois.length===1&&p.mois[0]===LAST)||p.v.forecast)return NODATA(`Le DSO n'est calculé qu'au ${M.meta.date_arrete}. Pour le 31/12, le DSO est un curseur de l'onglet Simulation T4, pas une donnée.`,[`Quel est le DSO ?`]);
+  const d=CR.dso;return R({titre:'DSO au '+M.meta.date_arrete,valeur:nf1.format(d.jours)+' jours',tags:['reel'],
+    contexte:[`Objectif : ${nf0.format(d.objectif)} jours (onglet Hypotheses), soit ${nf1.format(d.ecart)} jours ${d.ecart>0?'de trop':"d'avance"}.`,`Méthode : ${d.methode} Méthode simple sur 3 mois : ${nf1.format(d.jours_simple_3m)} jours.`],
+    chart:{type:'bar',labels:['DSO réel','Objectif'],datasets:[{label:'Jours',data:[d.jours,d.objectif],kind:'mix'}],unit:'j'},
+    source:{titre:'DSO',chemin:'metrics.json › creances.dso',colonnes:['Mesure','Valeur'],lignes:[['DSO (épuisement)',{txt:nf1.format(d.jours)+' j'}],['DSO simple 3 mois',{txt:nf1.format(d.jours_simple_3m)+' j'}],['Objectif',{txt:nf0.format(d.objectif)+' j'}]]}});
+}
+
+const scTable=(keys,titre)=>({titre,chemin:'metrics.json › simulation.scenarios[].resultat',colonnes:['Scénario'].concat(keys.map(k=>k[1])),lignes:Object.values(S.scenarios).map(s=>[s.label].concat(keys.map(k=>s.resultat[k[0]]))),hi:1});
+function impot(p){
+  const r=S.scenarios.central.resultat,I=SM.is;const ctx=[];
+  if(p.v.reel)ctx.push(`L'IS 2026 réel n'existe pas encore : il sera liquidé à la clôture. Seuls les acomptes versés (${eur(I.acomptes_verses)}) sont réels.`);
+  ctx.push(`Forecast (scénario central) : IS ${eur(r.is)} sur un résultat fiscal estimé de ${eur(r.ebit)} (assimilé à l'EBIT). Acomptes versés ${eur(I.acomptes_verses)} + acompte de décembre ${eur(r.acompte_dec)} : solde à payer en 2027 ${eur(r.solde_is)}.`);
+  ctx.push(`Fourchette : ${eur(S.scenarios.prudent.resultat.is)} (prudent) à ${eur(S.scenarios.ambitieux.resultat.is)} (ambitieux).`);
+  return R({titre:'IS 2026 — estimation',valeur:eur(r.is),tags:['forecast'],contexte:ctx,
+    chart:{type:'bar',labels:Object.values(S.scenarios).map(s=>s.label),datasets:[{label:'IS',data:Object.values(S.scenarios).map(s=>s.resultat.is),kind:'forecast'}],hiSet:[1],unit:'eur'},
+    source:scTable([['ebit','Résultat fiscal'],['is','IS'],['acompte_dec','Acompte déc.'],['solde_is','Solde 2027']],'IS par scénario')});
+}
+function treso(p){
+  const r=S.scenarios.central.resultat,deb=SM.treso.debut;
+  const fin=(p.per&&p.per[1]>LAST)||p.v.forecast, now=p.mois.length===1&&p.mois[0]===LAST||/30\/09|actuel|aujourd|a ce jour/.test(p.q);
+  if(p.mois.length&&!p.mois.every(i=>i>=LAST))return NODATA(`metrics.json ne contient pas la trésorerie mensuelle : seulement le solde au ${M.meta.date_arrete} (réel) et au 31/12 (simulé).`,[`Quelle est la trésorerie au 30/09 ?`,`Quelle trésorerie fin décembre ?`]);
+  const chart={type:'bar',labels:['30/09 réel','31/12 prudent','31/12 central','31/12 ambitieux'],datasets:[{label:'Trésorerie',data:[deb].concat(Object.values(S.scenarios).map(s=>s.resultat.treso_fin)),kind:'mix4'}],unit:'eur'};
+  const source={titre:'Trésorerie',chemin:'metrics.json › simulation.modele.treso.debut + simulation.scenarios[].resultat',colonnes:['Point','Trésorerie','Encaissements T4','Décaissements T4'],
+    lignes:[['30/09 (réel)',deb,null,null]].concat(Object.values(S.scenarios).map(s=>['31/12 '+s.label.toLowerCase()+' (forecast)',s.resultat.treso_fin,s.resultat.encaissements,s.resultat.decaissements]))};
+  if(now&&!fin)return R({titre:'Trésorerie au '+M.meta.date_arrete,valeur:eur(deb),tags:['reel'],contexte:[`Réel, recalculé depuis l'onglet Tresorerie (contrôlé égal à l'Excel).`],chart:Object.assign(chart,{hiSet:[0]}),source});
+  return R({titre:'Trésorerie au 31/12/2026 — forecast',valeur:eur(r.treso_fin),tags:['forecast'].concat(now?[]:['reel']),
+    contexte:[`Forecast (scénario central, DSO ${S.scenarios.central.dso} j) : ${eur(r.treso_fin)}, contre ${eur(deb)} réels au ${M.meta.date_arrete}.`,`Fourchette : ${eur(S.scenarios.prudent.resultat.treso_fin)} (prudent) à ${eur(S.scenarios.ambitieux.resultat.treso_fin)} (ambitieux). Pas de budget de trésorerie dans le fichier.`],
+    chart:Object.assign(chart,{hiSet:[2]}),source});
+}
+function charges(p){
+  if(p.per&&!(p.per[0]===0&&p.per[1]===LAST))return NODATA(`Les charges par poste ne sont dans metrics.json qu'en cumul janv.–sept. (réel vs budget), sans détail mensuel ni forecast.`,[`Quels sont les frais de personnel cumulés à fin septembre ?`,`Quelles charges dépassent le budget ?`]);
+  const list=p.postes.length?M.charges.filter(c=>p.postes.includes(c.poste)):M.charges;
+  const r=sum(list.map(c=>c.ytd_reel)),b=sum(list.map(c=>c.ytd_budget)),e=r-b;const one=list.length===1;
+  const ctx=[`Réel cumul janv.–sept. : ${eur(r)}, contre ${eur(b)} au budget, soit ${eur(e,true)} (${pc(e/b*100,true)}) ${e>0?'de dépassement':"d'économie"}.`];
+  if(!one){const dep=list.filter(c=>c.ecart>0).sort((x,y)=>y.ecart-x.ecart);if(dep.length)ctx.push('Dépassements : '+dep.map(c=>`${c.poste.toLowerCase()} ${eur(c.ecart,true)}`).join(', ')+'.');}
+  return R({titre:(one?list[0].poste:"Charges d'exploitation")+' — cumul janv.–sept.',valeur:eur(r),tags:['reel'],contexte:ctx,
+    chart:{type:'bar',labels:list.map(c=>c.poste),datasets:[{label:'Réel',data:list.map(c=>c.ytd_reel),kind:'reel'},{label:'Budget',data:list.map(c=>c.ytd_budget),kind:'budget'}],unit:'eur',horiz:!one},
+    source:{titre:'Charges par poste',chemin:'metrics.json › charges',colonnes:['Poste','Réel','Budget','Écart','Écart %'],lignes:list.map(c=>[c.poste,c.ytd_reel,c.ytd_budget,c.ecart,{pct:c.ecart_pct}])}});
+}
+function top(p){
+  const [a,b]=p.per||[0,LAST];if(b>LAST)return NODATA(`Aucune prévision par client : le classement n'existe que sur le réel janv.–sept.`,[`Quels sont les 5 premiers clients ?`]);
+  const n=+(p.q.match(/top ?(\d+)|(\d+) (premiers|meilleurs|plus gros)/)||[])[1]||+(p.q.match(/(\d+) (premiers|meilleurs|plus gros)/)||[])[1]||5;
+  const rows=CL.lignes.map(l=>({c:l.client,v:sum(l.mensuel.slice(a,b+1)),d:sum(l.doublon_mensuel.slice(a,b+1))})).sort((x,y)=>y.v-x.v);const tot=sum(rows.map(x=>x.v)),t=rows.slice(0,Math.min(n,rows.length));
+  const ctx=[`Réel facturé ${plab(a,b)} (détail des factures) : ${t.map((x,i)=>`${i+1}. ${x.c} ${eur(x.v)}`).join(' · ')}.`,`Ensemble : ${pc(sum(t.map(x=>x.v))/tot*100)} des ventes de la période.`];
+  const dd=t.filter(x=>x.d);if(dd.length)ctx.push(`⚠ ${dd.map(x=>`${x.c} inclut ${eur(x.d)} de doublon`).join(' ; ')}.`);
+  return R({titre:`Top ${t.length} clients — ${plab(a,b)}`,valeur:t[0].c,tags:['reel'],contexte:ctx,
+    chart:{type:'bar',labels:t.map(x=>x.c),datasets:[{label:'CA HT',data:t.map(x=>x.v),kind:'reel'}],unit:'eur',horiz:true},
+    source:{titre:'Classement clients',chemin:'metrics.json › clients.lignes',colonnes:['Rang','Client','CA HT','Part'],lignes:rows.map((x,i)=>[{txt:String(i+1)},x.c,x.v,{pct:x.v/tot*100}]),hiTop:t.length}});
+}
+function anomalies(){
+  const A=M.reconciliation.anomalies;
+  return R({titre:'Anomalies de réconciliation',valeur:A.length+' anomalie(s)',tags:['reel'],contexte:A.map(a=>`[${a.gravite}] ${a.titre}${a.impact_eur!=null?' ('+eur(a.impact_eur,true)+')':''}.`).concat(['Aucune n\'est corrigée dans les chiffres.']),
+    source:{titre:'Anomalies',chemin:'metrics.json › reconciliation.anomalies',colonnes:['Gravité','Anomalie','Impact'],lignes:A.map(a=>[a.gravite,a.titre,a.impact_eur])}});
+}
+
+const EX=["Quel est le CA de juillet par rapport au budget ?","Combien Carrefour nous doit à plus de 60 jours ?","Quel EBITDA prévoit-on pour 2026 ?","Quels sont les 5 premiers clients ?","Quelle trésorerie fin décembre ?"];
+function ask(raw){
+  if(!raw||!raw.trim())return AMBIGU('Posez une question sur un indicateur, une période ou un client.',EX);
+  const p=parse(raw);let inds=p.inds.slice();
+  if(inds.includes('top'))inds=['top'];
+  if(inds.includes('creances')&&inds.includes('dso'))inds=['dso'];
+  if(inds.includes('ca')&&inds.includes('creances')&&p.clients.length&&/doi|creance|encours|retard/.test(p.q))inds=['creances'];
+  if(inds.length===0&&p.gammes.length)inds=['ca'];
+  if(p.clients.length>1)return AMBIGU(`La question vise plusieurs clients (${p.clients.join(', ')}). Je réponds client par client :`,p.clients.slice(0,3).map(c=>`Combien ${c} a-t-il acheté depuis janvier ?`));
+  if(p.gammes.length>1)return AMBIGU(`Plusieurs gammes détectées (${p.gammes.join(', ')}). Précisez-en une :`,p.gammes.map(g=>`Quel est le CA ${g} à fin septembre ?`));
+  if(inds.length===0){
+    if(p.clients.length){const c=p.clients[0];return AMBIGU(`Que voulez-vous savoir sur ${c} ?`,[`Combien ${c} a-t-il acheté depuis janvier ?`,`Combien ${c} nous doit-il ?`,`Quel est le taux de marge de ${c} ?`]);}
+    return AMBIGU("Je n'identifie aucun indicateur de metrics.json dans la question (CA, marge, EBITDA, charges, créances, DSO, IS, trésorerie, clients).",EX);}
+  const PER=p.per?plab(p.per[0],p.per[1]):'cumul à fin septembre';
+  if(inds.length>1)return AMBIGU(`La question mélange plusieurs indicateurs (${inds.map(i=>NOM_IND[i]).join(', ')}). Une question à la fois :`,inds.slice(0,3).map(i=>({ca:`Quel est le CA — ${PER} ?`,marge_brute:`Quelle est la marge brute — ${PER} ?`,taux_marge:`Quel est le taux de marge brute — ${PER} ?`,ebitda:`Quel est l'EBITDA — ${PER} ?`,taux_ebitda:`Quel est le taux d'EBITDA — ${PER} ?`,dso:'Quel est le DSO ?',is:"Combien d'IS reste-t-il à payer ?",tresorerie:'Quelle trésorerie fin décembre ?',creances:"Quel est l'encours clients au 30/09 ?",charges:'Quelles charges dépassent le budget ?',top:'Quels sont les 5 premiers clients ?',anomalies:'Quelles anomalies de réconciliation ?'}[i])));
+  const ind=inds[0];let out;
+  if(ind==='creances')out=creances(p);
+  else if(p.clients.length&&['ca','marge_brute','taux_marge','ebitda','taux_ebitda'].includes(ind))out=client(p,ind);
+  else if(['ca','marge_brute','taux_marge','ebitda','taux_ebitda'].includes(ind))out=kpi(p,ind);
+  else if(ind==='dso')out=dso(p);else if(ind==='is')out=impot(p);else if(ind==='tresorerie')out=treso(p);
+  else if(ind==='charges')out=charges(p);else if(ind==='top')out=top(p);else out=anomalies();
+  out.compris={indicateur:NOM_IND[ind]+(p.gammes[0]&&ind==='ca'?' · '+p.gammes[0]:'')+(p.postes.length&&ind==='charges'?' · '+p.postes.join(', '):''),periode:p.per?plab(p.per[0],p.per[1]):'(défaut)',client:p.clients[0]||null};
+  return out;
+}
+
+// ---- interface
+const TAG={reel:['Réel','tg-r'],budget:['Budget','tg-b'],forecast:['Forecast · central','tg-f']};
+let nChart=0;
+function cell(v,unit){if(v==null)return '—';if(typeof v==='object')return v.pct!=null?pc(v.pct):v.txt;if(typeof v==='number')return unit==='pct'?pc(v):eur(v);return esc(v);}
+function openSource(s){
+  $('srcTitle').textContent=s.titre;$('srcPath').textContent=s.chemin;
+  $('srcTable').innerHTML='<tr>'+s.colonnes.map(c=>'<th>'+esc(c)+'</th>').join('')+'</tr>'+s.lignes.map((r,i)=>{
+    const hi=(s.hi===i)||(s.hiRange&&i>=s.hiRange[0]&&i<=s.hiRange[1])||(s.hiSet&&s.hiSet.includes(i))||(s.hiTop&&i<s.hiTop);
+    return '<tr'+(hi?' class="hi"':'')+'>'+r.map(v=>'<td>'+cell(v,s.unit)+'</td>').join('')+'</tr>';}).join('');
+  $('srcModal').hidden=false;$('srcClose').focus();
+}
+function drawMini(cv,ch){
+  const col={reel:C.reel,budget:C.bud,forecast:'#E93BF3'};const inR=i=>ch.highlight?i>=ch.highlight[0]&&i<=ch.highlight[1]:ch.hiSet?ch.hiSet.includes(i):ch.hiIdx===i;
+  const fmtV=v=>ch.unit==='pct'?pc(v):ch.unit==='j'?nf1.format(v)+' j':eur(v);
+  const ds=ch.datasets.map(d=>{const base={label:d.label,data:d.data};
+    if(ch.type==='line')return Object.assign(base,{borderColor:col[d.kind],backgroundColor:col[d.kind],borderWidth:2,borderDash:d.kind==='budget'?[5,4]:d.kind==='forecast'?[2,3]:[],
+      pointRadius:d.data.map((v,i)=>inR(i)&&v!=null?5:0),pointStyle:d.kind==='forecast'?'triangle':d.kind==='budget'?'rectRot':'circle',tension:.25,spanGaps:false});
+    let bg;if(d.kind==='mix')bg=[C.reel,C.bud];else if(d.kind==='mix4')bg=[C.reel,'#F3A8F8','#E93BF3','#B21FBB'];
+    else if(ch.aging)bg=d.data.map((_,i)=>['#CFCBF3','#9C90EE','#5B43E0','#E0526A','#A3122C'][i]);else bg=d.data.map((_,i)=>col[d.kind]);
+    const hasHi=ch.highlight||ch.hiSet||ch.hiIdx!=null;
+    if(hasHi&&!ch.aging&&d.kind!=='mix4')bg=d.data.map((_,i)=>inR(i)?col[d.kind]:(d.kind==='budget'?'#D9D7E3':'#C9C5F7'));
+    if(ch.aging&&hasHi)bg=bg.map((c,i)=>inR(i)?c:c+'55');
+    return Object.assign(base,{backgroundColor:bg,borderRadius:3,maxBarThickness:28});});
+  new Chart(cv,{type:ch.type,data:{labels:ch.labels,datasets:ds},options:{maintainAspectRatio:false,indexAxis:ch.horiz?'y':'x',animation:false,
+    scales:{x:{grid:ch.horiz?grid:noGrid,ticks:Object.assign({font:{size:10}},ch.horiz?{callback:v=>ch.unit==='pct'?nf0.format(v)+' %':keur(v)}:{})},y:{grid:ch.horiz?noGrid:grid,ticks:{font:{size:10},callback:ch.horiz?function(v){const l=this.getLabelForValue(v);return l.length>18?l.slice(0,17)+'…':l;}:(v=>ch.unit==='pct'?nf0.format(v)+' %':ch.unit==='j'?v+' j':keur(v))}}},
+    plugins:{legend:{display:ds.length>1,labels:{boxWidth:10,font:{size:10}}},tooltip:{...tip,callbacks:{label:c=>c.raw==null?null:' '+c.dataset.label+' : '+fmtV(c.raw)}}}}});
+}
+function render(q){
+  const log=$('askLog');log.insertAdjacentHTML('beforeend','<div class="msg me">'+esc(q)+'</div>');
+  const a=ask(q);const id='ans'+(++nChart);let h='<div class="msg bot st-'+a.status+'" id="'+id+'">';
+  if(a.status==='ok'){
+    h+='<div class="tags">'+a.tags.map(t=>'<span class="tg '+TAG[t][1]+'">'+TAG[t][0]+'</span>').join('')+'</div><div class="at">'+esc(a.titre)+'</div><div class="av">'+esc(a.valeur)+'</div>'+a.contexte.map(c=>'<p>'+esc(c)+'</p>').join('');
+    if(a.chart)h+='<div class="mini"><canvas aria-label="Mini-graphique"></canvas></div>';
+    if(a.source)h+='<button class="srcLink">Voir la source ›</button>';
+    if(a.compris)h+='<div class="compris">Compris : '+esc(a.compris.indicateur)+' · '+esc(a.compris.periode)+(a.compris.client?' · '+esc(a.compris.client):'')+'</div>';
+  }else{
+    h+='<div class="at">'+(a.status==='ambigu'?'❓ ':'⛔ ')+esc(a.titre)+'</div><p>'+esc(a.message)+'</p>';
+    if(a.suggestions.length)h+='<div class="sugg">Essayez :'+a.suggestions.map(s=>'<button class="sg">'+esc(s)+'</button>').join('')+'</div>';
+  }
+  log.insertAdjacentHTML('beforeend',h+'</div>');const el=$(id);
+  if(a.chart)drawMini(el.querySelector('canvas'),a.chart);
+  if(a.source)el.querySelector('.srcLink').addEventListener('click',()=>openSource(a.source));
+  el.querySelectorAll('.sg').forEach(b=>b.addEventListener('click',()=>render(b.textContent)));
+  log.scrollTop=log.scrollHeight;return a;
+}
+$('askFab').addEventListener('click',()=>{const o=$('askPanel').hidden;$('askPanel').hidden=!o;$('askFab').setAttribute('aria-expanded',o);if(o){$('askIn').focus();
+  if(!$('askLog').children.length)$('askLog').innerHTML='<div class="msg bot"><p>Je réponds uniquement à partir de metrics.json (situation au '+esc(M.meta.date_arrete)+'). Exemples :</p><div class="sugg">'+EX.map(s=>'<button class="sg">'+esc(s)+'</button>').join('')+'</div></div>',
+    $('askLog').querySelectorAll('.sg').forEach(b=>b.addEventListener('click',()=>render(b.textContent)));}});
+$('askClose').addEventListener('click',()=>{$('askPanel').hidden=true;$('askFab').setAttribute('aria-expanded',false);$('askFab').focus();});
+$('askForm').addEventListener('submit',e=>{e.preventDefault();const v=$('askIn').value.trim();if(v){render(v);$('askIn').value='';}});
+$('srcClose').addEventListener('click',()=>{$('srcModal').hidden=true;});
+$('srcModal').addEventListener('click',e=>{if(e.target.id==='srcModal')$('srcModal').hidden=true;});
+document.addEventListener('keydown',e=>{if(e.key==='Escape'){if(!$('srcModal').hidden)$('srcModal').hidden=true;else if(!$('askPanel').hidden)$('askClose').click();}});
+return {ask,render};
+})();
+window.askCFO=ASK.ask;
+
+// ---- Proof Center (données : proof.json injecté par verify.py)
+(function(){
+  if(!PROOF){$('pfMeta').textContent='';$('pfSynth').innerHTML='<b>Proof Center vide</b>Lancez python3 verify.py après build_metrics.py.';return;}
+  const P=PROOF;
+  $('pfMeta').textContent=P.methode+' Exécuté le '+P.genere_le+' sur '+P.source+'.';
+  if(P.metrics_genere_le!==M.meta.genere_le)$('pfStale').innerHTML='<div class="alertbox"><strong>Preuve périmée :</strong> metrics.json a été régénéré ('+M.meta.genere_le+') après la vérification ('+P.metrics_genere_le+'). Relancez verify.py.</div>';
+  $('pfSynth').innerHTML='<b>Ce que trouve verify.py</b>'+P.synthese.map(t=>'<div>'+esc(t)+'</div>').join('');
+  const f2=x=>new Intl.NumberFormat('fr-FR',{minimumFractionDigits:2,maximumFractionDigits:2}).format(x)+' €';
+  let h='<tr><th>Contrôle</th>'+P.mois.map(m=>'<th>'+m+'</th>').join('')+'<th>Total</th></tr>',cat=null;
+  const cellH=(c,L,mo)=>{if(!c||c.ok==null)return '<span class="cn" title="Non applicable">n/a</span>';
+    const t=esc(L.a_label)+' : '+f2(c.a)+'\n'+esc(L.b_label)+' : '+f2(c.b)+'\nÉcart : '+f2(c.ecart);
+    return c.ok?'<span class="cv" title="'+t+'">✓</span>':'<span class="cr" data-go="'+L.id+'|'+mo+'" title="'+t+'">'+(c.ecart>0?'+':'')+nf0.format(c.ecart)+' €</span>';};
+  P.lignes.forEach(L=>{if(L.categorie!==cat){cat=L.categorie;h+='<tr><td class="cat" colspan="'+(P.mois.length+2)+'">'+esc(cat)+'</td></tr>';}
+    h+='<tr><td>'+esc(L.controle)+'<div class="hint">'+esc(L.a_label)+' vs '+esc(L.b_label)+(L.note?' · '+esc(L.note):'')+'</div></td>'+L.cellules.map((c,i)=>'<td>'+cellH(c,L,P.mois[i])+'</td>').join('')+'<td>'+cellH(L.total,L,'Total')+'</td></tr>';});
+  $('pfMatrix').innerHTML=h;
+  $('pfCauses').innerHTML=P.causes.length?P.causes.map((c,i)=>'<div class="cause" id="cause-'+i+'" data-k="'+c.controle+'|'+c.mois+'"><div class="h"><span class="pill neg">'+(c.ecart>0?'+':'')+f2(c.ecart)+'</span>'+esc(c.mois+' — '+(c.controle==='cogs'?'Coût des ventes':'CA '+c.perimetre))+'<span class="cert '+(c.certitude==='établie'?'etablie':c.certitude)+'">'+esc(c.certitude)+'</span></div><p style="margin:8px 0 0">'+esc(c.cause)+'</p>'+(c.preuves.length?'<ul>'+c.preuves.map(p=>'<li>'+esc(p.texte)+'</li>').join('')+'</ul>':'')+'</div>').join(''):'<p class="ok">Aucun écart rouge.</p>';
+  $('pfMatrix').addEventListener('click',e=>{const s=e.target.closest('[data-go]');if(!s)return;const [id,mo]=s.dataset.go.split('|');
+    const key=(id.startsWith('ca_')&&id!=='ca_aff'?'ca':id)+'|'+mo;const el=[...document.querySelectorAll('.cause')].find(x=>x.dataset.k===key)||document.querySelector('.cause');
+    if(el){el.scrollIntoView({behavior:'smooth',block:'center'});el.animate([{background:'#FCECEF'},{background:'#fff'}],{duration:1400});}});
+  $('pfPonct').innerHTML='<tr><th>Contrôle</th><th>Statut</th><th>Détail</th></tr>'+P.ponctuels.map(p=>'<tr><td style="white-space:normal">'+esc(p.controle)+'</td><td class="'+(p.ok?'ok':'ko')+'">'+(p.ok?'OK':'KO')+'</td><td style="text-align:left;white-space:normal">'+esc(p.detail)+'</td></tr>').join('');
+})();
+})();
+</script>
+</body>
+</html>
