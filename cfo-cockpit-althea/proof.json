@@ -1,0 +1,1134 @@
+{
+  "genere_le": "22/10/2026 14:01",
+  "source": "CFO_Cockpit_Delices_de_Bourgogne_2026.xlsx",
+  "metrics_genere_le": "22/10/2026 14:01",
+  "seuil": 1.0,
+  "mois": [
+    "Janv",
+    "Févr",
+    "Mars",
+    "Avr",
+    "Mai",
+    "Juin",
+    "Juil",
+    "Août",
+    "Sept"
+  ],
+  "lignes": [
+    {
+      "id": "ca",
+      "controle": "CA détail des ventes vs CA compte de résultat",
+      "categorie": "Chiffre d'affaires",
+      "a_label": "Ventes_Detail (Σ CA HT)",
+      "b_label": "Reel_2026 (Σ CA gammes)",
+      "cellules": [
+        {
+          "a": 568380.39,
+          "b": 568380.39,
+          "ecart": 0.0,
+          "ok": true
+        },
+        {
+          "a": 555396.69,
+          "b": 555396.69,
+          "ecart": 0.0,
+          "ok": true
+        },
+        {
+          "a": 571723.95,
+          "b": 571723.95,
+          "ecart": -0.0,
+          "ok": true
+        },
+        {
+          "a": 624229.0,
+          "b": 624229.0,
+          "ecart": 0.0,
+          "ok": true
+        },
+        {
+          "a": 606092.68,
+          "b": 606092.68,
+          "ecart": 0.0,
+          "ok": true
+        },
+        {
+          "a": 665406.13,
+          "b": 665406.13,
+          "ecart": -0.0,
+          "ok": true
+        },
+        {
+          "a": 716793.32,
+          "b": 704393.32,
+          "ecart": 12400.0,
+          "ok": false
+        },
+        {
+          "a": 715668.83,
+          "b": 684728.83,
+          "ecart": 30940.0,
+          "ok": false
+        },
+        {
+          "a": 640387.83,
+          "b": 640387.83,
+          "ecart": -0.0,
+          "ok": true
+        }
+      ],
+      "total": {
+        "a": 5664078.82,
+        "b": 5620738.82,
+        "ecart": 43340.0,
+        "ok": false
+      },
+      "note": null
+    },
+    {
+      "id": "ca_Moutardes",
+      "controle": "↳ Moutardes",
+      "categorie": "Chiffre d'affaires",
+      "a_label": "Ventes_Detail",
+      "b_label": "Reel_2026",
+      "cellules": [
+        {
+          "a": 300381.02,
+          "b": 300381.02,
+          "ecart": 0.0,
+          "ok": true
+        },
+        {
+          "a": 295355.52,
+          "b": 295355.52,
+          "ecart": 0.0,
+          "ok": true
+        },
+        {
+          "a": 283086.64,
+          "b": 283086.64,
+          "ecart": -0.0,
+          "ok": true
+        },
+        {
+          "a": 331042.94,
+          "b": 331042.94,
+          "ecart": 0.0,
+          "ok": true
+        },
+        {
+          "a": 312477.52,
+          "b": 312477.52,
+          "ecart": 0.0,
+          "ok": true
+        },
+        {
+          "a": 322837.64,
+          "b": 322837.64,
+          "ecart": 0.0,
+          "ok": true
+        },
+        {
+          "a": 328217.9,
+          "b": 315817.9,
+          "ecart": 12400.0,
+          "ok": false
+        },
+        {
+          "a": 385407.54,
+          "b": 354467.54,
+          "ecart": 30940.0,
+          "ok": false
+        },
+        {
+          "a": 318815.1,
+          "b": 318815.1,
+          "ecart": 0.0,
+          "ok": true
+        }
+      ],
+      "total": {
+        "a": 2877621.82,
+        "b": 2834281.82,
+        "ecart": 43340.0,
+        "ok": false
+      },
+      "note": null
+    },
+    {
+      "id": "ca_Pain d'épices",
+      "controle": "↳ Pain d'épices",
+      "categorie": "Chiffre d'affaires",
+      "a_label": "Ventes_Detail",
+      "b_label": "Reel_2026",
+      "cellules": [
+        {
+          "a": 56018.43,
+          "b": 56018.43,
+          "ecart": -0.0,
+          "ok": true
+        },
+        {
+          "a": 45164.4,
+          "b": 45164.4,
+          "ecart": 0.0,
+          "ok": true
+        },
+        {
+          "a": 55054.1,
+          "b": 55054.1,
+          "ecart": -0.0,
+          "ok": true
+        },
+        {
+          "a": 45742.9,
+          "b": 45742.9,
+          "ecart": 0.0,
+          "ok": true
+        },
+        {
+          "a": 40016.26,
+          "b": 40016.26,
+          "ecart": 0.0,
+          "ok": true
+        },
+        {
+          "a": 39335.54,
+          "b": 39335.54,
+          "ecart": -0.0,
+          "ok": true
+        },
+        {
+          "a": 31574.04,
+          "b": 31574.04,
+          "ecart": 0.0,
+          "ok": true
+        },
+        {
+          "a": 38039.11,
+          "b": 38039.11,
+          "ecart": 0.0,
+          "ok": true
+        },
+        {
+          "a": 60354.17,
+          "b": 60354.17,
+          "ecart": -0.0,
+          "ok": true
+        }
+      ],
+      "total": {
+        "a": 411298.95,
+        "b": 411298.95,
+        "ecart": -0.0,
+        "ok": true
+      },
+      "note": null
+    },
+    {
+      "id": "ca_Crèmes de cassis",
+      "controle": "↳ Crèmes de cassis",
+      "categorie": "Chiffre d'affaires",
+      "a_label": "Ventes_Detail",
+      "b_label": "Reel_2026",
+      "cellules": [
+        {
+          "a": 100691.07,
+          "b": 100691.07,
+          "ecart": -0.0,
+          "ok": true
+        },
+        {
+          "a": 110925.88,
+          "b": 110925.88,
+          "ecart": -0.0,
+          "ok": true
+        },
+        {
+          "a": 116751.74,
+          "b": 116751.74,
+          "ecart": 0.0,
+          "ok": true
+        },
+        {
+          "a": 119731.86,
+          "b": 119731.86,
+          "ecart": -0.0,
+          "ok": true
+        },
+        {
+          "a": 129264.29,
+          "b": 129264.29,
+          "ecart": 0.0,
+          "ok": true
+        },
+        {
+          "a": 147818.4,
+          "b": 147818.4,
+          "ecart": 0.0,
+          "ok": true
+        },
+        {
+          "a": 188019.72,
+          "b": 188019.72,
+          "ecart": 0.0,
+          "ok": true
+        },
+        {
+          "a": 154705.98,
+          "b": 154705.98,
+          "ecart": 0.0,
+          "ok": true
+        },
+        {
+          "a": 140705.73,
+          "b": 140705.73,
+          "ecart": 0.0,
+          "ok": true
+        }
+      ],
+      "total": {
+        "a": 1208614.67,
+        "b": 1208614.67,
+        "ecart": 0.0,
+        "ok": true
+      },
+      "note": null
+    },
+    {
+      "id": "ca_Condiments",
+      "controle": "↳ Condiments",
+      "categorie": "Chiffre d'affaires",
+      "a_label": "Ventes_Detail",
+      "b_label": "Reel_2026",
+      "cellules": [
+        {
+          "a": 111289.87,
+          "b": 111289.87,
+          "ecart": 0.0,
+          "ok": true
+        },
+        {
+          "a": 103950.89,
+          "b": 103950.89,
+          "ecart": 0.0,
+          "ok": true
+        },
+        {
+          "a": 116831.47,
+          "b": 116831.47,
+          "ecart": 0.0,
+          "ok": true
+        },
+        {
+          "a": 127711.3,
+          "b": 127711.3,
+          "ecart": 0.0,
+          "ok": true
+        },
+        {
+          "a": 124334.61,
+          "b": 124334.61,
+          "ecart": 0.0,
+          "ok": true
+        },
+        {
+          "a": 155414.55,
+          "b": 155414.55,
+          "ecart": 0.0,
+          "ok": true
+        },
+        {
+          "a": 168981.66,
+          "b": 168981.66,
+          "ecart": 0.0,
+          "ok": true
+        },
+        {
+          "a": 137516.2,
+          "b": 137516.2,
+          "ecart": -0.0,
+          "ok": true
+        },
+        {
+          "a": 120512.83,
+          "b": 120512.83,
+          "ecart": 0.0,
+          "ok": true
+        }
+      ],
+      "total": {
+        "a": 1166543.38,
+        "b": 1166543.38,
+        "ecart": 0.0,
+        "ok": true
+      },
+      "note": null
+    },
+    {
+      "id": "cogs",
+      "controle": "Coût de revient détail vs coût des ventes",
+      "categorie": "Chiffre d'affaires",
+      "a_label": "Ventes_Detail (Σ coût)",
+      "b_label": "Reel_2026 (coût des ventes)",
+      "cellules": [
+        {
+          "a": 254843.53,
+          "b": 254843.53,
+          "ecart": 0.0,
+          "ok": true
+        },
+        {
+          "a": 249245.4,
+          "b": 249245.4,
+          "ecart": 0.0,
+          "ok": true
+        },
+        {
+          "a": 253004.24,
+          "b": 253004.24,
+          "ecart": -0.0,
+          "ok": true
+        },
+        {
+          "a": 277022.72,
+          "b": 277022.72,
+          "ecart": 0.0,
+          "ok": true
+        },
+        {
+          "a": 271760.44,
+          "b": 271760.44,
+          "ecart": 0.0,
+          "ok": true
+        },
+        {
+          "a": 296480.96,
+          "b": 296480.96,
+          "ecart": -0.0,
+          "ok": true
+        },
+        {
+          "a": 321174.43,
+          "b": 321174.43,
+          "ecart": -0.0,
+          "ok": true
+        },
+        {
+          "a": 320279.6,
+          "b": 307084.6,
+          "ecart": 13195.0,
+          "ok": false
+        },
+        {
+          "a": 285308.02,
+          "b": 285308.02,
+          "ecart": 0.0,
+          "ok": true
+        }
+      ],
+      "total": {
+        "a": 2529119.34,
+        "b": 2515924.34,
+        "ecart": 13195.0,
+        "ok": false
+      },
+      "note": null
+    },
+    {
+      "id": "ca_aff",
+      "controle": "CA recalculé vs CA affiché",
+      "categorie": "Cockpit",
+      "a_label": "Recalcul Excel brut",
+      "b_label": "metrics.json",
+      "cellules": [
+        {
+          "a": 568380.39,
+          "b": 568380.39,
+          "ecart": 0.0,
+          "ok": true
+        },
+        {
+          "a": 555396.69,
+          "b": 555396.69,
+          "ecart": 0.0,
+          "ok": true
+        },
+        {
+          "a": 571723.95,
+          "b": 571723.95,
+          "ecart": 0.0,
+          "ok": true
+        },
+        {
+          "a": 624229.0,
+          "b": 624229.0,
+          "ecart": 0.0,
+          "ok": true
+        },
+        {
+          "a": 606092.68,
+          "b": 606092.68,
+          "ecart": 0.0,
+          "ok": true
+        },
+        {
+          "a": 665406.13,
+          "b": 665406.13,
+          "ecart": 0.0,
+          "ok": true
+        },
+        {
+          "a": 704393.32,
+          "b": 704393.32,
+          "ecart": 0.0,
+          "ok": true
+        },
+        {
+          "a": 684728.83,
+          "b": 684728.83,
+          "ecart": 0.0,
+          "ok": true
+        },
+        {
+          "a": 640387.83,
+          "b": 640387.83,
+          "ecart": 0.0,
+          "ok": true
+        }
+      ],
+      "total": {
+        "a": 5620738.82,
+        "b": 5620738.82,
+        "ecart": 0.0,
+        "ok": true
+      },
+      "note": null
+    },
+    {
+      "id": "ebitda_aff",
+      "controle": "EBITDA recalculé vs EBITDA affiché",
+      "categorie": "Cockpit",
+      "a_label": "Recalcul Excel brut",
+      "b_label": "metrics.json",
+      "cellules": [
+        {
+          "a": 80030.13,
+          "b": 80030.13,
+          "ecart": -0.0,
+          "ok": true
+        },
+        {
+          "a": 70893.49,
+          "b": 70893.49,
+          "ecart": 0.0,
+          "ok": true
+        },
+        {
+          "a": 88707.44,
+          "b": 88707.44,
+          "ecart": 0.0,
+          "ok": true
+        },
+        {
+          "a": 110189.56,
+          "b": 110189.56,
+          "ecart": 0.0,
+          "ok": true
+        },
+        {
+          "a": 97863.13,
+          "b": 97863.13,
+          "ecart": 0.0,
+          "ok": true
+        },
+        {
+          "a": 135977.51,
+          "b": 135977.51,
+          "ecart": -0.0,
+          "ok": true
+        },
+        {
+          "a": 140474.14,
+          "b": 140474.14,
+          "ecart": 0.0,
+          "ok": true
+        },
+        {
+          "a": 139596.16,
+          "b": 139596.16,
+          "ecart": -0.0,
+          "ok": true
+        },
+        {
+          "a": 119201.48,
+          "b": 119201.48,
+          "ecart": -0.0,
+          "ok": true
+        }
+      ],
+      "total": {
+        "a": 982933.04,
+        "b": 982933.04,
+        "ecart": 0.0,
+        "ok": true
+      },
+      "note": null
+    },
+    {
+      "id": "ebitda_bud_aff",
+      "controle": "EBITDA budget recalculé vs affiché",
+      "categorie": "Cockpit",
+      "a_label": "Recalcul Excel brut",
+      "b_label": "metrics.json",
+      "cellules": [
+        {
+          "a": 98352.0,
+          "b": 98352.0,
+          "ecart": 0.0,
+          "ok": true
+        },
+        {
+          "a": 85991.5,
+          "b": 85991.5,
+          "ecart": 0.0,
+          "ok": true
+        },
+        {
+          "a": 109351.62,
+          "b": 109351.62,
+          "ecart": 0.0,
+          "ok": true
+        },
+        {
+          "a": 113678.5,
+          "b": 113678.5,
+          "ecart": 0.0,
+          "ok": true
+        },
+        {
+          "a": 132342.88,
+          "b": 132342.88,
+          "ecart": 0.0,
+          "ok": true
+        },
+        {
+          "a": 154713.0,
+          "b": 154713.0,
+          "ecart": 0.0,
+          "ok": true
+        },
+        {
+          "a": 170410.38,
+          "b": 170410.38,
+          "ecart": 0.0,
+          "ok": true
+        },
+        {
+          "a": 144084.25,
+          "b": 144084.25,
+          "ecart": 0.0,
+          "ok": true
+        },
+        {
+          "a": 123813.75,
+          "b": 123813.75,
+          "ecart": 0.0,
+          "ok": true
+        }
+      ],
+      "total": {
+        "a": 1132737.88,
+        "b": 1132737.88,
+        "ecart": 0.0,
+        "ok": true
+      },
+      "note": null
+    },
+    {
+      "id": "ebitda_xl",
+      "controle": "EBITDA recalculé vs formule Excel",
+      "categorie": "Excel",
+      "a_label": "Recalcul Excel brut",
+      "b_label": "Reel_2026 (cache formule)",
+      "cellules": [
+        {
+          "a": 80030.13,
+          "b": 80030.13,
+          "ecart": -0.0,
+          "ok": true
+        },
+        {
+          "a": 70893.49,
+          "b": 70893.49,
+          "ecart": 0.0,
+          "ok": true
+        },
+        {
+          "a": 88707.44,
+          "b": 88707.44,
+          "ecart": -0.0,
+          "ok": true
+        },
+        {
+          "a": 110189.56,
+          "b": 110189.56,
+          "ecart": 0.0,
+          "ok": true
+        },
+        {
+          "a": 97863.13,
+          "b": 97863.13,
+          "ecart": -0.0,
+          "ok": true
+        },
+        {
+          "a": 135977.51,
+          "b": 135977.51,
+          "ecart": -0.0,
+          "ok": true
+        },
+        {
+          "a": 140474.14,
+          "b": 140474.14,
+          "ecart": 0.0,
+          "ok": true
+        },
+        {
+          "a": 139596.16,
+          "b": 139596.16,
+          "ecart": -0.0,
+          "ok": true
+        },
+        {
+          "a": 119201.48,
+          "b": 119201.48,
+          "ecart": -0.0,
+          "ok": true
+        }
+      ],
+      "total": {
+        "a": 982933.04,
+        "b": 982933.04,
+        "ecart": -0.0,
+        "ok": true
+      },
+      "note": null
+    },
+    {
+      "id": "treso_xl",
+      "controle": "Trésorerie fin de mois recalculée vs Excel",
+      "categorie": "Trésorerie",
+      "a_label": "Recalcul (début + flux)",
+      "b_label": "Tresorerie (cache formule)",
+      "cellules": [
+        {
+          "a": 564697.68,
+          "b": 564697.68,
+          "ecart": -0.0,
+          "ok": true
+        },
+        {
+          "a": 675293.56,
+          "b": 675293.56,
+          "ecart": 0.0,
+          "ok": true
+        },
+        {
+          "a": 788620.18,
+          "b": 788620.18,
+          "ecart": 0.0,
+          "ok": true
+        },
+        {
+          "a": 882625.39,
+          "b": 882625.39,
+          "ecart": -0.0,
+          "ok": true
+        },
+        {
+          "a": 1054347.95,
+          "b": 1054347.95,
+          "ecart": -0.0,
+          "ok": true
+        },
+        {
+          "a": 1195140.0,
+          "b": 1195140.0,
+          "ecart": -0.0,
+          "ok": true
+        },
+        {
+          "a": 1354988.22,
+          "b": 1354988.22,
+          "ecart": -0.0,
+          "ok": true
+        },
+        {
+          "a": 1549404.69,
+          "b": 1549404.69,
+          "ecart": -0.0,
+          "ok": true
+        },
+        {
+          "a": 1661069.48,
+          "b": 1661069.48,
+          "ecart": -0.0,
+          "ok": true
+        }
+      ],
+      "total": {
+        "a": 9726187.15,
+        "b": 9726187.15,
+        "ecart": -0.0,
+        "ok": true
+      },
+      "note": null
+    },
+    {
+      "id": "treso_aff",
+      "controle": "Trésorerie fin de mois recalculée vs affichée",
+      "categorie": "Trésorerie",
+      "a_label": "Recalcul (début + flux)",
+      "b_label": "metrics.json",
+      "cellules": [
+        {
+          "a": 564697.6799999999,
+          "b": null,
+          "ecart": null,
+          "ok": null
+        },
+        {
+          "a": 675293.56,
+          "b": null,
+          "ecart": null,
+          "ok": null
+        },
+        {
+          "a": 788620.18,
+          "b": null,
+          "ecart": null,
+          "ok": null
+        },
+        {
+          "a": 882625.3899999999,
+          "b": null,
+          "ecart": null,
+          "ok": null
+        },
+        {
+          "a": 1054347.9499999997,
+          "b": null,
+          "ecart": null,
+          "ok": null
+        },
+        {
+          "a": 1195139.9999999998,
+          "b": null,
+          "ecart": null,
+          "ok": null
+        },
+        {
+          "a": 1354988.2199999997,
+          "b": null,
+          "ecart": null,
+          "ok": null
+        },
+        {
+          "a": 1549404.6899999995,
+          "b": null,
+          "ecart": null,
+          "ok": null
+        },
+        {
+          "a": 1661069.48,
+          "b": 1661069.48,
+          "ecart": -0.0,
+          "ok": true
+        }
+      ],
+      "total": null,
+      "note": "Le cockpit n'affiche que la trésorerie au 30/09."
+    },
+    {
+      "id": "cr_emis",
+      "controle": "Créances ouvertes ≤ TTC facturé, par mois d'émission",
+      "categorie": "Créances",
+      "a_label": "Creances_Clients (TTC ouvert)",
+      "b_label": "Ventes_Detail (TTC facturé)",
+      "cellules": [
+        {
+          "a": 0.0,
+          "b": 614241.52,
+          "ecart": 0.0,
+          "ok": true
+        },
+        {
+          "a": 0.0,
+          "b": 602027.76,
+          "ecart": 0.0,
+          "ok": true
+        },
+        {
+          "a": 0.0,
+          "b": 620097.77,
+          "ecart": 0.0,
+          "ok": true
+        },
+        {
+          "a": 0.0,
+          "b": 675922.71,
+          "ecart": 0.0,
+          "ok": true
+        },
+        {
+          "a": 151975.58,
+          "b": 658171.1,
+          "ecart": 0.0,
+          "ok": true
+        },
+        {
+          "a": 150099.09,
+          "b": 723437.14,
+          "ecart": 0.0,
+          "ok": true
+        },
+        {
+          "a": 130356.07,
+          "b": 783479.81,
+          "ecart": 0.0,
+          "ok": true
+        },
+        {
+          "a": 392020.13,
+          "b": 777462.98,
+          "ecart": 0.0,
+          "ok": true
+        },
+        {
+          "a": 668016.59,
+          "b": 696011.49,
+          "ecart": 0.0,
+          "ok": true
+        }
+      ],
+      "total": {
+        "a": 1492467.46,
+        "b": 6150852.28,
+        "ecart": 0.0,
+        "ok": true
+      },
+      "note": "Écart = excédent du reste dû sur le facturé du mois (impossible s'il est > 0)."
+    },
+    {
+      "id": "cr_total",
+      "controle": "Total créances recalculé vs affiché",
+      "categorie": "Créances",
+      "a_label": "Creances_Clients (Σ TTC)",
+      "b_label": "metrics.json",
+      "cellules": [
+        {
+          "a": null,
+          "b": null,
+          "ecart": null,
+          "ok": null
+        },
+        {
+          "a": null,
+          "b": null,
+          "ecart": null,
+          "ok": null
+        },
+        {
+          "a": null,
+          "b": null,
+          "ecart": null,
+          "ok": null
+        },
+        {
+          "a": null,
+          "b": null,
+          "ecart": null,
+          "ok": null
+        },
+        {
+          "a": null,
+          "b": null,
+          "ecart": null,
+          "ok": null
+        },
+        {
+          "a": null,
+          "b": null,
+          "ecart": null,
+          "ok": null
+        },
+        {
+          "a": null,
+          "b": null,
+          "ecart": null,
+          "ok": null
+        },
+        {
+          "a": null,
+          "b": null,
+          "ecart": null,
+          "ok": null
+        },
+        {
+          "a": 1492467.46,
+          "b": 1492467.46,
+          "ecart": 0.0,
+          "ok": true
+        }
+      ],
+      "total": null,
+      "note": "Balance âgée disponible au 30/09 uniquement."
+    }
+  ],
+  "ponctuels": [
+    {
+      "controle": "CA HT = quantité × prix unitaire (chaque ligne)",
+      "ok": true,
+      "detail": "0 ligne(s) incohérente(s) sur 1079"
+    },
+    {
+      "controle": "Aucun avoir ni ligne négative dans Ventes_Detail",
+      "ok": true,
+      "detail": "0 ligne(s) ≤ 0"
+    },
+    {
+      "controle": "Numérotation des factures continue (pas de ligne manquante)",
+      "ok": true,
+      "detail": "FA-26001 à FA-27078 : 1078 numéros distincts, 0 trou(s)"
+    },
+    {
+      "controle": "Numéros de facture chronologiques (pas de facture glissée d'un mois à l'autre)",
+      "ok": true,
+      "detail": "plages mensuelles disjointes"
+    },
+    {
+      "controle": "Toutes les factures datées de janv.–sept. 2026",
+      "ok": true,
+      "detail": "0 hors période"
+    },
+    {
+      "controle": "Coût de revient unitaire constant par produit",
+      "ok": true,
+      "detail": "0 produit(s) à coût variable"
+    },
+    {
+      "controle": "Chaque créance correspond à une facture du détail",
+      "ok": true,
+      "detail": "0 créance(s) sans facture"
+    },
+    {
+      "controle": "Reste dû ≤ montant TTC de la facture d'origine",
+      "ok": true,
+      "detail": "0 créance(s) supérieure(s) à leur facture"
+    },
+    {
+      "controle": "Créances = factures entières (pas de règlement partiel)",
+      "ok": true,
+      "detail": "0 règlement(s) partiel(s) — information, pas une erreur"
+    },
+    {
+      "controle": "Client de la créance = client de la facture",
+      "ok": true,
+      "detail": "0 incohérence(s)"
+    },
+    {
+      "controle": "Délai de paiement unique par client",
+      "ok": true,
+      "detail": "conditions : Auchan 45 j, Carrefour 45 j, Costco France 30 j, E.Leclerc 45 j, Fine Food Export UK 60 j, Galeries Lafayette Gourmet 30 j, Grande Épicerie de Paris 30 j, Intermarché 45 j, Metro Cash & Carry 30 j, Monoprix 60 j"
+    },
+    {
+      "controle": "Jours de retard et tranches (formules Excel) = recalcul",
+      "ok": true,
+      "detail": "0 ligne(s) divergente(s)"
+    },
+    {
+      "controle": "Créances > 60 j recalculées = affichées",
+      "ok": true,
+      "detail": "recalcul 213 726,48 € vs affiché 213 726,48 €"
+    },
+    {
+      "controle": "Acomptes d'IS (Tresorerie) = Hypotheses",
+      "ok": true,
+      "detail": "204 000,00 € vs 204 000,00 €"
+    },
+    {
+      "controle": "Loyers décaissés = loyers P&L × 1,2 (TVA 20 %)",
+      "ok": true,
+      "detail": "contrôlé mois par mois"
+    },
+    {
+      "controle": "Créances implicites au 01/01 (balance 30/09 − TTC facturé + encaissements) positives",
+      "ok": true,
+      "detail": "1 330 639,65 € — cohérent si l'encours d'ouverture 2026 avait cet ordre de grandeur (non vérifiable : pas de balance d'ouverture)"
+    }
+  ],
+  "causes": [
+    {
+      "mois": "Juil",
+      "perimetre": "Moutardes",
+      "ecart": 12400.0,
+      "cause": "Avoir ou remise de 12 400,00 € comptabilisé dans le CA mais absent du détail des factures. La signature le désigne : effet prix pur (coût inchangé, donc pas de retour de marchandise), montant rond typique d'une écriture manuelle (RFA, coopération commerciale, ristourne). Écart concentré sur la gamme Moutardes.",
+      "certitude": "probable",
+      "preuves": [
+        {
+          "type": "signature",
+          "texte": "Reste 12 400,00 € après doublons. Coût des ventes du mois : identique entre détail et compta (écart de coût nul hors doublon) → l'écart porte uniquement sur le prix, pas sur des volumes.",
+          "montant": 12400.0
+        },
+        {
+          "type": "recherche",
+          "texte": "Ligne unique de 12 400,00 € dans le détail : 0 ; paire de lignes : 0 ; montant présent ailleurs dans le classeur : nulle part ; montant rond : oui."
+        },
+        {
+          "type": "recherche",
+          "texte": "Aucun avoir (ligne négative) dans le détail, numérotation continue, aucune facture hors période : ce n'est ni une ligne manquante ni un décalage de mois."
+        }
+      ],
+      "controle": "ca"
+    },
+    {
+      "mois": "Août",
+      "perimetre": "Moutardes",
+      "ecart": 30940.0,
+      "cause": "Doublon de facture dans le détail des ventes : il explique 100 % de l'écart.",
+      "certitude": "établie",
+      "preuves": [
+        {
+          "type": "doublon",
+          "texte": "FA-26840 figure 2 fois (lignes 908, 909 de Ventes_Detail) : lignes strictement identiques, E.Leclerc, Moutarde à l'ancienne 350g, 30 940,00 €.",
+          "montant": 30940.0
+        }
+      ],
+      "controle": "ca"
+    },
+    {
+      "controle": "cogs",
+      "mois": "Août",
+      "perimetre": "Total",
+      "ecart": 13195.0,
+      "certitude": "établie",
+      "cause": "Coût de revient de la facture en doublon compté deux fois dans le détail : explique 100 % de l'écart.",
+      "preuves": [
+        {
+          "type": "doublon",
+          "texte": "Coût des lignes en double : 13 195,00 € ; écart constaté : 13 195,00 €.",
+          "montant": 13195.0
+        }
+      ]
+    }
+  ],
+  "synthese": [
+    "105 cellules vertes, 5 rouges sur 110 contrôles mensuels ; 16/16 contrôles ponctuels OK.",
+    "Les chiffres affichés par le cockpit (CA, EBITDA réel et budget) sont identiques au recalcul indépendant.",
+    "Juil — Moutardes (12 400,00 €) : Avoir ou remise de 12 400,00 € comptabilisé dans le CA mais absent du détail des factures. La signature le désigne : effet prix pur (coût inchangé, donc pas de retour de marchandise), montant rond typique d'une écriture manuelle (RFA, coopération commerciale, ristourne). Écart concentré sur la gamme Moutardes. [probable]",
+    "Août — Moutardes (30 940,00 €) : Doublon de facture dans le détail des ventes : il explique 100 % de l'écart. [établie]",
+    "Août — Total (13 195,00 €) : Coût de revient de la facture en doublon compté deux fois dans le détail : explique 100 % de l'écart. [établie]"
+  ],
+  "methode": "verify.py relit l'Excel cellule par cellule (openpyxl), sans pandas et sans importer build_metrics.py. Il ne prend que les cellules saisies, pas les formules, puis compare à l'Excel (valeurs de formules en cache) et à metrics.json (ce qu'affiche le cockpit)."
+}
