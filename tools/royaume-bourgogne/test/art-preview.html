@@ -1,0 +1,92 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Art preview</title>
+<style>
+  html, body { margin: 0; background: #2a1a0e; color: #f7d9a1; font: 14px/1.4 ui-monospace, monospace; }
+  .wrap { width: 1440px; }
+  .frame { width: 1440px; }
+  h2 { margin: 12px 8px; font-size: 14px; }
+  canvas.scene { display: block; }
+  #icons { display: flex; flex-wrap: wrap; gap: 10px; padding: 12px; background: #F7D9A1; width: 1416px; }
+  #icons figure { margin: 0; display: flex; flex-direction: column; align-items: center; gap: 4px; color: #3b1f0b; font-size: 11px; width: 88px; }
+  #sheet { background: #6aa843; padding: 8px; width: 1424px; }
+  #sheet canvas { image-rendering: pixelated; }
+  .small { width: 400px; }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h2>(a) Busy model, day</h2>
+  <div class="frame" id="dayWrap"><canvas class="scene" id="day"></canvas></div>
+  <h2>(b) Busy model, night 22h</h2>
+  <div class="frame" id="nightWrap"><canvas class="scene" id="night"></canvas></div>
+  <h2>(c) Icons x3</h2>
+  <div id="icons"></div>
+  <h2>(d) Empty model, dusk 19h</h2>
+  <div class="frame" id="emptyWrap"><canvas class="scene" id="empty"></canvas></div>
+  <h2>(e) Sprite sheet x5</h2>
+  <div id="sheet"></div>
+  <h2>(f) 400px wide</h2>
+  <div class="small" id="smallWrap"><canvas class="scene" id="small"></canvas></div>
+</div>
+<script src="../src/art.js"></script>
+<script>
+(function () {
+  var errors = [];
+  window.__errors = errors;
+  window.addEventListener('error', function (e) { errors.push(String(e.message)); });
+  function busyModel() {
+    var quests = [];
+    var hearts = [5, 4.5, 3, 1, 0, 5, 2.5, 5, 0.5, 4, 3.5, 5, 1.5, 5, 2, 4, 5, 0, 3, 4.5];
+    for (var i = 0; i < 20; i++) {
+      var h = hearts[i];
+      quests.push({ id: 'q' + i, chapter: [4, 4, 3, 3, 3, 2, 2, 2, 1, 1, 1, 1, 0, 0, 2, 3, 1, 0, 4, 2][i], hearts: h, cold: h < 2.5, nextActivityDay: i % 4 === 0 ? '2026-10-25' : null });
+    }
+    var goblins = [];
+    for (var g = 0; g < 30; g++) goblins.push({ id: 't' + (1000 + g * 37), tier: g < 14 ? 1 : g < 24 ? 2 : 3 });
+    return { quests: quests, questsMore: 3, goblins: goblins, treasureLevel: 3, boardBadge: 2, chronicleBadge: 1, boardNotes: 5 };
+  }
+  var mode = new URLSearchParams(location.search).get('mode') || 'all';
+  var day = ART.createScene(document.getElementById('day'), { onSelect: function (t) { window.__lastSelect = t; }, onHover: function (t) { window.__lastHover = t; } });
+  day.setModel(busyModel()); day.setTimeOfDay(11);
+  var night = ART.createScene(document.getElementById('night'), {});
+  night.setModel(busyModel()); night.setTimeOfDay(22);
+  var empty = ART.createScene(document.getElementById('empty'), {});
+  empty.setModel({}); empty.setTimeOfDay(19);
+  var small = ART.createScene(document.getElementById('small'), {});
+  small.setModel(busyModel()); small.setTimeOfDay(14);
+  window.__scenes = { day: day, night: night, empty: empty, small: small };
+  // icons
+  var box = document.getElementById('icons');
+  ART.ICONS.forEach(function (n) {
+    var fig = document.createElement('figure');
+    fig.appendChild(ART.icon(n, 3));
+    var cap = document.createElement('figcaption'); cap.textContent = n; fig.appendChild(cap);
+    box.appendChild(fig);
+  });
+  var url = ART.iconURL('coin', 2); if (!/^data:image\/png/.test(url)) errors.push('iconURL failed');
+  // sprite sheet
+  var S = ART._debug.sprites();
+  var sheet = document.createElement('canvas'); sheet.width = 280; sheet.height = 110;
+  var x = sheet.getContext('2d'); x.imageSmoothingEnabled = false;
+  var px = 2;
+  S.heroIdle.concat(S.heroWalk).forEach(function (c, i) { x.drawImage(c, px, 2); px += c.width + 2; });
+  px += 4;
+  [1, 2, 3].forEach(function (t) { x.drawImage(S.gob[t].R, px, 4); px += S.gob[t].R.width + 3; x.drawImage(S.gob[t].L, px, 4); px += S.gob[t].R.width + 3; });
+  px += 4;
+  ['sit', 'peck', 'flap', 'fly1', 'fly2'].forEach(function (k) { x.drawImage(S.pigeon[k], px, 6); px += S.pigeon[k].width + 2; });
+  var py = 34; px = 2;
+  for (var ch = 0; ch <= 4; ch++) { x.drawImage(ART._debug.tentBody(ch, false), px, py); px += 28; x.drawImage(ART._debug.tentBody(ch, true), px, py); px += 30; }
+  S.flame.forEach(function (c) { x.drawImage(c, px, py + 4); px += 7; });
+  S.coin.forEach(function (c) { x.drawImage(c, px, py + 4); px += 7; });
+  var big = document.createElement('canvas'); big.width = sheet.width * 5; big.height = sheet.height * 5;
+  var bx = big.getContext('2d'); bx.imageSmoothingEnabled = false; bx.drawImage(sheet, 0, 0, big.width, big.height);
+  document.getElementById('sheet').appendChild(big);
+  window.__ready = true;
+})();
+</script>
+</body>
+</html>
