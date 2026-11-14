@@ -1,0 +1,178 @@
+---
+// Film de marque du hero (desktop uniquement — le bloc parent est `hidden lg:block`).
+//
+// Objectif : zéro impact sur le chargement.
+//  - Rien n'est téléchargé sous 1024px : poster servi via <picture media>, vidéo en preload="none".
+//  - Sur desktop, seul le poster (WebP, ~20 Ko) part au chargement. La vidéo ne démarre
+//    qu'après l'événement `load`, et seulement quand le cadre est visible.
+//  - AV1 (~1 Mo) pour Chrome/Firefox/Edge, H.264 (~1,4 Mo) en repli pour Safari.
+//  - Fichiers importés depuis src/assets : noms hashés, cache immuable côté Vercel.
+//  - Pas de lecture auto si l'utilisateur a demandé moins d'animations ou l'économie de données.
+import { getImage } from 'astro:assets';
+import posterSrc from '../assets/hero-film-poster.jpg';
+import filmWebm from '../assets/hero-film.webm?url';
+import filmMp4 from '../assets/hero-film.mp4?url';
+
+const poster = await getImage({ src: posterSrc, width: 1280, format: 'webp', quality: 72 });
+const posterSmall = await getImage({ src: posterSrc, width: 640, format: 'webp', quality: 72 });
+
+// GIF transparent 1×1 : ce que reçoivent les écrans < 1024px à la place du poster.
+const BLANK = 'data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==';
+---
+
+<div class="hero-film relative w-full aspect-video rounded-2xl overflow-hidden bg-bg-base" data-hero-film>
+  <picture>
+    <source
+      media="(min-width: 1024px)"
+      type="image/webp"
+      srcset={`${posterSmall.src} 640w, ${poster.src} 1280w`}
+      sizes="(min-width: 1440px) 590px, 42vw"
+    />
+    <img
+      src={BLANK}
+      alt=""
+      width="1280"
+      height="720"
+      decoding="async"
+      fetchpriority="high"
+      class="absolute inset-0 w-full h-full object-cover"
+    />
+  </picture>
+
+  <video
+    class="hero-film__video absolute inset-0 w-full h-full object-cover"
+    muted
+    loop
+    playsinline
+    preload="none"
+    disablepictureinpicture
+    aria-label="Film de présentation The French Bot : audit, formation et suivi IA pour les entreprises"
+  >
+    <source src={filmWebm} type='video/webm; codecs="av01.0.05M.08"' />
+    <source src={filmMp4} type='video/mp4; codecs="avc1.640028"' />
+  </video>
+
+  <button
+    type="button"
+    class="hero-film__toggle absolute bottom-3 right-3 z-10 w-9 h-9 rounded-full flex items-center justify-center text-white bg-black/50 border border-white/20 backdrop-blur-md cursor-pointer transition-opacity duration-300 hover:opacity-100 focus-visible:opacity-100"
+    aria-label="Lire le film"
+    data-hero-film-toggle
+  >
+    <svg class="hero-film__icon-play" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M8 5v14l11-7z"></path></svg>
+    <svg class="hero-film__icon-pause" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M6 5h4v14H6zM14 5h4v14h-4z"></path></svg>
+  </button>
+</div>
+
+<style>
+  /* La vidéo reste invisible tant qu'elle n'a pas d'image à montrer : le poster fait le travail. */
+  .hero-film__video {
+    opacity: 0;
+    transition: opacity 0.3s ease;
+  }
+  .hero-film[data-ready] .hero-film__video {
+    opacity: 1;
+  }
+
+  .hero-film__icon-pause {
+    display: none;
+  }
+  .hero-film[data-playing] .hero-film__icon-play {
+    display: none;
+  }
+  .hero-film[data-playing] .hero-film__icon-pause {
+    display: block;
+  }
+
+  /* En lecture, le bouton s'efface ; à l'arrêt, il reste bien visible. */
+  .hero-film[data-playing] .hero-film__toggle {
+    opacity: 0.55;
+  }
+  .hero-film[data-playing] .hero-film__toggle:hover,
+  .hero-film[data-playing] .hero-film__toggle:focus-visible {
+    opacity: 1;
+  }
+</style>
+
+<script>
+  // Le poster est l'image du film à 1,5 s : on démarre la première lecture au même
+  // instant pour que le passage poster → vidéo soit invisible. Les boucles repartent de 0.
+  const POSTER_TIME = 1.5;
+
+  const root = document.querySelector<HTMLElement>('[data-hero-film]');
+  const video = root?.querySelector('video');
+  const toggle = root?.querySelector<HTMLButtonElement>('[data-hero-film-toggle]');
+
+  if (root && video && toggle) {
+    const desktop = window.matchMedia('(min-width: 1024px)');
+    const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+    const saveData = (navigator as Navigator & { connection?: { saveData?: boolean } }).connection?.saveData === true;
+
+    let userPaused = reducedMotion.matches || saveData;
+    let inView = false;
+    let armed = false;
+
+    const play = () => {
+      video.play().catch(() => {
+        // Lecture auto refusée par le navigateur : le poster et le bouton restent en place.
+      });
+    };
+
+    const sync = () => {
+      if (!armed) return;
+      if (inView && !userPaused && !document.hidden) play();
+      else video.pause();
+    };
+
+    video.addEventListener(
+      'loadedmetadata',
+      () => {
+        if (video.currentTime < POSTER_TIME) video.currentTime = POSTER_TIME;
+      },
+      { once: true },
+    );
+
+    const reveal = () => {
+      if (video.seeking || video.currentTime < POSTER_TIME) return;
+      root.setAttribute('data-ready', '');
+      video.removeEventListener('timeupdate', reveal);
+    };
+    video.addEventListener('timeupdate', reveal);
+
+    video.addEventListener('play', () => {
+      root.setAttribute('data-playing', '');
+      toggle.setAttribute('aria-label', 'Mettre le film en pause');
+    });
+    video.addEventListener('pause', () => {
+      root.removeAttribute('data-playing');
+      toggle.setAttribute('aria-label', 'Lire le film');
+    });
+
+    toggle.addEventListener('click', () => {
+      userPaused = !video.paused;
+      if (userPaused) video.pause();
+      else play();
+    });
+
+    const arm = () => {
+      if (armed || !desktop.matches) return;
+      armed = true;
+      new IntersectionObserver(
+        (entries) => {
+          inView = entries[entries.length - 1].isIntersecting;
+          sync();
+        },
+        { threshold: 0.25 },
+      ).observe(root);
+      document.addEventListener('visibilitychange', sync);
+    };
+
+    // On attend la fin du chargement de la page : la vidéo ne concurrence ni le CSS,
+    // ni les polices, ni le poster.
+    const start = () => {
+      arm();
+      desktop.addEventListener('change', arm);
+    };
+    if (document.readyState === 'complete') start();
+    else window.addEventListener('load', start, { once: true });
+  }
+</script>
