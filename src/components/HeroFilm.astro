@@ -2,12 +2,11 @@
 // Film de marque du hero (desktop uniquement — le bloc parent est `hidden lg:block`).
 //
 // Objectif : zéro impact sur le chargement.
-//  - Rien n'est téléchargé sous 1024px : poster servi via <picture media>, vidéo en preload="none".
-//  - Sur desktop, seul le poster (WebP, ~20 Ko) part au chargement. La vidéo ne démarre
-//    qu'après l'événement `load`, et seulement quand le cadre est visible.
+//  - Rien n'est téléchargé sous 1024px : miniature servie via <picture media>, vidéo en preload="none".
+//  - Sur desktop, seule la miniature (WebP) part au chargement. La vidéo n'est téléchargée
+//    qu'au clic du visiteur, n'importe où sur le cadre.
 //  - AV1 (~1 Mo) pour Chrome/Firefox/Edge, H.264 (~1,4 Mo) en repli pour Safari.
 //  - Fichiers importés depuis src/assets : noms hashés, cache immuable côté Vercel.
-//  - Pas de lecture auto si l'utilisateur a demandé moins d'animations ou l'économie de données.
 import { getImage } from 'astro:assets';
 import posterSrc from '../assets/hero-film-poster.jpg';
 import filmWebm from '../assets/hero-film.webm?url';
@@ -20,7 +19,7 @@ const posterSmall = await getImage({ src: posterSrc, width: 640, format: 'webp',
 const BLANK = 'data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==';
 ---
 
-<div class="hero-film relative w-full aspect-video rounded-2xl overflow-hidden bg-bg-base" data-hero-film>
+<div class="hero-film relative w-full aspect-video rounded-2xl overflow-hidden bg-bg-base cursor-pointer" data-hero-film>
   <picture>
     <source
       media="(min-width: 1024px)"
@@ -94,49 +93,31 @@ const BLANK = 'data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAI
 </style>
 
 <script>
-  // Le poster est l'image du film à 1,5 s : on démarre la première lecture au même
-  // instant pour que le passage poster → vidéo soit invisible. Les boucles repartent de 0.
-  const POSTER_TIME = 1.5;
-
+  // Lecture au clic uniquement : la miniature reste affichée tant que le visiteur
+  // n'a pas cliqué. Un clic n'importe où sur le cadre lance ou met en pause le film.
   const root = document.querySelector<HTMLElement>('[data-hero-film]');
   const video = root?.querySelector('video');
   const toggle = root?.querySelector<HTMLButtonElement>('[data-hero-film-toggle]');
 
   if (root && video && toggle) {
-    const desktop = window.matchMedia('(min-width: 1024px)');
-    const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
-    const saveData = (navigator as Navigator & { connection?: { saveData?: boolean } }).connection?.saveData === true;
-
-    let userPaused = reducedMotion.matches || saveData;
-    let inView = false;
-    let armed = false;
+    // true tant que le visiteur n'a pas lancé le film, ou après une pause volontaire.
+    let userPaused = true;
+    let inView = true;
 
     const play = () => {
       video.play().catch(() => {
-        // Lecture auto refusée par le navigateur : le poster et le bouton restent en place.
+        // Lecture refusée par le navigateur : la miniature reste en place.
       });
     };
 
     const sync = () => {
-      if (!armed) return;
-      if (inView && !userPaused && !document.hidden) play();
+      if (userPaused) return;
+      if (inView && !document.hidden) play();
       else video.pause();
     };
 
-    video.addEventListener(
-      'loadedmetadata',
-      () => {
-        if (video.currentTime < POSTER_TIME) video.currentTime = POSTER_TIME;
-      },
-      { once: true },
-    );
-
-    const reveal = () => {
-      if (video.seeking || video.currentTime < POSTER_TIME) return;
-      root.setAttribute('data-ready', '');
-      video.removeEventListener('timeupdate', reveal);
-    };
-    video.addEventListener('timeupdate', reveal);
+    // La vidéo ne recouvre la miniature qu'une fois sa première image prête.
+    video.addEventListener('playing', () => root.setAttribute('data-ready', ''), { once: true });
 
     video.addEventListener('play', () => {
       root.setAttribute('data-playing', '');
@@ -147,32 +128,21 @@ const BLANK = 'data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAI
       toggle.setAttribute('aria-label', 'Lire le film');
     });
 
-    toggle.addEventListener('click', () => {
+    // Le bouton est dans le cadre : son clic remonte jusqu'ici, clavier compris.
+    root.addEventListener('click', () => {
       userPaused = !video.paused;
       if (userPaused) video.pause();
       else play();
     });
 
-    const arm = () => {
-      if (armed || !desktop.matches) return;
-      armed = true;
-      new IntersectionObserver(
-        (entries) => {
-          inView = entries[entries.length - 1].isIntersecting;
-          sync();
-        },
-        { threshold: 0.25 },
-      ).observe(root);
-      document.addEventListener('visibilitychange', sync);
-    };
-
-    // On attend la fin du chargement de la page : la vidéo ne concurrence ni le CSS,
-    // ni les polices, ni le poster.
-    const start = () => {
-      arm();
-      desktop.addEventListener('change', arm);
-    };
-    if (document.readyState === 'complete') start();
-    else window.addEventListener('load', start, { once: true });
+    // Film lancé puis sorti de l'écran ou onglet masqué : pause, et reprise au retour.
+    new IntersectionObserver(
+      (entries) => {
+        inView = entries[entries.length - 1].isIntersecting;
+        sync();
+      },
+      { threshold: 0.25 },
+    ).observe(root);
+    document.addEventListener('visibilitychange', sync);
   }
 </script>
