@@ -3,6 +3,7 @@
 // - Une seule fois par session de navigation.
 // - S'ouvre après 10 s, pas dès l'arrivée : Google pénalise sur mobile les
 //   fenêtres qui recouvrent le contenu au chargement.
+// - Toute la carte est cliquable et mène à la page de l'événement, sauf la croix.
 // - Se désactive seul après la date de fin, même sans nouveau déploiement.
 import { featuredEvent } from '../data/events';
 ---
@@ -17,7 +18,9 @@ import { featuredEvent } from '../data/events';
     role="dialog"
     aria-modal="true"
     aria-labelledby="event-popup-title"
-    class="event-popup__card relative w-full max-w-md rounded-3xl border border-primary/60 bg-gradient-to-br from-bg-surface to-bg-surface-low px-7 pt-10 pb-8 text-center shadow-[0_0_60px_rgba(53,36,232,0.35),0_0_120px_rgba(199,0,211,0.15)] translate-y-6 scale-[0.97] transition-transform duration-300"
+    data-event-popup-card
+    data-url={featuredEvent.url}
+    class="event-popup__card cursor-pointer relative w-full max-w-md rounded-3xl border border-primary/60 bg-gradient-to-br from-bg-surface to-bg-surface-low px-7 pt-10 pb-8 text-center shadow-[0_0_60px_rgba(53,36,232,0.35),0_0_120px_rgba(199,0,211,0.15)] translate-y-6 scale-[0.97] transition-transform duration-300"
   >
     <button
       type="button"
@@ -95,7 +98,15 @@ import { featuredEvent } from '../data/events';
     if (!ended && !alreadySeen()) setTimeout(open, OPEN_DELAY_MS);
 
     closeBtn.addEventListener('click', close);
-    popup.querySelector('[data-event-popup-cta]')?.addEventListener('click', close);
+    // Un clic n'importe où dans la carte ouvre la page de l'événement, sauf sur la croix.
+    // Le bouton est un vrai lien : il s'ouvre tout seul, on ne double pas l'ouverture.
+    const card = popup.querySelector<HTMLElement>('[data-event-popup-card]');
+    card?.addEventListener('click', (e) => {
+      const target = e.target as Element;
+      if (target.closest('[data-event-popup-close]')) return;
+      if (!target.closest('[data-event-popup-cta]')) window.open(card.dataset.url, '_blank', 'noopener');
+      close();
+    });
     popup.addEventListener('click', (e) => { if (e.target === popup) close(); });
     document.addEventListener('keydown', (e) => { if (e.key === 'Escape') close(); });
   }
