@@ -6,6 +6,8 @@ const fs = require('node:fs');
 const { chromium } = require('playwright');
 
 const SCENES = ['claude', 'prompt', 'nocode', 'product', 'ethique', 'projets'];
+// Scènes composées pour un cadre carré : rendues uniquement en carré.
+const SQUARE_ONLY = ['expert-auto', 'expert-strategie'];
 const FORMATS = { wide: { width: 1200, height: 560 }, square: { width: 1000, height: 1000 } };
 
 (async () => {
@@ -15,7 +17,7 @@ const FORMATS = { wide: { width: 1200, height: 560 }, square: { width: 1000, hei
   const browser = await chromium.launch();
   for (const [format, viewport] of Object.entries(FORMATS)) {
     const page = await browser.newPage({ viewport, deviceScaleFactor: 1 });
-    for (const scene of SCENES) {
+    for (const scene of format === 'square' ? [...SCENES, ...SQUARE_ONLY] : SCENES) {
       await page.goto(`${html}?s=${scene}&f=${format}`);
       await page.evaluate(() => document.fonts.ready);
       await page.screenshot({ path: path.join(out, `${scene}-${format}.png`) });

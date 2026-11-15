@@ -31,6 +31,9 @@
   /* Scène : 760×440, centrée, inclinée, mise à l'échelle selon le format */
   .stage { position: absolute; left: 50%; top: 50%; width: 760px; height: 440px; margin: -220px 0 0 -380px;
     transform: scale(var(--k, 1)) perspective(1500px) rotateX(9deg) rotateY(-13deg) rotateZ(2.5deg); transform-style: preserve-3d; }
+  /* Scènes composées pour un cadre carré : rien ne déborde, tout est centré. */
+  .stage.sq { width: 600px; height: 600px; margin: -300px 0 0 -300px;
+    transform: scale(var(--k, 1)) perspective(1800px) rotateX(6deg) rotateY(-8deg) rotateZ(1.5deg); }
   .scene { display: none; position: absolute; inset: 0; transform-style: preserve-3d; }
   .scene.on { display: block; }
 
@@ -197,15 +200,60 @@
     </div>
   </div>
 
+  <!-- 7. Expert automatisation (carré) : flux vertical autour d'un agent -->
+  <div class="scene" id="expert-auto" data-square>
+    <svg style="position:absolute;inset:0;width:600px;height:600px;overflow:visible" viewBox="0 0 600 600" fill="none">
+      <defs><linearGradient id="lg7" x1="0" x2="0" y1="0" y2="1"><stop stop-color="#3524E8"/><stop offset="1" stop-color="#E93BF3"/></linearGradient></defs>
+      <g stroke="url(#lg7)" stroke-width="3" stroke-linecap="round">
+        <path d="M150 128 C 150 190, 290 170, 290 222"/><path d="M450 128 C 450 190, 310 170, 310 222"/>
+        <path d="M290 378 C 290 430, 150 410, 150 472"/><path d="M310 378 C 310 430, 450 410, 450 472"/>
+      </g>
+      <g fill="#fff"><circle cx="150" cy="128" r="5"/><circle cx="450" cy="128" r="5"/><circle cx="300" cy="222" r="5"/><circle cx="300" cy="378" r="5"/><circle cx="150" cy="472" r="5"/><circle cx="450" cy="472" r="5"/></g>
+    </svg>
+    <div class="glass solid z1" style="left:40px;top:50px;width:220px;padding:16px;display:flex;gap:12px;align-items:center"><div class="ic alt"><svg viewBox="0 0 24 24"><path d="M3 6h18v12H3zM3 7l9 7 9-7"/></svg></div><div><div class="lbl" style="font-size:10px;color:var(--faint)">Déclencheur</div><div class="h" style="font-size:17px">Mail reçu</div></div></div>
+    <div class="glass solid z1" style="left:340px;top:50px;width:220px;padding:16px;display:flex;gap:12px;align-items:center"><div class="ic alt"><svg viewBox="0 0 24 24"><path d="M4 4h16v16H4zM4 10h16M10 4v16"/></svg></div><div><div class="lbl" style="font-size:10px;color:var(--faint)">Source</div><div class="h" style="font-size:17px">Tableur</div></div></div>
+    <div class="glass z3" style="left:222px;top:222px;width:156px;height:156px;border-radius:36px;display:grid;place-items:center;background:var(--grad);border-color:rgba(255,255,255,.35);box-shadow:0 30px 70px -10px rgba(233,59,243,.65), inset 0 1px 0 rgba(255,255,255,.4)">
+      <div style="text-align:center"><svg viewBox="0 0 24 24" style="width:52px;height:52px;fill:none;stroke:#fff;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round"><path d="M12 3l2.2 5.8L20 11l-5.8 2.2L12 19l-2.2-5.8L4 11l5.8-2.2z"/></svg><div class="lbl" style="color:#fff;margin-top:6px">Agent IA</div></div>
+    </div>
+    <div class="glass solid z1" style="left:40px;top:472px;width:220px;padding:16px;display:flex;gap:12px;align-items:center"><div class="ic alt"><svg viewBox="0 0 24 24"><path d="M6 3h9l4 4v14H6zM9 12h7M9 16h7"/></svg></div><div><div class="lbl" style="font-size:10px;color:var(--faint)">Action</div><div class="h" style="font-size:17px">Devis créé</div></div></div>
+    <div class="glass solid z1" style="left:340px;top:472px;width:220px;padding:16px;display:flex;gap:12px;align-items:center"><div class="ic alt"><svg viewBox="0 0 24 24"><path d="M4 5h16v11H9l-5 4z"/></svg></div><div><div class="lbl" style="font-size:10px;color:var(--faint)">Action</div><div class="h" style="font-size:17px">Client relancé</div></div></div>
+  </div>
+
+  <!-- 8. Expert stratégie IA (carré) : feuille de route + courbe d'adoption -->
+  <div class="scene" id="expert-strategie" data-square>
+    <div class="glass solid" style="left:40px;top:44px;width:520px;height:512px;padding:28px 30px">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:24px"><span class="h" style="font-size:24px">Feuille de route IA</span><span class="pill">12 mois</span></div>
+      <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:26px">
+        <div style="padding:14px;border-radius:14px;background:rgba(100,216,217,.12);border:1px solid rgba(100,216,217,.3)"><div class="lbl" style="color:var(--teal);margin-bottom:8px">01</div><div class="h" style="font-size:17px">Audit</div><div class="t" style="font-size:12px;margin-top:4px">Fait</div></div>
+        <div style="padding:14px;border-radius:14px;background:rgba(53,36,232,.28);border:1px solid rgba(194,193,255,.35)"><div class="lbl" style="margin-bottom:8px">02</div><div class="h" style="font-size:17px">Formation</div><div style="height:6px;border-radius:3px;background:rgba(255,255,255,.14);margin-top:10px"><div class="g" style="width:65%;height:100%;border-radius:3px"></div></div></div>
+        <div style="padding:14px;border-radius:14px;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1)"><div class="lbl" style="color:var(--faint);margin-bottom:8px">03</div><div class="h" style="font-size:17px">Déploiement</div><div class="t" style="font-size:12px;margin-top:4px">À venir</div></div>
+      </div>
+      <div style="display:flex;justify-content:space-between;align-items:baseline;margin-bottom:10px"><span class="lbl">Adoption par les équipes</span><span style="font-family:SG;font-weight:700;font-size:30px;color:var(--teal)">+38 %</span></div>
+      <svg viewBox="0 0 460 190" style="width:460px;height:190px;overflow:visible" fill="none">
+        <defs><linearGradient id="lg8" x1="0" x2="1"><stop stop-color="#3524E8"/><stop offset="1" stop-color="#E93BF3"/></linearGradient><linearGradient id="fill8" x1="0" x2="0" y1="0" y2="1"><stop stop-color="#E93BF3" stop-opacity=".35"/><stop offset="1" stop-color="#E93BF3" stop-opacity="0"/></linearGradient></defs>
+        <g stroke="rgba(255,255,255,.08)"><path d="M0 47H460M0 95H460M0 143H460"/></g>
+        <path d="M0 170 C 80 164, 120 142, 180 128 S 300 86, 350 54 S 430 18, 460 10 V190 H0z" fill="url(#fill8)"/>
+        <path d="M0 170 C 80 164, 120 142, 180 128 S 300 86, 350 54 S 430 18, 460 10" stroke="url(#lg8)" stroke-width="5" stroke-linecap="round"/>
+        <circle cx="460" cy="10" r="7" fill="#fff"/>
+      </svg>
+    </div>
+  </div>
+
 </div>
 <script>
   const q = new URLSearchParams(location.search);
   document.getElementById(q.get('s') || 'claude').classList.add('on');
   const stage = document.querySelector('.stage');
   const square = q.get('f') === 'square';
-  stage.style.setProperty('--k', square ? 1.5 : 1.16);
-  // Carré : la scène déborde sur les côtés et remonte, le bas des blocs carrés étant souvent couvert.
-  if (square) stage.style.top = '44%';
+  if (document.querySelector('.scene.on').hasAttribute('data-square')) {
+    // Scène carrée : affichée entière et centrée dans le cadre.
+    stage.classList.add('sq');
+    stage.style.setProperty('--k', 1.3);
+  } else {
+    stage.style.setProperty('--k', square ? 1.5 : 1.16);
+    // Carré : la scène déborde sur les côtés et remonte, le bas des blocs carrés étant souvent couvert.
+    if (square) stage.style.top = '44%';
+  }
 </script>
 </body>
 </html>

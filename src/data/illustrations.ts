@@ -12,6 +12,8 @@ import productSquare from '../assets/illustrations/product-square.png';
 import ethiqueWide from '../assets/illustrations/ethique-wide.png';
 import ethiqueSquare from '../assets/illustrations/ethique-square.png';
 import projetsSquare from '../assets/illustrations/projets-square.png';
+import expertAutoSquare from '../assets/illustrations/expert-auto-square.png';
+import expertStrategieSquare from '../assets/illustrations/expert-strategie-square.png';
 
 type Illustration = { wide: ImageMetadata; square: ImageMetadata };
 
@@ -30,3 +32,6 @@ export function formationIllustration(slug: string): Illustration {
 }
 
 export const projetsIllustration = projetsSquare;
+
+/** Visuels carrés de la page Experts (composés pour un cadre carré, rien n'est rogné). */
+export const expertIllustrations = { automatisation: expertAutoSquare, strategie: expertStrategieSquare };
