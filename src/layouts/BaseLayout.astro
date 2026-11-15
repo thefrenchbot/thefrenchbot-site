@@ -10,6 +10,10 @@ interface Props {
   description?: string;
   ogImage?: string;
   pageSchema?: object | object[];
+  /** 'article' pour les articles de blog : active les balises article:* */
+  ogType?: 'website' | 'article';
+  publishedTime?: string;
+  author?: string;
 }
 
 const {
@@ -17,7 +21,12 @@ const {
   description = "Formation IA en France — The French Bot forme les professionnels à l'intelligence artificielle, l'automatisation no-code et Claude. Coaching IA personnalisé pour TPE et PME.",
   ogImage = '/images/og-default.jpg',
   pageSchema,
+  ogType = 'website',
+  publishedTime,
+  author,
 } = Astro.props;
+
+const isDefaultOgImage = ogImage === '/images/og-default.jpg';
 
 const canonicalURL = new URL(Astro.url.pathname, Astro.site);
 // og:image doit être une URL absolue (exigence du protocole Open Graph)
@@ -37,6 +46,7 @@ const popupAccents = {
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta name="generator" content={Astro.generator} />
+  <meta name="theme-color" content="#0B0A14" />
 
   <!-- SEO -->
   <title>{title}</title>
@@ -44,12 +54,18 @@ const popupAccents = {
   <link rel="canonical" href={canonicalURL} />
 
   <!-- Open Graph -->
-  <meta property="og:type" content="website" />
+  <meta property="og:type" content={ogType} />
+  <meta property="og:site_name" content="The French Bot" />
   <meta property="og:url" content={canonicalURL} />
   <meta property="og:title" content={title} />
   <meta property="og:description" content={description} />
   <meta property="og:image" content={ogImageURL} />
+  {isDefaultOgImage && <meta property="og:image:width" content="1200" />}
+  {isDefaultOgImage && <meta property="og:image:height" content="630" />}
+  <meta property="og:image:alt" content={title} />
   <meta property="og:locale" content="fr_FR" />
+  {ogType === 'article' && publishedTime && <meta property="article:published_time" content={publishedTime} />}
+  {ogType === 'article' && author && <meta property="article:author" content={author} />}
 
   <!-- Twitter -->
   <meta name="twitter:card" content="summary_large_image" />

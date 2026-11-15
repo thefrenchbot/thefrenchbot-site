@@ -3,7 +3,7 @@ import { defineConfig } from 'astro/config';
 import tailwindcss from '@tailwindcss/vite';
 import sitemap from '@astrojs/sitemap';
 import vercel from '@astrojs/vercel';
-import { existsSync, mkdirSync, readFileSync, writeFileSync } from 'node:fs';
+import { existsSync, mkdirSync, readdirSync, readFileSync, writeFileSync } from 'node:fs';
 
 // L'image Open Graph est versionnée en base64 (scripts/og-default.jpg.b64,
 // générée par scripts/build-og-image.py) et matérialisée ici au lancement de
@@ -17,6 +17,16 @@ if (!existsSync('./public/images/og-default.jpg')) {
   );
 }
 
+// Date de publication de chaque article, lue dans son en-tête, pour renseigner
+// <lastmod> dans le sitemap (Google s'en sert pour prioriser le crawl).
+const blogDates = new Map();
+for (const file of readdirSync('./src/content/blog')) {
+  if (!file.endsWith('.md')) continue;
+  const match = /^pubDate:\s*["']?([^"'\n]+)/m.exec(readFileSync(`./src/content/blog/${file}`, 'utf8'));
+  const date = match ? new Date(match[1].trim()) : null;
+  if (date && !Number.isNaN(date.getTime())) blogDates.set(file.replace(/\.md$/, ''), date.toISOString());
+}
+
 // https://astro.build/config
 export default defineConfig({
   site: 'https://thefrenchbot.com',
@@ -25,6 +35,11 @@ export default defineConfig({
   integrations: [
     sitemap({
       filter: (page) => !page.includes('/dashboard'),
+      serialize(item) {
+        const slug = /\/blog\/([^/]+)\/?$/.exec(item.url)?.[1];
+        const lastmod = slug && blogDates.get(slug);
+        return lastmod ? { ...item, lastmod } : item;
+      },
     }),
   ],
   redirects: {
@@ -33,6 +48,8 @@ export default defineConfig({
     // anciennes URLs (indexées / partagées) vers le catalogue.
     '/formations/maitriser-claude-mai-2026': '/formations',
   },
+  // Précharge une page au survol ou au toucher de son lien : la navigation devient quasi instantanée.
+  prefetch: { prefetchAll: true, defaultStrategy: 'hover' },
   vite: {
     plugins: [tailwindcss()],
   },
