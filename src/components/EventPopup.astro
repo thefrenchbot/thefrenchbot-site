@@ -1,8 +1,8 @@
 ---
 // Popup de mise en avant d'un événement (données : src/data/events.ts).
 // - Une seule fois par session de navigation.
-// - S'ouvre après 3 s sur ordinateur et 10 s sur mobile : Google pénalise sur
-//   mobile les fenêtres qui recouvrent le contenu au chargement.
+// - S'ouvre après 10 s, pas dès l'arrivée : Google pénalise sur mobile les
+//   fenêtres qui recouvrent le contenu au chargement.
 // - Toute la carte est cliquable et mène à la page de l'événement, sauf la croix.
 // - Se désactive seul après la date de fin, même sans nouveau déploiement.
 import { featuredEvent } from '../data/events';
@@ -69,9 +69,7 @@ import { featuredEvent } from '../data/events';
 
 <script>
   const SEEN_KEY = 'tfb_event_popup_seen';
-  // Mobile : 10 s, pour ne pas recouvrir le contenu dès l'arrivée (pénalité Google sur mobile).
-  // Ordinateur : 3 s, la règle ne s'y applique pas.
-  const OPEN_DELAY_MS = window.matchMedia('(min-width: 1024px)').matches ? 3_000 : 10_000;
+  const OPEN_DELAY_MS = 10_000;
 
   const popup = document.getElementById('event-popup');
   const closeBtn = popup?.querySelector<HTMLButtonElement>('[data-event-popup-close]');
