@@ -1,5 +1,7 @@
 ---
+import { Image } from 'astro:assets';
 import BaseLayout from '../../layouts/BaseLayout.astro';
+import { formationIllustration } from '../../data/illustrations';
 import ContactSection from '../../components/ContactSection.astro';
 import { upcomingSessions, dateDisplay, dayMonth } from '../../data/sessions';
 
@@ -158,10 +160,8 @@ const coursesSchema = {
           class="glass-card rounded-xl overflow-hidden flex flex-col group hover:scale-[1.02] transition-all duration-500 border border-white/5"
         >
           <div class={`h-48 relative overflow-hidden bg-gradient-to-br ${f.iconGradient} flex items-center justify-center`}>
-            <span class="material-symbols-outlined text-primary-light text-6xl group-hover:scale-110 transition-transform duration-500 opacity-60 group-hover:opacity-100">
-              {f.icon}
-            </span>
-            <div class="absolute inset-0 bg-gradient-to-t from-bg-base to-transparent"></div>
+            <Image src={formationIllustration(f.slug).wide} alt="" widths={[480, 800]} sizes="(min-width: 1024px) 420px, (min-width: 768px) 50vw, 100vw" quality={70} class="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" />
+            <div class="absolute inset-0 bg-gradient-to-t from-bg-base/80 via-bg-base/10 to-transparent"></div>
             <div class="absolute bottom-4 left-4 flex gap-2">
               <span class={`px-3 py-1 backdrop-blur-md text-[10px] font-bold rounded-full border uppercase tracking-widest ${levelBadgeClasses[f.levelColor]}`}>
                 {f.level}

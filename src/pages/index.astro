@@ -1,5 +1,7 @@
 ---
+import { Image } from 'astro:assets';
 import BaseLayout from '../layouts/BaseLayout.astro';
+import { formationIllustration, projetsIllustration } from '../data/illustrations';
 import ContactSection from '../components/ContactSection.astro';
 import FAQSection from '../components/FAQSection.astro';
 import HeroFilm from '../components/HeroFilm.astro';
@@ -115,6 +117,7 @@ const homeFaqs = [
     <div class="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8">
       <!-- Large card -->
       <div class="md:col-span-2 glass-panel p-10 md:p-12 rounded-[2.5rem] border border-white/5 relative overflow-hidden group">
+        <Image src={formationIllustration('claude').square} alt="" widths={[480, 800]} sizes="(min-width: 768px) 440px, 1px" quality={70} class="hidden md:block absolute inset-y-0 right-0 h-full w-1/2 object-cover opacity-90 [mask-image:linear-gradient(to_right,transparent,black_45%)]" />
         <div class="relative z-10 flex flex-col h-full justify-between">
           <div class="space-y-6 max-w-md">
             <div class="w-14 h-14 rounded-2xl bg-primary flex items-center justify-center">
@@ -166,8 +169,8 @@ const homeFaqs = [
             <li class="flex items-center gap-2"><span class="w-1 h-1 bg-secondary-light rounded-full"></span> Agents IA autonomes</li>
           </ul>
         </div>
-        <div class="w-full md:w-64 h-64 rounded-3xl overflow-hidden bg-gradient-to-br from-primary/20 to-secondary/20 flex items-center justify-center">
-          <span class="material-symbols-outlined text-primary-light text-7xl">precision_manufacturing</span>
+        <div class="w-full md:w-64 h-64 rounded-3xl overflow-hidden bg-bg-surface shrink-0">
+          <Image src={projetsIllustration} alt="" widths={[320, 640]} sizes="(min-width: 768px) 256px, 100vw" quality={70} class="w-full h-full object-cover" />
         </div>
       </div>
     </div>
@@ -219,8 +222,8 @@ const homeFaqs = [
       <!-- Course 1 -->
       <a href="/formations/prompt-engineering" class="glass-card rounded-xl overflow-hidden flex flex-col group hover:scale-[1.02] transition-all duration-500 border border-white/5">
         <div class="h-48 relative overflow-hidden bg-gradient-to-br from-primary/30 to-bg-surface flex items-center justify-center">
-          <span class="material-symbols-outlined text-primary-light text-6xl group-hover:scale-110 transition-transform duration-500">terminal</span>
-          <div class="absolute inset-0 bg-gradient-to-t from-bg-base to-transparent"></div>
+          <Image src={formationIllustration('prompt-engineering').wide} alt="" widths={[480, 800]} sizes="(min-width: 1024px) 420px, (min-width: 768px) 50vw, 100vw" quality={70} class="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" />
+          <div class="absolute inset-0 bg-gradient-to-t from-bg-base/80 via-bg-base/10 to-transparent"></div>
           <div class="absolute bottom-4 left-4">
             <span class="px-3 py-1 bg-tertiary/10 backdrop-blur-md text-tertiary text-[10px] font-bold rounded-full border border-tertiary/20 uppercase tracking-widest">Avancé</span>
           </div>
@@ -248,8 +251,8 @@ const homeFaqs = [
       <!-- Course 2 -->
       <a href="/formations/no-code-ia" class="glass-card rounded-xl overflow-hidden flex flex-col group hover:scale-[1.02] transition-all duration-500 border border-white/5">
         <div class="h-48 relative overflow-hidden bg-gradient-to-br from-secondary/30 to-bg-surface flex items-center justify-center">
-          <span class="material-symbols-outlined text-secondary-light text-6xl group-hover:scale-110 transition-transform duration-500">auto_awesome</span>
-          <div class="absolute inset-0 bg-gradient-to-t from-bg-base to-transparent"></div>
+          <Image src={formationIllustration('no-code-ia').wide} alt="" widths={[480, 800]} sizes="(min-width: 1024px) 420px, (min-width: 768px) 50vw, 100vw" quality={70} class="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" />
+          <div class="absolute inset-0 bg-gradient-to-t from-bg-base/80 via-bg-base/10 to-transparent"></div>
           <div class="absolute bottom-4 left-4">
             <span class="px-3 py-1 bg-primary-light/10 backdrop-blur-md text-primary-light text-[10px] font-bold rounded-full border border-primary-light/20 uppercase tracking-widest">No-Code</span>
           </div>
@@ -277,8 +280,8 @@ const homeFaqs = [
       <!-- Course 3 -->
       <a href="/formations/product-manager-ia" class="glass-card rounded-xl overflow-hidden flex flex-col group hover:scale-[1.02] transition-all duration-500 border border-white/5">
         <div class="h-48 relative overflow-hidden bg-gradient-to-br from-tertiary/30 to-bg-surface flex items-center justify-center">
-          <span class="material-symbols-outlined text-tertiary text-6xl group-hover:scale-110 transition-transform duration-500">analytics</span>
-          <div class="absolute inset-0 bg-gradient-to-t from-bg-base to-transparent"></div>
+          <Image src={formationIllustration('product-manager-ia').wide} alt="" widths={[480, 800]} sizes="(min-width: 1024px) 420px, (min-width: 768px) 50vw, 100vw" quality={70} class="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" />
+          <div class="absolute inset-0 bg-gradient-to-t from-bg-base/80 via-bg-base/10 to-transparent"></div>
           <div class="absolute bottom-4 left-4">
             <span class="px-3 py-1 bg-secondary-light/10 backdrop-blur-md text-secondary-light text-[10px] font-bold rounded-full border border-secondary-light/20 uppercase tracking-widest">Leadership</span>
           </div>
