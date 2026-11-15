@@ -2,7 +2,7 @@
 import { Image } from 'astro:assets';
 import BaseLayout from '../layouts/BaseLayout.astro';
 import portrait from '../assets/julian-luneau.jpg';
-import { formationIllustration } from '../data/illustrations';
+import { expertIllustrations } from '../data/illustrations';
 import ContactSection from '../components/ContactSection.astro';
 
 const experts = [
@@ -20,7 +20,7 @@ const experts = [
   {
     name: 'Expert Automatisation',
     // Profil générique : illustration du métier, pas de visage inventé.
-    image: formationIllustration('no-code-ia').square,
+    image: expertIllustrations.automatisation,
     imageAlt: '',
     role: 'Spécialiste No-Code & Workflows',
     description: "Maîtrise des plateformes Make, n8n, Zapier et des intégrations API. Conçoit des automatisations sur-mesure pour PME et indépendants.",
@@ -31,7 +31,7 @@ const experts = [
   },
   {
     name: 'Expert Stratégie IA',
-    image: formationIllustration('product-manager-ia').square,
+    image: expertIllustrations.strategie,
     imageAlt: '',
     role: 'Consultant Transformation Digitale',
     description: "Accompagne les dirigeants dans la définition et la mise en œuvre de leur stratégie d'adoption de l'IA à l'échelle de l'entreprise.",
