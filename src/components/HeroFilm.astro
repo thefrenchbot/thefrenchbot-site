@@ -1,10 +1,9 @@
 ---
-// Film de marque du hero (desktop uniquement — le bloc parent est `hidden lg:block`).
+// Film de marque du hero, affiché sur mobile comme sur desktop.
 //
 // Objectif : zéro impact sur le chargement.
-//  - Rien n'est téléchargé sous 1024px : miniature servie via <picture media>, vidéo en preload="none".
-//  - Sur desktop, seule la miniature (WebP) part au chargement. La vidéo n'est téléchargée
-//    qu'au clic du visiteur, n'importe où sur le cadre.
+//  - Seule la miniature (WebP, 10 à 25 Ko) part avec la page.
+//  - La vidéo (preload="none") n'est téléchargée qu'au clic du visiteur, n'importe où sur le cadre.
 //  - AV1 (~1 Mo) pour Chrome/Firefox/Edge, H.264 (~1,4 Mo) en repli pour Safari.
 //  - Fichiers importés depuis src/assets : noms hashés, cache immuable côté Vercel.
 import { getImage } from 'astro:assets';
@@ -15,28 +14,19 @@ import filmMp4 from '../assets/hero-film.mp4?url';
 const poster = await getImage({ src: posterSrc, width: 1280, format: 'webp', quality: 72 });
 const posterSmall = await getImage({ src: posterSrc, width: 640, format: 'webp', quality: 72 });
 
-// GIF transparent 1×1 : ce que reçoivent les écrans < 1024px à la place du poster.
-const BLANK = 'data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==';
 ---
 
 <div class="hero-film relative w-full aspect-video rounded-2xl overflow-hidden bg-bg-base cursor-pointer" data-hero-film>
-  <picture>
-    <source
-      media="(min-width: 1024px)"
-      type="image/webp"
-      srcset={`${posterSmall.src} 640w, ${poster.src} 1280w`}
-      sizes="(min-width: 1440px) 590px, 42vw"
-    />
-    <img
-      src={BLANK}
-      alt=""
-      width="1280"
-      height="720"
-      decoding="async"
-      fetchpriority="high"
-      class="absolute inset-0 w-full h-full object-cover"
-    />
-  </picture>
+  <img
+    src={poster.src}
+    srcset={`${posterSmall.src} 640w, ${poster.src} 1280w`}
+    sizes="(min-width: 1440px) 590px, (min-width: 1024px) 42vw, 92vw"
+    alt=""
+    width="1280"
+    height="720"
+    decoding="async"
+    class="absolute inset-0 w-full h-full object-cover"
+  />
 
   <video
     class="hero-film__video absolute inset-0 w-full h-full object-cover"
