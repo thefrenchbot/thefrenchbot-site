@@ -1,10 +1,15 @@
 ---
+import { Image } from 'astro:assets';
 import BaseLayout from '../layouts/BaseLayout.astro';
+import portrait from '../assets/julian-luneau.jpg';
+import { formationIllustration } from '../data/illustrations';
 import ContactSection from '../components/ContactSection.astro';
 
 const experts = [
   {
     name: 'Julian Luneau',
+    image: portrait,
+    imageAlt: 'Julian Luneau, fondateur de The French Bot',
     role: 'Fondateur & Formateur IA',
     description: "Expert en intelligence artificielle, automatisation no-code et prompt engineering. Fondateur de The French Bot, il accompagne les entreprises dans leur transformation IA.",
     icons: ['terminal', 'auto_awesome', 'rocket_launch'],
@@ -14,6 +19,9 @@ const experts = [
   },
   {
     name: 'Expert Automatisation',
+    // Profil générique : illustration du métier, pas de visage inventé.
+    image: formationIllustration('no-code-ia').square,
+    imageAlt: '',
     role: 'Spécialiste No-Code & Workflows',
     description: "Maîtrise des plateformes Make, n8n, Zapier et des intégrations API. Conçoit des automatisations sur-mesure pour PME et indépendants.",
     icons: ['account_tree', 'integration_instructions', 'bolt'],
@@ -23,6 +31,8 @@ const experts = [
   },
   {
     name: 'Expert Stratégie IA',
+    image: formationIllustration('product-manager-ia').square,
+    imageAlt: '',
     role: 'Consultant Transformation Digitale',
     description: "Accompagne les dirigeants dans la définition et la mise en œuvre de leur stratégie d'adoption de l'IA à l'échelle de l'entreprise.",
     icons: ['analytics', 'groups', 'trending_up'],
@@ -53,11 +63,11 @@ const experts = [
   <!-- Expert Cards -->
   <section class="mb-32 md:mb-48 px-6 md:px-12 lg:px-24 max-w-[1440px] mx-auto">
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-      {experts.map((expert, i) => (
-        <div class:list={['glass-panel rounded-3xl p-8 group hover:translate-y-[-8px] transition-all duration-500', expert.borderClass, i === 2 && 'lg:translate-y-12']}>
+      {experts.map((expert) => (
+        <div class:list={['glass-panel rounded-3xl p-8 group hover:translate-y-[-8px] transition-all duration-500', expert.borderClass]}>
           <div class="relative w-full aspect-square mb-8 overflow-hidden rounded-2xl bg-gradient-to-br from-bg-surface-high to-bg-surface flex items-center justify-center">
-            <span class="material-symbols-outlined text-text-muted/30 text-[60px] md:text-[100px] group-hover:text-primary-light/40 transition-colors duration-500">person</span>
-            <div class="absolute inset-0 bg-gradient-to-t from-bg-base to-transparent opacity-60"></div>
+            <Image src={expert.image} alt={expert.imageAlt} widths={[400, 800]} sizes="(min-width: 1024px) 380px, (min-width: 768px) 45vw, 100vw" quality={75} class="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" />
+            <div class="absolute inset-0 bg-gradient-to-t from-bg-base/60 via-transparent to-transparent"></div>
           </div>
           <div class="flex flex-col gap-2">
             <span class:list={['font-[family-name:var(--font-label)] text-xs tracking-widest uppercase', expert.roleColor]}>{expert.role}</span>
