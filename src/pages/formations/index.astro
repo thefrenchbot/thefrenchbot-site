@@ -84,7 +84,7 @@ const coursesSchema = {
   "@type": "ItemList",
   "name": "Formations IA — The French Bot",
   "description": "Catalogue de formations en intelligence artificielle, coaching IA et automatisation no-code pour professionnels en France.",
-  "url": "https://thefrenchbot.com/formations",
+  "url": "https://thefrenchbot.com/formations/",
   "itemListElement": formations.map((f, i) => ({
     "@type": "ListItem",
     "position": i + 1,
@@ -92,7 +92,7 @@ const coursesSchema = {
       "@type": "Course",
       "name": f.title,
       "description": f.description,
-      "url": `https://thefrenchbot.com/formations/${f.slug}`,
+      "url": `https://thefrenchbot.com/formations/${f.slug}/`,
       "provider": {
         "@type": "Organization",
         "name": "The French Bot",
@@ -156,7 +156,7 @@ const coursesSchema = {
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
       {formations.map((f) => (
         <a
-          href={`/formations/${f.slug}`}
+          href={`/formations/${f.slug}/`}
           class="glass-card rounded-xl overflow-hidden flex flex-col group hover:scale-[1.02] transition-all duration-500 border border-white/5"
         >
           <div class={`h-48 relative overflow-hidden bg-gradient-to-br ${f.iconGradient} flex items-center justify-center`}>

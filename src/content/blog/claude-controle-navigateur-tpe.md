@@ -70,6 +70,6 @@ Brutal, mais libérateur : cette place est à prendre, et elle est ouverte à to
 
 Prenez ce code de triche. Ne laissez pas la vague vous submerger.
 
-Si vous voulez voir ce que ça donnerait chez vous, parlons-en. 30 minutes, sans langue de bois, je vous pose un maximum de questions et, si c'est pertinent, je vous fais une proposition : [prendre rendez-vous](/rendez-vous).
+Si vous voulez voir ce que ça donnerait chez vous, parlons-en. 30 minutes, sans langue de bois, je vous pose un maximum de questions et, si c'est pertinent, je vous fais une proposition : [prendre rendez-vous](https://calendly.com/thefrenchbot-coaching/30min).
 
-Et chaque semaine, je décrypte ce genre d'actu dans ma newsletter. Sans spam, juste du concret : [je m'inscris](/newsletter).
+Et chaque semaine, je décrypte ce genre d'actu dans ma newsletter. Sans spam, juste du concret : [je m'inscris](https://forms.gle/VFNEeBGGMBstm1py5).
