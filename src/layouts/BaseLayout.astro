@@ -3,6 +3,8 @@ import '../styles/globals.css';
 import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
 import CookieBanner from '../components/CookieBanner.astro';
+import EventPopup from '../components/EventPopup.astro';
+import { isFeaturedEventActive } from '../data/events';
 import { upcomingSessions, weekday, dayMonth } from '../data/sessions';
 
 interface Props {
@@ -25,6 +27,15 @@ const {
   publishedTime,
   author,
 } = Astro.props;
+
+// Balise meta description : Google coupe au-delà de ~155 caractères. On coupe
+// proprement sur un mot ; le texte complet reste utilisé pour le partage social.
+const metaDescription = description.length <= 155
+  ? description
+  : description.slice(0, 154).replace(/\s+\S*$/, '').replace(/[\s,;:—–-]+$/, '') + '…';
+
+// L'événement mis en avant prend la place du popup des sessions.
+const showEventPopup = isFeaturedEventActive();
 
 const isDefaultOgImage = ogImage === '/images/og-default.jpg';
 
@@ -50,7 +61,7 @@ const popupAccents = {
 
   <!-- SEO -->
   <title>{title}</title>
-  <meta name="description" content={description} />
+  <meta name="description" content={metaDescription} />
   <link rel="canonical" href={canonicalURL} />
 
   <!-- Open Graph -->
@@ -198,7 +209,8 @@ const popupAccents = {
 
   <!-- POPUP FORMATIONS CLAUDE — rendu uniquement s'il reste des sessions à venir
        (dates générées depuis src/data/sessions.ts) -->
-  {popupSessions.length > 0 && (<>
+  {showEventPopup && <EventPopup />}
+  {!showEventPopup && popupSessions.length > 0 && (<>
   <div id="popup-overlay" style="
     position:fixed; inset:0; z-index:9999;
     background:rgba(11,10,20,0.75); backdrop-filter:blur(6px);
