@@ -16,6 +16,8 @@ interface Props {
 
 const { post } = Astro.props;
 const { Content } = await render(post);
+// Même URL que la balise canonical (avec slash final).
+const postURL = new URL(`/blog/${post.id}/`, Astro.site).href;
 
 function formatDate(date: Date): string {
   return date.toLocaleDateString('fr-FR', { day: 'numeric', month: 'long', year: 'numeric' });
@@ -26,6 +28,9 @@ function formatDate(date: Date): string {
   title={`${post.data.title} — The French Bot`}
   description={post.data.description}
   ogImage={post.data.image}
+  ogType="article"
+  publishedTime={post.data.pubDate.toISOString()}
+  author={post.data.author}
 >
   <!-- JSON-LD Article -->
   <script type="application/ld+json" set:html={JSON.stringify({
@@ -34,17 +39,29 @@ function formatDate(date: Date): string {
     "headline": post.data.title,
     "description": post.data.description,
     "datePublished": post.data.pubDate.toISOString(),
+    "dateModified": post.data.pubDate.toISOString(),
+    "inLanguage": "fr-FR",
+    "image": new URL(post.data.image ?? '/images/og-default.jpg', Astro.site).href,
+    "keywords": post.data.tags.join(', '),
     "author": {
       "@type": "Person",
+      "@id": "https://thefrenchbot.com/#person",
       "name": post.data.author,
-      "url": "https://thefrenchbot.com"
+      "url": "https://thefrenchbot.com/a-propos/"
     },
-    "publisher": {
-      "@type": "Organization",
-      "name": "The French Bot",
-      "url": "https://thefrenchbot.com"
-    },
-    "url": `https://thefrenchbot.com/blog/${post.id}`
+    "publisher": { "@id": "https://thefrenchbot.com/#organization" },
+    "mainEntityOfPage": { "@type": "WebPage", "@id": postURL },
+    "url": postURL
+  })} />
+  <!-- JSON-LD fil d'Ariane -->
+  <script type="application/ld+json" set:html={JSON.stringify({
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      { "@type": "ListItem", "position": 1, "name": "Accueil", "item": "https://thefrenchbot.com/" },
+      { "@type": "ListItem", "position": 2, "name": "Blog", "item": "https://thefrenchbot.com/blog/" },
+      { "@type": "ListItem", "position": 3, "name": post.data.title, "item": postURL }
+    ]
   })} />
 
   <div class="relative overflow-hidden">
